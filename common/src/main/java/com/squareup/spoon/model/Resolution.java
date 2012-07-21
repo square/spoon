@@ -38,7 +38,7 @@ public class Resolution {
 
   @Override public String toString() {
     StringBuilder builder = new StringBuilder();
-    boolean hasName = !"".equals(name);
+    boolean hasName = name != null && !"".equals(name);
     if (hasName) {
       builder.append(name).append(" (");
     }
