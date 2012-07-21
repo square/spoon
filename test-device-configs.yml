@@ -1,0 +1,36 @@
+###############################################################################
+####  Test Device Configurations ##############################################
+###############################################################################
+
+
+#defaults:
+#  locale: en_US
+#  density: hdpi
+
+
+#devices:
+#  - moto-droid
+#  - moto-droid-2
+#  - moto-droid-3
+#  - moto-droid-x2
+#  - htc-nexus-one
+#  - samsung-nexus-s
+#  - samsung-galaxy-nexus
+#  - samsung-fascinate
+#  - asus-nexus-7
+
+
+#custom:
+#  random1:
+#    resolution: 1280x800
+#    density: mdpi
+#    orientation: land
+#  random2:
+#    resolution: 20x20
+
+####
+# Whether or not to include all physically plugged in devices.
+#
+# If you would only like to run on a subset of physically plugged in devices you
+# can set this value to 'false' and then specify
+all: true
