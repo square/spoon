@@ -35,4 +35,4 @@ Overview
  * Written in Java.
  * Common library, command-line app, Jenkins plugin.
  * YML configuration files.
- * Requires `android` and `adb` be in the system path.
+ * Requires `ANDROID_HOME` environment variable pointing to SDK.
