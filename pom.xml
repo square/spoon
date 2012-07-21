@@ -66,6 +66,11 @@
                 <artifactId>hazelcast-client</artifactId>
                 <version>2.1.2</version>
             </dependency>
+            <dependency>
+                <groupId>org.easytesting</groupId>
+                <artifactId>fest-assert</artifactId>
+                <version>1.4</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
