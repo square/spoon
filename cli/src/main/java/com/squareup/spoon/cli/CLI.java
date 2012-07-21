@@ -15,7 +15,6 @@ import com.squareup.spoon.model.RunConfig;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -32,15 +31,6 @@ public class CLI {
 
     @Parameter(names = {"-dc", "--device-config"}, description = "Device configuration", converter = FileConverter.class)
     public File deviceConfig = new File("./device-config.yml");
-
-    @Parameter(names = {"-o", "--output"}, description = "Output directory", converter = FileConverter.class)
-    public File outputDir = new File("./matrix-results/");
-
-    @Parameter(names = {"-v", "--verbose"}, description = "Verbose mode")
-    public boolean verbose;
-
-    @Parameter(description = "[DeviceID ...]")
-    public List<String> ids;
 
     @Parameter(names = {"-h", "--help"}, description = "Command help", help = true, hidden = true)
     public boolean help;
@@ -75,11 +65,6 @@ public class CLI {
     System.out.println("Known: " + known);
     System.out.println("Run file: " + rc);
     System.out.println("Device file: " + dc);
-    System.out.println("Output: " + config.outputDir);
-    System.out.println("Verbose: " + config.verbose);
-    System.out.println("IDs: " + config.ids);
-
-    System.out.println("\n");
 
     Set<Device> devices = new HashSet<Device>();
     if (dc.custom != null) {
