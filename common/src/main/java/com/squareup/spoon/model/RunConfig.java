@@ -6,6 +6,7 @@ import java.io.File;
 
 import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
+/** Test run configuration. This class is used for YML deserialization. */
 public class RunConfig {
   public String name;
   public File output = new File("spoon-output");

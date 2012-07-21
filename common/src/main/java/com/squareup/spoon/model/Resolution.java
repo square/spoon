@@ -1,5 +1,6 @@
 package com.squareup.spoon.model;
 
+/** Device dipslay resolution. */
 public class Resolution {
   public int width;
   public int height;

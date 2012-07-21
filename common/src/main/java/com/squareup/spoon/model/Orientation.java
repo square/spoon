@@ -1,5 +1,6 @@
 package com.squareup.spoon.model;
 
+/** Device display orientation. */
 public enum Orientation {
   Portrait("port"), Landscape("land"), Square("square");
 

@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.Callable;
 
+/** Represents a single device and the test configuration to be executed. */
 public class ExecutionTarget implements Callable<ExecutionResult> {
   private static final String FILE_EXECUTION = "execution.json";
   private static final String FILE_RESULT = "result.json";
@@ -24,6 +25,14 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
     // Used by Jackson for deserialization.
   }
 
+  /**
+   * Create a test runner for a single device.
+   *
+   * @param sdkPath Path to the local Android SDK directory.
+   * @param config Test run configuration.
+   * @param testPackage Application package to instrument.
+   * @param device Device to run the test on.
+   */
   public ExecutionTarget(String sdkPath, RunConfig config, String testPackage, Device device) {
     this.sdkPath = sdkPath;
     this.config = config;
@@ -108,6 +117,7 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
     SpoonMapper.getInstance().writeValue(resultFile, result);
   }
 
+  /** Fetch or create a real device that corresponds to a device model. */
   private static IDevice obtainRealDevice(AndroidDebugBridge adb, Device device) {
     if (!device.isEmulator()) {
       // Get an existing real device.
@@ -124,6 +134,7 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
     }
   }
 
+  /** Tear down a device. This only performs operations if the real device is an emulator. */
   private static void releaseRealDevice(IDevice realDevice) {
     if (realDevice.isEmulator()) {
       // TODO shut down emulator

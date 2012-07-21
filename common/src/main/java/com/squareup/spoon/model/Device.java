@@ -6,8 +6,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
 public class Device {
-  public static final String SERIAL_ALL = "all";
-
   public String api;
   public Resolution resolution;
   public Density density;

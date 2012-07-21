@@ -13,7 +13,7 @@ final class AdbHelper {
     return adb;
   }
 
-  public static void waitForAdb(AndroidDebugBridge adb) {
+  private static void waitForAdb(AndroidDebugBridge adb) {
     for (int i = 10; i > 0; i--) {
       try {
         Thread.sleep(100);

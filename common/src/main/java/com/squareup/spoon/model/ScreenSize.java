@@ -1,5 +1,6 @@
 package com.squareup.spoon.model;
 
+/** Device display size. */
 public enum ScreenSize {
   Small("small"), Normal("normal"), Large("large"), ExtraLarge("xlarge");
 

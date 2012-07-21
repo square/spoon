@@ -22,6 +22,7 @@ import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.ANY;
 import static com.fasterxml.jackson.annotation.PropertyAccessor.FIELD;
 import static com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT;
 
+/** Extension of Jackson's {@link ObjectMapper} for Spoon objects. */
 public final class SpoonMapper extends ObjectMapper {
   private static SpoonMapper INSTANCE;
 

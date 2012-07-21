@@ -1,5 +1,6 @@
 package com.squareup.spoon.model;
 
+/** Device display shape. */
 public enum ScreenLong {
   Long("long"), NotLong("notlong");
 

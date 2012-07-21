@@ -1,5 +1,6 @@
 package com.squareup.spoon.model;
 
+/** Device display density. */
 public enum Density {
   Low("ldpi"), Medium("mdpi"), High("hdpi"), ExtraHigh("xhdpi"), TV("tvdpi"), ExtraExtraHigh("xxhdpi");
 

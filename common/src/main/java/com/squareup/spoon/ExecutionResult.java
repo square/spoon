@@ -5,6 +5,7 @@ import com.android.ddmlib.testrunner.TestIdentifier;
 
 import java.util.Map;
 
+/** Represents the aggregated result of a test execution on a device. */
 public class ExecutionResult implements ITestRunListener {
   public int testsStarted;
   public int testsFailed;

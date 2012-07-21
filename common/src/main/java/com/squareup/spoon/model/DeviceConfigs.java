@@ -7,6 +7,7 @@ import java.util.Map;
 
 import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
+/** Collection of different device configurations. This class is used for YML deserialization. */
 public class DeviceConfigs {
   /** Defaults which are applied to all created emulators. */
   public Device defaults;

@@ -13,19 +13,28 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.logging.Logger;
 
+/** Represents a collection of devices and the test configuration to be executed. */
 public class ExecutionSuite implements Runnable {
   private final Logger logger;
   private final String sdkPath;
   private final RunConfig config;
   private final Collection<Device> devices;
 
-  public ExecutionSuite(String sdkPath, RunConfig config, Collection<Device> devices, boolean includeAll) {
+  /**
+   * Create a test suite for the specified devices and configuration.
+   *
+   * @param sdkPath Path to the local Android SDK directory.
+   * @param config Test run configuration.
+   * @param devices List of devices to run the tests on.
+   * @param includeAllPhysical Whether or not to include all physical devices in the suite.
+   */
+  public ExecutionSuite(String sdkPath, RunConfig config, Collection<Device> devices, boolean includeAllPhysical) {
     this.logger = Logger.getLogger("Spoon");
     this.sdkPath = sdkPath;
     this.config = config;
     this.devices = devices;
 
-    if (includeAll) {
+    if (includeAllPhysical) {
       devices.addAll(findAllDevices(sdkPath));
     }
   }
@@ -73,6 +82,7 @@ public class ExecutionSuite implements Runnable {
     }
   }
 
+  /** Recursively delete a directory. */
   private static void deletePath(File path) {
     if (path.isDirectory()) {
       for (File childPath : path.listFiles()) {
@@ -82,6 +92,7 @@ public class ExecutionSuite implements Runnable {
     path.delete();
   }
 
+  /** Find all devices that are plugged in through ADB. */
   private static Collection<Device> findAllDevices(String sdkPath) {
     List<Device> devices = new ArrayList<Device>();
     AndroidDebugBridge adb = AdbHelper.init(sdkPath);
