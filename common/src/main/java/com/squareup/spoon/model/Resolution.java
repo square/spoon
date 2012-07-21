@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/** Device dipslay resolution. */
+/** Device display resolution. */
 public class Resolution {
   private static final Pattern CUSTOM = Pattern.compile("(\\d{3,})x(\\d{3,})");
   public static final Resolution HVGA = new Resolution("HVGA", 320, 480);
