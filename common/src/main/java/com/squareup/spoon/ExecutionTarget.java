@@ -116,7 +116,7 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
           return adbDevice;
         }
       }
-      throw new IllegalArgumentException("Unknown serial ID: " + device.serial);
+      throw new UnableToFindTargetException("Unknown serial ID: " + device.serial);
     } else {
       // Create an emulator with a matching configuration.
       // TODO create, start, and wait for an emulator
