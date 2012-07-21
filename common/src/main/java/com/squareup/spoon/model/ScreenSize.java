@@ -19,6 +19,6 @@ public enum ScreenSize {
         return orientation;
       }
     }
-    throw new IllegalArgumentException();
+    throw new IllegalArgumentException("Unknown screen size: " + value);
   }
 }

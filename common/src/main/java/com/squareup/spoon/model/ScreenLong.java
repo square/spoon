@@ -19,6 +19,6 @@ public enum ScreenLong {
         return orientation;
       }
     }
-    throw new IllegalArgumentException();
+    throw new IllegalArgumentException("Unknown screen long value: " + value);
   }
 }

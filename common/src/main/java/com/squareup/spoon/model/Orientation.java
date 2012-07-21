@@ -20,6 +20,6 @@ public enum Orientation {
         return orientation;
       }
     }
-    throw new IllegalArgumentException();
+    throw new IllegalArgumentException("Unknown orientation: " + value);
   }
 }
