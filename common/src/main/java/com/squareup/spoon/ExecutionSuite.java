@@ -2,19 +2,27 @@ package com.squareup.spoon;
 
 import com.android.ddmlib.AndroidDebugBridge;
 import com.android.ddmlib.IDevice;
+import com.squareup.spoon.external.AXMLParser;
 import com.squareup.spoon.model.Device;
 import com.squareup.spoon.model.RunConfig;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.logging.Logger;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 /** Represents a collection of devices and the test configuration to be executed. */
 public class ExecutionSuite implements Runnable {
+  private static final String ANDROID_MANIFEST_XML = "AndroidManifest.xml";
+  private static final String MANIFEST = "manifest";
+  private static final String PACKAGE = "package";
+
   private final Logger logger;
   private final String sdkPath;
   private final RunConfig config;
@@ -40,14 +48,14 @@ public class ExecutionSuite implements Runnable {
   }
 
   @Override public void run() {
+    final String testManifestPackage = getTestManifestPackage(config.test);
+    logger.info("Target test manifest package: " + testManifestPackage);
+
     final int targetCount = devices.size();
     if (targetCount == 0) {
       logger.info("No devices.");
       return;
     }
-
-    // TODO read this from config.test's AndroidManifest.xml using a Zip stream.
-    final String testPackage = "com.squareup.spoon.sample.tests";
 
     logger.info("Executing instrumentation on " + targetCount + " devices.");
 
@@ -59,7 +67,7 @@ public class ExecutionSuite implements Runnable {
         new Thread(new Runnable() {
           @Override public void run() {
             try {
-              ExecutionTarget target = new ExecutionTarget(sdkPath, config, testPackage, device);
+              ExecutionTarget target = new ExecutionTarget(sdkPath, config, testManifestPackage, device);
               ExecutionResult result = target.call();
               //TODO aggregate result
             } catch (InterruptedException e) {
@@ -90,6 +98,42 @@ public class ExecutionSuite implements Runnable {
       }
     }
     path.delete();
+  }
+
+  private static String getTestManifestPackage(File apkTestFile) {
+    InputStream is = null;
+    try {
+      ZipFile zip = new ZipFile(apkTestFile);
+      ZipEntry entry = zip.getEntry(ANDROID_MANIFEST_XML);
+      is = zip.getInputStream(entry);
+
+      AXMLParser parser = new AXMLParser(is);
+      int eventType = parser.getType();
+
+      while (eventType != AXMLParser.END_DOCUMENT) {
+        if (eventType == AXMLParser.START_TAG) {
+          if (MANIFEST.equals(parser.getName())) {
+            for (int i = 0; i < parser.getAttributeCount(); i++) {
+              if (PACKAGE.equals(parser.getAttributeName(i))) {
+                return parser.getAttributeValueString(i);
+              }
+            }
+          }
+        }
+        eventType = parser.next();
+      }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    } finally {
+      if (is != null) {
+        try {
+          is.close();
+        } catch (IOException e) {
+          // Ignored.
+        }
+      }
+    }
+    throw new IllegalArgumentException("Could not locate manifest package name from " + apkTestFile.getAbsolutePath());
   }
 
   /** Find all devices that are plugged in through ADB. */
