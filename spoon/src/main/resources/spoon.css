@@ -1,0 +1,36 @@
+::-webkit-selection,
+::-moz-selection,
+::selection {
+	background-color: #0099cc;
+	color: #fff;
+}
+
+html, body {
+	height: 100%;
+	background-color:#F9F9F9;
+	-webkit-font-smoothing: antialiased;
+}
+
+body {
+	color: #222;
+	font: 14px/19px Roboto, sans-serif;
+	font-weight: 400;
+	letter-spacing: .1;
+	margin-top: 20px;
+}
+
+.hero-unit {
+    padding: 15px 30px;
+}
+.hero-unit h1 {
+    margin-bottom: 5px;
+    font-weight: 300;
+}
+.hero-unit p {
+    margin: 0;
+}
+
+.chart rect {
+    stroke: #f9f9f9;
+    fill: #b9e9b9;
+}

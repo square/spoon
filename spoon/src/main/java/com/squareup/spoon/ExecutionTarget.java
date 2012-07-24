@@ -53,7 +53,7 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
     outputDirectory.mkdirs();
 
     // Write our configuration to a file in the output directory.
-    final File fileExecution = new File(outputDirectory, FILE_EXECUTION);
+    File fileExecution = new File(outputDirectory, FILE_EXECUTION);
     SpoonMapper.getInstance().writeValue(fileExecution, this);
 
     // Kick off a new process to interface with ADB and perform the real execution.
@@ -76,27 +76,30 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
       throw new IllegalArgumentException("Must be started with a device directory.");
     }
 
-    final String outputDirectory = args[0];
+    String outputDirectory = args[0];
     File executionFile = new File(outputDirectory, FILE_EXECUTION);
     if (!executionFile.exists()) {
       throw new IllegalArgumentException("Device directory and/or execution file does not exist.");
     }
 
     ExecutionTarget target = SpoonMapper.getInstance().readValue(executionFile, ExecutionTarget.class);
-    ExecutionResult result = new ExecutionResult();
+    ExecutionResult result = new ExecutionResult(target.device);
 
     IDevice realDevice = null;
     try {
       AndroidDebugBridge adb = AdbHelper.init(target.sdkPath);
 
       realDevice = obtainRealDevice(adb, target.device);
+      result.configureFor(realDevice);
 
       // Install the main application and the instrumentation package.
       realDevice.installPackage(target.config.app.getAbsolutePath(), true);
       realDevice.installPackage(target.config.test.getAbsolutePath(), true);
 
       // Run all the tests! o/
+      result.testStart = System.currentTimeMillis();
       new RemoteAndroidTestRunner(target.testPackage, realDevice).run(result);
+      result.testEnd = System.currentTimeMillis();
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -126,7 +129,7 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
           return adbDevice;
         }
       }
-      throw new UnableToFindTargetException("Unknown serial ID: " + device.serial);
+      throw new IllegalArgumentException("Unknown serial ID: " + device.serial);
     } else {
       // Create an emulator with a matching configuration.
       // TODO create, start, and wait for an emulator

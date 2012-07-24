@@ -11,5 +11,5 @@ app: sample/app/target/spoon-sample-app-1.0.0-SNAPSHOT.apk
 # Instrumentation package
 test: sample/tests/target/spoon-sample-tests-1.0.0-SNAPSHOT.apk
 
-# Custom output directory (defaults to 'spoon-output')
+# Custom output directory (defaults to 'spoon-output/')
 #output: test-output/

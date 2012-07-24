@@ -6,11 +6,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.squareup</groupId>
-    <artifactId>spoon</artifactId>
+    <artifactId>spoon-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>Spoon</name>
+    <name>Spoon (Parent)</name>
     <description>Command line app which aids in the deployment, execution, and aggregation of instrumentation tests
         across a large number of devices with varying configurations.
     </description>
@@ -18,9 +18,7 @@
     <inceptionYear>2012</inceptionYear>
 
     <modules>
-        <module>common</module>
-        <module>cli</module>
-        <module>jenkins-plugin</module>
+        <module>spoon</module>
         <module>sample</module>
     </modules>
 
@@ -70,6 +68,16 @@
                 <groupId>org.easytesting</groupId>
                 <artifactId>fest-assert</artifactId>
                 <version>1.4</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.spullara.mustache.java</groupId>
+                <artifactId>compiler</artifactId>
+                <version>0.8.2</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.4</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

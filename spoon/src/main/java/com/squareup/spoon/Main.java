@@ -1,4 +1,4 @@
-package com.squareup.spoon.cli;
+package com.squareup.spoon;
 
 import com.beust.jcommander.IStringConverter;
 import com.beust.jcommander.JCommander;
@@ -6,8 +6,6 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.squareup.spoon.ExecutionSuite;
-import com.squareup.spoon.SpoonMapper;
 import com.squareup.spoon.model.Device;
 import com.squareup.spoon.model.DeviceConfigs;
 import com.squareup.spoon.model.RunConfig;
@@ -17,8 +15,10 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class CLI {
+public class Main {
   public static class FileConverter implements IStringConverter<File> {
     @Override public File convert(String s) {
       return new File(s);
@@ -32,11 +32,15 @@ public class CLI {
     @Parameter(names = {"-dc", "--device-config"}, description = "Device configuration", converter = FileConverter.class)
     public File deviceConfig = new File("./device-config.yml");
 
+    @Parameter(names = {"--debug"}, hidden = true)
+    public boolean debug;
+
     @Parameter(names = {"-h", "--help"}, description = "Command help", help = true, hidden = true)
     public boolean help;
   }
 
   public static void main(String... args) throws IOException {
+    Logger log = Logger.getLogger(Main.class.getSimpleName());
     Configuration config = new Configuration();
     JCommander jc = new JCommander(config);
 
@@ -55,16 +59,18 @@ public class CLI {
       return;
     }
 
+    log.setLevel(config.debug ? Level.FINE : Level.INFO);
+
     ObjectMapper mapper = new ObjectMapper(new YAMLFactory())
         .registerModule(new SpoonMapper.SpoonModule());
 
-    DeviceConfigs known = mapper.readValue(CLI.class.getResourceAsStream("/devices.yml"), DeviceConfigs.class);
+    DeviceConfigs known = mapper.readValue(Main.class.getResourceAsStream("/devices.yml"), DeviceConfigs.class);
     RunConfig rc = mapper.readValue(config.runConfig, RunConfig.class);
     DeviceConfigs dc = mapper.readValue(config.deviceConfig, DeviceConfigs.class);
 
-    System.out.println("Known: " + known);
-    System.out.println("Run file: " + rc);
-    System.out.println("Device file: " + dc);
+    log.fine("Known: " + known);
+    log.fine("Run config: " + rc);
+    log.fine("Device configs: " + dc);
 
     Set<Device> devices = new HashSet<Device>();
     if (dc.custom != null) {

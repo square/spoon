@@ -5,6 +5,7 @@ import com.android.ddmlib.IDevice;
 import com.squareup.spoon.external.AXMLParser;
 import com.squareup.spoon.model.Device;
 import com.squareup.spoon.model.RunConfig;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,7 +52,7 @@ public class ExecutionSuite implements Runnable {
     final String testManifestPackage = getTestManifestPackage(config.test);
     logger.info("Target test manifest package: " + testManifestPackage);
 
-    final int targetCount = devices.size();
+    int targetCount = devices.size();
     if (targetCount == 0) {
       logger.info("No devices.");
       return;
@@ -59,21 +60,25 @@ public class ExecutionSuite implements Runnable {
 
     logger.info("Executing instrumentation on " + targetCount + " devices.");
 
-    deletePath(config.output);
+    try {
+      FileUtils.deleteDirectory(config.output);
+    } catch (IOException e) {
+      throw new RuntimeException("Unable to clean output directory: " + config.output, e);
+    }
 
+    final ExecutionSummary summary = new ExecutionSummary(config);
     final CountDownLatch done = new CountDownLatch(targetCount);
+
+    summary.testStart = System.currentTimeMillis();
     try {
       for (final Device device : devices) {
         new Thread(new Runnable() {
           @Override public void run() {
             try {
               ExecutionTarget target = new ExecutionTarget(sdkPath, config, testManifestPackage, device);
-              ExecutionResult result = target.call();
-              //TODO aggregate result
-            } catch (InterruptedException e) {
-              e.printStackTrace();
-            } catch (IOException e) {
-              e.printStackTrace();
+              summary.results.add(target.call());
+            } catch (Exception e) {
+              summary.exceptions.add(e);
             } finally {
               done.countDown();
             }
@@ -82,22 +87,13 @@ public class ExecutionSuite implements Runnable {
       }
 
       done.await();
-
-      // TODO assemble final index.html
     } catch (Exception e) {
-      e.printStackTrace();
-      // TODO record exception
+      summary.exceptions.add(e);
     }
-  }
+    summary.testEnd = System.currentTimeMillis();
 
-  /** Recursively delete a directory. */
-  private static void deletePath(File path) {
-    if (path.isDirectory()) {
-      for (File childPath : path.listFiles()) {
-        deletePath(childPath);
-      }
-    }
-    path.delete();
+    // Write output files.
+    summary.generateHtml();
   }
 
   private static String getTestManifestPackage(File apkTestFile) {
@@ -123,7 +119,7 @@ public class ExecutionSuite implements Runnable {
         eventType = parser.next();
       }
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw new RuntimeException("Unable to parse test app AndroidManifest.xml.", e);
     } finally {
       if (is != null) {
         try {

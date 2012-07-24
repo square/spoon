@@ -29,8 +29,12 @@ public final class SpoonMapper extends ObjectMapper {
   public static SpoonMapper getInstance() {
     if (INSTANCE == null) {
       INSTANCE = new SpoonMapper();
+
+      // Grab any field on objects.
       INSTANCE.setVisibility(FIELD, ANY);
+      // Write human-readable JSON.
       INSTANCE.enable(INDENT_OUTPUT);
+
       INSTANCE.registerModule(new SpoonModule());
     }
     return INSTANCE;
