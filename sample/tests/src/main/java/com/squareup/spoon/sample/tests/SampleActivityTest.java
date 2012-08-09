@@ -4,6 +4,7 @@ import android.app.Instrumentation;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.Button;
 import android.widget.TextView;
+import com.squareup.spoon.Screenshot;
 import com.squareup.spoon.sample.R;
 import com.squareup.spoon.sample.SampleActivity;
 
@@ -25,6 +26,7 @@ public class SampleActivityTest extends ActivityInstrumentationTestCase2<SampleA
     final Button button = (Button) activity.findViewById(R.id.click_me);
     TextView textView = (TextView) activity.findViewById(R.id.say_hello);
 
+    Screenshot.snap(activity, "initial_state");
     // Check initial state.
     assertEquals("", textView.getText());
     assertEquals(activity.getString(R.string.click_me), button.getText());
@@ -41,5 +43,6 @@ public class SampleActivityTest extends ActivityInstrumentationTestCase2<SampleA
 
     // Check new state.
     assertEquals(activity.getString(R.string.hello), textView.getText());
+    Screenshot.snap(activity, "after_button_press");
   }
 }
