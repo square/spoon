@@ -16,45 +16,10 @@
             </div>
             <div class="row">
                 <div class="span12 results">
-                <!--
                     {{#results}}
                     <a href="#">{{deviceName}} ({{device.uniqueIdentifier}})</a>
                     {{/results}}
-                -->
                 </div>
-                <script src="d3.v2.min.js"></script>
-                <script type="text/javascript">
-                    var barHeight = 40;
-                    var data = [
-                        {{#results}}{{testsPassed}},{{/results}}
-                    ];
-                    var labels = [
-                        {{#results}}'{{deviceName}}',{{/results}}
-                    ];
-
-                    var chart = d3.select('.results')
-                        .append('svg')
-                        .attr('class', 'chart')
-                        .attr('width', 940)
-                        .attr('height', barHeight * data.length);
-                    var x = d3.scale.linear()
-                        .domain([0, d3.max(data)])
-                        .range([0, 940]);
-                    chart.selectAll('div')
-                        .data(data)
-                      .enter().append('rect')
-                        .attr('y', function(d,i) { return i * barHeight; })
-                        .attr('width', x)
-                        .attr('height', barHeight);
-
-                    chart.selectAll('text')
-                        .data(labels)
-                      .enter().append('text')
-                        .attr('x', 3)
-                        .attr('y', function(d,i) { return i * barHeight; })
-                        .attr('dy', 20)
-                        .text(String)
-                </script>
             </div>
         </div>
     </body>

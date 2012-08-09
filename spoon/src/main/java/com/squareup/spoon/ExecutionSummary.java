@@ -2,7 +2,6 @@ package com.squareup.spoon;
 
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
-import com.github.mustachejava.MustacheFactory;
 import com.squareup.spoon.model.RunConfig;
 import org.apache.commons.io.IOUtils;
 
@@ -55,10 +54,8 @@ public class ExecutionSummary {
 
     copyResourceToOutput("bootstrap.min.css", config.output);
     copyResourceToOutput("spoon.css", config.output);
-    copyResourceToOutput("d3.v2.min.js", config.output);
 
-    MustacheFactory mf = new DefaultMustacheFactory();
-    Mustache m = mf.compile("index.mustache");
+    Mustache m = new DefaultMustacheFactory().compile("index.mustache");
     try {
       m.execute(new FileWriter(new File(config.output, "index.html")), this).flush();
     } catch (IOException e) {
