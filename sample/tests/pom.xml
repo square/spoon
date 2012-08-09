@@ -19,6 +19,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.squareup</groupId>
+            <artifactId>spoon-screenshot</artifactId>
+            <version>${project.version}</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
             <groupId>com.google.android</groupId>
             <artifactId>android</artifactId>
             <type>jar</type>

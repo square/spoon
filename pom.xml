@@ -17,9 +17,14 @@
     <url>http://git.squareup.com/jw/spoon</url>
     <inceptionYear>2012</inceptionYear>
 
+    <properties>
+        <java.version>1.6</java.version>
+    </properties>
+
     <modules>
         <module>spoon</module>
         <module>sample</module>
+        <module>screenshot</module>
     </modules>
 
     <dependencyManagement>
@@ -93,6 +98,16 @@
                         <sdk>
                             <platform>14</platform>
                         </sdk>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>2.5</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
                     </configuration>
                 </plugin>
             </plugins>
