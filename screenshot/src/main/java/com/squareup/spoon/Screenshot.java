@@ -78,16 +78,16 @@ public class Screenshot {
   private static File obtainScreenshotDirectory(Context context) throws IllegalAccessException {
     File screenshotsDir = context.getDir(SPOON_SCREENSHOTS, Context.MODE_WORLD_READABLE);
 
+    if (outputNeedsClear) {
+      deletePath(screenshotsDir);
+      outputNeedsClear = false;
+    }
+
     // The call to this method and one of the snap methods will be the first two on the stack.
     StackTraceElement element = new Throwable().getStackTrace()[2];
 
     File classDir = getOrCreateDir(screenshotsDir, element.getClassName());
     File testDir = getOrCreateDir(classDir, element.getMethodName());
-
-    if (outputNeedsClear) {
-      deletePath(testDir);
-      outputNeedsClear = false;
-    }
 
     return testDir;
   }
