@@ -5,11 +5,11 @@
           android:versionName="1.0.0"
           package="com.squareup.spoon.sample.tests">
 
-    <application>
+    <application android:label="Spoon Sample Tests">
         <uses-library android:name="android.test.runner" />
     </application>
 
     <instrumentation android:name="android.test.InstrumentationTestRunner"
                      android:targetPackage="com.squareup.spoon.sample"
-                     android:label="Sample Tests"/>
+                     android:label="Spoon Sample Tests"/>
 </manifest>

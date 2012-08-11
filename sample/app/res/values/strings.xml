@@ -1,4 +1,8 @@
 <resources>
-    <string name="click_me">Click Me</string>
-    <string name="hello">Hello!</string>
+    <string name="click_me1">Click Me #1</string>
+    <string name="click_me2">Click Me #2</string>
+    <string name="click_me3">Click Me #3</string>
+    <string name="hello1">Hello #1!</string>
+    <string name="hello2">Hello #2!</string>
+    <string name="hello3">Hello #3!</string>
 </resources>

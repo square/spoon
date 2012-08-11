@@ -9,10 +9,9 @@
 
     <uses-feature android:name="android.hardware.touchscreen" android:required="false"/>
 
-    <application
-            android:label="Sample Application">
+    <application android:label="Spoon Sample Application">
 
-        <activity android:label="Sample App"
+        <activity android:label="Spoon Sample"
                   android:name=".SampleActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
