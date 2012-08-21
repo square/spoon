@@ -5,12 +5,18 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.View;
 
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
+import static android.content.Context.MODE_WORLD_READABLE;
 
 /** Utility class for capturing screenshots for Spoon. */
 public class Screenshot {
 
-  private static final String SPOON_SCREENSHOTS = "spoon-screenshots";
+  static final String SPOON_SCREENSHOTS = "spoon-screenshots";
   private static final String TAGLESS_PREFIX = "image";
   private static final int QUALITY = 100;
   private static final String EXTENSION = ".png";
@@ -76,40 +82,43 @@ public class Screenshot {
   }
 
   private static File obtainScreenshotDirectory(Context context) throws IllegalAccessException {
-    File screenshotsDir = context.getDir(SPOON_SCREENSHOTS, Context.MODE_WORLD_READABLE);
+    File screenshotsDir = context.getDir(SPOON_SCREENSHOTS, MODE_WORLD_READABLE);
 
     if (outputNeedsClear) {
-      deletePath(screenshotsDir);
+      deletePath(screenshotsDir, false);
       outputNeedsClear = false;
     }
 
     // The call to this method and one of the snap methods will be the first two on the stack.
     StackTraceElement element = new Throwable().getStackTrace()[2];
 
-    File classDir = getOrCreateDir(screenshotsDir, element.getClassName());
-    File testDir = getOrCreateDir(classDir, element.getMethodName());
-
-    return testDir;
+    File dirClass = new File(screenshotsDir, element.getClassName());
+    File dirMethod = new File(dirClass, element.getMethodName());
+    createDir(dirMethod);
+    return dirMethod;
   }
 
-  private static File getOrCreateDir(File parent, String dirName) throws IllegalAccessException {
-    File dir = new File(parent, dirName);
+  private static void createDir(File dir) throws IllegalAccessException {
+    File parent = dir.getParentFile();
+    if (!parent.exists()) {
+      createDir(parent);
+    }
     if (!dir.exists() && !dir.mkdirs()) {
-      throw new IllegalAccessException("Unable to create screenshot output directory!");
+      throw new IllegalAccessException("Unable to create output directory: " + dir.getAbsolutePath());
     }
     dir.setReadable(true, false);
     dir.setWritable(true, false);
     dir.setExecutable(true, false);
-
-    return dir;
   }
 
-  private static void deletePath(File path) {
+  private static void deletePath(File path, boolean deletePath) {
     if (path.isDirectory()) {
       for (File child : path.listFiles()) {
-        deletePath(child);
+        deletePath(child, true);
       }
     }
-    path.delete();
+    if (deletePath) {
+      path.delete();
+    }
   }
 }

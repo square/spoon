@@ -21,8 +21,10 @@ import java.util.zip.ZipFile;
 /** Represents a collection of devices and the test configuration to be executed. */
 public class ExecutionSuite implements Runnable {
   private static final String ANDROID_MANIFEST_XML = "AndroidManifest.xml";
-  private static final String MANIFEST = "manifest";
-  private static final String PACKAGE = "package";
+  private static final String TAG_MANIFEST = "manifest";
+  private static final String TAG_INSTRUMENTATION = "instrumentation";
+  private static final String ATTR_PACKAGE = "package";
+  private static final String ATTR_TARGET_PACKAGE = "targetPackage";
 
   private final Logger logger;
   private final String sdkPath;
@@ -49,8 +51,11 @@ public class ExecutionSuite implements Runnable {
   }
 
   @Override public void run() {
-    final String testManifestPackage = getTestManifestPackage(config.test);
-    logger.info("Target test manifest package: " + testManifestPackage);
+    String[] packages = getManifestPackages(config.test);
+    final String appPackage = packages[0];
+    final String testPackage = packages[1];
+    logger.info("Target app manifest package: " + appPackage);
+    logger.info("Target test manifest package: " + testPackage);
 
     int targetCount = devices.size();
     if (targetCount == 0) {
@@ -75,8 +80,9 @@ public class ExecutionSuite implements Runnable {
         new Thread(new Runnable() {
           @Override public void run() {
             try {
-              ExecutionTarget target = new ExecutionTarget(sdkPath, config, testManifestPackage, device);
-              summary.results.add(target.call());
+              ExecutionTarget target = new ExecutionTarget(sdkPath, config, appPackage, testPackage, device);
+              ExecutionResult result = target.call();
+              summary.results.add(result);
             } catch (Exception e) {
               summary.exceptions.add(e);
             } finally {
@@ -96,7 +102,7 @@ public class ExecutionSuite implements Runnable {
     summary.generateHtml();
   }
 
-  private static String getTestManifestPackage(File apkTestFile) {
+  private static String[] getManifestPackages(File apkTestFile) {
     InputStream is = null;
     try {
       ZipFile zip = new ZipFile(apkTestFile);
@@ -106,18 +112,30 @@ public class ExecutionSuite implements Runnable {
       AXMLParser parser = new AXMLParser(is);
       int eventType = parser.getType();
 
+      String[] ret = new String[2];
       while (eventType != AXMLParser.END_DOCUMENT) {
         if (eventType == AXMLParser.START_TAG) {
-          if (MANIFEST.equals(parser.getName())) {
+          String parserName = parser.getName();
+          if (TAG_MANIFEST.equals(parserName) || TAG_INSTRUMENTATION.equals(parserName)) {
             for (int i = 0; i < parser.getAttributeCount(); i++) {
-              if (PACKAGE.equals(parser.getAttributeName(i))) {
-                return parser.getAttributeValueString(i);
+              String parserAttributeName = parser.getAttributeName(i);
+              if (ATTR_PACKAGE.equals(parserAttributeName)) {
+                ret[1] = parser.getAttributeValueString(i);
+                break;
+              }
+              if (ATTR_TARGET_PACKAGE.equals(parserAttributeName)) {
+                ret[0] = parser.getAttributeValueString(i);
+                break;
               }
             }
           }
         }
         eventType = parser.next();
       }
+      if (ret[0] == null || ret[1] == null) {
+        throw new IllegalStateException("Unable to find both app and test pacakge.");
+      }
+      return ret;
     } catch (IOException e) {
       throw new RuntimeException("Unable to parse test app AndroidManifest.xml.", e);
     } finally {
@@ -129,7 +147,6 @@ public class ExecutionSuite implements Runnable {
         }
       }
     }
-    throw new IllegalArgumentException("Could not locate manifest package name from " + apkTestFile.getAbsolutePath());
   }
 
   /** Find all devices that are plugged in through ADB. */

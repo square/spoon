@@ -78,7 +78,7 @@ public final class SpoonMapper extends ObjectMapper {
       });
       addDeserializer(File.class, new JsonDeserializer<File>() {
         @Override
-        public File deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+        public File deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
           return new File(jp.getText());
         }
       });

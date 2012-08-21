@@ -7,7 +7,7 @@
 
 html, body {
 	height: 100%;
-	background-color:#F9F9F9;
+	background-color:#f9f9f9;
 	-webkit-font-smoothing: antialiased;
 }
 
@@ -30,7 +30,28 @@ body {
     margin: 0;
 }
 
-.chart rect {
-    stroke: #f9f9f9;
-    fill: #b9e9b9;
+
+.birds-eye {
+    width: 100%;
+}
+.birds-eye .device th {
+    text-align: left;
+    padding: 10px 0 5px 2px;
+}
+.birds-eye .result td {
+    padding: 5px 0;
+    cursor: pointer;
+}
+
+.test.pass {
+    background-color: #b9e9b9;
+}
+.test.pass:hover {
+    background-color: #99c999;
+}
+.test.fail {
+    background-color: #e9b9b9;
+}
+.test.fail:hover {
+    background-color: #c99999;
 }

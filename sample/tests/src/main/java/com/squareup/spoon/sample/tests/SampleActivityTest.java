@@ -101,11 +101,12 @@ public class SampleActivityTest extends ActivityInstrumentationTestCase2<SampleA
   }
 
   public void testAlwaysFailingForFun() {
+    Screenshot.snap(activity);
     fail("Whoops!");
   }
 
   private static final Random RANDOM = new Random();
   private static void randomlyFail() {
-    assertTrue(RANDOM.nextBoolean());
+    assertTrue(RANDOM.nextInt(3) > 0);
   }
 }
