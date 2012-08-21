@@ -19,6 +19,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.squareup</groupId>
+            <artifactId>spoon-screenshot</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.beust</groupId>
             <artifactId>jcommander</artifactId>
         </dependency>

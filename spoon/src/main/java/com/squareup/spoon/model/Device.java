@@ -30,7 +30,7 @@ public class Device {
     return ToStringBuilder.reflectionToString(this, SHORT_PREFIX_STYLE);
   }
 
-  public String uniqueIdentifier() {
+  public String id() {
     if (serial != null) {
       return serial;
     }
