@@ -32,16 +32,13 @@ public class SampleActivityTest extends ActivityInstrumentationTestCase2<SampleA
     // Check initial state.
     assertEquals("", textView.getText());
     assertEquals(activity.getString(R.string.click_me1), button.getText());
-    Thread.sleep(1000);
 
     // Click the button to change state.
-    activity.runOnUiThread(new Runnable() {
+    instrumentation.runOnMainSync(new Runnable() {
       @Override public void run() {
         button.performClick();
       }
     });
-    instrumentation.waitForIdleSync();
-    Thread.sleep(1000);
 
     // Check new state.
     assertEquals(activity.getString(R.string.hello1), textView.getText());
@@ -56,16 +53,13 @@ public class SampleActivityTest extends ActivityInstrumentationTestCase2<SampleA
     // Check initial state.
     assertEquals("", textView.getText());
     assertEquals(activity.getString(R.string.click_me2), button.getText());
-    Thread.sleep(1000);
 
     // Click the button to change state.
-    activity.runOnUiThread(new Runnable() {
+    instrumentation.runOnMainSync(new Runnable() {
       @Override public void run() {
         button.performClick();
       }
     });
-    instrumentation.waitForIdleSync();
-    Thread.sleep(1000);
 
     // Check new state.
     assertEquals(activity.getString(R.string.hello2), textView.getText());
@@ -82,16 +76,13 @@ public class SampleActivityTest extends ActivityInstrumentationTestCase2<SampleA
     // Check initial state.
     assertEquals("", textView.getText());
     assertEquals(activity.getString(R.string.click_me3), button.getText());
-    Thread.sleep(1000);
 
     // Click the button to change state.
-    activity.runOnUiThread(new Runnable() {
+    instrumentation.runOnMainSync(new Runnable() {
       @Override public void run() {
         button.performClick();
       }
     });
-    instrumentation.waitForIdleSync();
-    Thread.sleep(1000);
 
     // Check new state.
     assertEquals(activity.getString(R.string.hello3), textView.getText());
