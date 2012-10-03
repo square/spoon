@@ -26,7 +26,6 @@ import static com.squareup.spoon.Screenshot.SPOON_SCREENSHOTS;
 public class ExecutionTarget implements Callable<ExecutionResult> {
   private static final String FILE_EXECUTION = "execution.json";
   private static final String FILE_RESULT = "result.json";
-  private static final String DIR_SCREENSHOTS = "screenshots";
 
   private static final ISyncProgressMonitor QUIET_MONITOR = new ISyncProgressMonitor() {
     @Override public void start(int totalWork) {
@@ -53,8 +52,8 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
   private Device device;
   private File outputDirectory;
 
+  @SuppressWarnings("UnusedDeclaration") // Used by Jackson.
   public ExecutionTarget() {
-    // Used by Jackson for deserialization.
   }
 
   /**
@@ -150,9 +149,6 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
       }
     }
 
-    File resultFile = new File(outputDir, FILE_RESULT);
-    SpoonMapper.getInstance().writeValue(resultFile, result);
-
     // Sync device screenshots, if any, to the local filesystem.
     String screenshotDirName = "app_" + SPOON_SCREENSHOTS;
     FileEntry deviceDir = obtainDirectoryFileEntry("/data/data/" + target.appPackage + "/" + screenshotDirName);
@@ -161,11 +157,21 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
     File screenshotDir = new File(outputDir, screenshotDirName);
     if (screenshotDir.exists()) {
       // Move all children of the screenshot directory into the output folder.
-      for (File child : screenshotDir.listFiles()) {
-        FileUtils.moveDirectory(child, new File(outputDir, child.getName()));
+      File[] classNameDirs = screenshotDir.listFiles();
+      if (classNameDirs != null) {
+        for (File classNameDir : classNameDirs) {
+          File destDir = new File(outputDir, classNameDir.getName());
+          FileUtils.deleteDirectory(destDir);
+          FileUtils.moveDirectory(classNameDir, destDir);
+          result.addScreenshotDirectory(destDir);
+        }
       }
       FileUtils.deleteDirectory(screenshotDir);
     }
+
+    // Write device result file.
+    File resultFile = new File(outputDir, FILE_RESULT);
+    SpoonMapper.getInstance().writeValue(resultFile, result);
   }
 
   /** Fetch or create a real device that corresponds to a device model. */
@@ -206,10 +212,10 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
         lastEntry = c.newInstance(lastEntry, part, TYPE_DIRECTORY, lastEntry == null);
       }
       return lastEntry;
-    } catch (NoSuchMethodException e) {
-    } catch (InvocationTargetException e) {
-    } catch (InstantiationException e) {
-    } catch (IllegalAccessException e) {
+    } catch (NoSuchMethodException ignored) {
+    } catch (InvocationTargetException ignored) {
+    } catch (InstantiationException ignored) {
+    } catch (IllegalAccessException ignored) {
     }
     return null;
   }

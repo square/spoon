@@ -5,6 +5,7 @@ import com.android.ddmlib.testrunner.ITestRunListener;
 import com.android.ddmlib.testrunner.TestIdentifier;
 import com.squareup.spoon.model.Device;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -36,9 +37,10 @@ public class ExecutionResult implements ITestRunListener {
   public String displayTime;
   private final Map<String, ExecutionTestResult> testResults = new HashMap<String, ExecutionTestResult>();
 
+  @SuppressWarnings("UnusedDeclaration") // Used by Jackson.
   public ExecutionResult() {
-    //Used for Jackson
   }
+
   public ExecutionResult(Device device) {
     this.device = device;
   }
@@ -79,6 +81,24 @@ public class ExecutionResult implements ITestRunListener {
   @Override public void testRunEnded(long elapsedTime, Map<String, String> runMetrics) {
     System.out.println("[testRunEnded] elapsedTime: " + elapsedTime + ", runMetrics: " + runMetrics);
 
+  }
+
+  /** Add a class-level screenshot directory to this execution result. */
+  // TODO this begs for a DB
+  void addScreenshotDirectory(File classNameDir) {
+    File[] testNameDirs = classNameDir.listFiles();
+    if (testNameDirs != null) {
+      // Loop over all of the test directories inside the class directory.
+      for (File testNameDir : testNameDirs) {
+        for (ExecutionTestResult result : testResults.values()) {
+          if (result.className.equals(classNameDir.getName()) && result.testName.equals(testNameDir.getName())) {
+            // If we have matched both the class name and test name, add all screenshots to the test result.
+            Collections.addAll(result.screenshots, testNameDir.listFiles());
+            break; // Continue to next test dir
+          }
+        }
+      }
+    }
   }
 
   /** Mustache can't read maps. Feed it a list to consume. Nom nom nom. */

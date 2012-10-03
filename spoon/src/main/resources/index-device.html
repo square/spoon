@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{{config.name}}</title>
+        <title>{{deviceName}}</title>
         <link href="../bootstrap.min.css" rel="stylesheet">
         <link href="http://fonts.googleapis.com/css?family=Roboto:regular,medium,thin,italic,mediumitalic,bold" rel="stylesheet" title="roboto">
         <link href="../spoon.css" rel="stylesheet">
@@ -14,11 +14,18 @@
                 <h1>{{deviceName}}</h1>
                 <p>{{testsStarted}} tests run with {{testsPassed}} passing and {{testsFailed}} failing in {{totalTime}} seconds at {{displayTime}}</p>
             </div>
+            {{#tests}}
             <div class="row">
                 <div class="span12">
-                    <p>STUFF GOES HERE!</p>
+                    <h2 class="test-name {{result}}">{{testName}} <small>{{classSimpleName}}</small></h2>
+                    <ul class="thumbnails">
+                        {{#screenshots}}
+                        <li class="span2"><a href="#" class="thumbnail"><img src="file://{{getAbsolutePath}}"></a></li>
+                        {{/screenshots}}
+                    </ul>
                 </div>
             </div>
+            {{/tests}}
         </div>
 
         <script src="../jquery.min.js"></script>

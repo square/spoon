@@ -7,7 +7,7 @@
 
 html, body {
 	height: 100%;
-	background-color:#f9f9f9;
+	background-color: #f9f9f9;
 	-webkit-font-smoothing: antialiased;
 }
 
@@ -24,10 +24,21 @@ body {
 }
 .hero-unit h1 {
     margin-bottom: 5px;
-    font-weight: 300;
+    font-weight: 200;
 }
 .hero-unit p {
     margin: 0;
+}
+
+
+.test-name, .test-name small {
+  font-weight: 200;
+}
+.test-name.pass {
+  border-bottom: 2px solid #89c989;
+}
+.test-name.fail {
+  border-bottom: 2px solid #c98989;
 }
 
 
@@ -42,16 +53,16 @@ body {
     padding: 5px 0;
     cursor: pointer;
 }
+.birds-eye .test.pass:hover {
+  background-color: #99c999;
+}
+.birds-eye .test.fail:hover {
+  background-color: #c99999;
+}
 
 .test.pass {
     background-color: #b9e9b9;
 }
-.test.pass:hover {
-    background-color: #99c999;
-}
 .test.fail {
     background-color: #e9b9b9;
-}
-.test.fail:hover {
-    background-color: #c99999;
 }

@@ -2,6 +2,10 @@ package com.squareup.spoon;
 
 import com.android.ddmlib.testrunner.TestIdentifier;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 public class ExecutionTestResult {
   public enum TestResult {
     SUCCESS("pass"), FAILURE("fail");
@@ -21,10 +25,12 @@ public class ExecutionTestResult {
   public String classSimpleName;
   public String testName;
   public TestResult result;
+  public List<File> screenshots = new ArrayList<File>();
 
+  @SuppressWarnings("UnusedDeclaration") // Used by Jackson.
   public ExecutionTestResult() {
-    //Used for Jackson
   }
+
   public ExecutionTestResult(TestIdentifier identifier) {
     classSimpleName = className = identifier.getClassName();
     testName = identifier.getTestName();

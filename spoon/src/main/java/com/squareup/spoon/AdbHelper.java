@@ -26,4 +26,8 @@ final class AdbHelper {
     }
     throw new RuntimeException("Unable to connect to adb.");
   }
+
+  private AdbHelper() {
+    // No instances.
+  }
 }
