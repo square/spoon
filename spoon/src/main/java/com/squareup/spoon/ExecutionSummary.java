@@ -2,7 +2,6 @@ package com.squareup.spoon;
 
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
-import com.squareup.spoon.model.RunConfig;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
@@ -26,9 +25,10 @@ public class ExecutionSummary {
     }
   };
 
-  public final RunConfig config;
   public final List<ExecutionResult> results = Collections.synchronizedList(new ArrayList<ExecutionResult>());
   public final List<Exception> exceptions = Collections.synchronizedList(new ArrayList<Exception>());
+  private final File output;
+  public final String title;
   public long testStart;
   public long testEnd;
   public int totalTests;
@@ -37,8 +37,9 @@ public class ExecutionSummary {
   public long totalTime;
   public String displayTime;
 
-  public ExecutionSummary(RunConfig config) {
-    this.config = config;
+  public ExecutionSummary(String title, File output) {
+    this.title = title;
+    this.output = output;
   }
 
   public void updateDynamicValues() {
@@ -58,22 +59,22 @@ public class ExecutionSummary {
   public void generateHtml() {
     updateDynamicValues();
 
-    copyResourceToOutput("bootstrap.min.css", config.output);
-    copyResourceToOutput("bootstrap.min.js", config.output);
-    copyResourceToOutput("jquery.min.js", config.output);
-    copyResourceToOutput("spoon.css", config.output);
+    copyResourceToOutput("bootstrap.min.css", output);
+    copyResourceToOutput("bootstrap.min.js", output);
+    copyResourceToOutput("jquery.min.js", output);
+    copyResourceToOutput("spoon.css", output);
 
     DefaultMustacheFactory mustacheFactory = new DefaultMustacheFactory();
     Mustache summary = mustacheFactory.compile("index.html");
     Mustache device = mustacheFactory.compile("index-device.html");
     try {
-      summary.execute(new FileWriter(new File(config.output, "index.html")), this).flush();
+      summary.execute(new FileWriter(new File(output, "index.html")), this).flush();
 
       for (ExecutionResult result : results) {
         result.updateDynamicValues();
 
-        File output = new File(config.output, result.device.id() + "/index.html");
-        device.execute(new FileWriter(output), result).flush();
+        File deviceOutput = new File(output, result.serial + "/index.html");
+        device.execute(new FileWriter(deviceOutput), result).flush();
       }
     } catch (IOException e) {
       throw new RuntimeException("Unable to write output HTML.", e);

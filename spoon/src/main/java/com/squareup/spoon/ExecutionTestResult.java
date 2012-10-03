@@ -27,10 +27,6 @@ public class ExecutionTestResult {
   public TestResult result;
   public List<File> screenshots = new ArrayList<File>();
 
-  @SuppressWarnings("UnusedDeclaration") // Used by Jackson.
-  public ExecutionTestResult() {
-  }
-
   public ExecutionTestResult(TestIdentifier identifier) {
     classSimpleName = className = identifier.getClassName();
     testName = identifier.getTestName();

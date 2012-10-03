@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{{config.name}}</title>
+        <title>{{title}}</title>
         <link href="bootstrap.min.css" rel="stylesheet">
         <link href="http://fonts.googleapis.com/css?family=Roboto:regular,medium,thin,italic,mediumitalic,bold" rel="stylesheet" title="roboto">
         <link href="spoon.css" rel="stylesheet">
@@ -11,7 +11,7 @@
     <body>
         <div class="container">
             <div class="hero-unit">
-                <h1>{{config.name}}</h1>
+                <h1>{{title}}</h1>
                 <p>{{totalTests}} tests run on {{results.size}} devices with {{totalSuccess}} passing and {{totalFailure}} failing in {{totalTime}} seconds at {{displayTime}}</p>
             </div>
             <div class="row">
@@ -22,7 +22,7 @@
                         <tbody>
                             {{#results}}
                             <tr class="device">
-                                <th colspan="{{tests.size}}"><a href="{{device.id}}/index.html">{{deviceName}}</a></th>
+                                <th colspan="{{tests.size}}"><a href="{{serial}}/index.html">{{deviceName}}</a></th>
                             </tr>
                             <tr class="result">
                                 {{#tests}}

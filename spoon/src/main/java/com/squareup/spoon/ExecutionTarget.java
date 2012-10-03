@@ -7,15 +7,20 @@ import com.android.ddmlib.ShellCommandUnresponsiveException;
 import com.android.ddmlib.SyncException;
 import com.android.ddmlib.TimeoutException;
 import com.android.ddmlib.testrunner.RemoteAndroidTestRunner;
-import com.squareup.spoon.model.Device;
-import com.squareup.spoon.model.RunConfig;
+import com.google.gson.Gson;
+import com.squareup.spoon.external.AXMLParser;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.Callable;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
 import static com.android.ddmlib.FileListingService.TYPE_DIRECTORY;
@@ -24,8 +29,14 @@ import static com.squareup.spoon.Screenshot.SPOON_SCREENSHOTS;
 
 /** Represents a single device and the test configuration to be executed. */
 public class ExecutionTarget implements Callable<ExecutionResult> {
+  private static final String ANDROID_MANIFEST_XML = "AndroidManifest.xml";
+  private static final String TAG_MANIFEST = "manifest";
+  private static final String TAG_INSTRUMENTATION = "instrumentation";
+  private static final String ATTR_PACKAGE = "package";
+  private static final String ATTR_TARGET_PACKAGE = "targetPackage";
   private static final String FILE_EXECUTION = "execution.json";
   private static final String FILE_RESULT = "result.json";
+  private static final Gson GSON = new Gson();
 
   private static final ISyncProgressMonitor QUIET_MONITOR = new ISyncProgressMonitor() {
     @Override public void start(int totalWork) {
@@ -45,33 +56,27 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
     }
   };
 
-  private String sdkPath;
-  private RunConfig config;
-  private String appPackage;
-  private String testPackage;
-  private Device device;
-  private File outputDirectory;
-
-  @SuppressWarnings("UnusedDeclaration") // Used by Jackson.
-  public ExecutionTarget() {
-  }
+  private final String sdkPath;
+  private final File apk;
+  private final File testApk;
+  private final String serial;
+  private final File output;
 
   /**
    * Create a test runner for a single device.
    *
    * @param sdkPath Path to the local Android SDK directory.
-   * @param config Test run configuration.
-   * @param testPackage Application package to instrument.
-   * @param device Device to run the test on.
+   * @param apk Path to application APK.
+   * @param testApk Path to test application APK.
+   * @param output Path to output directory.
+   * @param serial Device to run the test on.
    */
-  public ExecutionTarget(String sdkPath, RunConfig config, String appPackage, String testPackage, Device device) {
+  public ExecutionTarget(String sdkPath, File apk, File testApk, File output, String serial) {
     this.sdkPath = sdkPath;
-    this.config = config;
-    this.appPackage = appPackage;
-    this.testPackage = testPackage;
-    this.device = device;
-
-    this.outputDirectory = new File(config.output, device.id());
+    this.apk = apk;
+    this.testApk = testApk;
+    this.serial = serial;
+    this.output = new File(output, serial);
   }
 
 
@@ -82,20 +87,20 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
   /** Serialize ourself to disk and start {@link #main(String...)} in another process. */
   @Override public ExecutionResult call() throws IOException, InterruptedException {
     // Create the output directory.
-    outputDirectory.mkdirs();
+    output.mkdirs();
 
     // Write our configuration to a file in the output directory.
-    File fileExecution = new File(outputDirectory, FILE_EXECUTION);
-    SpoonMapper.getInstance().writeValue(fileExecution, this);
+    FileWriter execution = new FileWriter(new File(output, FILE_EXECUTION));
+    GSON.toJson(this, execution);
+    execution.close();
 
     // Kick off a new process to interface with ADB and perform the real execution.
     String classpath = System.getProperty("java.class.path");
-    new ProcessBuilder("java", "-cp", classpath, ExecutionTarget.class.getName(), outputDirectory.getAbsolutePath())
+    new ProcessBuilder("java", "-cp", classpath, ExecutionTarget.class.getName(), output.getAbsolutePath())
         .start()
         .waitFor();
 
-    File fileResult = new File(outputDirectory, FILE_RESULT);
-    return SpoonMapper.getInstance().readValue(fileResult, ExecutionResult.class);
+    return GSON.fromJson(new FileReader(new File(output, FILE_RESULT)), ExecutionResult.class);
   }
 
 
@@ -115,23 +120,27 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
       throw new IllegalArgumentException("Device directory and/or execution file does not exist.");
     }
 
-    ExecutionTarget target = SpoonMapper.getInstance().readValue(executionFile, ExecutionTarget.class);
-    ExecutionResult result = new ExecutionResult(target.device);
+    ExecutionTarget target = GSON.fromJson(new FileReader(executionFile), ExecutionTarget.class);
+    ExecutionResult result = new ExecutionResult(target.serial);
+
+    String[] packages = getManifestPackages(target.testApk);
+    final String appPackage = packages[0];
+    final String testPackage = packages[1];
 
     IDevice realDevice = null;
     try {
       AndroidDebugBridge adb = AdbHelper.init(target.sdkPath);
 
-      realDevice = obtainRealDevice(adb, target.device);
+      realDevice = obtainRealDevice(adb, target.serial);
       result.configureFor(realDevice);
 
-      // Install the main application and the instrumentation package.
-      realDevice.installPackage(target.config.app.getAbsolutePath(), true);
-      realDevice.installPackage(target.config.test.getAbsolutePath(), true);
+      // Install the main application and the testApk package.
+      realDevice.installPackage(target.apk.getAbsolutePath(), true);
+      realDevice.installPackage(target.testApk.getAbsolutePath(), true);
 
       // Run all the tests! o/
       result.testStart = System.currentTimeMillis();
-      new RemoteAndroidTestRunner(target.testPackage, realDevice).run(result);
+      new RemoteAndroidTestRunner(testPackage, realDevice).run(result);
       result.testEnd = System.currentTimeMillis();
 
     } catch (Exception e) {
@@ -139,19 +148,14 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
       // TODO record exception
     } finally {
       try {
-        if (realDevice != null) {
-          releaseRealDevice(realDevice);
-        }
         AndroidDebugBridge.terminate();
-      } catch (Exception e) {
-        e.printStackTrace();
-        // TODO log
+      } catch (Exception ignore) {
       }
     }
 
     // Sync device screenshots, if any, to the local filesystem.
     String screenshotDirName = "app_" + SPOON_SCREENSHOTS;
-    FileEntry deviceDir = obtainDirectoryFileEntry("/data/data/" + target.appPackage + "/" + screenshotDirName);
+    FileEntry deviceDir = obtainDirectoryFileEntry("/data/data/" + appPackage + "/" + screenshotDirName);
     realDevice.getSyncService().pull(new FileEntry[] { deviceDir }, outputDirName, QUIET_MONITOR);
 
     File screenshotDir = new File(outputDir, screenshotDirName);
@@ -170,37 +174,20 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
     }
 
     // Write device result file.
-    File resultFile = new File(outputDir, FILE_RESULT);
-    SpoonMapper.getInstance().writeValue(resultFile, result);
+    FileWriter writer = new FileWriter(new File(outputDir, FILE_RESULT));
+    GSON.toJson(result, writer);
+    writer.close();
   }
 
   /** Fetch or create a real device that corresponds to a device model. */
-  private static IDevice obtainRealDevice(AndroidDebugBridge adb, Device device) {
-    if (!device.isEmulator()) {
-      // Get an existing real device.
-      for (IDevice adbDevice : adb.getDevices()) {
-        if (adbDevice.getSerialNumber().equals(device.serial)) {
-          return adbDevice;
-        }
+  private static IDevice obtainRealDevice(AndroidDebugBridge adb, String serial) {
+    // Get an existing real device.
+    for (IDevice adbDevice : adb.getDevices()) {
+      if (adbDevice.getSerialNumber().equals(serial)) {
+        return adbDevice;
       }
-      throw new IllegalArgumentException("Unknown serial ID: " + device.serial);
-    } else {
-      // Create an emulator with a matching configuration.
-      // TODO create, start, and wait for an emulator
-      throw new IllegalArgumentException("TODO");
     }
-  }
-
-  /** Tear down a device. This only performs operations if the real device is an emulator. */
-  private static void releaseRealDevice(IDevice realDevice) {
-    if (realDevice.isEmulator()) {
-      // TODO shut down emulator
-      throw new IllegalArgumentException("TODO");
-    }
-  }
-
-  private static String deviceName(IDevice realDevice) {
-    return realDevice.isEmulator() ? realDevice.getAvdName() : realDevice.getSerialNumber();
+    throw new IllegalArgumentException("Unknown device serial: " + serial);
   }
 
   private static FileEntry obtainDirectoryFileEntry(String path) {
@@ -218,5 +205,52 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
     } catch (IllegalAccessException ignored) {
     }
     return null;
+  }
+
+  private static String[] getManifestPackages(File apkTestFile) {
+    InputStream is = null;
+    try {
+      ZipFile zip = new ZipFile(apkTestFile);
+      ZipEntry entry = zip.getEntry(ANDROID_MANIFEST_XML);
+      is = zip.getInputStream(entry);
+
+      AXMLParser parser = new AXMLParser(is);
+      int eventType = parser.getType();
+
+      String[] ret = new String[2];
+      while (eventType != AXMLParser.END_DOCUMENT) {
+        if (eventType == AXMLParser.START_TAG) {
+          String parserName = parser.getName();
+          if (TAG_MANIFEST.equals(parserName) || TAG_INSTRUMENTATION.equals(parserName)) {
+            for (int i = 0; i < parser.getAttributeCount(); i++) {
+              String parserAttributeName = parser.getAttributeName(i);
+              if (ATTR_PACKAGE.equals(parserAttributeName)) {
+                ret[1] = parser.getAttributeValueString(i);
+                break;
+              }
+              if (ATTR_TARGET_PACKAGE.equals(parserAttributeName)) {
+                ret[0] = parser.getAttributeValueString(i);
+                break;
+              }
+            }
+          }
+        }
+        eventType = parser.next();
+      }
+      if (ret[0] == null || ret[1] == null) {
+        throw new IllegalStateException("Unable to find both app and test package.");
+      }
+      return ret;
+    } catch (IOException e) {
+      throw new RuntimeException("Unable to parse test app AndroidManifest.xml.", e);
+    } finally {
+      if (is != null) {
+        try {
+          is.close();
+        } catch (IOException e) {
+          // Ignored.
+        }
+      }
+    }
   }
 }

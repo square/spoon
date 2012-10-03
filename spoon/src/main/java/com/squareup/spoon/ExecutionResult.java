@@ -3,7 +3,6 @@ package com.squareup.spoon;
 import com.android.ddmlib.IDevice;
 import com.android.ddmlib.testrunner.ITestRunListener;
 import com.android.ddmlib.testrunner.TestIdentifier;
-import com.squareup.spoon.model.Device;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ import static com.squareup.spoon.ExecutionTestResult.TestResult.SUCCESS;
 
 /** Represents the aggregated result of a test execution on a device. */
 public class ExecutionResult implements ITestRunListener {
-  public Device device;
+  public final String serial;
   public int testsStarted;
   public int testsFailed;
   public int testsPassed;
@@ -37,12 +36,8 @@ public class ExecutionResult implements ITestRunListener {
   public String displayTime;
   private final Map<String, ExecutionTestResult> testResults = new HashMap<String, ExecutionTestResult>();
 
-  @SuppressWarnings("UnusedDeclaration") // Used by Jackson.
-  public ExecutionResult() {
-  }
-
-  public ExecutionResult(Device device) {
-    this.device = device;
+  public ExecutionResult(String serial) {
+    this.serial = serial;
   }
 
   @Override public void testRunStarted(String runName, int testCount) {
