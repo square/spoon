@@ -19,6 +19,9 @@ import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.Callable;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -120,12 +123,20 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
       throw new IllegalArgumentException("Device directory and/or execution file does not exist.");
     }
 
+    Logger log = Logger.getLogger(ExecutionTarget.class.getSimpleName());
+    FileHandler handler = new FileHandler(new File(outputDir, "output.txt").getAbsolutePath());
+    handler.setFormatter(new SimpleFormatter());
+    log.addHandler(handler);
+
     ExecutionTarget target = GSON.fromJson(new FileReader(executionFile), ExecutionTarget.class);
     ExecutionResult result = new ExecutionResult(target.serial);
 
     String[] packages = getManifestPackages(target.testApk);
     final String appPackage = packages[0];
     final String testPackage = packages[1];
+
+    log.fine(appPackage + " in " + target.apk.getAbsolutePath());
+    log.fine(testPackage + " in " + target.testApk.getAbsolutePath());
 
     IDevice realDevice = null;
     try {
@@ -142,9 +153,10 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
       result.testStart = System.currentTimeMillis();
       new RemoteAndroidTestRunner(testPackage, realDevice).run(result);
       result.testEnd = System.currentTimeMillis();
+      log.info("");
 
     } catch (Exception e) {
-      e.printStackTrace();
+      log.throwing(ExecutionTarget.class.getSimpleName(), "main", e);
       // TODO record exception
     } finally {
       try {
