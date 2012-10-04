@@ -20,6 +20,7 @@ public class ExecutionSuite implements Runnable {
   private final File apk;
   private final File testApk;
   private final File output;
+  private final boolean debug;
   private final Collection<String> serials;
 
   /**
@@ -30,14 +31,16 @@ public class ExecutionSuite implements Runnable {
    * @param apk Path to application APK.
    * @param testApk Path to test application APK.
    * @param output Path to output directory.
+   * @param debug Whether or not debug logging is enabled.
    */
-  public ExecutionSuite(String title, String sdkPath, File apk, File testApk, File output) {
+  public ExecutionSuite(String title, String sdkPath, File apk, File testApk, File output, boolean debug) {
     this.logger = Logger.getLogger("Spoon");
     this.title = title;
     this.sdkPath = sdkPath;
     this.apk = apk;
     this.testApk = testApk;
     this.output = output;
+    this.debug = debug;
     this.serials = findAllDevices(sdkPath);
   }
 
@@ -65,7 +68,7 @@ public class ExecutionSuite implements Runnable {
         new Thread(new Runnable() {
           @Override public void run() {
             try {
-              ExecutionTarget target = new ExecutionTarget(sdkPath, apk, testApk, output, serial);
+              ExecutionTarget target = new ExecutionTarget(sdkPath, apk, testApk, output, serial, debug);
               ExecutionResult result = target.call();
               summary.results.add(result);
             } catch (Exception e) {

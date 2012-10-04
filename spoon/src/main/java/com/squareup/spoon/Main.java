@@ -7,8 +7,6 @@ import com.beust.jcommander.ParameterException;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Main {
   public static class FileConverter implements IStringConverter<File> {
@@ -41,7 +39,6 @@ public class Main {
   }
 
   public static void main(String... args) throws IOException {
-    Logger log = Logger.getLogger(Main.class.getSimpleName());
     Configuration config = new Configuration();
     JCommander jc = new JCommander(config);
 
@@ -60,12 +57,10 @@ public class Main {
       return;
     }
 
-    log.setLevel(config.debug ? Level.FINE : Level.INFO);
-
     if (!new File(config.sdk).exists()) {
       throw new IllegalStateException("Could not find Android SDK. Ensure ANDROID_HOME environment variable is set.");
     }
 
-    new ExecutionSuite(config.title, config.sdk, config.apk, config.testApk, config.output).run();
+    new ExecutionSuite(config.title, config.sdk, config.apk, config.testApk, config.output, config.debug).run();
   }
 }

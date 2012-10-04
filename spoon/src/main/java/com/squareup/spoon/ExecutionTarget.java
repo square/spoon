@@ -3,11 +3,17 @@ package com.squareup.spoon;
 import com.android.ddmlib.AdbCommandRejectedException;
 import com.android.ddmlib.AndroidDebugBridge;
 import com.android.ddmlib.IDevice;
+import com.android.ddmlib.Log;
+import com.android.ddmlib.Log.LogLevel;
 import com.android.ddmlib.ShellCommandUnresponsiveException;
 import com.android.ddmlib.SyncException;
 import com.android.ddmlib.TimeoutException;
 import com.android.ddmlib.testrunner.RemoteAndroidTestRunner;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import com.squareup.spoon.external.AXMLParser;
 import org.apache.commons.io.FileUtils;
 
@@ -17,9 +23,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.Callable;
 import java.util.logging.FileHandler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.zip.ZipEntry;
@@ -39,7 +47,16 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
   private static final String ATTR_TARGET_PACKAGE = "targetPackage";
   private static final String FILE_EXECUTION = "execution.json";
   private static final String FILE_RESULT = "result.json";
-  private static final Gson GSON = new Gson();
+  private static final Gson GSON = new GsonBuilder()
+      .registerTypeAdapter(File.class, new TypeAdapter<File>() {
+        @Override public void write(JsonWriter jsonWriter, File file) throws IOException {
+          jsonWriter.value(file.getAbsolutePath());
+        }
+        @Override public File read(JsonReader jsonReader) throws IOException {
+          return new File(jsonReader.nextString());
+        }
+      })
+      .create();
 
   private static final ISyncProgressMonitor QUIET_MONITOR = new ISyncProgressMonitor() {
     @Override public void start(int totalWork) {
@@ -63,6 +80,7 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
   private final File apk;
   private final File testApk;
   private final String serial;
+  private final boolean debug;
   private final File output;
 
   /**
@@ -73,12 +91,14 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
    * @param testApk Path to test application APK.
    * @param output Path to output directory.
    * @param serial Device to run the test on.
+   * @param debug Whether or not debug logging is enabled.
    */
-  public ExecutionTarget(String sdkPath, File apk, File testApk, File output, String serial) {
+  public ExecutionTarget(String sdkPath, File apk, File testApk, File output, String serial, boolean debug) {
     this.sdkPath = sdkPath;
     this.apk = apk;
     this.testApk = testApk;
     this.serial = serial;
+    this.debug = debug;
     this.output = new File(output, serial);
   }
 
@@ -123,13 +143,23 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
       throw new IllegalArgumentException("Device directory and/or execution file does not exist.");
     }
 
+    ExecutionTarget target = GSON.fromJson(new FileReader(executionFile), ExecutionTarget.class);
+    ExecutionResult result = new ExecutionResult(target.serial);
+
     Logger log = Logger.getLogger(ExecutionTarget.class.getSimpleName());
     FileHandler handler = new FileHandler(new File(outputDir, "output.txt").getAbsolutePath());
     handler.setFormatter(new SimpleFormatter());
     log.addHandler(handler);
+    log.setLevel(target.debug ? Level.FINE : Level.INFO);
 
-    ExecutionTarget target = GSON.fromJson(new FileReader(executionFile), ExecutionTarget.class);
-    ExecutionResult result = new ExecutionResult(target.serial);
+    if (!target.apk.exists()) {
+      log.severe("APK does not exist: " + target.apk.getAbsolutePath());
+      throw new IllegalArgumentException("APK does not exist.");
+    }
+    if (!target.testApk.exists()) {
+      log.severe("Test APK does not exist: " + target.apk.getAbsolutePath());
+      throw new IllegalArgumentException("Test APK does not exist.");
+    }
 
     String[] packages = getManifestPackages(target.testApk);
     final String appPackage = packages[0];
@@ -137,6 +167,10 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
 
     log.fine(appPackage + " in " + target.apk.getAbsolutePath());
     log.fine(testPackage + " in " + target.testApk.getAbsolutePath());
+
+    if (target.debug) {
+      setInternalLoggingLevel();
+    }
 
     IDevice realDevice = null;
     try {
@@ -153,7 +187,6 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
       result.testStart = System.currentTimeMillis();
       new RemoteAndroidTestRunner(testPackage, realDevice).run(result);
       result.testEnd = System.currentTimeMillis();
-      log.info("");
 
     } catch (Exception e) {
       log.throwing(ExecutionTarget.class.getSimpleName(), "main", e);
@@ -189,6 +222,16 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
     FileWriter writer = new FileWriter(new File(outputDir, FILE_RESULT));
     GSON.toJson(result, writer);
     writer.close();
+  }
+
+  private static void setInternalLoggingLevel() {
+    try {
+      Field level = Log.class.getDeclaredField("mLevel");
+      level.setAccessible(true);
+      level.set(Log.class, LogLevel.DEBUG);
+    } catch (NoSuchFieldException ignored) {
+    } catch (IllegalAccessException ignored) {
+    }
   }
 
   /** Fetch or create a real device that corresponds to a device model. */
