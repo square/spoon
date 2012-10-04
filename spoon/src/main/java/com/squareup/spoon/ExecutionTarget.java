@@ -45,6 +45,7 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
   private static final String TAG_INSTRUMENTATION = "instrumentation";
   private static final String ATTR_PACKAGE = "package";
   private static final String ATTR_TARGET_PACKAGE = "targetPackage";
+  private static final String ATTR_NAME = "name";
   private static final String FILE_EXECUTION = "execution.json";
   private static final String FILE_RESULT = "result.json";
   private static final Gson GSON = new GsonBuilder()
@@ -161,9 +162,10 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
       throw new IllegalArgumentException("Test APK does not exist.");
     }
 
-    String[] packages = getManifestPackages(target.testApk);
+    String[] packages = getManifestInfo(target.testApk);
     final String appPackage = packages[0];
     final String testPackage = packages[1];
+    final String testRunner = packages[2];
 
     log.fine(appPackage + " in " + target.apk.getAbsolutePath());
     log.fine(testPackage + " in " + target.testApk.getAbsolutePath());
@@ -185,7 +187,7 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
 
       // Run all the tests! o/
       result.testStart = System.currentTimeMillis();
-      new RemoteAndroidTestRunner(testPackage, realDevice).run(result);
+      new RemoteAndroidTestRunner(testPackage, testRunner, realDevice).run(result);
       result.testEnd = System.currentTimeMillis();
 
     } catch (Exception e) {
@@ -262,7 +264,7 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
     return null;
   }
 
-  private static String[] getManifestPackages(File apkTestFile) {
+  private static String[] getManifestInfo(File apkTestFile) {
     InputStream is = null;
     try {
       ZipFile zip = new ZipFile(apkTestFile);
@@ -272,20 +274,21 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
       AXMLParser parser = new AXMLParser(is);
       int eventType = parser.getType();
 
-      String[] ret = new String[2];
+      String[] ret = new String[3];
       while (eventType != AXMLParser.END_DOCUMENT) {
         if (eventType == AXMLParser.START_TAG) {
           String parserName = parser.getName();
-          if (TAG_MANIFEST.equals(parserName) || TAG_INSTRUMENTATION.equals(parserName)) {
+          boolean isManifest = TAG_MANIFEST.equals(parserName);
+          boolean isInstrumentation = TAG_INSTRUMENTATION.equals(parserName);
+          if (isManifest || isInstrumentation) {
             for (int i = 0; i < parser.getAttributeCount(); i++) {
               String parserAttributeName = parser.getAttributeName(i);
-              if (ATTR_PACKAGE.equals(parserAttributeName)) {
+              if (isManifest && ATTR_PACKAGE.equals(parserAttributeName)) {
                 ret[1] = parser.getAttributeValueString(i);
-                break;
-              }
-              if (ATTR_TARGET_PACKAGE.equals(parserAttributeName)) {
+              } else if (isInstrumentation && ATTR_TARGET_PACKAGE.equals(parserAttributeName)) {
                 ret[0] = parser.getAttributeValueString(i);
-                break;
+              } else if (isInstrumentation && ATTR_NAME.equals(parserAttributeName)) {
+                ret[2] = parser.getAttributeValueString(i);
               }
             }
           }
