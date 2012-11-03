@@ -47,12 +47,12 @@
             <dependency>
                 <groupId>com.google.android</groupId>
                 <artifactId>android</artifactId>
-                <version>4.0.1.2</version>
+                <version>4.1.1.4</version>
             </dependency>
             <dependency>
                 <groupId>com.google.android</groupId>
                 <artifactId>android-test</artifactId>
-                <version>4.0.1.2</version>
+                <version>4.1.1.4</version>
             </dependency>
             <dependency>
                 <groupId>com.android.ddmlib</groupId>
@@ -83,10 +83,10 @@
                 <plugin>
                     <groupId>com.jayway.maven.plugins.android.generation2</groupId>
                     <artifactId>android-maven-plugin</artifactId>
-                    <version>3.3.0</version>
+                    <version>3.4.0</version>
                     <configuration>
                         <sdk>
-                            <platform>14</platform>
+                            <platform>16</platform>
                         </sdk>
                     </configuration>
                 </plugin>
