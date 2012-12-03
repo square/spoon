@@ -42,6 +42,11 @@ body {
 }
 
 
+.exception .stack-trace{
+  margin-left: 3em;
+}
+
+
 .birds-eye {
     width: 100%;
 }
