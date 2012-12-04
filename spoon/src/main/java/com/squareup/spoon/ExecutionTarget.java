@@ -48,6 +48,7 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
   private static final String ATTR_NAME = "name";
   private static final String FILE_EXECUTION = "execution.json";
   private static final String FILE_RESULT = "result.json";
+
   private static final Gson GSON = new GsonBuilder()
       .registerTypeAdapter(File.class, new TypeAdapter<File>() {
         @Override public void write(JsonWriter jsonWriter, File file) throws IOException {
