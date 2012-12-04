@@ -12,9 +12,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>com.squareup</groupId>
     <artifactId>spoon-screenshot</artifactId>
-    <packaging>jar</packaging>
     <name>Spoon: Screenshot Library</name>
 
     <dependencies>

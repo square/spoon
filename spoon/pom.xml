@@ -12,9 +12,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>com.squareup</groupId>
     <artifactId>spoon</artifactId>
-    <packaging>jar</packaging>
     <name>Spoon</name>
 
     <dependencies>
@@ -51,7 +49,7 @@
 
         <dependency>
             <groupId>org.easytesting</groupId>
-            <artifactId>fest-assert</artifactId>
+            <artifactId>fest-assert-core</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

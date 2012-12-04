@@ -12,7 +12,6 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>com.squareup</groupId>
     <artifactId>spoon-sample-app</artifactId>
     <packaging>apk</packaging>
     <name>Spoon: Sample Application</name>
