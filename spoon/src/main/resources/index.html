@@ -13,7 +13,20 @@
             <div class="hero-unit">
                 <h1>{{title}}</h1>
                 <p>{{totalTests}} tests run across {{results.size}} devices with {{totalSuccess}} passing and {{totalFailure}} failing in {{totalTime}} seconds at {{displayTime}}</p>
+                <p class="text-error">{{totalExceptions}} top-level exception(s) were encountered.</p>
             </div>
+            {{#exceptions}}
+            <div class="alert alert-error alert-block exception">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <h4>Exception!</h4>
+                <p>{{toString}}</p>
+                <p class="stack-trace">
+                {{#getStackTrace}}
+                at {{getClassName}}.{{getMethodName}}({{getFileName}}:{{getLineNumber}})<br/>
+                {{/getStackTrace}}
+                </p>
+            </div>
+            {{/exceptions}}
             <div class="row">
                 <div class="span12">
                     <table class="birds-eye">

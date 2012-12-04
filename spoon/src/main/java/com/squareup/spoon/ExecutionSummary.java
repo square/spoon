@@ -34,6 +34,7 @@ public class ExecutionSummary {
   public int totalTests;
   public int totalSuccess;
   public int totalFailure;
+  public int totalExceptions;
   public long totalTime;
   public String displayTime;
 
@@ -52,6 +53,7 @@ public class ExecutionSummary {
       totalFailure += result.testsFailed;
     }
 
+    totalExceptions = exceptions.size();
     totalTime = TimeUnit.MILLISECONDS.toSeconds(testEnd - testStart);
     displayTime = DISPLAY_TIME.get().format(new Date(testEnd));
   }
