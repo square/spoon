@@ -31,27 +31,6 @@ public final class Screenshot {
   private static boolean outputNeedsClear = true;
 
   /**
-   * Take a screenshot.
-   *
-   * @param activity Activity with which to capture a screenshot.
-   */
-  public static void snap(Activity activity) {
-    try {
-      File screenshotDirectory = obtainScreenshotDirectory(activity);
-
-      int number = 1;
-      File screenshot;
-      do {
-        screenshot = new File(screenshotDirectory, TAGLESS_PREFIX + Integer.toString(number++) + EXTENSION);
-      } while (screenshot.exists());
-
-      takeScreenshot(screenshot, activity);
-    } catch (Exception e) {
-      throw new RuntimeException("Unable to take screenshot.", e);
-    }
-  }
-
-  /**
    * Take a screenshot with the specified tag.
    *
    * @param activity Activity with which to capture a screenshot.

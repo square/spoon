@@ -92,7 +92,7 @@ public class SampleActivityTest extends ActivityInstrumentationTestCase2<SampleA
   }
 
   public void testAlwaysFailingForFun() {
-    Screenshot.snap(activity);
+    Screenshot.snap(activity, "initial_state");
     fail("Whoops!");
   }
 
