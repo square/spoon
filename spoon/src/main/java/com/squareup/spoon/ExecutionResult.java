@@ -3,7 +3,6 @@ package com.squareup.spoon;
 import com.android.ddmlib.IDevice;
 import com.android.ddmlib.testrunner.ITestRunListener;
 import com.android.ddmlib.testrunner.TestIdentifier;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,6 +31,7 @@ public class ExecutionResult implements ITestRunListener {
   public String deviceRegion;
   public long testStart;
   public long testEnd;
+  public Date testCompleted;
   public long totalTime;
   public String displayTime;
   private final Map<String, ExecutionTestResult> testResults = new HashMap<String, ExecutionTestResult>();
@@ -121,7 +121,7 @@ public class ExecutionResult implements ITestRunListener {
   }
 
   public void updateDynamicValues() {
-    totalTime = TimeUnit.MILLISECONDS.toSeconds(testEnd - testStart);
-    displayTime = DISPLAY_TIME.get().format(new Date(testEnd));
+    totalTime = TimeUnit.NANOSECONDS.toSeconds(testEnd - testStart);
+    displayTime = DISPLAY_TIME.get().format(testCompleted);
   }
 }

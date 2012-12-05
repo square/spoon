@@ -15,8 +15,6 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.squareup.spoon.external.AXMLParser;
-import org.apache.commons.io.FileUtils;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -25,6 +23,7 @@ import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Date;
 import java.util.concurrent.Callable;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -32,6 +31,7 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import org.apache.commons.io.FileUtils;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
 import static com.android.ddmlib.FileListingService.TYPE_DIRECTORY;
@@ -187,9 +187,10 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
       realDevice.installPackage(target.testApk.getAbsolutePath(), true);
 
       // Run all the tests! o/
-      result.testStart = System.currentTimeMillis();
+      result.testStart = System.nanoTime();
       new RemoteAndroidTestRunner(testPackage, testRunner, realDevice).run(result);
-      result.testEnd = System.currentTimeMillis();
+      result.testEnd = System.nanoTime();
+      result.testCompleted = new Date();
 
     } catch (Exception e) {
       log.throwing(ExecutionTarget.class.getSimpleName(), "main", e);

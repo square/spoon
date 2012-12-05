@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 public class ExecutionSummary {
   static final ThreadLocal<DateFormat> DISPLAY_TIME = new ThreadLocal<DateFormat>() {
     @Override protected DateFormat initialValue() {
-      return new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+      return new SimpleDateFormat("yyyy-MM-dd hh:mm a");
     }
   };
 
@@ -31,6 +31,7 @@ public class ExecutionSummary {
   public final String title;
   public long testStart;
   public long testEnd;
+  public Date testCompleted;
   public int totalTests;
   public int totalSuccess;
   public int totalFailure;
@@ -54,8 +55,8 @@ public class ExecutionSummary {
     }
 
     totalExceptions = exceptions.size();
-    totalTime = TimeUnit.MILLISECONDS.toSeconds(testEnd - testStart);
-    displayTime = DISPLAY_TIME.get().format(new Date(testEnd));
+    totalTime = TimeUnit.NANOSECONDS.toSeconds(testEnd - testStart);
+    displayTime = DISPLAY_TIME.get().format(testCompleted);
   }
 
   public void generateHtml() {

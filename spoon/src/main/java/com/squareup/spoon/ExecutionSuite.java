@@ -2,15 +2,15 @@ package com.squareup.spoon;
 
 import com.android.ddmlib.AndroidDebugBridge;
 import com.android.ddmlib.IDevice;
-import org.apache.commons.io.FileUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.logging.Logger;
+import org.apache.commons.io.FileUtils;
 
 /** Represents a collection of devices and the test configuration to be executed. */
 public class ExecutionSuite implements Runnable {
@@ -62,7 +62,7 @@ public class ExecutionSuite implements Runnable {
     final ExecutionSummary summary = new ExecutionSummary(title, output);
     final CountDownLatch done = new CountDownLatch(targetCount);
 
-    summary.testStart = System.currentTimeMillis();
+    summary.testStart = System.nanoTime();
     try {
       for (final String serial : serials) {
         new Thread(new Runnable() {
@@ -84,7 +84,8 @@ public class ExecutionSuite implements Runnable {
     } catch (Exception e) {
       summary.exceptions.add(e);
     }
-    summary.testEnd = System.currentTimeMillis();
+    summary.testEnd = System.nanoTime();
+    summary.testCompleted = new Date();
 
     // Write output files.
     summary.generateHtml();
