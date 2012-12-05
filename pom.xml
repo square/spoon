@@ -12,8 +12,7 @@
 
   <name>Spoon (Parent)</name>
   <description>Command line app which aids in the deployment, execution, and aggregation of
-    instrumentation tests
-    across a large number of devices with varying configurations.
+    instrumentation tests across a large number of devices with varying configurations.
   </description>
   <url>http://git.squareup.com/jw/spoon</url>
   <inceptionYear>2012</inceptionYear>
