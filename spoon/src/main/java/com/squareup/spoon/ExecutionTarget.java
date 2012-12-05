@@ -49,16 +49,16 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
   private static final String FILE_EXECUTION = "execution.json";
   private static final String FILE_RESULT = "result.json";
 
-  private static final Gson GSON = new GsonBuilder()
+  private static final Gson GSON = new GsonBuilder() //
       .registerTypeAdapter(File.class, new TypeAdapter<File>() {
         @Override public void write(JsonWriter jsonWriter, File file) throws IOException {
           jsonWriter.value(file.getAbsolutePath());
         }
+
         @Override public File read(JsonReader jsonReader) throws IOException {
           return new File(jsonReader.nextString());
         }
-      })
-      .create();
+      }).create();
 
   private static final ISyncProgressMonitor QUIET_MONITOR = new ISyncProgressMonitor() {
     @Override public void start(int totalWork) {
@@ -95,7 +95,8 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
    * @param serial Device to run the test on.
    * @param debug Whether or not debug logging is enabled.
    */
-  public ExecutionTarget(String sdkPath, File apk, File testApk, File output, String serial, boolean debug) {
+  public ExecutionTarget(String sdkPath, File apk, File testApk, File output, String serial,
+      boolean debug) {
     this.sdkPath = sdkPath;
     this.apk = apk;
     this.testApk = testApk;
@@ -103,7 +104,6 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
     this.debug = debug;
     this.output = new File(output, serial);
   }
-
 
   /////////////////////////////////////////////////////////////////////////////
   ////  Main ExecutionSuite Process  //////////////////////////////////////////
@@ -121,19 +121,21 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
 
     // Kick off a new process to interface with ADB and perform the real execution.
     String classpath = System.getProperty("java.class.path");
-    new ProcessBuilder("java", "-cp", classpath, ExecutionTarget.class.getName(), output.getAbsolutePath())
-        .start()
+    String name = ExecutionTarget.class.getName();
+    new ProcessBuilder("java", "-cp", classpath, name, output.getAbsolutePath()) //
+        .start() //
         .waitFor();
 
     return GSON.fromJson(new FileReader(new File(output, FILE_RESULT)), ExecutionResult.class);
   }
 
-
   /////////////////////////////////////////////////////////////////////////////
   ////  Secondary Per-Device Process  /////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////////////
 
-  public static void main(String... args) throws IOException, ShellCommandUnresponsiveException, AdbCommandRejectedException, TimeoutException, SyncException {
+  public static void main(String... args)
+      throws IOException, ShellCommandUnresponsiveException, AdbCommandRejectedException,
+      TimeoutException, SyncException {
     if (args.length != 1) {
       throw new IllegalArgumentException("Must be started with a device directory.");
     }
@@ -191,7 +193,6 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
       new RemoteAndroidTestRunner(testPackage, testRunner, realDevice).run(result);
       result.testEnd = System.nanoTime();
       result.testCompleted = new Date();
-
     } catch (Exception e) {
       log.throwing(ExecutionTarget.class.getSimpleName(), "main", e);
       // TODO record exception
@@ -203,11 +204,11 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
     }
 
     // Sync device screenshots, if any, to the local filesystem.
-    String screenshotDirName = "app_" + SPOON_SCREENSHOTS;
-    FileEntry deviceDir = obtainDirectoryFileEntry("/data/data/" + appPackage + "/" + screenshotDirName);
-    realDevice.getSyncService().pull(new FileEntry[] { deviceDir }, outputDirName, QUIET_MONITOR);
+    String dirName = "app_" + SPOON_SCREENSHOTS;
+    FileEntry deviceDir = obtainDirectoryFileEntry("/data/data/" + appPackage + "/" + dirName);
+    realDevice.getSyncService().pull(new FileEntry[] {deviceDir}, outputDirName, QUIET_MONITOR);
 
-    File screenshotDir = new File(outputDir, screenshotDirName);
+    File screenshotDir = new File(outputDir, dirName);
     if (screenshotDir.exists()) {
       // Move all children of the screenshot directory into the output folder.
       File[] classNameDirs = screenshotDir.listFiles();
@@ -252,7 +253,9 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
   private static FileEntry obtainDirectoryFileEntry(String path) {
     try {
       FileEntry lastEntry = null;
-      Constructor<FileEntry> c = FileEntry.class.getDeclaredConstructor(FileEntry.class, String.class, int.class, boolean.class);
+      Constructor<FileEntry> c =
+          FileEntry.class.getDeclaredConstructor(FileEntry.class, String.class, int.class,
+              boolean.class);
       c.setAccessible(true);
       for (String part : path.split("/")) {
         lastEntry = c.newInstance(lastEntry, part, TYPE_DIRECTORY, lastEntry == null);

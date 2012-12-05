@@ -19,10 +19,12 @@ public class Main {
     @Parameter(names = { "--title" }, description = "Execution title")
     public String title = "Spoon Execution Summary";
 
-    @Parameter(names = { "--apk" }, description = "Application APK", converter = FileConverter.class)
+    @Parameter(names = { "--apk" }, description = "Application APK",
+        converter = FileConverter.class)
     public File apk;
 
-    @Parameter(names = { "--test-apk" }, description = "Test application APK", converter = FileConverter.class)
+    @Parameter(names = { "--test-apk" }, description = "Test application APK",
+        converter = FileConverter.class)
     public File testApk;
 
     @Parameter(names = { "--output" }, description = "Output path", converter = FileConverter.class)
@@ -39,8 +41,8 @@ public class Main {
   }
 
   public static void main(String... args) throws IOException {
-    Configuration config = new Configuration();
-    JCommander jc = new JCommander(config);
+    Configuration cfg = new Configuration();
+    JCommander jc = new JCommander(cfg);
 
     try {
       jc.parse(args);
@@ -52,15 +54,16 @@ public class Main {
       return;
     }
 
-    if (config.help) {
+    if (cfg.help) {
       jc.usage();
       return;
     }
 
-    if (!new File(config.sdk).exists()) {
-      throw new IllegalStateException("Could not find Android SDK. Ensure ANDROID_HOME environment variable is set.");
+    if (!new File(cfg.sdk).exists()) {
+      throw new IllegalStateException(
+          "Could not find Android SDK. Ensure ANDROID_HOME environment variable is set.");
     }
 
-    new ExecutionSuite(config.title, config.sdk, config.apk, config.testApk, config.output, config.debug).run();
+    new ExecutionSuite(cfg.title, cfg.sdk, cfg.apk, cfg.testApk, cfg.output, cfg.debug).run();
   }
 }

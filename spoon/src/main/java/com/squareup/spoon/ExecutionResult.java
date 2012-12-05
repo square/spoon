@@ -34,7 +34,8 @@ public class ExecutionResult implements ITestRunListener {
   public Date testCompleted;
   public long totalTime;
   public String displayTime;
-  private final Map<String, ExecutionTestResult> testResults = new HashMap<String, ExecutionTestResult>();
+  private final Map<String, ExecutionTestResult> testResults =
+      new HashMap<String, ExecutionTestResult>();
 
   public ExecutionResult(String serial) {
     this.serial = serial;
@@ -56,8 +57,8 @@ public class ExecutionResult implements ITestRunListener {
     testsFailed += 1;
   }
 
-  @Override public void testEnded(TestIdentifier test, Map<String, String> testMetrics) {
-    System.out.println("[testEnded] test: " + test + ", testMetrics: " + testMetrics);
+  @Override public void testEnded(TestIdentifier test, Map<String, String> metrics) {
+    System.out.println("[testEnded] test: " + test + ", metrics: " + metrics);
     final ExecutionTestResult testResult = testResults.get(test.toString());
     if (testResult.result == null) {
       testResult.result = SUCCESS;
@@ -73,9 +74,8 @@ public class ExecutionResult implements ITestRunListener {
     System.out.println("[testRunStopped] elapsedTime: " + elapsedTime);
   }
 
-  @Override public void testRunEnded(long elapsedTime, Map<String, String> runMetrics) {
-    System.out.println("[testRunEnded] elapsedTime: " + elapsedTime + ", runMetrics: " + runMetrics);
-
+  @Override public void testRunEnded(long elapsedTime, Map<String, String> metrics) {
+    System.out.println("[testRunEnded] elapsedTime: " + elapsedTime + ", metrics: " + metrics);
   }
 
   /** Add a class-level screenshot directory to this execution result. */
@@ -86,8 +86,9 @@ public class ExecutionResult implements ITestRunListener {
       // Loop over all of the test directories inside the class directory.
       for (File testNameDir : testNameDirs) {
         for (ExecutionTestResult result : testResults.values()) {
-          if (result.className.equals(classNameDir.getName()) && result.testName.equals(testNameDir.getName())) {
-            // If we have matched both the class name and test name, add all screenshots to the test result.
+          if (result.className.equals(classNameDir.getName())
+              && result.testName.equals(testNameDir.getName())) {
+            // If we have matched both class name and test name, add all screenshots to the result.
             Collections.addAll(result.screenshots, testNameDir.listFiles());
             break; // Continue to next test dir
           }
@@ -100,7 +101,8 @@ public class ExecutionResult implements ITestRunListener {
   public List<ExecutionTestResult> tests() {
     List<ExecutionTestResult> tests = new ArrayList<ExecutionTestResult>(testResults.values());
     Collections.sort(tests, new Comparator<ExecutionTestResult>() {
-      @Override public int compare(ExecutionTestResult executionTestResult, ExecutionTestResult executionTestResult1) {
+      @Override public int compare(ExecutionTestResult executionTestResult,
+          ExecutionTestResult executionTestResult1) {
         int className = executionTestResult.className.compareTo(executionTestResult1.className);
         if (className != 0) {
           return className;

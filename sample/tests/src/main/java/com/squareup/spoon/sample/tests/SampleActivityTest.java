@@ -24,7 +24,7 @@ public class SampleActivityTest extends ActivityInstrumentationTestCase2<SampleA
     activity = getActivity();
   }
 
-  public void testClickButton1_displaysHello1() throws InterruptedException {
+  public void testClickButtonOneDisplaysHelloOne() throws InterruptedException {
     final Button button = (Button) activity.findViewById(R.id.click_me1);
     TextView textView = (TextView) activity.findViewById(R.id.say_hello);
 
@@ -45,7 +45,7 @@ public class SampleActivityTest extends ActivityInstrumentationTestCase2<SampleA
     Screenshot.snap(activity, "after_button_press");
   }
 
-  public void testClickButton2_displaysHello2() throws InterruptedException {
+  public void testClickButtonTwoDisplaysHelloTwo() throws InterruptedException {
     final Button button = (Button) activity.findViewById(R.id.click_me2);
     TextView textView = (TextView) activity.findViewById(R.id.say_hello);
 
@@ -68,7 +68,7 @@ public class SampleActivityTest extends ActivityInstrumentationTestCase2<SampleA
     randomlyFail();
   }
 
-  public void testClickButton3_displaysHello3() throws InterruptedException {
+  public void testClickButtonThreeDisplaysHelloThree() throws InterruptedException {
     final Button button = (Button) activity.findViewById(R.id.click_me3);
     TextView textView = (TextView) activity.findViewById(R.id.say_hello);
 

@@ -104,7 +104,8 @@ public final class Screenshot {
     // The call to this method and one of the snap methods will be the first two on the stack.
     StackTraceElement element = new Throwable().getStackTrace()[2];
 
-    File dirClass = new File(screenshotsDir, element.getClassName().replaceAll("[^A-Za-z0-9._-]", "_"));
+    String name = element.getClassName().replaceAll("[^A-Za-z0-9._-]", "_");
+    File dirClass = new File(screenshotsDir, name);
     File dirMethod = new File(dirClass, element.getMethodName());
     createDir(dirMethod);
     return dirMethod;
@@ -116,7 +117,7 @@ public final class Screenshot {
       createDir(parent);
     }
     if (!dir.exists() && !dir.mkdirs()) {
-      throw new IllegalAccessException("Unable to create output directory: " + dir.getAbsolutePath());
+      throw new IllegalAccessException("Unable to create output dir: " + dir.getAbsolutePath());
     }
     dir.setReadable(true, false);
     dir.setWritable(true, false);

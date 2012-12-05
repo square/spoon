@@ -2,8 +2,6 @@ package com.squareup.spoon;
 
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
-import org.apache.commons.io.IOUtils;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -13,10 +11,12 @@ import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import org.apache.commons.io.IOUtils;
+
+import static java.util.Collections.synchronizedList;
 
 public class ExecutionSummary {
   static final ThreadLocal<DateFormat> DISPLAY_TIME = new ThreadLocal<DateFormat>() {
@@ -25,8 +25,8 @@ public class ExecutionSummary {
     }
   };
 
-  public final List<ExecutionResult> results = Collections.synchronizedList(new ArrayList<ExecutionResult>());
-  public final List<Exception> exceptions = Collections.synchronizedList(new ArrayList<Exception>());
+  public final List<ExecutionResult> results = synchronizedList(new ArrayList<ExecutionResult>());
+  public final List<Exception> exceptions = synchronizedList(new ArrayList<Exception>());
   private final File output;
   public final String title;
   public long testStart;
