@@ -13,7 +13,9 @@
             <div class="hero-unit">
                 <h1>{{title}}</h1>
                 <p>{{totalTests}} tests run across {{results.size}} devices with {{totalSuccess}} passing and {{totalFailure}} failing in {{totalTime}} seconds at {{displayTime}}</p>
+                {{#exceptions}}
                 <p class="text-error">{{totalExceptions}} top-level exception(s) were encountered.</p>
+                {{/exceptions}}
             </div>
             {{#exceptions}}
             <div class="alert alert-error alert-block exception">
