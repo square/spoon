@@ -16,14 +16,13 @@ import java.io.OutputStream;
 import java.util.concurrent.CountDownLatch;
 
 import static android.content.Context.MODE_WORLD_READABLE;
+import static android.graphics.Bitmap.CompressFormat.PNG;
 import static android.graphics.Bitmap.Config.ARGB_8888;
 
 /** Utility class for capturing screenshots for Spoon. */
 public final class Screenshot {
   static final String SPOON_SCREENSHOTS = "spoon-screenshots";
   private static final String TAG = "SpoonScreenshot";
-  private static final String TAGLESS_PREFIX = "image";
-  private static final int QUALITY = 100;
   private static final String EXTENSION = ".png";
   private static final Object LOCK = new Object();
 
@@ -41,7 +40,7 @@ public final class Screenshot {
       File screenshotDirectory = obtainScreenshotDirectory(activity);
       takeScreenshot(new File(screenshotDirectory, tag + EXTENSION), activity);
     } catch (Exception e) {
-      throw new RuntimeException("Unable to take screenshot.", e);
+      throw new RuntimeException("Unable to capture screenshot.", e);
     }
   }
 
@@ -49,7 +48,7 @@ public final class Screenshot {
     DisplayMetrics dm = activity.getResources().getDisplayMetrics();
     final Bitmap bitmap = Bitmap.createBitmap(dm.widthPixels, dm.heightPixels, ARGB_8888);
 
-    if (Looper.getMainLooper() == Looper.myLooper()) {
+    if (Looper.myLooper() == Looper.getMainLooper()) {
       // On main thread already, Just Do It™.
       getScreenshot(activity, bitmap);
     } else {
@@ -75,7 +74,7 @@ public final class Screenshot {
     OutputStream fos = null;
     try {
       fos = new BufferedOutputStream(new FileOutputStream(file));
-      bitmap.compress(Bitmap.CompressFormat.PNG, QUALITY, fos);
+      bitmap.compress(PNG, 100 /* quality */, fos);
       bitmap.recycle();
 
       file.setReadable(true, false);
