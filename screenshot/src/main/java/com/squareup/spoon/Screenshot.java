@@ -102,11 +102,24 @@ public final class Screenshot {
     }
 
     // The call to this method and one of the snap methods will be the first two on the stack.
-    StackTraceElement element = new Throwable().getStackTrace()[2];
+    StackTraceElement[] trace = new Throwable().getStackTrace();
+    StackTraceElement testClass = null;
+    for (int i = 0; i < trace.length; i++) {
+      StackTraceElement element = trace[i];
+      if (element.getClassName().equals("android.test.InstrumentationTestCase")
+          && element.getMethodName().equals("runMethod")) {
+        testClass = trace[i - 3];
+        break;
+      }
+    }
 
-    String name = element.getClassName().replaceAll("[^A-Za-z0-9._-]", "_");
-    File dirClass = new File(screenshotsDir, name);
-    File dirMethod = new File(dirClass, element.getMethodName());
+    if (testClass == null) {
+      throw new RuntimeException("Could not find test class!");
+    }
+
+    String className = testClass.getClassName().replaceAll("[^A-Za-z0-9._-]", "_");
+    File dirClass = new File(screenshotsDir, className);
+    File dirMethod = new File(dirClass, testClass.getMethodName());
     createDir(dirMethod);
     return dirMethod;
   }
