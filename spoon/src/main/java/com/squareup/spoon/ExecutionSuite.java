@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.logging.Logger;
@@ -60,10 +59,12 @@ public class ExecutionSuite implements Runnable {
       throw new RuntimeException("Unable to clean output directory: " + output, e);
     }
 
-    final ExecutionSummary summary = new ExecutionSummary(title, output);
     final CountDownLatch done = new CountDownLatch(targetCount);
+    final ExecutionSummary.Builder summaryBuilder = new ExecutionSummary.Builder()
+        .setTitle(title)
+        .setOutputDirectory(output)
+        .start();
 
-    summary.testStart = System.nanoTime();
     try {
       for (final String serial : serials) {
         new Thread(new Runnable() {
@@ -72,9 +73,9 @@ public class ExecutionSuite implements Runnable {
               ExecutionTarget target =
                   new ExecutionTarget(sdkPath, apk, testApk, output, serial, debug);
               ExecutionResult result = target.call();
-              summary.results.add(result);
+              summaryBuilder.addResult(result);
             } catch (Exception e) {
-              summary.exceptions.add(e);
+              // TODO exception should go on the result which should already exist at this point
             } finally {
               done.countDown();
             }
@@ -84,13 +85,13 @@ public class ExecutionSuite implements Runnable {
 
       done.await();
     } catch (Exception e) {
-      summary.exceptions.add(e);
+      summaryBuilder.setException(e);
     }
-    summary.testEnd = System.nanoTime();
-    summary.testCompleted = new Date();
+
+    ExecutionSummary summary = summaryBuilder.end();
 
     // Write output files.
-    summary.generateHtml();
+    summary.writeHtml();
   }
 
   /** Find all device serials that are plugged in through ADB. */
