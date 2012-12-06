@@ -11,13 +11,10 @@
     <body>
         <div class="container">
             <div class="hero-unit">
-                <h1>{{title}}</h1>
-                <p>{{totalTests}} tests run across {{results.size}} devices with {{totalSuccess}} passing and {{totalFailure}} failing in {{totalTime}} seconds at {{displayTime}}</p>
-                {{#exceptions}}
-                <p class="text-error">{{totalExceptions}} top-level exception(s) were encountered.</p>
-                {{/exceptions}}
+                <h1>{{getTitle}}</h1>
+                <p>{{getTotalTests}} tests run across {{getResults.size}} devices with {{getTotalSuccess}} passing and {{getTotalFailure}} failing in {{getTotalTime}} seconds at {{getDisplayTime}}</p>
             </div>
-            {{#exceptions}}
+            {{#getException}}
             <div class="alert alert-error alert-block exception">
                 <button type="button" class="close" data-dismiss="alert">x</button>
                 <h4>Exception!</h4>
@@ -28,14 +25,14 @@
                 {{/getStackTrace}}
                 </p>
             </div>
-            {{/exceptions}}
+            {{/getException}}
             <div class="row">
                 <div class="span12">
                     <table class="birds-eye">
                         <thead>
                         </thead>
                         <tbody>
-                            {{#results}}
+                            {{#getResults}}
                             <tr class="device">
                                 <th colspan="{{tests.size}}"><a href="{{serial}}/index.html">{{deviceName}}</a></th>
                             </tr>
@@ -44,7 +41,7 @@
                                 <td class="test {{result}}" data-original-title="{{classSimpleName}}" data-content="{{testName}}">&nbsp;</td>
                                 {{/tests}}
                             </tr>
-                            {{/results}}
+                            {{/getResults}}
                         </tbody>
                     </table>
                 </div>
