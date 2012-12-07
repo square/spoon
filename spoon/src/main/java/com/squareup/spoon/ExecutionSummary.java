@@ -177,7 +177,7 @@ public class ExecutionSummary {
     }
 
     public Builder setException(Exception exception) {
-      if (exception != null) {
+      if (this.exception != null) {
         throw new IllegalStateException("Only one top-level exception can be set.");
       }
       this.exception = exception;
