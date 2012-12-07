@@ -99,7 +99,15 @@ public class ExecutionSummary {
     copyResourceToOutput("bootstrap.min.css", output);
     copyResourceToOutput("bootstrap.min.js", output);
     copyResourceToOutput("jquery.min.js", output);
+    copyResourceToOutput("lightbox.js", output);
     copyResourceToOutput("spoon.css", output);
+    copyResourceToOutput("lightbox.css", output);
+    copyResourceToOutput("loading.gif", output);
+    copyResourceToOutput("next.png", output);
+    copyResourceToOutput("prev.png", output);
+    copyResourceToOutput("close.png", output);
+    copyResourceToOutput("jquery-ui-1.8.18.custom.min.js", output);
+    copyResourceToOutput("jquery.smooth-scroll.min.js", output);
 
     DefaultMustacheFactory mustacheFactory = new DefaultMustacheFactory();
     Mustache summary = mustacheFactory.compile("index.html");

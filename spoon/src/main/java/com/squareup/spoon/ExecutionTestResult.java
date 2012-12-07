@@ -25,7 +25,7 @@ public class ExecutionTestResult {
   public String classSimpleName;
   public String testName;
   public TestResult result;
-  public List<File> screenshots = new ArrayList<File>();
+  public List<Screenshot> screenshots = new ArrayList<Screenshot>();
 
   public ExecutionTestResult(TestIdentifier identifier) {
     classSimpleName = className = identifier.getClassName();
@@ -35,6 +35,18 @@ public class ExecutionTestResult {
     int lastPeriod = classSimpleName.lastIndexOf(".");
     if (lastPeriod != -1) {
       classSimpleName = classSimpleName.substring(lastPeriod + 1);
+    }
+  }
+
+  public class Screenshot {
+    public final File file;
+    public final String id;
+    public final String screenshotGroup;
+
+    public Screenshot(File screenshotFile) {
+      file = screenshotFile;
+      id = (className + "-" + testName + "-" + file.getName()).replaceAll("[^A-Za-z0-9_-]", "");
+      screenshotGroup = (classSimpleName + "-" + testName).replaceAll("[^A-Za-z0-9_-]", "-");
     }
   }
 }

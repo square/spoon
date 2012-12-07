@@ -89,7 +89,9 @@ public class ExecutionResult implements ITestRunListener {
           if (result.className.equals(classNameDir.getName())
               && result.testName.equals(testNameDir.getName())) {
             // If we have matched both class name and test name, add all screenshots to the result.
-            Collections.addAll(result.screenshots, testNameDir.listFiles());
+            for (File screenshotFile : testNameDir.listFiles()) {
+              result.screenshots.add(result.new Screenshot(screenshotFile));
+            }
             break; // Continue to next test dir
           }
         }
