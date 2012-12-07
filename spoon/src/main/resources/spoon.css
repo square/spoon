@@ -46,6 +46,10 @@ body {
   margin-left: 3em;
 }
 
+.modal .modal-body {
+    max-height: none;
+}
+
 
 .birds-eye {
     width: 100%;
