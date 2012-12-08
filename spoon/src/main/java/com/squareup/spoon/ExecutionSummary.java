@@ -26,6 +26,13 @@ public class ExecutionSummary {
     }
   };
 
+  /** Assets which need to be copied to the output directory when generating HTML. */
+  private static final String[] ASSETS = {
+      "bootstrap.min.css", "bootstrap.min.js", "jquery.min.js", "lightbox.js", "spoon.css",
+      "lightbox.css", "loading.gif", "next.png", "prev.png", "close.png",
+      "jquery-ui-1.8.18.custom.min.js", "jquery.smooth-scroll.min.js"
+  };
+
   private final File output;
   private final String title;
   private final List<ExecutionResult> results;
@@ -96,18 +103,9 @@ public class ExecutionSummary {
   }
 
   public void writeHtml() {
-    copyResourceToOutput("bootstrap.min.css", output);
-    copyResourceToOutput("bootstrap.min.js", output);
-    copyResourceToOutput("jquery.min.js", output);
-    copyResourceToOutput("lightbox.js", output);
-    copyResourceToOutput("spoon.css", output);
-    copyResourceToOutput("lightbox.css", output);
-    copyResourceToOutput("loading.gif", output);
-    copyResourceToOutput("next.png", output);
-    copyResourceToOutput("prev.png", output);
-    copyResourceToOutput("close.png", output);
-    copyResourceToOutput("jquery-ui-1.8.18.custom.min.js", output);
-    copyResourceToOutput("jquery.smooth-scroll.min.js", output);
+    for (String asset : ASSETS) {
+      copyResourceToOutput(asset, output);
+    }
 
     DefaultMustacheFactory mustacheFactory = new DefaultMustacheFactory();
     Mustache summary = mustacheFactory.compile("index.html");
