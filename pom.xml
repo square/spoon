@@ -25,6 +25,7 @@
     <module>spoon</module>
     <module>sample</module>
     <module>screenshot</module>
+    <module>spoon-plugin</module>
   </modules>
 
   <dependencyManagement>
