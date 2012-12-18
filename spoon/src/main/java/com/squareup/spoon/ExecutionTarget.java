@@ -32,6 +32,7 @@ import java.util.logging.SimpleFormatter;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
 import static com.android.ddmlib.FileListingService.TYPE_DIRECTORY;
@@ -40,6 +41,9 @@ import static com.squareup.spoon.Screenshot.SPOON_SCREENSHOTS;
 
 /** Represents a single device and the test configuration to be executed. */
 public class ExecutionTarget implements Callable<ExecutionResult> {
+  static final String FILE_RESULT = "result.json";
+  static final String OUTPUT_FILE = "output.txt";
+
   private static final String ANDROID_MANIFEST_XML = "AndroidManifest.xml";
   private static final String TAG_MANIFEST = "manifest";
   private static final String TAG_INSTRUMENTATION = "instrumentation";
@@ -47,7 +51,6 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
   private static final String ATTR_TARGET_PACKAGE = "targetPackage";
   private static final String ATTR_NAME = "name";
   private static final String FILE_EXECUTION = "execution.json";
-  private static final String FILE_RESULT = "result.json";
 
   private static final Gson GSON = new GsonBuilder() //
       .registerTypeAdapter(File.class, new TypeAdapter<File>() {
@@ -122,9 +125,10 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
     // Kick off a new process to interface with ADB and perform the real execution.
     String classpath = System.getProperty("java.class.path");
     String name = ExecutionTarget.class.getName();
-    new ProcessBuilder("java", "-cp", classpath, name, output.getAbsolutePath()) //
-        .start() //
-        .waitFor();
+    Process process = new ProcessBuilder("java", "-cp", classpath, name,
+      output.getAbsolutePath()).start();
+    process.waitFor();
+    IOUtils.copy(process.getErrorStream(), System.out);
 
     return GSON.fromJson(new FileReader(new File(output, FILE_RESULT)), ExecutionResult.class);
   }
@@ -136,52 +140,51 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
   public static void main(String... args)
       throws IOException, ShellCommandUnresponsiveException, AdbCommandRejectedException,
       TimeoutException, SyncException {
-    if (args.length != 1) {
-      throw new IllegalArgumentException("Must be started with a device directory.");
-    }
-
-    String outputDirName = args[0];
-    File outputDir = new File(outputDirName);
-    File executionFile = new File(outputDir, FILE_EXECUTION);
-    if (!executionFile.exists()) {
-      throw new IllegalArgumentException("Device directory and/or execution file does not exist.");
-    }
-
-    ExecutionTarget target = GSON.fromJson(new FileReader(executionFile), ExecutionTarget.class);
-    ExecutionResult result = new ExecutionResult(target.serial);
-
     Logger log = Logger.getLogger(ExecutionTarget.class.getSimpleName());
-    FileHandler handler = new FileHandler(new File(outputDir, "output.txt").getAbsolutePath());
-    handler.setFormatter(new SimpleFormatter());
-    log.addHandler(handler);
-    log.setLevel(target.debug ? Level.FINE : Level.INFO);
-
-    if (!target.apk.exists()) {
-      log.severe("APK does not exist: " + target.apk.getAbsolutePath());
-      throw new IllegalArgumentException("APK does not exist.");
-    }
-    if (!target.testApk.exists()) {
-      log.severe("Test APK does not exist: " + target.apk.getAbsolutePath());
-      throw new IllegalArgumentException("Test APK does not exist.");
-    }
-
-    String[] packages = getManifestInfo(target.testApk);
-    final String appPackage = packages[0];
-    final String testPackage = packages[1];
-    final String testRunner = packages[2];
-
-    log.fine(appPackage + " in " + target.apk.getAbsolutePath());
-    log.fine(testPackage + " in " + target.testApk.getAbsolutePath());
-
-    if (target.debug) {
-      setInternalLoggingLevel();
-    }
-
-    IDevice realDevice = null;
     try {
+      if (args.length != 1) {
+        throw new IllegalArgumentException("Must be started with a device directory.");
+      }
+
+      String outputDirName = args[0];
+      File outputDir = new File(outputDirName);
+      File executionFile = new File(outputDir, FILE_EXECUTION);
+      if (!executionFile.exists()) {
+        throw new IllegalArgumentException("Device directory and/or execution file doesn't exist.");
+      }
+
+      ExecutionTarget target = GSON.fromJson(new FileReader(executionFile), ExecutionTarget.class);
+      ExecutionResult result = new ExecutionResult(target.serial);
+
+      FileHandler handler = new FileHandler(new File(outputDir, OUTPUT_FILE).getAbsolutePath());
+      handler.setFormatter(new SimpleFormatter());
+      log.addHandler(handler);
+      log.setLevel(target.debug ? Level.FINE : Level.INFO);
+
+      if (!target.apk.exists()) {
+        throw new IllegalArgumentException(String.format("App APK %s does not exist.",
+          target.apk.getAbsolutePath()));
+      }
+      if (!target.testApk.exists()) {
+        throw new IllegalArgumentException(String.format("Test APK %s does not exist.",
+          target.testApk.getAbsolutePath()));
+      }
+
+      String[] packages = getManifestInfo(target.testApk);
+      final String appPackage = packages[0];
+      final String testPackage = packages[1];
+      final String testRunner = packages[2];
+
+      log.fine(appPackage + " in " + target.apk.getAbsolutePath());
+      log.fine(testPackage + " in " + target.testApk.getAbsolutePath());
+
+      if (target.debug) {
+        setInternalLoggingLevel();
+      }
+
       AndroidDebugBridge adb = AdbHelper.init(target.sdkPath);
 
-      realDevice = obtainRealDevice(adb, target.serial);
+      IDevice realDevice = obtainRealDevice(adb, target.serial);
       result.configureFor(realDevice);
 
       // Install the main application and the testApk package.
@@ -193,40 +196,42 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
       new RemoteAndroidTestRunner(testPackage, testRunner, realDevice).run(result);
       result.testEnd = System.nanoTime();
       result.testCompleted = new Date();
-    } catch (Exception e) {
-      log.throwing(ExecutionTarget.class.getSimpleName(), "main", e);
-      // TODO record exception
+
+      // Sync device screenshots, if any, to the local filesystem.
+      String dirName = "app_" + SPOON_SCREENSHOTS;
+      FileEntry deviceDir = obtainDirectoryFileEntry("/data/data/" + appPackage + "/" + dirName);
+      realDevice.getSyncService().pull(new FileEntry[] {deviceDir}, outputDirName, QUIET_MONITOR);
+
+      File screenshotDir = new File(outputDir, dirName);
+      if (screenshotDir.exists()) {
+        // Move all children of the screenshot directory into the output folder.
+        File[] classNameDirs = screenshotDir.listFiles();
+        if (classNameDirs != null) {
+          for (File classNameDir : classNameDirs) {
+            File destDir = new File(outputDir, classNameDir.getName());
+            FileUtils.deleteDirectory(destDir);
+            FileUtils.moveDirectory(classNameDir, destDir);
+            result.addScreenshotDirectory(destDir);
+          }
+        }
+        FileUtils.deleteDirectory(screenshotDir);
+      }
+
+      // Write device result file.
+      FileWriter writer = new FileWriter(new File(outputDir, FILE_RESULT));
+      GSON.toJson(result, writer);
+      writer.close();
+    } catch (IllegalArgumentException ex) {
+      // Arguments thrown by us, log them before dying.
+      log.severe(ex.getMessage());
+    } catch (Exception ex) {
+      log.throwing(ExecutionTarget.class.getSimpleName(), "main", ex);
     } finally {
       try {
         AndroidDebugBridge.terminate();
       } catch (Exception ignore) {
       }
     }
-
-    // Sync device screenshots, if any, to the local filesystem.
-    String dirName = "app_" + SPOON_SCREENSHOTS;
-    FileEntry deviceDir = obtainDirectoryFileEntry("/data/data/" + appPackage + "/" + dirName);
-    realDevice.getSyncService().pull(new FileEntry[] {deviceDir}, outputDirName, QUIET_MONITOR);
-
-    File screenshotDir = new File(outputDir, dirName);
-    if (screenshotDir.exists()) {
-      // Move all children of the screenshot directory into the output folder.
-      File[] classNameDirs = screenshotDir.listFiles();
-      if (classNameDirs != null) {
-        for (File classNameDir : classNameDirs) {
-          File destDir = new File(outputDir, classNameDir.getName());
-          FileUtils.deleteDirectory(destDir);
-          FileUtils.moveDirectory(classNameDir, destDir);
-          result.addScreenshotDirectory(destDir);
-        }
-      }
-      FileUtils.deleteDirectory(screenshotDir);
-    }
-
-    // Write device result file.
-    FileWriter writer = new FileWriter(new File(outputDir, FILE_RESULT));
-    GSON.toJson(result, writer);
-    writer.close();
   }
 
   private static void setInternalLoggingLevel() {

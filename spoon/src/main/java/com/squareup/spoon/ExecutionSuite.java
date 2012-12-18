@@ -3,6 +3,7 @@ package com.squareup.spoon;
 import com.android.ddmlib.AndroidDebugBridge;
 import com.android.ddmlib.IDevice;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 
 /** Represents a collection of devices and the test configuration to be executed. */
 public class ExecutionSuite implements Runnable {
@@ -74,8 +76,20 @@ public class ExecutionSuite implements Runnable {
                   new ExecutionTarget(sdkPath, apk, testApk, output, serial, debug);
               ExecutionResult result = target.call();
               summaryBuilder.addResult(result);
+            } catch (FileNotFoundException e) {
+              // No results file means fatal exception before it could be written.
+              String outputFolder = FilenameUtils.concat(output.getName(), serial);
+              if (e.getMessage().contains(FilenameUtils.concat(outputFolder,
+                ExecutionTarget.FILE_RESULT))) {
+                logger.severe(String.format(
+                  "Fatal exception while running on %s, please check %s for exception.",
+                  serial, FilenameUtils.concat(outputFolder, ExecutionTarget.OUTPUT_FILE)));
+              } else {
+                logger.severe(e.toString());
+              }
             } catch (Exception e) {
               // TODO exception should go on the result which should already exist at this point
+              logger.severe(e.toString());
             } finally {
               done.countDown();
             }
