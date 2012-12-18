@@ -18,6 +18,8 @@
   <inceptionYear>2012</inceptionYear>
 
   <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
     <java.version>1.6</java.version>
   </properties>
 
@@ -78,6 +80,11 @@
       <dependency>
         <groupId>org.apache.maven</groupId>
         <artifactId>maven-plugin-api</artifactId>
+        <version>3.0.4</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-core</artifactId>
         <version>3.0.4</version>
       </dependency>
     </dependencies>

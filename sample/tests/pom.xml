@@ -67,10 +67,14 @@
         <groupId>${project.groupId}</groupId>
         <artifactId>maven-spoon-plugin</artifactId>
         <version>${project.version}</version>
-        <configuration>
-          <appApk>../app/target/spoon-sample-app-${project.version}.apk</appApk>
-          <instrumentationApk>${project.build.directory}/${project.build.finalName}.apk</instrumentationApk>
-        </configuration>
+        <executions>
+          <execution>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

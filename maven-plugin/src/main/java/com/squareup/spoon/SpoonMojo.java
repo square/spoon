@@ -1,35 +1,37 @@
 // Copyright 2012 Square, Inc.
 package com.squareup.spoon;
 
+import java.io.File;
+import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-
-import java.io.File;
+import org.apache.maven.plugin.logging.Log;
+import org.apache.maven.project.MavenProject;
 
 /**
- * Goal which invokes Spoon. By default the output will be placed in a {@code spoon/} folder in your
- * project's build directory.
+ * Goal which invokes Spoon. By default the output will be placed in a {@code spoon-output/} folder
+ * in your project's build directory.
  *
- * @goal spoon
+ * @goal run
+ * @phase integration-test
  */
 @SuppressWarnings({ "JavaDoc", "UnusedDeclaration" }) // Non-standard Javadoc used by Maven.
 public class SpoonMojo extends AbstractMojo {
+  /**
+   * -Dmaven.test.skip is commonly used with Maven to skip tests. We honor it too.
+   *
+   * @parameter expression="${maven.test.skip}" default-value=false
+   * @readonly
+   */
+  private boolean mavenTestSkip;
 
   /**
-   * The .apk file of the app to test.
+   * -DskipTests is commonly used with Maven to skip tests. We honor it too.
    *
-   * @parameter
-   * @required
+   * @parameter expression="${skipTests}" default-value=false
+   * @readonly
    */
-  private File appApk;
-
-  /**
-   * The .apk file of the instrumentation runner.
-   *
-   * @parameter
-   * @required
-   */
-  private File instrumentationApk;
+  private boolean mavenSkipTests;
 
   /**
    * Location of the file.
@@ -61,25 +63,65 @@ public class SpoonMojo extends AbstractMojo {
    */
   private boolean debug;
 
+  /**
+   * Maven project.
+   *
+   * @parameter expression="${project}"
+   * @required
+   * @readonly
+   */
+  private MavenProject project;
+
   public void execute() throws MojoExecutionException {
-    if (!new File(androidSdk).exists()) {
-      getLog().error("Could not find Android SDK, make sure the ANDROID_HOME environment variable "
-         + "is set.");
+    Log log = getLog();
+
+    if (mavenTestSkip || mavenSkipTests) {
+      log.info("maven.test.skip set - skipping tests");
       return;
     }
 
-    if (!appApk.exists()) {
-      getLog().error("Could not find app APK file. Ensure " + appApk.getAbsolutePath()
-          + " exists!");
-      return;
+    boolean hasError = false;
+
+    final File sdkFile = new File(androidSdk);
+    if (!sdkFile.exists()) {
+      log.error("Could not find Android SDK, make sure the ANDROID_HOME environment variable "
+          + "is set.");
+      hasError = true;
+    }
+    log.debug("Android SDK: " + sdkFile.getAbsolutePath());
+
+    Artifact instrumentationArtifact = project.getArtifact();
+    File instrumentation = instrumentationArtifact.getFile();
+    if (!"apk".equals(instrumentationArtifact.getType())) {
+      log.error("Spoon can only be invoked on a module with type 'apk'.");
+      hasError = true;
+    }
+    log.debug("Instrumentation APK: " + instrumentation);
+
+    File app = null;
+    for (Artifact dependency : project.getDependencyArtifacts()) {
+      if ("apk".equals(dependency.getType())) {
+        if (app != null) {
+          log.error("Multiple APK dependencies detected. Only one is supported.");
+          break;
+        }
+        app = dependency.getFile();
+        log.debug("Application APK: " + app.getAbsolutePath());
+      }
+    }
+    if (app == null) {
+      log.error("Could not find app. Ensure 'apk' dependency on it exists.");
+      hasError = true;
     }
 
-    if (!instrumentationApk.exists()) {
-      getLog().error("Could not find instrumentation APK file. Ensure "
-          + instrumentationApk.getAbsolutePath() + " exists!");
-      return;
+    if (hasError) {
+      throw new MojoExecutionException("Unable to invoke Spoon. See console for details.");
     }
 
-    new ExecutionSuite(title, androidSdk, appApk, instrumentationApk, outputDirectory, debug).run();
+    log.debug("Output directory: " + outputDirectory.getAbsolutePath());
+    log.debug("Spoon title: " + title);
+    log.debug("Debug: " + Boolean.toString(debug));
+
+    new ExecutionSuite(title, androidSdk, app, instrumentation, outputDirectory, debug).run();
   }
 }
