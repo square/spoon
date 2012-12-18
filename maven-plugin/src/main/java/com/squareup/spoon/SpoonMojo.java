@@ -7,7 +7,8 @@ import org.apache.maven.plugin.MojoExecutionException;
 import java.io.File;
 
 /**
- * Goal which runs a Spoon suite of tests.
+ * Goal which invokes Spoon. By default the output will be placed in a {@code spoon/} folder in your
+ * project's build directory.
  *
  * @goal spoon
  */
@@ -33,7 +34,7 @@ public class SpoonMojo extends AbstractMojo {
   /**
    * Location of the file.
    *
-   * @parameter expression="${project.basedir}/spoon-output/"
+   * @parameter expression="${project.build.directory}/spoon-output/"
    * @required
    */
   private File outputDirectory;
@@ -49,13 +50,14 @@ public class SpoonMojo extends AbstractMojo {
    * The location of the Android SDK.
    *
    * @parameter expression="${env.ANDROID_HOME}"
+   * @required
    */
   private String androidSdk;
 
   /**
    * The location of the Android SDK.
    *
-   * @parameter default-value=false
+   * @parameter
    */
   private boolean debug;
 

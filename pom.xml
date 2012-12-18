@@ -25,7 +25,7 @@
     <module>spoon</module>
     <module>sample</module>
     <module>screenshot</module>
-    <module>spoon-plugin</module>
+    <module>maven-plugin</module>
   </modules>
 
   <dependencyManagement>
@@ -74,6 +74,11 @@
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
         <version>2.4</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-plugin-api</artifactId>
+        <version>3.0.4</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
