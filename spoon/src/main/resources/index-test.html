@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{{deviceName}}</title>
+        <title>{{testName}}</title>
         <link href="../bootstrap.min.css" rel="stylesheet">
         <link href="../lightbox.css" rel="stylesheet" />
         <link href="http://fonts.googleapis.com/css?family=Roboto:regular,medium,thin,italic,mediumitalic,bold" rel="stylesheet" title="roboto">
@@ -18,17 +18,13 @@
             {{#results}}
             <div class="row">
                 <div class="span12">
-                    {{#test}}
-                    <h2 class="test-name {{result}}">{{testName}} <small><a href="../{{classSimpleName}}/index.html">{{classSimpleName}}</a></small></h2>
-                    {{/test}}
+                    <h2 class="instrumentationTest-name {{result}}">{{testName}} <small><a href="../{{className}}/index.html">{{classSimpleName}}</a></small></h2>
                     <ul class="thumbnails">
                         {{#screenshots}}
                         <li class="span2">
-                            {{#test}}
                             <a href="{{className}}/{{testName}}/{{file.getName}}" rel="lightbox[{{screenshotGroup}}" title="{{classSimpleName}}.{{testName}}" class="thumbnail">
                                 <img src="{{className}}/{{testName}}/{{file.getName}}">
                             </a>
-                            {{/test}}
                         </li>
                         {{/screenshots}}
                     </ul>

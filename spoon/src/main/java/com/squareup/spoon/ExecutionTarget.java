@@ -61,7 +61,9 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
         @Override public File read(JsonReader jsonReader) throws IOException {
           return new File(jsonReader.nextString());
         }
-      }).create();
+      }) //
+      .setPrettyPrinting() //
+      .create();
 
   private static final ISyncProgressMonitor QUIET_MONITOR = new ISyncProgressMonitor() {
     @Override public void start(int totalWork) {
