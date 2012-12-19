@@ -36,6 +36,7 @@ public class ExecutionResult implements ITestRunListener {
   public String displayTime;
   private final Map<String, ExecutionTestResult> testResults =
       new HashMap<String, ExecutionTestResult>();
+  public Exception runtimeException;
 
   public ExecutionResult(String serial) {
     this.serial = serial;
@@ -76,6 +77,14 @@ public class ExecutionResult implements ITestRunListener {
 
   @Override public void testRunEnded(long elapsedTime, Map<String, String> metrics) {
     System.out.println("[testRunEnded] elapsedTime: " + elapsedTime + ", metrics: " + metrics);
+  }
+
+  public void setRuntimeException(Exception exception) {
+    runtimeException = exception;
+  }
+
+  public Exception getRuntimeException() {
+    return runtimeException;
   }
 
   /** Add a class-level screenshot directory to this execution result. */

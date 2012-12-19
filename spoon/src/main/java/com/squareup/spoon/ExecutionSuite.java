@@ -71,10 +71,12 @@ public class ExecutionSuite implements Runnable {
       for (final String serial : serials) {
         new Thread(new Runnable() {
           @Override public void run() {
+            // Create an empty result just in case the execution fails before target.call() returns.
+            ExecutionResult result = new ExecutionResult(serial);
             try {
               ExecutionTarget target =
                   new ExecutionTarget(sdkPath, apk, testApk, output, serial, debug);
-              ExecutionResult result = target.call();
+              result = target.call();
               summaryBuilder.addResult(result);
             } catch (FileNotFoundException e) {
               // No results file means fatal exception before it could be written.
@@ -88,8 +90,8 @@ public class ExecutionSuite implements Runnable {
                 logger.severe(e.toString());
               }
             } catch (Exception e) {
-              // TODO exception should go on the result which should already exist at this point
               logger.severe(e.toString());
+              result.setRuntimeException(e);
             } finally {
               done.countDown();
             }
