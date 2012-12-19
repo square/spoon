@@ -2,6 +2,8 @@ package com.squareup.spoon;
 
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
+import org.apache.commons.io.IOUtils;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -14,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import org.apache.commons.io.IOUtils;
 
 import static java.util.Collections.synchronizedList;
 import static java.util.Collections.unmodifiableList;
@@ -36,6 +37,7 @@ public class ExecutionSummary {
   private final File output;
   private final String title;
   private final List<ExecutionResult> results;
+  private final List<InstrumentationTest> instrumentationTests;
   private final Exception exception;
   private final long totalTime;
   private final Calendar started;
@@ -46,11 +48,12 @@ public class ExecutionSummary {
   private final String displayTime;
 
   public ExecutionSummary(File output, String title, List<ExecutionResult> results,
-      Exception exception, long totalTime, Calendar started, Calendar ended, int totalTests,
-      int totalSuccess, int totalFailure, String displayTime) {
+      List<InstrumentationTest> tests, Exception exception, long totalTime, Calendar started,
+      Calendar ended, int totalTests, int totalSuccess, int totalFailure, String displayTime) {
     this.output = output;
     this.title = title;
     this.results = unmodifiableList(results);
+    this.instrumentationTests = unmodifiableList(tests);
     this.exception = exception;
     this.totalTime = totalTime;
     this.started = started;
@@ -67,6 +70,10 @@ public class ExecutionSummary {
 
   public List<ExecutionResult> getResults() {
     return results;
+  }
+
+  public List<InstrumentationTest> getInstrumentationTests() {
+    return instrumentationTests;
   }
 
   public Exception getException() {
@@ -110,6 +117,7 @@ public class ExecutionSummary {
     DefaultMustacheFactory mustacheFactory = new DefaultMustacheFactory();
     Mustache summary = mustacheFactory.compile("index.html");
     Mustache device = mustacheFactory.compile("index-device.html");
+    Mustache test = mustacheFactory.compile("index-test.html");
     try {
       summary.execute(new FileWriter(new File(output, "index.html")), this).flush();
 
@@ -118,6 +126,13 @@ public class ExecutionSummary {
 
         File deviceOutput = new File(output, result.serial + "/index.html");
         device.execute(new FileWriter(deviceOutput), result).flush();
+      }
+
+      for (InstrumentationTest instrumentationTest : instrumentationTests) {
+        File testDir = new File(output, instrumentationTest.classSimpleName);
+        testDir.mkdirs();
+        File testOutput = new File(testDir.getPath(), "index.html");
+        test.execute(new FileWriter(testOutput), instrumentationTest).flush();
       }
     } catch (IOException e) {
       throw new RuntimeException("Unable to write output HTML.", e);
@@ -153,6 +168,8 @@ public class ExecutionSummary {
     private Calendar ended;
     private Exception exception;
     private List<ExecutionResult> results = synchronizedList(new ArrayList<ExecutionResult>());
+    private List<InstrumentationTest> tests =
+      synchronizedList(new ArrayList<InstrumentationTest>());
 
     public Builder() {
     }
@@ -179,6 +196,7 @@ public class ExecutionSummary {
 
     public Builder addResult(ExecutionResult result) {
       results.add(result);
+      tests.addAll(result.tests());
       return this;
     }
 
@@ -212,8 +230,8 @@ public class ExecutionSummary {
       long totalTime = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - startNano);
       String displayTime = DISPLAY_TIME.get().format(ended.getTime());
 
-      return new ExecutionSummary(outputDirectory, title, results, exception, totalTime, started,
-          ended, totalTests, totalSuccess, totalFailure, displayTime);
+      return new ExecutionSummary(outputDirectory, title, results, tests, exception, totalTime,
+          started, ended, totalTests, totalSuccess, totalFailure, displayTime);
     }
   }
 }

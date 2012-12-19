@@ -87,7 +87,6 @@ public final class Screenshot {
 
   private static void getScreenshot(Activity activity, Bitmap bitmap) {
     Canvas canvas = new Canvas(bitmap);
-    // TODO support display rotation / orientation.
     activity.getWindow().getDecorView().draw(canvas);
   }
 

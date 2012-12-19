@@ -50,9 +50,9 @@
                             {{/getRuntimeException}}
                             {{^getRuntimeException}}
                             <tr class="result">
-                                {{#tests}}
+                                {{#results}}{{#test}}
                                 <td class="test {{result}}" data-original-title="{{classSimpleName}}" data-content="{{testName}}">&nbsp;</td>
-                                {{/tests}}
+                                {{/test}}{{/results}}
                             </tr>
                             {{/getRuntimeException}}
                             {{/getResults}}

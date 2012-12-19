@@ -21,21 +21,12 @@ public class ExecutionTestResult {
     }
   }
 
-  public String className;
-  public String classSimpleName;
-  public String testName;
+  public InstrumentationTest test;
   public TestResult result;
   public List<Screenshot> screenshots = new ArrayList<Screenshot>();
 
   public ExecutionTestResult(TestIdentifier identifier) {
-    classSimpleName = className = identifier.getClassName();
-    testName = identifier.getTestName();
-
-    // Fake Class#getSimpleName logic.
-    int lastPeriod = classSimpleName.lastIndexOf(".");
-    if (lastPeriod != -1) {
-      classSimpleName = classSimpleName.substring(lastPeriod + 1);
-    }
+    this.test = new InstrumentationTest(identifier);
   }
 
   public class Screenshot {
@@ -45,8 +36,10 @@ public class ExecutionTestResult {
 
     public Screenshot(File screenshotFile) {
       file = screenshotFile;
-      id = (className + "-" + testName + "-" + file.getName()).replaceAll("[^A-Za-z0-9_-]", "");
-      screenshotGroup = (classSimpleName + "-" + testName).replaceAll("[^A-Za-z0-9_-]", "-");
+      id = (test.className + "-" + test.testName + "-" + file.getName())
+        .replaceAll("[^A-Za-z0-9_-]", "");
+      screenshotGroup = (test.classSimpleName + "-" + test.testName)
+        .replaceAll("[^A-Za-z0-9_-]", "-");
     }
   }
 }

@@ -3,6 +3,7 @@ package com.squareup.spoon;
 import com.android.ddmlib.IDevice;
 import com.android.ddmlib.testrunner.ITestRunListener;
 import com.android.ddmlib.testrunner.TestIdentifier;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,8 +35,7 @@ public class ExecutionResult implements ITestRunListener {
   public Date testCompleted;
   public long totalTime;
   public String displayTime;
-  private final Map<String, ExecutionTestResult> testResults =
-      new HashMap<String, ExecutionTestResult>();
+  private final Map<String, InstrumentationTest> tests = new HashMap<String, InstrumentationTest>();
   public Exception runtimeException;
 
   public ExecutionResult(String serial) {
@@ -46,25 +46,25 @@ public class ExecutionResult implements ITestRunListener {
     System.out.println("[testRunStarted] runName: " + runName + ", " + testCount);
   }
 
-  @Override public void testStarted(TestIdentifier test) {
-    System.out.println("[testStarted] test: " + test);
-    testResults.put(test.toString(), new ExecutionTestResult(test));
+  @Override public void testStarted(TestIdentifier testIdentifier) {
+    System.out.println("[testStarted] test: " + testIdentifier);
+    InstrumentationTest instrumentationTest = new InstrumentationTest(testIdentifier);
+    instrumentationTest.createResult(serial, new ExecutionTestResult(testIdentifier));
+    tests.put(testIdentifier.toString(), instrumentationTest);
     testsStarted += 1;
   }
 
-  @Override public void testFailed(TestFailure status, TestIdentifier test, String trace) {
-    System.out.println("[testFailed] status: " + status + ", test: " + test + ", trace: " + trace);
-    testResults.get(test.toString()).result = FAILURE;
+  @Override public void testFailed(TestFailure status, TestIdentifier identifier, String trace) {
+    System.out.println("[testFailed] status: " + status + ", test: " + identifier + ", trace: "
+      + trace);
+    tests.get(identifier.toString()).setResult(serial, FAILURE);
     testsFailed += 1;
   }
 
-  @Override public void testEnded(TestIdentifier test, Map<String, String> metrics) {
-    System.out.println("[testEnded] test: " + test + ", metrics: " + metrics);
-    final ExecutionTestResult testResult = testResults.get(test.toString());
-    if (testResult.result == null) {
-      testResult.result = SUCCESS;
-      testsPassed += 1;
-    }
+  @Override public void testEnded(TestIdentifier identifier, Map<String, String> metrics) {
+    System.out.println("[testEnded] test: " + identifier + ", metrics: " + metrics);
+    tests.get(identifier.toString()).setResult(serial, SUCCESS);
+    testsPassed += 1;
   }
 
   @Override public void testRunFailed(String errorMessage) {
@@ -78,6 +78,7 @@ public class ExecutionResult implements ITestRunListener {
   @Override public void testRunEnded(long elapsedTime, Map<String, String> metrics) {
     System.out.println("[testRunEnded] elapsedTime: " + elapsedTime + ", metrics: " + metrics);
   }
+
 
   public void setRuntimeException(Exception exception) {
     runtimeException = exception;
@@ -94,10 +95,11 @@ public class ExecutionResult implements ITestRunListener {
     if (testNameDirs != null) {
       // Loop over all of the test directories inside the class directory.
       for (File testNameDir : testNameDirs) {
-        for (ExecutionTestResult result : testResults.values()) {
-          if (result.className.equals(classNameDir.getName())
-              && result.testName.equals(testNameDir.getName())) {
+        for (InstrumentationTest instrumentationTest : tests()) {
+          if (instrumentationTest.className.equals(classNameDir.getName())
+              && instrumentationTest.testName.equals(testNameDir.getName())) {
             // If we have matched both class name and test name, add all screenshots to the result.
+            ExecutionTestResult result = instrumentationTest.getResult(serial);
             for (File screenshotFile : testNameDir.listFiles()) {
               result.screenshots.add(result.new Screenshot(screenshotFile));
             }
@@ -109,19 +111,28 @@ public class ExecutionResult implements ITestRunListener {
   }
 
   /** Mustache can't read maps. Feed it a list to consume. Nom nom nom. */
-  public List<ExecutionTestResult> tests() {
-    List<ExecutionTestResult> tests = new ArrayList<ExecutionTestResult>(testResults.values());
-    Collections.sort(tests, new Comparator<ExecutionTestResult>() {
-      @Override public int compare(ExecutionTestResult executionTestResult,
-          ExecutionTestResult executionTestResult1) {
-        int className = executionTestResult.className.compareTo(executionTestResult1.className);
+  public List<InstrumentationTest> tests() {
+    List<InstrumentationTest> allTests = new ArrayList<InstrumentationTest>(tests.values());
+    Collections.sort(allTests, new Comparator<InstrumentationTest>() {
+      @Override public int compare(InstrumentationTest instrumentationTest,
+                                   InstrumentationTest other) {
+        int className = instrumentationTest.className.compareTo(other.className);
         if (className != 0) {
           return className;
         }
-        return executionTestResult.testName.compareTo(executionTestResult1.testName);
+        return instrumentationTest.testName.compareTo(other.testName);
       }
     });
-    return tests;
+    return allTests;
+  }
+
+  /** For similar reasons as {@link #tests()}, we need a list of test results. Omnomnom. */
+  public List<ExecutionTestResult> results() {
+    List<ExecutionTestResult> results = new ArrayList<ExecutionTestResult>();
+    for (InstrumentationTest instrumentationTest : tests()) {
+      results.add(instrumentationTest.getResult(serial));
+    }
+    return results;
   }
 
   public void configureFor(IDevice realDevice) {
