@@ -36,11 +36,25 @@
                             <tr class="device">
                                 <th colspan="{{tests.size}}"><a href="{{serial}}/index.html">{{deviceName}}</a></th>
                             </tr>
+                            {{#getRuntimeException}}
+                            <tr class="result">
+                                <td colspan="{{tests.size}}" class="test error">
+                                    {{toString}}
+                                    <p class="stack-trace">
+                                        {{#getStackTrace}}
+                                        at {{getClassName}}.{{getMethodName}}({{getFileName}}:{{getLineNumber}})<br/>
+                                        {{/getStackTrace}}
+                                    </p>
+                                </td>
+                            </tr>
+                            {{/getRuntimeException}}
+                            {{^getRuntimeException}}
                             <tr class="result">
                                 {{#tests}}
                                 <td class="test {{result}}" data-original-title="{{classSimpleName}}" data-content="{{testName}}">&nbsp;</td>
                                 {{/tests}}
                             </tr>
+                            {{/getRuntimeException}}
                             {{/getResults}}
                         </tbody>
                     </table>
@@ -54,6 +68,12 @@
             $('.test').popover({
                 placement: 'top',
                 trigger: 'hover'
+            });
+
+            $(".test.error").mouseenter(function() {
+                $(".test.error .stack-trace").stop().show(300);
+            }).mouseleave(function() {
+                $(".test.error .stack-trace").hide(300);
             });
         </script>
     </body>
