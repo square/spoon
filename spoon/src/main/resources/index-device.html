@@ -12,13 +12,20 @@
     <body>
         <div class="container">
             <div class="hero-unit">
+                <a class="brand" href="../index.html">SPOON</a>
                 <h1>{{deviceName}}</h1>
                 <p>{{testsStarted}} tests run with {{testsPassed}} passing and {{testsFailed}} failing in {{totalTime}} seconds at {{displayTime}}</p>
             </div>
             {{#results}}
             <div class="row">
                 <div class="span12">
-                    <h2 class="test-result {{result}}"><a href="../{{classSimpleName}}/{{testName}}.html">{{testName}}</a> <small><a href="../{{classSimpleName}}/index.html">{{classSimpleName}}</a></small></h2>
+                    <h2 class="test-result {{result}}">
+                        {{testName}} <small>{{classSimpleName}}</small>
+                    </h2>
+                    <div class="pull-right">
+                        <a href="../{{classSimpleName}}/{{testName}}.html">all devices</a><br>
+                        <a href="../{{serial}}/{{classSimpleName}}-{{testName}}.gif">test GIF</a>
+                    </div>
                     <ul class="thumbnails">
                         {{#screenshots}}
                         <li class="span2">
