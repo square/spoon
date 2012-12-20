@@ -2,8 +2,10 @@ package com.squareup.spoon;
 
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
+import com.madgag.gif.fmsware.AnimatedGifEncoder;
 import org.apache.commons.io.IOUtils;
 
+import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -144,6 +146,10 @@ public class ExecutionSummary {
         for (InstrumentationTest instrumentationTest : instrumentationTestClass.tests()) {
           File testOutput = new File(testDir.getPath(), instrumentationTest.testName + ".html");
           test.execute(new FileWriter(testOutput), instrumentationTest).flush();
+
+          for (ExecutionTestResult result : instrumentationTest.results()) {
+            makeGif(result);
+          }
         }
       }
     } catch (IOException e) {
@@ -170,6 +176,23 @@ public class ExecutionSummary {
       } catch (Exception ignored) {
       }
     }
+  }
+
+  private void makeGif(ExecutionTestResult result) {
+    AnimatedGifEncoder encoder = new AnimatedGifEncoder();
+    encoder.start(new File(output + "/" + result.serial,
+      result.test.classSimpleName + "-" + result.test.testName + ".gif").getAbsolutePath());
+    encoder.setDelay(1000); // 1 frame per second
+    encoder.setRepeat(0); // 0 repeats infinitely
+    encoder.setQuality(1); // Highest quality, scale is from 1 to 256 (lower being better)
+    try {
+      for (ExecutionTestResult.Screenshot screenshot : result.screenshots) {
+        encoder.addFrame(ImageIO.read(screenshot.file));
+      }
+    } catch (IOException ex) {
+      throw new RuntimeException("Unable to write animated GIF of test.", ex);
+    }
+    encoder.finish();
   }
 
   public static class Builder {

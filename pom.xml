@@ -87,6 +87,11 @@
         <artifactId>maven-core</artifactId>
         <version>3.0.4</version>
       </dependency>
+      <dependency>
+        <groupId>com.madgag</groupId>
+        <artifactId>animated-gif-lib</artifactId>
+        <version>1.0</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
