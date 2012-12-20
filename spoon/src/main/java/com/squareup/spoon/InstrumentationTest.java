@@ -9,24 +9,15 @@ import java.util.Map;
 
 public class InstrumentationTest {
   public final TestIdentifier identifier;
-  public final String className;
-  public final String classSimpleName;
+  public String className;
+  public String classSimpleName;
   public final String testName;
   private final Map<String, ExecutionTestResult> deviceResults =
     new HashMap<String, ExecutionTestResult>();
 
   public InstrumentationTest(TestIdentifier identifier) {
-    className = identifier.getClassName();
     testName = identifier.getTestName();
     this.identifier = identifier;
-
-    // Fake Class#getSimpleName logic.
-    int lastPeriod = className.lastIndexOf(".");
-    if (lastPeriod != -1) {
-      classSimpleName = className.substring(lastPeriod + 1);
-    } else {
-      classSimpleName = className;
-    }
   }
 
   public void createResult(String deviceName, ExecutionTestResult result) {
@@ -43,12 +34,24 @@ public class InstrumentationTest {
     return deviceResults.get(deviceName);
   }
 
+  public void addResults(Map<String, ExecutionTestResult> resultMap) {
+    deviceResults.putAll(resultMap);
+  }
+
   public Map<String, ExecutionTestResult> getResults() {
     return deviceResults;
+  }
+
+  public void mergeResults(InstrumentationTest test) {
+    deviceResults.putAll(test.getResults());
   }
 
   /** Mustache can't read maps. Feed it a list to consume. Nom nom nom. */
   public Collection<ExecutionTestResult> results() {
     return deviceResults.values();
+  }
+
+  public int numDevices() {
+    return deviceResults.size();
   }
 }

@@ -35,7 +35,8 @@ public class ExecutionResult implements ITestRunListener {
   public Date testCompleted;
   public long totalTime;
   public String displayTime;
-  private final Map<String, InstrumentationTest> tests = new HashMap<String, InstrumentationTest>();
+  private final Map<String, InstrumentationTestClass> testClasses =
+    new HashMap<String, InstrumentationTestClass>();
   public Exception runtimeException;
 
   public ExecutionResult(String serial) {
@@ -48,23 +49,36 @@ public class ExecutionResult implements ITestRunListener {
 
   @Override public void testStarted(TestIdentifier testIdentifier) {
     System.out.println("[testStarted] test: " + testIdentifier);
-    InstrumentationTest instrumentationTest = new InstrumentationTest(testIdentifier);
-    instrumentationTest.createResult(serial, new ExecutionTestResult(testIdentifier));
-    tests.put(testIdentifier.toString(), instrumentationTest);
+    if (!testClasses.containsKey(testIdentifier.getClassName())) {
+      testClasses.put(testIdentifier.getClassName(), new InstrumentationTestClass(testIdentifier));
+    }
+
+    InstrumentationTestClass testClass = testClasses.get(testIdentifier.getClassName());
+    if (!testClass.containsTest(testIdentifier)) {
+      testClass.addTest(new InstrumentationTest(testIdentifier));
+    }
+
+    ExecutionTestResult result = new ExecutionTestResult(testIdentifier);
+    result.deviceName = deviceName;
+    result.serial = serial;
+    testClass.getTest(testIdentifier).createResult(serial, result);
+
     testsStarted += 1;
   }
 
   @Override public void testFailed(TestFailure status, TestIdentifier identifier, String trace) {
     System.out.println("[testFailed] status: " + status + ", test: " + identifier + ", trace: "
       + trace);
-    tests.get(identifier.toString()).setResult(serial, FAILURE);
+    getTest(identifier).setResult(serial, FAILURE);
     testsFailed += 1;
+    testClasses.get(identifier.getClassName()).testsFailed += 1;
   }
 
   @Override public void testEnded(TestIdentifier identifier, Map<String, String> metrics) {
     System.out.println("[testEnded] test: " + identifier + ", metrics: " + metrics);
-    tests.get(identifier.toString()).setResult(serial, SUCCESS);
+    getTest(identifier).setResult(serial, SUCCESS);
     testsPassed += 1;
+    testClasses.get(identifier.getClassName()).testsPassed += 1;
   }
 
   @Override public void testRunFailed(String errorMessage) {
@@ -79,6 +93,9 @@ public class ExecutionResult implements ITestRunListener {
     System.out.println("[testRunEnded] elapsedTime: " + elapsedTime + ", metrics: " + metrics);
   }
 
+  public InstrumentationTest getTest(TestIdentifier identifier) {
+    return testClasses.get(identifier.getClassName()).getTest(identifier);
+  }
 
   public void setRuntimeException(Exception exception) {
     runtimeException = exception;
@@ -112,7 +129,13 @@ public class ExecutionResult implements ITestRunListener {
 
   /** Mustache can't read maps. Feed it a list to consume. Nom nom nom. */
   public List<InstrumentationTest> tests() {
-    List<InstrumentationTest> allTests = new ArrayList<InstrumentationTest>(tests.values());
+    List<InstrumentationTestClass> allClasses =
+      new ArrayList<InstrumentationTestClass>(testClasses.values());
+    List<InstrumentationTest> allTests = new ArrayList<InstrumentationTest>();
+    for (InstrumentationTestClass testClass : allClasses) {
+      allTests.addAll(testClass.tests());
+    }
+
     Collections.sort(allTests, new Comparator<InstrumentationTest>() {
       @Override public int compare(InstrumentationTest instrumentationTest,
                                    InstrumentationTest other) {
@@ -124,6 +147,11 @@ public class ExecutionResult implements ITestRunListener {
       }
     });
     return allTests;
+  }
+
+  /** For similar reasons as {@link #tests()}, we need a list of test results. Mmmmm. */
+  public List<InstrumentationTestClass> testClasses() {
+    return new ArrayList<InstrumentationTestClass>(testClasses.values());
   }
 
   /** For similar reasons as {@link #tests()}, we need a list of test results. Omnomnom. */
