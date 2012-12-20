@@ -181,7 +181,7 @@ public class ExecutionSummary {
   private void makeGif(ExecutionTestResult result) {
     AnimatedGifEncoder encoder = new AnimatedGifEncoder();
     encoder.start(new File(output + "/" + result.serial,
-      result.test.classSimpleName + "-" + result.test.testName + ".gif").getAbsolutePath());
+      result.classSimpleName + "-" + result.testName + ".gif").getAbsolutePath());
     encoder.setDelay(1000); // 1 frame per second
     encoder.setRepeat(0); // 0 repeats infinitely
     encoder.setQuality(1); // Highest quality, scale is from 1 to 256 (lower being better)

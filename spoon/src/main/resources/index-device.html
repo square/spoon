@@ -18,17 +18,13 @@
             {{#results}}
             <div class="row">
                 <div class="span12">
-                    {{#test}}
                     <h2 class="test-result {{result}}"><a href="../{{classSimpleName}}/{{testName}}.html">{{testName}}</a> <small><a href="../{{classSimpleName}}/index.html">{{classSimpleName}}</a></small></h2>
-                    {{/test}}
                     <ul class="thumbnails">
                         {{#screenshots}}
                         <li class="span2">
-                            {{#test}}
                             <a href="{{className}}/{{testName}}/{{file.getName}}" rel="lightbox[{{screenshotGroup}}" title="{{classSimpleName}}.{{testName}}" class="thumbnail">
                                 <img src="{{className}}/{{testName}}/{{file.getName}}">
                             </a>
-                            {{/test}}
                         </li>
                         {{/screenshots}}
                     </ul>

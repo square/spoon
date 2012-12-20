@@ -58,7 +58,8 @@ public class ExecutionResult implements ITestRunListener {
       testClass.addTest(new InstrumentationTest(testIdentifier));
     }
 
-    ExecutionTestResult result = new ExecutionTestResult(testIdentifier);
+    InstrumentationTest instrumentationTest = testClass.getTest(testIdentifier);
+    ExecutionTestResult result = new ExecutionTestResult(instrumentationTest);
     result.deviceName = deviceName;
     result.serial = serial;
     testClass.getTest(testIdentifier).createResult(serial, result);

@@ -1,7 +1,5 @@
 package com.squareup.spoon;
 
-import com.android.ddmlib.testrunner.TestIdentifier;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +19,18 @@ public class ExecutionTestResult {
     }
   }
 
-  public InstrumentationTest test;
+  public String testName;
+  public String className;
+  public String classSimpleName;
   public TestResult result;
   public String deviceName;
   public String serial;
   public List<Screenshot> screenshots = new ArrayList<Screenshot>();
 
-  public ExecutionTestResult(TestIdentifier identifier) {
-    this.test = new InstrumentationTest(identifier);
+  public ExecutionTestResult(InstrumentationTest test) {
+    className = test.className;
+    classSimpleName = test.classSimpleName;
+    testName = test.testName;
   }
 
   public class Screenshot {
@@ -38,9 +40,9 @@ public class ExecutionTestResult {
 
     public Screenshot(File screenshotFile) {
       file = screenshotFile;
-      id = (test.className + "-" + test.testName + "-" + file.getName())
+      id = (className + "-" + testName + "-" + file.getName())
         .replaceAll("[^A-Za-z0-9_-]", "");
-      screenshotGroup = (test.classSimpleName + "-" + test.testName)
+      screenshotGroup = (classSimpleName + "-" + testName)
         .replaceAll("[^A-Za-z0-9_-]", "-");
     }
   }
