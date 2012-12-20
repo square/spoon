@@ -12,32 +12,35 @@
     <body>
         <div class="container">
             <div class="hero-unit">
-                <h1>{{deviceName}}</h1>
-                <p>{{testsStarted}} tests run with {{testsPassed}} passing and {{testsFailed}} failing in {{totalTime}} seconds at {{displayTime}}</p>
+                <h1>{{testName}}</h1>
+                <p>Run on {{numDevices}} device(s)</p>
             </div>
-            {{#results}}
             <div class="row">
                 <div class="span12">
-                    <h2 class="instrumentationTest-name {{result}}">{{testName}} <small><a href="../{{className}}/index.html">{{classSimpleName}}</a></small></h2>
+                    {{#results}}
+                    <h3 class="test-result {{result}}"><a href="../{{serial}}/index.html">{{deviceName}}</a></h3>
                     <ul class="thumbnails">
                         {{#screenshots}}
                         <li class="span2">
-                            <a href="{{className}}/{{testName}}/{{file.getName}}" rel="lightbox[{{screenshotGroup}}" title="{{classSimpleName}}.{{testName}}" class="thumbnail">
-                                <img src="{{className}}/{{testName}}/{{file.getName}}">
+                            <a href="../{{serial}}/{{className}}/{{testName}}/{{file.getName}}" rel="lightbox[{{id}}]" title="{{classSimpleName}}.{{testName}}" class="thumbnail">
+                                <img src="../{{serial}}/{{className}}/{{testName}}/{{file.getName}}">
                             </a>
                         </li>
                         {{/screenshots}}
                     </ul>
+                    {{/results}}
+                    {{^results}}
+                    <p>Test never ran!</p>
+                    {{/results}}
                 </div>
                 {{#screenshots}}
                 <div id="{{id}}" class="modal hide fade">
                     <div class="modal-body">
-                        <img src="{{className}}/{{testName}}/{{file.getName}}">
+                        <img src="../{{serial}}/{{className}}/{{testName}}/{{file.getName}}">
                     </div>
                 </div>
                 {{/screenshots}}
             </div>
-            {{/results}}
         </div>
 
         <script src="../jquery.min.js"></script>

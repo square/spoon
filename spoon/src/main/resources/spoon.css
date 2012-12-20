@@ -31,13 +31,13 @@ body {
 }
 
 
-.test-name, .test-name small {
+.test-result, .test-name small {
   font-weight: 200;
 }
-.test-name.pass {
+.test-result.pass {
   border-bottom: 2px solid #89c989;
 }
-.test-name.fail {
+.test-result.fail {
   border-bottom: 2px solid #c98989;
 }
 

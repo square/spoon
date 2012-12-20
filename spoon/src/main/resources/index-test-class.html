@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{{deviceName}}</title>
+        <title>{{classSimpleName}}</title>
         <link href="../bootstrap.min.css" rel="stylesheet">
         <link href="../lightbox.css" rel="stylesheet" />
         <link href="http://fonts.googleapis.com/css?family=Roboto:regular,medium,thin,italic,mediumitalic,bold" rel="stylesheet" title="roboto">
@@ -12,36 +12,38 @@
     <body>
         <div class="container">
             <div class="hero-unit">
-                <h1>{{deviceName}}</h1>
-                <p>{{testsStarted}} tests run with {{testsPassed}} passing and {{testsFailed}} failing in {{totalTime}} seconds at {{displayTime}}</p>
+                <h1>{{classSimpleName}}</h1>
+                <p>{{numTests}} tests run with {{testsPassed}} passing and {{testsFailed}} failing on {{numDevices}} device(s)</p>
             </div>
-            {{#results}}
+            {{#tests}}
             <div class="row">
                 <div class="span12">
-                    {{#test}}
-                    <h2 class="test-result {{result}}"><a href="../{{classSimpleName}}/{{testName}}.html">{{testName}}</a> <small><a href="../{{classSimpleName}}/index.html">{{classSimpleName}}</a></small></h2>
-                    {{/test}}
+                    <h2 class="test-name"><a href="{{testName}}.html">{{testName}}</a> <small>ran on {{numDevices}} device(s)</small></h2>
+                    {{#results}}
+                    <h3 class="test-result {{result}}"><a href="../{{serial}}/index.html">{{deviceName}}</a></h3>
                     <ul class="thumbnails">
                         {{#screenshots}}
                         <li class="span2">
-                            {{#test}}
-                            <a href="{{className}}/{{testName}}/{{file.getName}}" rel="lightbox[{{screenshotGroup}}" title="{{classSimpleName}}.{{testName}}" class="thumbnail">
-                                <img src="{{className}}/{{testName}}/{{file.getName}}">
+                            <a href="../{{serial}}/{{className}}/{{testName}}/{{file.getName}}" rel="lightbox[{{id}}]" title="{{classSimpleName}}.{{testName}}" class="thumbnail">
+                                <img src="../{{serial}}/{{className}}/{{testName}}/{{file.getName}}">
                             </a>
-                            {{/test}}
                         </li>
                         {{/screenshots}}
                     </ul>
+                    {{/results}}
+                    {{^results}}
+                    <p>Test never ran!</p>
+                    {{/results}}
                 </div>
                 {{#screenshots}}
                 <div id="{{id}}" class="modal hide fade">
                     <div class="modal-body">
-                        <img src="{{className}}/{{testName}}/{{file.getName}}">
+                        <img src="../{{serial}}/{{className}}/{{testName}}/{{file.getName}}">
                     </div>
                 </div>
                 {{/screenshots}}
             </div>
-            {{/results}}
+            {{/tests}}
         </div>
 
         <script src="../jquery.min.js"></script>

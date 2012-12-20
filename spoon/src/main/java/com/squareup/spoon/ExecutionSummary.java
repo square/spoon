@@ -2,8 +2,10 @@ package com.squareup.spoon;
 
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
+import com.madgag.gif.fmsware.AnimatedGifEncoder;
 import org.apache.commons.io.IOUtils;
 
+import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -14,11 +16,16 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import static java.util.Collections.synchronizedList;
+import static java.util.Collections.synchronizedMap;
 import static java.util.Collections.unmodifiableList;
+import static java.util.Collections.unmodifiableMap;
 
 public class ExecutionSummary {
   static final ThreadLocal<DateFormat> DISPLAY_TIME = new ThreadLocal<DateFormat>() {
@@ -37,7 +44,7 @@ public class ExecutionSummary {
   private final File output;
   private final String title;
   private final List<ExecutionResult> results;
-  private final List<InstrumentationTest> instrumentationTests;
+  private final Map<String, InstrumentationTestClass> instrumentationTestClasses;
   private final Exception exception;
   private final long totalTime;
   private final Calendar started;
@@ -48,12 +55,13 @@ public class ExecutionSummary {
   private final String displayTime;
 
   public ExecutionSummary(File output, String title, List<ExecutionResult> results,
-      List<InstrumentationTest> tests, Exception exception, long totalTime, Calendar started,
-      Calendar ended, int totalTests, int totalSuccess, int totalFailure, String displayTime) {
+      Map<String, InstrumentationTestClass> testClasses, Exception exception, long totalTime,
+      Calendar started, Calendar ended, int totalTests, int totalSuccess, int totalFailure,
+      String displayTime) {
     this.output = output;
     this.title = title;
     this.results = unmodifiableList(results);
-    this.instrumentationTests = unmodifiableList(tests);
+    this.instrumentationTestClasses = unmodifiableMap(testClasses);
     this.exception = exception;
     this.totalTime = totalTime;
     this.started = started;
@@ -72,8 +80,8 @@ public class ExecutionSummary {
     return results;
   }
 
-  public List<InstrumentationTest> getInstrumentationTests() {
-    return instrumentationTests;
+  public Collection<InstrumentationTestClass> getInstrumentationTestClasses() {
+    return instrumentationTestClasses.values();
   }
 
   public Exception getException() {
@@ -117,6 +125,7 @@ public class ExecutionSummary {
     DefaultMustacheFactory mustacheFactory = new DefaultMustacheFactory();
     Mustache summary = mustacheFactory.compile("index.html");
     Mustache device = mustacheFactory.compile("index-device.html");
+    Mustache testClass = mustacheFactory.compile("index-test-class.html");
     Mustache test = mustacheFactory.compile("index-test.html");
     try {
       summary.execute(new FileWriter(new File(output, "index.html")), this).flush();
@@ -128,11 +137,20 @@ public class ExecutionSummary {
         device.execute(new FileWriter(deviceOutput), result).flush();
       }
 
-      for (InstrumentationTest instrumentationTest : instrumentationTests) {
-        File testDir = new File(output, instrumentationTest.classSimpleName);
+      for (InstrumentationTestClass instrumentationTestClass : getInstrumentationTestClasses()) {
+        File testDir = new File(output, instrumentationTestClass.classSimpleName);
         testDir.mkdirs();
-        File testOutput = new File(testDir.getPath(), "index.html");
-        test.execute(new FileWriter(testOutput), instrumentationTest).flush();
+        File testClassOutput = new File(testDir.getPath(), "index.html");
+        testClass.execute(new FileWriter(testClassOutput), instrumentationTestClass).flush();
+
+        for (InstrumentationTest instrumentationTest : instrumentationTestClass.tests()) {
+          File testOutput = new File(testDir.getPath(), instrumentationTest.testName + ".html");
+          test.execute(new FileWriter(testOutput), instrumentationTest).flush();
+
+          for (ExecutionTestResult result : instrumentationTest.results()) {
+            makeGif(result);
+          }
+        }
       }
     } catch (IOException e) {
       throw new RuntimeException("Unable to write output HTML.", e);
@@ -160,6 +178,23 @@ public class ExecutionSummary {
     }
   }
 
+  private void makeGif(ExecutionTestResult result) {
+    AnimatedGifEncoder encoder = new AnimatedGifEncoder();
+    encoder.start(new File(output + "/" + result.serial,
+      result.test.classSimpleName + "-" + result.test.testName + ".gif").getAbsolutePath());
+    encoder.setDelay(1000); // 1 frame per second
+    encoder.setRepeat(0); // 0 repeats infinitely
+    encoder.setQuality(1); // Highest quality, scale is from 1 to 256 (lower being better)
+    try {
+      for (ExecutionTestResult.Screenshot screenshot : result.screenshots) {
+        encoder.addFrame(ImageIO.read(screenshot.file));
+      }
+    } catch (IOException ex) {
+      throw new RuntimeException("Unable to write animated GIF of test.", ex);
+    }
+    encoder.finish();
+  }
+
   public static class Builder {
     private String title;
     private File outputDirectory;
@@ -168,8 +203,8 @@ public class ExecutionSummary {
     private Calendar ended;
     private Exception exception;
     private List<ExecutionResult> results = synchronizedList(new ArrayList<ExecutionResult>());
-    private List<InstrumentationTest> tests =
-      synchronizedList(new ArrayList<InstrumentationTest>());
+    private Map<String, InstrumentationTestClass> testClasses =
+      synchronizedMap(new HashMap<String, InstrumentationTestClass>());
 
     public Builder() {
     }
@@ -196,7 +231,22 @@ public class ExecutionSummary {
 
     public Builder addResult(ExecutionResult result) {
       results.add(result);
-      tests.addAll(result.tests());
+      for (InstrumentationTestClass testClass : result.testClasses()) {
+        if (testClasses.containsKey(testClass.className)) {
+          // We need to add all our tests to this class.
+          for (InstrumentationTest test : testClass.tests()) {
+            InstrumentationTestClass existingTestClass = testClasses.get(testClass.className);
+            if (existingTestClass.containsTest(test.identifier)) {
+              // Merge both tests' results.
+              existingTestClass.getTest(test.identifier).mergeResults(test);
+            } else {
+              existingTestClass.addTest(test);
+            }
+          }
+        } else {
+          testClasses.put(testClass.className, testClass);
+        }
+      }
       return this;
     }
 
@@ -230,8 +280,8 @@ public class ExecutionSummary {
       long totalTime = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - startNano);
       String displayTime = DISPLAY_TIME.get().format(ended.getTime());
 
-      return new ExecutionSummary(outputDirectory, title, results, tests, exception, totalTime,
-          started, ended, totalTests, totalSuccess, totalFailure, displayTime);
+      return new ExecutionSummary(outputDirectory, title, results, testClasses, exception,
+          totalTime, started, ended, totalTests, totalSuccess, totalFailure, displayTime);
     }
   }
 }

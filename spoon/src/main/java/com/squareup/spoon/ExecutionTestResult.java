@@ -23,6 +23,8 @@ public class ExecutionTestResult {
 
   public InstrumentationTest test;
   public TestResult result;
+  public String deviceName;
+  public String serial;
   public List<Screenshot> screenshots = new ArrayList<Screenshot>();
 
   public ExecutionTestResult(TestIdentifier identifier) {
