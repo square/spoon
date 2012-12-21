@@ -11,6 +11,7 @@
     <body>
         <div class="container">
             <div class="hero-unit">
+                <a class="brand" href="index.html">SPOON</a>
                 <h1>{{getTitle}}</h1>
                 <p>{{getTotalTests}} tests run across {{getResults.size}} devices with {{getTotalSuccess}} passing and {{getTotalFailure}} failing in {{getTotalTime}} seconds at {{getDisplayTime}}</p>
             </div>
@@ -32,7 +33,7 @@
                         <thead>
                         </thead>
                         <tbody>
-                            {{#getResults}}
+                            {{#results}}
                             <tr class="device">
                                 <th colspan="{{tests.size}}"><a href="{{serial}}/index.html">{{deviceName}}</a></th>
                             </tr>
@@ -50,12 +51,12 @@
                             {{/getRuntimeException}}
                             {{^getRuntimeException}}
                             <tr class="result">
-                                {{#results}}{{#test}}
+                                {{#results}}
                                 <td class="test {{result}}" data-original-title="{{classSimpleName}}" data-content="{{testName}}">&nbsp;</td>
-                                {{/test}}{{/results}}
+                                {{/results}}
                             </tr>
                             {{/getRuntimeException}}
-                            {{/getResults}}
+                            {{/results}}
                         </tbody>
                     </table>
                 </div>

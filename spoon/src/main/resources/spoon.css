@@ -29,6 +29,14 @@ body {
 .hero-unit p {
     margin: 0;
 }
+.hero-unit .brand {
+    float: right;
+    font: 24pt Roboto, sans-serif;
+    font-weight: 200;
+}
+.hero-unit .brand:hover {
+    text-decoration: none;
+}
 
 
 .test-result, .test-name small {
