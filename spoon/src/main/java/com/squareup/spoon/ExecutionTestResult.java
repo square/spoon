@@ -2,7 +2,11 @@ package com.squareup.spoon;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import static com.squareup.spoon.Screenshot.EXTENSION;
+import static com.squareup.spoon.Screenshot.NAME_SEPARATOR;
 
 public class ExecutionTestResult {
   public enum TestResult {
@@ -33,17 +37,38 @@ public class ExecutionTestResult {
     testName = test.testName;
   }
 
+  public void addScreenshot(File screenshotFile) {
+    screenshots.add(new Screenshot(screenshotFile));
+  }
+
   public class Screenshot {
+    static final String HTML_SEPARATOR = "-";
+    static final String INVALID_CHARS = "[^A-Za-z0-9_]";
+
     public final File file;
+    public final Date taken;
+    public final String tag;
     public final String id;
     public final String screenshotGroup;
 
     public Screenshot(File screenshotFile) {
+      String name = screenshotFile.getName();
+      if (!name.endsWith(EXTENSION)) {
+        throw new IllegalArgumentException("Invalid screenshot extension: " + name);
+      }
+      String[] nameData = name.split(NAME_SEPARATOR, 2);
+      if (nameData.length != 2) {
+        throw new IllegalArgumentException("Invalid screenshot name: " + name);
+      }
+      taken = new Date(Long.valueOf(nameData[0]));
+      tag = nameData[1].substring(0, nameData[1].length() - EXTENSION.length());
+
       file = screenshotFile;
-      id = (className + "-" + testName + "-" + file.getName())
-        .replaceAll("[^A-Za-z0-9_-]", "");
-      screenshotGroup = (classSimpleName + "-" + testName)
-        .replaceAll("[^A-Za-z0-9_-]", "-");
+
+      id = (className + HTML_SEPARATOR + testName + HTML_SEPARATOR + tag) //
+          .replaceAll(INVALID_CHARS, "-");
+      screenshotGroup = (classSimpleName + HTML_SEPARATOR + testName) //
+          .replaceAll(INVALID_CHARS, "-");
     }
   }
 }

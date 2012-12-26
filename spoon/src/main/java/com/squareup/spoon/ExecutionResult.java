@@ -119,7 +119,7 @@ public class ExecutionResult implements ITestRunListener {
             // If we have matched both class name and test name, add all screenshots to the result.
             ExecutionTestResult result = instrumentationTest.getResult(serial);
             for (File screenshotFile : testNameDir.listFiles()) {
-              result.screenshots.add(result.new Screenshot(screenshotFile));
+              result.addScreenshot(screenshotFile);
             }
             break; // Continue to next test dir
           }

@@ -97,6 +97,16 @@
         <artifactId>animated-gif-lib</artifactId>
         <version>1.0</version>
       </dependency>
+      <dependency>
+        <groupId>com.intellij</groupId>
+        <artifactId>annotations</artifactId>
+        <version>9.0.4</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>1.9.5</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 

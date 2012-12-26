@@ -182,9 +182,9 @@ public class ExecutionSummary {
     AnimatedGifEncoder encoder = new AnimatedGifEncoder();
     encoder.start(new File(output + "/" + result.serial,
       result.classSimpleName + "-" + result.testName + ".gif").getAbsolutePath());
-    encoder.setDelay(1000); // 1 frame per second
-    encoder.setRepeat(0); // 0 repeats infinitely
-    encoder.setQuality(1); // Highest quality, scale is from 1 to 256 (lower being better)
+    encoder.setDelay(1000); // 1 frame per second.
+    encoder.setRepeat(0); // 0 repeats infinitely.
+    encoder.setQuality(1); // Highest quality, scale is from 1 to 256 (lower is better).
     try {
       for (ExecutionTestResult.Screenshot screenshot : result.screenshots) {
         encoder.addFrame(ImageIO.read(screenshot.file));

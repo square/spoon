@@ -2,10 +2,10 @@ package com.squareup.spoon;
 
 import com.android.ddmlib.testrunner.TestIdentifier;
 import com.squareup.spoon.ExecutionTestResult.TestResult;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import org.jetbrains.annotations.TestOnly;
 
 public class InstrumentationTest {
   public final TestIdentifier identifier;
@@ -20,6 +20,13 @@ public class InstrumentationTest {
     this.identifier = identifier;
   }
 
+  @TestOnly InstrumentationTest(String className, String classSimpleName, String testName) {
+    this.identifier = null;
+    this.className = className;
+    this.classSimpleName = classSimpleName;
+    this.testName = testName;
+  }
+
   public void createResult(String deviceName, ExecutionTestResult result) {
     deviceResults.put(deviceName, result);
   }
@@ -32,10 +39,6 @@ public class InstrumentationTest {
 
   public ExecutionTestResult getResult(String deviceName) {
     return deviceResults.get(deviceName);
-  }
-
-  public void addResults(Map<String, ExecutionTestResult> resultMap) {
-    deviceResults.putAll(resultMap);
   }
 
   public Map<String, ExecutionTestResult> getResults() {

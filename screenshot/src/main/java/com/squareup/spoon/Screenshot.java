@@ -22,10 +22,11 @@ import static android.graphics.Bitmap.Config.ARGB_8888;
 /** Utility class for capturing screenshots for Spoon. */
 public final class Screenshot {
   static final String SPOON_SCREENSHOTS = "spoon-screenshots";
+  static final String NAME_SEPARATOR = "_";
   static final String TEST_CASE_CLASS = "android.test.InstrumentationTestCase";
   static final String TEST_CASE_METHOD = "runMethod";
+  static final String EXTENSION = ".png";
   private static final String TAG = "SpoonScreenshot";
-  private static final String EXTENSION = ".png";
   private static final Object LOCK = new Object();
 
   /** Whether or not the screenshot output directory needs cleared. */
@@ -40,7 +41,8 @@ public final class Screenshot {
   public static void snap(Activity activity, String tag) {
     try {
       File screenshotDirectory = obtainScreenshotDirectory(activity);
-      takeScreenshot(new File(screenshotDirectory, tag + EXTENSION), activity);
+      String screenshotName = System.currentTimeMillis() + NAME_SEPARATOR + tag + EXTENSION;
+      takeScreenshot(new File(screenshotDirectory, screenshotName), activity);
     } catch (Exception e) {
       throw new RuntimeException("Unable to capture screenshot.", e);
     }
