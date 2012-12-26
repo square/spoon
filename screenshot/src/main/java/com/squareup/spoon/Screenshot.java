@@ -22,6 +22,8 @@ import static android.graphics.Bitmap.Config.ARGB_8888;
 /** Utility class for capturing screenshots for Spoon. */
 public final class Screenshot {
   static final String SPOON_SCREENSHOTS = "spoon-screenshots";
+  static final String TEST_CASE_CLASS = "android.test.InstrumentationTestCase";
+  static final String TEST_CASE_METHOD = "runMethod";
   private static final String TAG = "SpoonScreenshot";
   private static final String EXTENSION = ".png";
   private static final Object LOCK = new Object();
@@ -100,27 +102,25 @@ public final class Screenshot {
       }
     }
 
-    // The call to this method and one of the snap methods will be the first two on the stack.
-    StackTraceElement[] trace = new Throwable().getStackTrace();
-    StackTraceElement testClass = null;
-    for (int i = 0; i < trace.length; i++) {
-      StackTraceElement element = trace[i];
-      if (element.getClassName().equals("android.test.InstrumentationTestCase")
-          && element.getMethodName().equals("runMethod")) {
-        testClass = trace[i - 3];
-        break;
-      }
-    }
-
-    if (testClass == null) {
-      throw new RuntimeException("Could not find test class!");
-    }
-
+    StackTraceElement testClass = findTestClassTraceElement(Thread.currentThread().getStackTrace());
     String className = testClass.getClassName().replaceAll("[^A-Za-z0-9._-]", "_");
     File dirClass = new File(screenshotsDir, className);
     File dirMethod = new File(dirClass, testClass.getMethodName());
     createDir(dirMethod);
     return dirMethod;
+  }
+
+  /** Returns the test class element by looking at the method InstrumentationTestCase invokes. */
+  static StackTraceElement findTestClassTraceElement(StackTraceElement[] trace) {
+    for (int i = trace.length - 1; i >= 0; i--) {
+      StackTraceElement element = trace[i];
+      if (TEST_CASE_CLASS.equals(element.getClassName())
+         && TEST_CASE_METHOD.equals(element.getMethodName())) {
+        return trace[i - 3];
+      }
+    }
+
+    throw new IllegalArgumentException("Could not find test class!");
   }
 
   private static void createDir(File dir) throws IllegalAccessException {
