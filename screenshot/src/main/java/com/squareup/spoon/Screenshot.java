@@ -52,14 +52,14 @@ public final class Screenshot {
 
     if (Looper.myLooper() == Looper.getMainLooper()) {
       // On main thread already, Just Do It™.
-      getScreenshot(activity, bitmap);
+      drawDecorViewToBitmap(activity, bitmap);
     } else {
       // On a background thread, post to main.
       final CountDownLatch latch = new CountDownLatch(1);
       activity.runOnUiThread(new Runnable() {
         @Override public void run() {
           try {
-            getScreenshot(activity, bitmap);
+            drawDecorViewToBitmap(activity, bitmap);
           } finally {
             latch.countDown();
           }
@@ -87,7 +87,7 @@ public final class Screenshot {
     }
   }
 
-  private static void getScreenshot(Activity activity, Bitmap bitmap) {
+  private static void drawDecorViewToBitmap(Activity activity, Bitmap bitmap) {
     Canvas canvas = new Canvas(bitmap);
     activity.getWindow().getDecorView().draw(canvas);
   }
