@@ -76,7 +76,7 @@ public class SpoonMojo extends AbstractMojo {
     Log log = getLog();
 
     if (mavenTestSkip || mavenSkipTests) {
-      log.info("maven.test.skip set - skipping tests");
+      log.info("Skipping Spoon execution.");
       return;
     }
 
@@ -109,7 +109,7 @@ public class SpoonMojo extends AbstractMojo {
       }
     }
     if (app == null) {
-      log.error("Could not find app. Ensure 'apk' dependency on it exists.");
+      log.error("Could not find application. Ensure 'apk' dependency on it exists.");
       hasError = true;
     }
 
