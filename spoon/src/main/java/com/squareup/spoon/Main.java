@@ -9,6 +9,9 @@ import java.io.File;
 import java.io.IOException;
 
 public class Main {
+  static final String DEFAULT_TITLE = "Spoon Execution Summary";
+  static final String OUTPUT_DIRECTORY_NAME = "spoon-output";
+
   public static class FileConverter implements IStringConverter<File> {
     @Override public File convert(String s) {
       return new File(s);
@@ -17,7 +20,7 @@ public class Main {
 
   public static class Configuration {
     @Parameter(names = { "--title" }, description = "Execution title")
-    public String title = "Spoon Execution Summary";
+    public String title = DEFAULT_TITLE;
 
     @Parameter(names = { "--apk" }, description = "Application APK",
         converter = FileConverter.class)
@@ -28,7 +31,7 @@ public class Main {
     public File testApk;
 
     @Parameter(names = { "--output" }, description = "Output path", converter = FileConverter.class)
-    public File output = new File("spoon-output");
+    public File output = new File(OUTPUT_DIRECTORY_NAME);
 
     @Parameter(names = { "--sdk" }, description = "Path to Android SDK")
     public String sdk = System.getenv("ANDROID_HOME");

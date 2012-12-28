@@ -93,6 +93,11 @@
         <version>3.0.4</version>
       </dependency>
       <dependency>
+        <groupId>org.apache.maven.plugin-tools</groupId>
+        <artifactId>maven-plugin-annotations</artifactId>
+        <version>3.1</version>
+      </dependency>
+      <dependency>
         <groupId>com.madgag</groupId>
         <artifactId>animated-gif-lib</artifactId>
         <version>1.0</version>
@@ -131,6 +136,15 @@
           <configuration>
             <source>${java.version}</source>
             <target>${java.version}</target>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-plugin-plugin</artifactId>
+          <version>3.1</version>
+          <configuration>
+            <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
           </configuration>
         </plugin>
       </plugins>

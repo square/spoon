@@ -6,70 +6,47 @@ import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
+
+import static com.squareup.spoon.Main.DEFAULT_TITLE;
+import static com.squareup.spoon.Main.OUTPUT_DIRECTORY_NAME;
+import static org.apache.maven.plugins.annotations.LifecyclePhase.INTEGRATION_TEST;
 
 /**
  * Goal which invokes Spoon. By default the output will be placed in a {@code spoon-output/} folder
  * in your project's build directory.
- *
- * @goal run
- * @phase integration-test
  */
-@SuppressWarnings({ "JavaDoc", "UnusedDeclaration" }) // Non-standard Javadoc used by Maven.
+@SuppressWarnings("UnusedDeclaration") // Used reflectively by Maven.
+@Mojo(name = "run", defaultPhase = INTEGRATION_TEST, threadSafe = true)
 public class SpoonMojo extends AbstractMojo {
-  /**
-   * -Dmaven.test.skip is commonly used with Maven to skip tests. We honor it too.
-   *
-   * @parameter expression="${maven.test.skip}" default-value=false
-   * @readonly
-   */
+  /** {@code -Dmaven.test.skip} is commonly used with Maven to skip tests. We honor it too. */
+  @Parameter(property = "maven.test.skip", defaultValue = "false")
   private boolean mavenTestSkip;
 
-  /**
-   * -DskipTests is commonly used with Maven to skip tests. We honor it too.
-   *
-   * @parameter expression="${skipTests}" default-value=false
-   * @readonly
-   */
+  /** {@code -DskipTests} is commonly used with Maven to skip tests. We honor it too. */
+  @Parameter(property = "skipTests", defaultValue = "false")
   private boolean mavenSkipTests;
 
-  /**
-   * Location of the file.
-   *
-   * @parameter expression="${project.build.directory}/spoon-output/"
-   * @required
-   */
+  /** Location of the output directory. */
+  @Parameter(property = "project.build.directory", required = true)
   private File outputDirectory;
 
-  /**
-   * A title for the output website.
-   *
-   * @parameter default-value="Spoon Test Run"
-   */
+  /** A title for the output website. */
+  @Parameter(defaultValue = DEFAULT_TITLE)
   private String title;
 
-  /**
-   * The location of the Android SDK.
-   *
-   * @parameter expression="${env.ANDROID_HOME}"
-   * @required
-   */
+  /** The location of the Android SDK. */
+  @Parameter(property = "env.ANDROID_HOME", required = true)
   private String androidSdk;
 
-  /**
-   * The location of the Android SDK.
-   *
-   * @parameter
-   */
+  /** The location of the Android SDK. */
+  @Parameter
   private boolean debug;
 
-  /**
-   * Maven project.
-   *
-   * @parameter expression="${project}"
-   * @required
-   * @readonly
-   */
+  /** Maven project. */
+  @Parameter(property = "project", required = true, readonly = true)
   private MavenProject project;
 
   public void execute() throws MojoExecutionException {
@@ -130,13 +107,13 @@ public class SpoonMojo extends AbstractMojo {
     }
 
     String classpath = System.getProperty("java.class.path"); // TODO infer from artifact.
+    File output = new File(outputDirectory, OUTPUT_DIRECTORY_NAME);
 
-    log.debug("Output directory: " + outputDirectory.getAbsolutePath());
+    log.debug("Output directory: " + output.getAbsolutePath());
     log.debug("Spoon title: " + title);
     log.debug("Debug: " + Boolean.toString(debug));
     log.debug("Classpath: " + classpath);
 
-    new ExecutionSuite(title, androidSdk, app, instrumentation, outputDirectory, debug,
-        classpath).run();
+    new ExecutionSuite(title, androidSdk, app, instrumentation, output, debug, classpath).run();
   }
 }
