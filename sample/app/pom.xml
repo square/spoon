@@ -6,13 +6,13 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.squareup</groupId>
-    <artifactId>spoon-sample</artifactId>
+    <groupId>com.squareup.spoon</groupId>
+    <artifactId>sample</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <artifactId>spoon-sample-app</artifactId>
+  <artifactId>sample-app</artifactId>
   <packaging>apk</packaging>
   <name>Spoon: Sample Application</name>
 

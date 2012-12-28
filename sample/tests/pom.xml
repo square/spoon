@@ -6,13 +6,13 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.squareup</groupId>
-    <artifactId>spoon-sample</artifactId>
+    <groupId>com.squareup.spoon</groupId>
+    <artifactId>sample</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <artifactId>spoon-sample-tests</artifactId>
+  <artifactId>sample-tests</artifactId>
   <packaging>apk</packaging>
   <name>Spoon: Sample Instrumentation</name>
 
@@ -31,22 +31,22 @@
     </dependency>
 
     <dependency>
-      <groupId>com.squareup</groupId>
-      <artifactId>spoon-sample-app</artifactId>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>sample-app</artifactId>
       <version>${project.version}</version>
       <type>apk</type>
     </dependency>
     <dependency>
-      <groupId>com.squareup</groupId>
-      <artifactId>spoon-sample-app</artifactId>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>sample-app</artifactId>
       <version>${project.version}</version>
       <type>jar</type>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
-      <groupId>com.squareup</groupId>
-      <artifactId>spoon-screenshot</artifactId>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>screenshot</artifactId>
       <version>${project.version}</version>
       <type>jar</type>
     </dependency>

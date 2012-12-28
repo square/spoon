@@ -59,7 +59,7 @@ public class SpoonMojo extends AbstractMojo {
 
     Artifact self = null;
     for (Artifact artifact : project.getPluginArtifacts()) {
-      if ("com.squareup".equals(artifact.getGroupId()) //
+      if ("com.squareup.spoon".equals(artifact.getGroupId()) //
           && "spoon-maven-plugin".equals(artifact.getArtifactId())) {
         self = artifact;
         break;
