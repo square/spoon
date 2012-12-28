@@ -89,6 +89,7 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
   private final String serial;
   private final boolean debug;
   private final File output;
+  private final String classpath;
 
   /**
    * Create a test runner for a single device.
@@ -99,15 +100,17 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
    * @param output Path to output directory.
    * @param serial Device to run the test on.
    * @param debug Whether or not debug logging is enabled.
+   * @param classpath Custom JVM classpath or {@code null}.
    */
-  public ExecutionTarget(String sdkPath, File apk, File testApk, File output, String serial,
-      boolean debug) {
+  ExecutionTarget(String sdkPath, File apk, File testApk, File output, String serial,
+      boolean debug, String classpath) {
     this.sdkPath = sdkPath;
     this.apk = apk;
     this.testApk = testApk;
     this.serial = serial;
     this.debug = debug;
     this.output = new File(output, serial);
+    this.classpath = classpath;
   }
 
   /////////////////////////////////////////////////////////////////////////////
@@ -125,7 +128,6 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
     execution.close();
 
     // Kick off a new process to interface with ADB and perform the real execution.
-    String classpath = System.getProperty("java.class.path");
     String name = ExecutionTarget.class.getName();
     Process process = new ProcessBuilder("java", "-cp", classpath, name,
       output.getAbsolutePath()).start();

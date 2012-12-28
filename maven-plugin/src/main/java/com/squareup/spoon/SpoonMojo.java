@@ -80,6 +80,18 @@ public class SpoonMojo extends AbstractMojo {
       return;
     }
 
+    Artifact self = null;
+    for (Artifact artifact : project.getPluginArtifacts()) {
+      if ("com.squareup".equals(artifact.getGroupId()) //
+          && "maven-spoon-plugin".equals(artifact.getArtifactId())) {
+        self = artifact;
+        break;
+      }
+    }
+    if (self == null) {
+      throw new MojoExecutionException("Could not find representation of this plugin in project.");
+    }
+
     boolean hasError = false;
 
     File sdkFile = new File(androidSdk);
@@ -117,10 +129,14 @@ public class SpoonMojo extends AbstractMojo {
       throw new MojoExecutionException("Unable to invoke Spoon. See console for details.");
     }
 
+    String classpath = System.getProperty("java.class.path"); // TODO infer from artifact.
+
     log.debug("Output directory: " + outputDirectory.getAbsolutePath());
     log.debug("Spoon title: " + title);
     log.debug("Debug: " + Boolean.toString(debug));
+    log.debug("Classpath: " + classpath);
 
-    new ExecutionSuite(title, androidSdk, app, instrumentation, outputDirectory, debug).run();
+    new ExecutionSuite(title, androidSdk, app, instrumentation, outputDirectory, debug,
+        classpath).run();
   }
 }

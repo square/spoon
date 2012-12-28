@@ -64,6 +64,9 @@ public class Main {
           "Could not find Android SDK. Ensure ANDROID_HOME environment variable is set.");
     }
 
-    new ExecutionSuite(cfg.title, cfg.sdk, cfg.apk, cfg.testApk, cfg.output, cfg.debug).run();
+    String classpath = System.getProperty("java.class.path");
+
+    new ExecutionSuite(cfg.title, cfg.sdk, cfg.apk, cfg.testApk, cfg.output, cfg.debug,
+        classpath).run();
   }
 }

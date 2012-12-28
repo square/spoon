@@ -23,6 +23,7 @@ public class ExecutionSuite implements Runnable {
   private final File output;
   private final boolean debug;
   private final Collection<String> serials;
+  private final String classpath;
 
   /**
    * Create a test suite for the specified devices and configuration.
@@ -33,9 +34,10 @@ public class ExecutionSuite implements Runnable {
    * @param testApk Path to test application APK.
    * @param output Path to output directory.
    * @param debug Whether or not debug logging is enabled.
+   * @param classpath Classpath to use for new JVM processes.
    */
   public ExecutionSuite(String title, String sdkPath, File apk, File testApk, File output,
-      boolean debug) {
+      boolean debug, String classpath) {
     this.logger = Logger.getLogger("Spoon");
     this.title = title;
     this.sdkPath = sdkPath;
@@ -44,6 +46,7 @@ public class ExecutionSuite implements Runnable {
     this.output = output;
     this.debug = debug;
     this.serials = findAllDevices(sdkPath);
+    this.classpath = classpath;
   }
 
   @Override public void run() {
@@ -75,7 +78,7 @@ public class ExecutionSuite implements Runnable {
             ExecutionResult result = new ExecutionResult(serial);
             try {
               ExecutionTarget target =
-                  new ExecutionTarget(sdkPath, apk, testApk, output, serial, debug);
+                  new ExecutionTarget(sdkPath, apk, testApk, output, serial, debug, classpath);
               result = target.call();
               summaryBuilder.addResult(result);
             } catch (FileNotFoundException e) {
