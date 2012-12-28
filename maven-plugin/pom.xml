@@ -11,7 +11,7 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <artifactId>maven-spoon-plugin</artifactId>
+  <artifactId>spoon-maven-plugin</artifactId>
   <packaging>maven-plugin</packaging>
   <name>Spoon: Maven Plugin</name>
 

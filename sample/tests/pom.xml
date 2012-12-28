@@ -65,7 +65,7 @@
 
       <plugin>
         <groupId>${project.groupId}</groupId>
-        <artifactId>maven-spoon-plugin</artifactId>
+        <artifactId>spoon-maven-plugin</artifactId>
         <version>${project.version}</version>
         <executions>
           <execution>
