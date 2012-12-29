@@ -27,6 +27,10 @@ import static org.apache.maven.plugins.annotations.LifecyclePhase.INTEGRATION_TE
 @SuppressWarnings("UnusedDeclaration") // Used reflectively by Maven.
 @Mojo(name = "run", defaultPhase = INTEGRATION_TEST, threadSafe = true)
 public class SpoonMojo extends AbstractMojo {
+  private static final String SPOON_GROUP_ID = "com.squareup.spoon";
+  private static final String SPOON_PLUGIN_ARTIFACT_ID = "spoon-maven-plugin";
+  private static final String SPOON_ARTIFACT_ID = "spoon";
+
   /** {@code -Dmaven.test.skip} is commonly used with Maven to skip tests. We honor it too. */
   @Parameter(property = "maven.test.skip", defaultValue = "false")
   private boolean mavenTestSkip;
@@ -113,10 +117,10 @@ public class SpoonMojo extends AbstractMojo {
   }
 
   private String getSpoonClasspath() throws MojoExecutionException {
-    Artifact spoonPlugin = findArtifact("com.squareup.spoon", "spoon-maven-plugin",
+    Artifact spoonPlugin = findArtifact(SPOON_GROUP_ID, SPOON_PLUGIN_ARTIFACT_ID,
         project.getPluginArtifacts());
     Set<Artifact> spoonPluginDeps = getDependenciesForArtifact(spoonPlugin);
-    Artifact spoon = findArtifact("com.squareup.spoon", "spoon", spoonPluginDeps);
+    Artifact spoon = findArtifact(SPOON_GROUP_ID, SPOON_ARTIFACT_ID, spoonPluginDeps);
     Set<Artifact> spoonDeps = getDependenciesForArtifact(spoon);
     return createClasspath(spoonDeps);
   }
