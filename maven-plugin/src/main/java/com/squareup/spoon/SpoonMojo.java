@@ -69,46 +69,20 @@ public class SpoonMojo extends AbstractMojo {
       return;
     }
 
-    boolean hasError = false;
-
     File sdkFile = new File(androidSdk);
     if (!sdkFile.exists()) {
-      log.error("Could not find Android SDK. Ensure ANDROID_HOME environment variable is set.");
-      hasError = true;
+      throw new MojoExecutionException(
+          "Could not find Android SDK. Ensure ANDROID_HOME environment variable is set.");
     }
     log.debug("Android SDK: " + sdkFile.getAbsolutePath());
 
-    Artifact instrumentationArtifact = project.getArtifact();
-    File instrumentation = instrumentationArtifact.getFile();
-    if (!"apk".equals(instrumentationArtifact.getType())) {
-      log.error("Spoon can only be invoked on a module with type 'apk'.");
-      hasError = true;
-    }
+    File instrumentation = getInstrumentationApk();
     log.debug("Instrumentation APK: " + instrumentation);
 
-    File app = null;
-    for (Artifact dependency : project.getDependencyArtifacts()) {
-      if ("apk".equals(dependency.getType())) {
-        if (app != null) {
-          log.error("Multiple APK dependencies detected. Only one is supported.");
-          break;
-        }
-        app = dependency.getFile();
-        log.debug("Application APK: " + app.getAbsolutePath());
-      }
-    }
-    if (app == null) {
-      log.error("Could not find application. Ensure 'apk' dependency on it exists.");
-      hasError = true;
-    }
+    File app = getApplicationApk();
+    log.debug("Application APK: " + app.getAbsolutePath());
 
-    if (hasError) {
-      throw new MojoExecutionException("Unable to invoke Spoon. See console for details.");
-    }
-
-    Artifact self = getArtifactForSelf();
-    Set<Artifact> selfWithDeps = getDependenciesForArtifact(self);
-    String classpath = getClasspath(selfWithDeps);
+    String classpath = getClasspath();
     log.debug("Classpath: " + classpath);
 
     File output = new File(outputDirectory, OUTPUT_DIRECTORY_NAME);
@@ -118,6 +92,39 @@ public class SpoonMojo extends AbstractMojo {
     log.debug("Debug: " + Boolean.toString(debug));
 
     new ExecutionSuite(title, androidSdk, app, instrumentation, output, debug, classpath).run();
+  }
+
+  private File getInstrumentationApk() throws MojoExecutionException {
+    Artifact instrumentationArtifact = project.getArtifact();
+    if (!"apk".equals(instrumentationArtifact.getType())) {
+      throw new MojoExecutionException("Spoon can only be invoked on a module with type 'apk'.");
+    }
+    return instrumentationArtifact.getFile();
+  }
+
+  private File getApplicationApk() throws MojoExecutionException {
+    for (Artifact dependency : project.getDependencyArtifacts()) {
+      if ("apk".equals(dependency.getType())) {
+        return dependency.getFile();
+      }
+    }
+    throw new MojoExecutionException(
+        "Could not find application. Ensure 'apk' dependency on it exists.");
+  }
+
+  private String getClasspath() throws MojoExecutionException {
+    Artifact self = getArtifactForSelf();
+    Set<Artifact> selfWithDeps = getDependenciesForArtifact(self);
+
+    StringBuilder builder = new StringBuilder();
+    Iterator<Artifact> i = selfWithDeps.iterator();
+    if (i.hasNext()) {
+      builder.append(getLocalPathToArtifact(i.next()));
+      while (i.hasNext()) {
+        builder.append(File.pathSeparator).append(getLocalPathToArtifact(i.next()));
+      }
+    }
+    return builder.toString();
   }
 
   private Artifact getArtifactForSelf() throws MojoExecutionException {
@@ -136,21 +143,6 @@ public class SpoonMojo extends AbstractMojo {
         .setResolveTransitively(true)
         .setLocalRepository(local);
     return repositorySystem.resolve(arr).getArtifacts();
-  }
-
-  private String getClasspath(Set<Artifact> artifacts) {
-    if (artifacts == null || artifacts.isEmpty()) {
-      return "";
-    }
-    StringBuilder builder = new StringBuilder();
-    Iterator<Artifact> i = artifacts.iterator();
-    if (i.hasNext()) {
-      builder.append(getLocalPathToArtifact(i.next()));
-      while (i.hasNext()) {
-        builder.append(File.pathSeparator).append(getLocalPathToArtifact(i.next()));
-      }
-    }
-    return builder.toString();
   }
 
   private String getLocalPathToArtifact(Artifact artifact) {
