@@ -82,7 +82,7 @@ public class SpoonMojo extends AbstractMojo {
     File app = getApplicationApk();
     log.debug("Application APK: " + app.getAbsolutePath());
 
-    String classpath = getClasspath();
+    String classpath = getSpoonClasspath();
     log.debug("Classpath: " + classpath);
 
     File output = new File(outputDirectory, OUTPUT_DIRECTORY_NAME);
@@ -112,10 +112,34 @@ public class SpoonMojo extends AbstractMojo {
         "Could not find application. Ensure 'apk' dependency on it exists.");
   }
 
-  private String getClasspath() throws MojoExecutionException {
-    Artifact self = getArtifactForSelf();
-    Set<Artifact> selfWithDeps = getDependenciesForArtifact(self);
+  private String getSpoonClasspath() throws MojoExecutionException {
+    Artifact spoonPlugin = findArtifact("com.squareup.spoon", "spoon-maven-plugin",
+        project.getPluginArtifacts());
+    Set<Artifact> spoonPluginDeps = getDependenciesForArtifact(spoonPlugin);
+    Artifact spoon = findArtifact("com.squareup.spoon", "spoon", spoonPluginDeps);
+    Set<Artifact> spoonDeps = getDependenciesForArtifact(spoon);
+    return createClasspath(spoonDeps);
+  }
 
+  private static Artifact findArtifact(String groupId, String artifactId, Set<Artifact> artifacts)
+      throws MojoExecutionException {
+    for (Artifact artifact : artifacts) {
+      if (groupId.equals(artifact.getGroupId()) && artifactId.equals(artifact.getArtifactId())) {
+        return artifact;
+      }
+    }
+    throw new MojoExecutionException("Could not find " + groupId + ":" + artifactId + " artifact.");
+  }
+
+  private Set<Artifact> getDependenciesForArtifact(Artifact artifact) {
+    ArtifactResolutionRequest arr = new ArtifactResolutionRequest()
+        .setArtifact(artifact)
+        .setResolveTransitively(true)
+        .setLocalRepository(local);
+    return repositorySystem.resolve(arr).getArtifacts();
+  }
+
+  private String createClasspath(Set<Artifact> selfWithDeps) {
     StringBuilder builder = new StringBuilder();
     Iterator<Artifact> i = selfWithDeps.iterator();
     if (i.hasNext()) {
@@ -125,24 +149,6 @@ public class SpoonMojo extends AbstractMojo {
       }
     }
     return builder.toString();
-  }
-
-  private Artifact getArtifactForSelf() throws MojoExecutionException {
-    for (Artifact artifact : project.getPluginArtifacts()) {
-      if ("com.squareup.spoon".equals(artifact.getGroupId()) //
-          && "spoon-maven-plugin".equals(artifact.getArtifactId())) {
-        return artifact;
-      }
-    }
-    throw new MojoExecutionException("Could not find representation of this plugin in project.");
-  }
-
-  private Set<Artifact> getDependenciesForArtifact(Artifact artifact) {
-    ArtifactResolutionRequest arr = new ArtifactResolutionRequest()
-        .setArtifact(artifact)
-        .setResolveTransitively(true)
-        .setLocalRepository(local);
-    return repositorySystem.resolve(arr).getArtifacts();
   }
 
   private String getLocalPathToArtifact(Artifact artifact) {
