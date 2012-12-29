@@ -29,8 +29,6 @@
             <div class="row">
                 <div class="span12">
                     <table class="birds-eye">
-                        <thead>
-                        </thead>
                         <tbody>
                             {{#getResults}}
                             <tr class="device">
@@ -50,9 +48,9 @@
                             {{/getRuntimeException}}
                             {{^getRuntimeException}}
                             <tr class="result">
-                                {{#results}}{{#test}}
+                                {{#results}}
                                 <td class="test {{result}}" data-original-title="{{classSimpleName}}" data-content="{{testName}}">&nbsp;</td>
-                                {{/test}}{{/results}}
+                                {{/results}}
                             </tr>
                             {{/getRuntimeException}}
                             {{/getResults}}
