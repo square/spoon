@@ -25,7 +25,7 @@ import static org.apache.maven.plugins.annotations.LifecyclePhase.INTEGRATION_TE
  * in your project's build directory.
  */
 @SuppressWarnings("UnusedDeclaration") // Used reflectively by Maven.
-@Mojo(name = "run", defaultPhase = INTEGRATION_TEST, threadSafe = true)
+@Mojo(name = "run", defaultPhase = INTEGRATION_TEST, threadSafe = false)
 public class SpoonMojo extends AbstractMojo {
   private static final String SPOON_GROUP_ID = "com.squareup.spoon";
   private static final String SPOON_PLUGIN_ARTIFACT_ID = "spoon-maven-plugin";
