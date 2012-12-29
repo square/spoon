@@ -14,6 +14,7 @@ import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
+import org.apache.maven.project.MavenProjectHelper;
 import org.apache.maven.repository.RepositorySystem;
 
 import static com.squareup.spoon.Main.DEFAULT_TITLE;
@@ -30,6 +31,8 @@ public class SpoonMojo extends AbstractMojo {
   private static final String SPOON_GROUP_ID = "com.squareup.spoon";
   private static final String SPOON_PLUGIN_ARTIFACT_ID = "spoon-maven-plugin";
   private static final String SPOON_ARTIFACT_ID = "spoon";
+  private static final String ARTIFACT_TYPE = "zip";
+  private static final String ARTIFACT_CLASSIFIER = "spoon-output";
 
   /** {@code -Dmaven.test.skip} is commonly used with Maven to skip tests. We honor it too. */
   @Parameter(property = "maven.test.skip", defaultValue = "false")
@@ -40,7 +43,7 @@ public class SpoonMojo extends AbstractMojo {
   private boolean mavenSkipTests;
 
   /** Location of the output directory. */
-  @Parameter(property = "project.build.directory", required = true)
+  @Parameter(defaultValue = "${project.build.directory}", required = true)
   private File outputDirectory;
 
   /** A title for the output website. */
@@ -48,19 +51,28 @@ public class SpoonMojo extends AbstractMojo {
   private String title;
 
   /** The location of the Android SDK. */
-  @Parameter(property = "env.ANDROID_HOME", required = true)
+  @Parameter(defaultValue = "${env.ANDROID_HOME}", required = true)
   private String androidSdk;
+
+  /** Attaches output artifact as zip when {@code true}. */
+  @Parameter
+  private boolean attachArtifact;
 
   /** The location of the Android SDK. */
   @Parameter
   private boolean debug;
 
-  /** Maven project. */
+  @Parameter(property = "project.build.directory", required = true, readonly = true)
+  private File buildDirectory;
+
   @Parameter(property = "project", required = true, readonly = true)
   private MavenProject project;
 
   @Parameter(property = "localRepository", readonly = true, required = true)
   private ArtifactRepository local;
+
+  @Component
+  private MavenProjectHelper projectHelper;
 
   @Component
   private RepositorySystem repositorySystem;
@@ -96,6 +108,12 @@ public class SpoonMojo extends AbstractMojo {
     log.debug("Debug: " + Boolean.toString(debug));
 
     new ExecutionSuite(title, androidSdk, app, instrumentation, output, debug, classpath).run();
+
+    if (attachArtifact) {
+      File outputZip = new File(buildDirectory, OUTPUT_DIRECTORY_NAME + ".zip");
+      ZipUtil.zip(outputZip, output);
+      projectHelper.attachArtifact(project, ARTIFACT_TYPE, ARTIFACT_CLASSIFIER, outputZip);
+    }
   }
 
   private File getInstrumentationApk() throws MojoExecutionException {
