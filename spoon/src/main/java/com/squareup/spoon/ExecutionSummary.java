@@ -125,7 +125,6 @@ public class ExecutionSummary {
     DefaultMustacheFactory mustacheFactory = new DefaultMustacheFactory();
     Mustache summary = mustacheFactory.compile("index.html");
     Mustache device = mustacheFactory.compile("index-device.html");
-    Mustache testClass = mustacheFactory.compile("index-test-class.html");
     Mustache test = mustacheFactory.compile("index-test.html");
     try {
       summary.execute(new FileWriter(new File(output, "index.html")), this).flush();
@@ -140,8 +139,6 @@ public class ExecutionSummary {
       for (InstrumentationTestClass instrumentationTestClass : getInstrumentationTestClasses()) {
         File testDir = new File(output, instrumentationTestClass.classSimpleName);
         testDir.mkdirs();
-        File testClassOutput = new File(testDir.getPath(), "index.html");
-        testClass.execute(new FileWriter(testClassOutput), instrumentationTestClass).flush();
 
         for (InstrumentationTest instrumentationTest : instrumentationTestClass.tests()) {
           File testOutput = new File(testDir.getPath(), instrumentationTest.testName + ".html");
