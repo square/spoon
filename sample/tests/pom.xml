@@ -20,13 +20,11 @@
     <dependency>
       <groupId>com.google.android</groupId>
       <artifactId>android</artifactId>
-      <type>jar</type>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.google.android</groupId>
       <artifactId>android-test</artifactId>
-      <type>jar</type>
       <scope>provided</scope>
     </dependency>
 
@@ -48,7 +46,6 @@
       <groupId>${project.groupId}</groupId>
       <artifactId>screenshot</artifactId>
       <version>${project.version}</version>
-      <type>jar</type>
     </dependency>
   </dependencies>
 
