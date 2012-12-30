@@ -23,11 +23,11 @@ public class Main {
     public String title = DEFAULT_TITLE;
 
     @Parameter(names = { "--apk" }, description = "Application APK",
-        converter = FileConverter.class)
+        converter = FileConverter.class, required = true)
     public File apk;
 
     @Parameter(names = { "--test-apk" }, description = "Test application APK",
-        converter = FileConverter.class)
+        converter = FileConverter.class, required = true)
     public File testApk;
 
     @Parameter(names = { "--output" }, description = "Output path", converter = FileConverter.class)
