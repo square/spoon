@@ -48,6 +48,15 @@ body {
 .test-result.fail {
   border-bottom: 2px solid #c98989;
 }
+.test-result .icon {
+  padding: 0 8px;
+}
+.test-result .icon img {
+  opacity: 0.5;
+}
+.test-result .icon:hover img {
+  opacity: 1.0;
+}
 
 
 .stack-trace{

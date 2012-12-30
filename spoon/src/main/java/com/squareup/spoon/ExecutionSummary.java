@@ -38,7 +38,8 @@ public class ExecutionSummary {
   private static final String[] ASSETS = {
       "bootstrap.min.css", "bootstrap.min.js", "jquery.min.js", "lightbox.js", "spoon.css",
       "lightbox.css", "loading.gif", "next.png", "prev.png", "close.png",
-      "jquery-ui-1.8.18.custom.min.js", "jquery.smooth-scroll.min.js"
+      "jquery-ui-1.8.18.custom.min.js", "jquery.smooth-scroll.min.js", "icon-animated.png",
+      "icon-devices.png"
   };
 
   private final File output;
