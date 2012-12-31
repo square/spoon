@@ -62,6 +62,10 @@ public class SpoonMojo extends AbstractMojo {
   @Parameter
   private boolean attachArtifact;
 
+  /** If true then any test failures will cause the plugin to error. */
+  @Parameter
+  private boolean failOnFailure;
+
   /** Whether debug execution debug logging is enabled. */
   @Parameter
   private boolean debug;
@@ -114,7 +118,11 @@ public class SpoonMojo extends AbstractMojo {
     log.debug("Spoon title: " + title);
     log.debug("Debug: " + Boolean.toString(debug));
 
-    new ExecutionSuite(title, androidSdk, app, instrumentation, output, debug, classpath).run();
+    boolean success = new ExecutionSuite(title, androidSdk, app, instrumentation, output, debug,
+        classpath).execute();
+    if (!success && failOnFailure) {
+      throw new MojoExecutionException("Spoon returned non-zero exit code.");
+    }
 
     if (attachArtifact) {
       File outputZip = new File(buildDirectory, OUTPUT_DIRECTORY_NAME + ".zip");

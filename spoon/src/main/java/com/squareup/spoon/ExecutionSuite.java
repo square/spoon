@@ -14,7 +14,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
 /** Represents a collection of devices and the test configuration to be executed. */
-public class ExecutionSuite implements Runnable {
+public class ExecutionSuite {
   private final Logger logger;
   private final String title;
   private final String sdkPath;
@@ -49,11 +49,12 @@ public class ExecutionSuite implements Runnable {
     this.classpath = classpath;
   }
 
-  @Override public void run() {
+  /** Returns {@code true} if there were no test failures or exceptions thrown. */
+  public boolean execute() {
     int targetCount = serials.size();
     if (targetCount == 0) {
       logger.info("No devices.");
-      return;
+      return true;
     }
 
     logger.info("Executing instrumentation on " + targetCount + " devices.");
@@ -111,6 +112,8 @@ public class ExecutionSuite implements Runnable {
 
     // Write output files.
     summary.writeHtml();
+
+    return summary.getException() == null && summary.getTotalFailure() == 0;
   }
 
   /** Find all device serials that are plugged in through ADB. */

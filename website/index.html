@@ -62,11 +62,12 @@ Screenshot.snap(activity, "after_login");</pre>
     --test-apk example-tests.apk</pre>
             <p>You can control additional parameters of the execution using other flags.</p>
             <pre>Options:
-    --apk        Application APK
-    --output     Output path
-    --sdk        Path to Android SDK
-    --test-apk   Test application APK
-    --title      Execution title</pre>
+    --apk               Application APK
+    --fail-on-failure   Non-zero exit code on failure
+    --output            Output path
+    --sdk               Path to Android SDK
+    --test-apk          Test application APK
+    --title             Execution title</pre>
 
             <h4 id="maven">Maven</h4>
             <p>If you are using Maven for compilation, a plugin is provided for easy execution. Declare the plugin in the <code>pom.xml</code> for the instrumentation test module.</p>

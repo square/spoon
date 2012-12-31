@@ -4,9 +4,7 @@ import com.beust.jcommander.IStringConverter;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
-
 import java.io.File;
-import java.io.IOException;
 
 public class Main {
   static final String DEFAULT_TITLE = "Spoon Execution Summary";
@@ -30,11 +28,15 @@ public class Main {
         converter = FileConverter.class, required = true)
     public File testApk;
 
-    @Parameter(names = { "--output" }, description = "Output path", converter = FileConverter.class)
+    @Parameter(names = { "--output" }, description = "Output path",
+        converter = FileConverter.class)
     public File output = new File(OUTPUT_DIRECTORY_NAME);
 
     @Parameter(names = { "--sdk" }, description = "Path to Android SDK")
     public String sdk = System.getenv("ANDROID_HOME");
+
+    @Parameter(names = { "--fail-on-failure" }, description = "Non-zero exit code on failure")
+    public boolean failOnFailure;
 
     @Parameter(names = { "--debug" }, hidden = true)
     public boolean debug;
@@ -43,9 +45,9 @@ public class Main {
     public boolean help;
   }
 
-  public static void main(String... args) throws IOException {
-    Configuration cfg = new Configuration();
-    JCommander jc = new JCommander(cfg);
+  public static void main(String... args) {
+    Configuration config = new Configuration();
+    JCommander jc = new JCommander(config);
 
     try {
       jc.parse(args);
@@ -57,19 +59,24 @@ public class Main {
       return;
     }
 
-    if (cfg.help) {
+    if (config.help) {
       jc.usage();
       return;
     }
 
-    if (!new File(cfg.sdk).exists()) {
+    if (!new File(config.sdk).exists()) {
       throw new IllegalStateException(
           "Could not find Android SDK. Ensure ANDROID_HOME environment variable is set.");
     }
 
     String classpath = System.getProperty("java.class.path");
 
-    new ExecutionSuite(cfg.title, cfg.sdk, cfg.apk, cfg.testApk, cfg.output, cfg.debug,
-        classpath).run();
+    boolean success =
+        new ExecutionSuite(config.title, config.sdk, config.apk, config.testApk, config.output,
+            config.debug, classpath).execute();
+
+    if (!success && config.failOnFailure) {
+      System.exit(1);
+    }
   }
 }
