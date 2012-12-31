@@ -44,7 +44,6 @@
         <artifactId>maven-plugin-plugin</artifactId>
         <executions>
           <execution>
-            <id>mojo-descriptor</id>
             <phase>process-classes</phase>
             <goals>
               <goal>descriptor</goal>
