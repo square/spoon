@@ -35,12 +35,16 @@ public class SpoonMojo extends AbstractMojo {
   private static final String ARTIFACT_CLASSIFIER = "spoon-output";
 
   /** {@code -Dmaven.test.skip} is commonly used with Maven to skip tests. We honor it too. */
-  @Parameter(property = "maven.test.skip", defaultValue = "false")
+  @Parameter(property = "maven.test.skip", defaultValue = "false", readonly = true)
   private boolean mavenTestSkip;
 
   /** {@code -DskipTests} is commonly used with Maven to skip tests. We honor it too. */
-  @Parameter(property = "skipTests", defaultValue = "false")
+  @Parameter(property = "skipTests", defaultValue = "false", readonly = true)
   private boolean mavenSkipTests;
+
+  /** Configuration option to skip execution. */
+  @Parameter
+  private boolean skip;
 
   /** Location of the output directory. */
   @Parameter(defaultValue = "${project.build.directory}", required = true)
@@ -80,7 +84,10 @@ public class SpoonMojo extends AbstractMojo {
   public void execute() throws MojoExecutionException {
     Log log = getLog();
 
-    if (mavenTestSkip || mavenSkipTests) {
+    if (mavenTestSkip || mavenSkipTests || skip) {
+      log.debug("maven.test.skip = " + mavenTestSkip);
+      log.debug("skipTests = " + mavenSkipTests);
+      log.debug("skip = " + skip);
       log.info("Skipping Spoon execution.");
       return;
     }
