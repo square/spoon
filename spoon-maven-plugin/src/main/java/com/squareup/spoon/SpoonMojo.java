@@ -62,7 +62,7 @@ public class SpoonMojo extends AbstractMojo {
   @Parameter
   private boolean attachArtifact;
 
-  /** The location of the Android SDK. */
+  /** Whether debug execution debug logging is enabled. */
   @Parameter
   private boolean debug;
 
