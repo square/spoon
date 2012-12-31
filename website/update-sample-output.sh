@@ -13,5 +13,6 @@ cd ..
 mvn clean verify
 cp -R sample/tests/target/spoon-output website/sample
 cd -
+git add sample
 
 echo "Sample output updated. Make sure to commit the changes."
