@@ -1,0 +1,101 @@
+::-webkit-selection,
+::-moz-selection,
+::selection {
+	background-color: #0099cc;
+	color: #fff;
+}
+
+html, body {
+	height: 100%;
+	background-color: #f9f9f9;
+	-webkit-font-smoothing: antialiased;
+}
+
+body {
+	color: #222;
+	font: 14px/19px Roboto, sans-serif;
+	font-weight: 400;
+	letter-spacing: .1;
+	margin-top: 20px;
+}
+
+.hero-unit {
+  padding: 15px 30px;
+}
+.hero-unit h1 {
+  margin-bottom: 5px;
+  font-weight: 200;
+}
+.hero-unit p {
+  margin: 0;
+}
+
+.test-result, .test-result small {
+  font-weight: 200;
+}
+.test-result small {
+  display: none;
+}
+.test-result:hover small {
+  display: inline;
+}
+.test-result.pass {
+  border-bottom: 2px solid #89c989;
+}
+.test-result.fail {
+  border-bottom: 2px solid #c98989;
+}
+.test-result .icon {
+  padding: 0 8px;
+}
+.test-result .icon img {
+  opacity: 0.5;
+}
+.test-result .icon:hover img {
+  opacity: 1.0;
+}
+
+.stack-trace {
+  margin-left: 3em;
+}
+
+.modal .modal-body {
+  max-height: none;
+}
+
+.birds-eye {
+  width: 100%;
+}
+.birds-eye .device th {
+  text-align: left;
+  padding: 10px 0 5px 2px;
+}
+.birds-eye .result td {
+  padding: 5px 8px;
+  cursor: pointer;
+}
+.birds-eye .test.pass:hover {
+  background-color: #99c999;
+}
+.birds-eye .test.fail:hover {
+  background-color: #c99999;
+}
+.birds-eye .test.error {
+  /* Blatantly stolen from Twitter Bootstrap's progress bars. */
+  background-color: rgb(238, 95, 91);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-size: 40px 40px;
+  color: #fff;
+  font-size: 12px;
+  text-shadow: #64000000 0px -1px 0px;
+}
+.birds-eye .test.error .stack-trace {
+  display: none;
+}
+
+.test.pass {
+  background-color: #b9e9b9;
+}
+.test.fail {
+  background-color: #e9b9b9;
+}

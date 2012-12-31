@@ -25,6 +25,3 @@ classes
 gen-external-apklibs
 
 .DS_Store
-
-# Spoon output
-spoon-output/

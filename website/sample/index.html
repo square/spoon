@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Spoon Execution Summary</title>
+        <link href="bootstrap.min.css" rel="stylesheet">
+        <link href="http://fonts.googleapis.com/css?family=Roboto:regular,medium,thin,italic,mediumitalic,bold" rel="stylesheet" title="roboto">
+        <link href="spoon.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container">
+            <div class="hero-unit">
+                <h1>Spoon Execution Summary</h1>
+                <p>12 tests run across 2 devices with 10 passing and 2 failing in 29 seconds at 2012-12-30 10:17 PM</p>
+            </div>
+            <div class="row">
+                <div class="span12">
+                    <table class="birds-eye">
+                        <tbody>
+                            <tr class="device">
+                                <th colspan="6"><a href="0030ed33d4a0b796/index.html">Nexus 4</a></th>
+                            </tr>
+                            <tr class="result">
+                                <td class="test pass" data-original-title="LoginActivityTest" data-content="testBlankPasswordShowsError">&nbsp;</td>
+                                <td class="test pass" data-original-title="LoginActivityTest" data-content="testBlankUsernameShowsError">&nbsp;</td>
+                                <td class="test pass" data-original-title="LoginActivityTest" data-content="testEmptyFormShowsBothErrors">&nbsp;</td>
+                                <td class="test pass" data-original-title="LoginActivityTest" data-content="testPasswordTooShortShowsError">&nbsp;</td>
+                                <td class="test pass" data-original-title="LoginActivityTest" data-content="testValidValuesStartsNewActivity">&nbsp;</td>
+                                <td class="test fail" data-original-title="OrderActivityTest" data-content="testAlwaysFailingForFun">&nbsp;</td>
+                            </tr>
+                            <tr class="device">
+                                <th colspan="6"><a href="015d172c9a17f607/index.html">Nexus 7</a></th>
+                            </tr>
+                            <tr class="result">
+                                <td class="test pass" data-original-title="LoginActivityTest" data-content="testBlankPasswordShowsError">&nbsp;</td>
+                                <td class="test pass" data-original-title="LoginActivityTest" data-content="testBlankUsernameShowsError">&nbsp;</td>
+                                <td class="test pass" data-original-title="LoginActivityTest" data-content="testEmptyFormShowsBothErrors">&nbsp;</td>
+                                <td class="test pass" data-original-title="LoginActivityTest" data-content="testPasswordTooShortShowsError">&nbsp;</td>
+                                <td class="test pass" data-original-title="LoginActivityTest" data-content="testValidValuesStartsNewActivity">&nbsp;</td>
+                                <td class="test fail" data-original-title="OrderActivityTest" data-content="testAlwaysFailingForFun">&nbsp;</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <script src="jquery.min.js"></script>
+        <script src="bootstrap.min.js"></script>
+        <script type="text/javascript">
+            $('.test').popover({
+                placement: 'top',
+                trigger: 'hover'
+            });
+
+            $(".test.error").mouseenter(function() {
+                $(".test.error .stack-trace").stop().show(300);
+            }).mouseleave(function() {
+                $(".test.error .stack-trace").hide(300);
+            });
+        </script>
+    </body>
+</html>
