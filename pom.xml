@@ -112,6 +112,12 @@
         <artifactId>mockito-core</artifactId>
         <version>1.9.5</version>
       </dependency>
+      <dependency>
+        <groupId>com.actionbarsherlock</groupId>
+        <artifactId>actionbarsherlock</artifactId>
+        <version>4.2.0</version>
+        <type>apklib</type>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 

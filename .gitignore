@@ -22,6 +22,7 @@ release.properties
 *.iws
 *.ipr
 classes
+gen-external-apklibs
 
 .DS_Store
 
