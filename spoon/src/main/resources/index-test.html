@@ -20,11 +20,14 @@
                     {{#results}}
                     <h2 class="test-result {{result}}">
                         {{deviceName}}
+                        <!-- Icons modified from Glyphish Free. http://glyphish.com -->
+                        <a href="../{{serial}}/index.html" title="View only this device" class="pull-right icon">
+                            <img src="../icon-devices.png" alt="View only this device"/>
+                        </a>
+                        <a href="../{{serial}}/{{classSimpleName}}-{{testName}}.gif" title="View as animated GIF" class="pull-right icon">
+                            <img src="../icon-animated.png" alt="View as animated GIF"/>
+                        </a>
                     </h2>
-                    <div class="pull-right">
-                        <a href="../{{serial}}/index.html">all tests</a><br>
-                        <a href="../{{serial}}/{{classSimpleName}}-{{testName}}.gif">test GIF</a>
-                    </div>
                     <ul class="thumbnails">
                         {{#screenshots}}
                         <li class="span2">
