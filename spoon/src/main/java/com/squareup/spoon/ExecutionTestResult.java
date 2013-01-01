@@ -37,6 +37,10 @@ public class ExecutionTestResult {
     testName = test.testName;
   }
 
+  public boolean hasScreenshots() {
+    return !screenshots.isEmpty();
+  }
+
   public void addScreenshot(File screenshotFile) {
     screenshots.add(new Screenshot(screenshotFile));
   }

@@ -15,19 +15,22 @@
                 <h1>{{testName}}</h1>
                 <p>Run on {{numDevices}} device(s)</p>
             </div>
+            {{#results}}
             <div class="row">
                 <div class="span12">
-                    {{#results}}
                     <h2 class="test-result {{result}}">
                         {{deviceName}}
                         <!-- Icons modified from Glyphish Free. http://glyphish.com -->
                         <a href="../{{serial}}/index.html" title="View only this device" class="pull-right icon">
                             <img src="../icon-devices.png" alt="View only this device"/>
                         </a>
+                        {{#hasScreenshots}}
                         <a href="../{{serial}}/{{classSimpleName}}-{{testName}}.gif" title="View as animated GIF" class="pull-right icon">
                             <img src="../icon-animated.png" alt="View as animated GIF"/>
                         </a>
+                        {{/hasScreenshots}}
                     </h2>
+                    {{#hasScreenshots}}
                     <ul class="thumbnails">
                         {{#screenshots}}
                         <li class="span2">
@@ -37,10 +40,7 @@
                         </li>
                         {{/screenshots}}
                     </ul>
-                    {{/results}}
-                    {{^results}}
-                    <p>Test never ran!</p>
-                    {{/results}}
+                    {{/hasScreenshots}}
                 </div>
                 {{#screenshots}}
                 <div id="{{id}}" class="modal hide fade">
@@ -50,6 +50,7 @@
                 </div>
                 {{/screenshots}}
             </div>
+            {{/results}}
         </div>
 
         <script src="../jquery.min.js"></script>

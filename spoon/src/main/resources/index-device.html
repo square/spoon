@@ -24,10 +24,13 @@
                         <a href="../{{classSimpleName}}/{{testName}}.html" title="View on all devices" class="pull-right icon">
                             <img src="../icon-devices.png" alt="View on all devices"/>
                         </a>
+                        {{#hasScreenshots}}
                         <a href="../{{serial}}/{{classSimpleName}}-{{testName}}.gif" title="View as animated GIF" class="pull-right icon">
                             <img src="../icon-animated.png" alt="View as animated GIF"/>
                         </a>
+                        {{/hasScreenshots}}
                     </h2>
+                    {{#hasScreenshots}}
                     <ul class="thumbnails">
                         {{#screenshots}}
                         <li class="span2">
@@ -37,6 +40,7 @@
                         </li>
                         {{/screenshots}}
                     </ul>
+                    {{/hasScreenshots}}
                 </div>
                 {{#screenshots}}
                 <div id="{{id}}" class="modal hide fade">
