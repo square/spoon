@@ -9,9 +9,9 @@
   "deviceApiLevel": "17",
   "deviceLanguage": "en",
   "deviceRegion": "US",
-  "testStart": 1356934621837908000,
-  "testEnd": 1356934632962968000,
-  "testCompleted": "Dec 30, 2012 10:17:12 PM",
+  "testStart": 1357002918943536000,
+  "testEnd": 1357002930121902000,
+  "testCompleted": "Dec 31, 2012 5:15:30 PM",
   "totalTime": 0,
   "testClasses": {
     "com.squareup.spoon.sample.tests.OrderActivityTest": {
@@ -38,8 +38,8 @@
               "serial": "0030ed33d4a0b796",
               "screenshots": [
                 {
-                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/0030ed33d4a0b796/com.squareup.spoon.sample.tests.OrderActivityTest/testAlwaysFailingForFun/1356934631765_initial_state.png",
-                  "taken": "Dec 30, 2012 10:17:11 PM",
+                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/0030ed33d4a0b796/com.squareup.spoon.sample.tests.OrderActivityTest/testAlwaysFailingForFun/1357002930941_initial_state.png",
+                  "taken": "Dec 31, 2012 5:15:30 PM",
                   "tag": "initial_state",
                   "id": "com-squareup-spoon-sample-tests-OrderActivityTest-testAlwaysFailingForFun-initial_state",
                   "screenshotGroup": "OrderActivityTest-testAlwaysFailingForFun"
@@ -74,15 +74,15 @@
               "serial": "0030ed33d4a0b796",
               "screenshots": [
                 {
-                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/0030ed33d4a0b796/com.squareup.spoon.sample.tests.LoginActivityTest/testEmptyFormShowsBothErrors/1356934626610_initial_state.png",
-                  "taken": "Dec 30, 2012 10:17:06 PM",
+                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/0030ed33d4a0b796/com.squareup.spoon.sample.tests.LoginActivityTest/testEmptyFormShowsBothErrors/1357002925508_initial_state.png",
+                  "taken": "Dec 31, 2012 5:15:25 PM",
                   "tag": "initial_state",
                   "id": "com-squareup-spoon-sample-tests-LoginActivityTest-testEmptyFormShowsBothErrors-initial_state",
                   "screenshotGroup": "LoginActivityTest-testEmptyFormShowsBothErrors"
                 },
                 {
-                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/0030ed33d4a0b796/com.squareup.spoon.sample.tests.LoginActivityTest/testEmptyFormShowsBothErrors/1356934627214_login_clicked.png",
-                  "taken": "Dec 30, 2012 10:17:07 PM",
+                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/0030ed33d4a0b796/com.squareup.spoon.sample.tests.LoginActivityTest/testEmptyFormShowsBothErrors/1357002926109_login_clicked.png",
+                  "taken": "Dec 31, 2012 5:15:26 PM",
                   "tag": "login_clicked",
                   "id": "com-squareup-spoon-sample-tests-LoginActivityTest-testEmptyFormShowsBothErrors-login_clicked",
                   "screenshotGroup": "LoginActivityTest-testEmptyFormShowsBothErrors"
@@ -109,22 +109,22 @@
               "serial": "0030ed33d4a0b796",
               "screenshots": [
                 {
-                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/0030ed33d4a0b796/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankPasswordShowsError/1356934622701_initial_state.png",
-                  "taken": "Dec 30, 2012 10:17:02 PM",
+                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/0030ed33d4a0b796/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankPasswordShowsError/1357002921749_initial_state.png",
+                  "taken": "Dec 31, 2012 5:15:21 PM",
                   "tag": "initial_state",
                   "id": "com-squareup-spoon-sample-tests-LoginActivityTest-testBlankPasswordShowsError-initial_state",
                   "screenshotGroup": "LoginActivityTest-testBlankPasswordShowsError"
                 },
                 {
-                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/0030ed33d4a0b796/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankPasswordShowsError/1356934623346_username_entered.png",
-                  "taken": "Dec 30, 2012 10:17:03 PM",
+                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/0030ed33d4a0b796/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankPasswordShowsError/1357002922351_username_entered.png",
+                  "taken": "Dec 31, 2012 5:15:22 PM",
                   "tag": "username_entered",
                   "id": "com-squareup-spoon-sample-tests-LoginActivityTest-testBlankPasswordShowsError-username_entered",
                   "screenshotGroup": "LoginActivityTest-testBlankPasswordShowsError"
                 },
                 {
-                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/0030ed33d4a0b796/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankPasswordShowsError/1356934623869_login_clicked.png",
-                  "taken": "Dec 30, 2012 10:17:03 PM",
+                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/0030ed33d4a0b796/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankPasswordShowsError/1357002922859_login_clicked.png",
+                  "taken": "Dec 31, 2012 5:15:22 PM",
                   "tag": "login_clicked",
                   "id": "com-squareup-spoon-sample-tests-LoginActivityTest-testBlankPasswordShowsError-login_clicked",
                   "screenshotGroup": "LoginActivityTest-testBlankPasswordShowsError"
@@ -151,22 +151,22 @@
               "serial": "0030ed33d4a0b796",
               "screenshots": [
                 {
-                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/0030ed33d4a0b796/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankUsernameShowsError/1356934624641_initial_state.png",
-                  "taken": "Dec 30, 2012 10:17:04 PM",
+                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/0030ed33d4a0b796/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankUsernameShowsError/1357002923546_initial_state.png",
+                  "taken": "Dec 31, 2012 5:15:23 PM",
                   "tag": "initial_state",
                   "id": "com-squareup-spoon-sample-tests-LoginActivityTest-testBlankUsernameShowsError-initial_state",
                   "screenshotGroup": "LoginActivityTest-testBlankUsernameShowsError"
                 },
                 {
-                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/0030ed33d4a0b796/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankUsernameShowsError/1356934625179_password_entered.png",
-                  "taken": "Dec 30, 2012 10:17:05 PM",
+                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/0030ed33d4a0b796/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankUsernameShowsError/1357002924087_password_entered.png",
+                  "taken": "Dec 31, 2012 5:15:24 PM",
                   "tag": "password_entered",
                   "id": "com-squareup-spoon-sample-tests-LoginActivityTest-testBlankUsernameShowsError-password_entered",
                   "screenshotGroup": "LoginActivityTest-testBlankUsernameShowsError"
                 },
                 {
-                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/0030ed33d4a0b796/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankUsernameShowsError/1356934625795_login_clicked.png",
-                  "taken": "Dec 30, 2012 10:17:05 PM",
+                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/0030ed33d4a0b796/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankUsernameShowsError/1357002924733_login_clicked.png",
+                  "taken": "Dec 31, 2012 5:15:24 PM",
                   "tag": "login_clicked",
                   "id": "com-squareup-spoon-sample-tests-LoginActivityTest-testBlankUsernameShowsError-login_clicked",
                   "screenshotGroup": "LoginActivityTest-testBlankUsernameShowsError"
@@ -193,22 +193,22 @@
               "serial": "0030ed33d4a0b796",
               "screenshots": [
                 {
-                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/0030ed33d4a0b796/com.squareup.spoon.sample.tests.LoginActivityTest/testPasswordTooShortShowsError/1356934627977_initial_state.png",
-                  "taken": "Dec 30, 2012 10:17:07 PM",
+                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/0030ed33d4a0b796/com.squareup.spoon.sample.tests.LoginActivityTest/testPasswordTooShortShowsError/1357002926869_initial_state.png",
+                  "taken": "Dec 31, 2012 5:15:26 PM",
                   "tag": "initial_state",
                   "id": "com-squareup-spoon-sample-tests-LoginActivityTest-testPasswordTooShortShowsError-initial_state",
                   "screenshotGroup": "LoginActivityTest-testPasswordTooShortShowsError"
                 },
                 {
-                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/0030ed33d4a0b796/com.squareup.spoon.sample.tests.LoginActivityTest/testPasswordTooShortShowsError/1356934628527_values_entered.png",
-                  "taken": "Dec 30, 2012 10:17:08 PM",
+                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/0030ed33d4a0b796/com.squareup.spoon.sample.tests.LoginActivityTest/testPasswordTooShortShowsError/1357002927436_values_entered.png",
+                  "taken": "Dec 31, 2012 5:15:27 PM",
                   "tag": "values_entered",
                   "id": "com-squareup-spoon-sample-tests-LoginActivityTest-testPasswordTooShortShowsError-values_entered",
                   "screenshotGroup": "LoginActivityTest-testPasswordTooShortShowsError"
                 },
                 {
-                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/0030ed33d4a0b796/com.squareup.spoon.sample.tests.LoginActivityTest/testPasswordTooShortShowsError/1356934629123_login_clicked.png",
-                  "taken": "Dec 30, 2012 10:17:09 PM",
+                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/0030ed33d4a0b796/com.squareup.spoon.sample.tests.LoginActivityTest/testPasswordTooShortShowsError/1357002927999_login_clicked.png",
+                  "taken": "Dec 31, 2012 5:15:27 PM",
                   "tag": "login_clicked",
                   "id": "com-squareup-spoon-sample-tests-LoginActivityTest-testPasswordTooShortShowsError-login_clicked",
                   "screenshotGroup": "LoginActivityTest-testPasswordTooShortShowsError"
@@ -235,22 +235,22 @@
               "serial": "0030ed33d4a0b796",
               "screenshots": [
                 {
-                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/0030ed33d4a0b796/com.squareup.spoon.sample.tests.LoginActivityTest/testValidValuesStartsNewActivity/1356934629826_initial_state.png",
-                  "taken": "Dec 30, 2012 10:17:09 PM",
+                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/0030ed33d4a0b796/com.squareup.spoon.sample.tests.LoginActivityTest/testValidValuesStartsNewActivity/1357002928871_initial_state.png",
+                  "taken": "Dec 31, 2012 5:15:28 PM",
                   "tag": "initial_state",
                   "id": "com-squareup-spoon-sample-tests-LoginActivityTest-testValidValuesStartsNewActivity-initial_state",
                   "screenshotGroup": "LoginActivityTest-testValidValuesStartsNewActivity"
                 },
                 {
-                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/0030ed33d4a0b796/com.squareup.spoon.sample.tests.LoginActivityTest/testValidValuesStartsNewActivity/1356934630362_values_entered.png",
-                  "taken": "Dec 30, 2012 10:17:10 PM",
+                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/0030ed33d4a0b796/com.squareup.spoon.sample.tests.LoginActivityTest/testValidValuesStartsNewActivity/1357002929451_values_entered.png",
+                  "taken": "Dec 31, 2012 5:15:29 PM",
                   "tag": "values_entered",
                   "id": "com-squareup-spoon-sample-tests-LoginActivityTest-testValidValuesStartsNewActivity-values_entered",
                   "screenshotGroup": "LoginActivityTest-testValidValuesStartsNewActivity"
                 },
                 {
-                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/0030ed33d4a0b796/com.squareup.spoon.sample.tests.LoginActivityTest/testValidValuesStartsNewActivity/1356934631052_next_activity_shown.png",
-                  "taken": "Dec 30, 2012 10:17:11 PM",
+                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/0030ed33d4a0b796/com.squareup.spoon.sample.tests.LoginActivityTest/testValidValuesStartsNewActivity/1357002930221_next_activity_shown.png",
+                  "taken": "Dec 31, 2012 5:15:30 PM",
                   "tag": "next_activity_shown",
                   "id": "com-squareup-spoon-sample-tests-LoginActivityTest-testValidValuesStartsNewActivity-next_activity_shown",
                   "screenshotGroup": "LoginActivityTest-testValidValuesStartsNewActivity"

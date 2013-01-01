@@ -1,0 +1,265 @@
+{
+  "serial": "016B7EB20601800B",
+  "testsStarted": 6,
+  "testsFailed": 1,
+  "testsPassed": 6,
+  "deviceName": "Galaxy Nexus",
+  "deviceManufacturer": "samsung",
+  "deviceVersion": "4.0.4",
+  "deviceApiLevel": "15",
+  "deviceLanguage": "en",
+  "deviceRegion": "US",
+  "testStart": 1357002917904513000,
+  "testEnd": 1357002930518250000,
+  "testCompleted": "Dec 31, 2012 5:15:30 PM",
+  "totalTime": 0,
+  "testClasses": {
+    "com.squareup.spoon.sample.tests.OrderActivityTest": {
+      "className": "com.squareup.spoon.sample.tests.OrderActivityTest",
+      "classSimpleName": "OrderActivityTest",
+      "testsFailed": 1,
+      "testsPassed": 1,
+      "testList": {
+        "com.squareup.spoon.sample.tests.OrderActivityTest#testAlwaysFailingForFun": {
+          "identifier": {
+            "mClassName": "com.squareup.spoon.sample.tests.OrderActivityTest",
+            "mTestName": "testAlwaysFailingForFun"
+          },
+          "className": "com.squareup.spoon.sample.tests.OrderActivityTest",
+          "classSimpleName": "OrderActivityTest",
+          "testName": "testAlwaysFailingForFun",
+          "deviceResults": {
+            "016B7EB20601800B": {
+              "testName": "testAlwaysFailingForFun",
+              "className": "com.squareup.spoon.sample.tests.OrderActivityTest",
+              "classSimpleName": "OrderActivityTest",
+              "result": "FAILURE",
+              "deviceName": "Galaxy Nexus",
+              "serial": "016B7EB20601800B",
+              "screenshots": [
+                {
+                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/016B7EB20601800B/com.squareup.spoon.sample.tests.OrderActivityTest/testAlwaysFailingForFun/1357002936983_initial_state.png",
+                  "taken": "Dec 31, 2012 5:15:36 PM",
+                  "tag": "initial_state",
+                  "id": "com-squareup-spoon-sample-tests-OrderActivityTest-testAlwaysFailingForFun-initial_state",
+                  "screenshotGroup": "OrderActivityTest-testAlwaysFailingForFun"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "com.squareup.spoon.sample.tests.LoginActivityTest": {
+      "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+      "classSimpleName": "LoginActivityTest",
+      "testsFailed": 0,
+      "testsPassed": 5,
+      "testList": {
+        "com.squareup.spoon.sample.tests.LoginActivityTest#testEmptyFormShowsBothErrors": {
+          "identifier": {
+            "mClassName": "com.squareup.spoon.sample.tests.LoginActivityTest",
+            "mTestName": "testEmptyFormShowsBothErrors"
+          },
+          "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+          "classSimpleName": "LoginActivityTest",
+          "testName": "testEmptyFormShowsBothErrors",
+          "deviceResults": {
+            "016B7EB20601800B": {
+              "testName": "testEmptyFormShowsBothErrors",
+              "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+              "classSimpleName": "LoginActivityTest",
+              "result": "SUCCESS",
+              "deviceName": "Galaxy Nexus",
+              "serial": "016B7EB20601800B",
+              "screenshots": [
+                {
+                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/016B7EB20601800B/com.squareup.spoon.sample.tests.LoginActivityTest/testEmptyFormShowsBothErrors/1357002930832_initial_state.png",
+                  "taken": "Dec 31, 2012 5:15:30 PM",
+                  "tag": "initial_state",
+                  "id": "com-squareup-spoon-sample-tests-LoginActivityTest-testEmptyFormShowsBothErrors-initial_state",
+                  "screenshotGroup": "LoginActivityTest-testEmptyFormShowsBothErrors"
+                },
+                {
+                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/016B7EB20601800B/com.squareup.spoon.sample.tests.LoginActivityTest/testEmptyFormShowsBothErrors/1357002931395_login_clicked.png",
+                  "taken": "Dec 31, 2012 5:15:31 PM",
+                  "tag": "login_clicked",
+                  "id": "com-squareup-spoon-sample-tests-LoginActivityTest-testEmptyFormShowsBothErrors-login_clicked",
+                  "screenshotGroup": "LoginActivityTest-testEmptyFormShowsBothErrors"
+                }
+              ]
+            }
+          }
+        },
+        "com.squareup.spoon.sample.tests.LoginActivityTest#testBlankPasswordShowsError": {
+          "identifier": {
+            "mClassName": "com.squareup.spoon.sample.tests.LoginActivityTest",
+            "mTestName": "testBlankPasswordShowsError"
+          },
+          "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+          "classSimpleName": "LoginActivityTest",
+          "testName": "testBlankPasswordShowsError",
+          "deviceResults": {
+            "016B7EB20601800B": {
+              "testName": "testBlankPasswordShowsError",
+              "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+              "classSimpleName": "LoginActivityTest",
+              "result": "SUCCESS",
+              "deviceName": "Galaxy Nexus",
+              "serial": "016B7EB20601800B",
+              "screenshots": [
+                {
+                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/016B7EB20601800B/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankPasswordShowsError/1357002926712_initial_state.png",
+                  "taken": "Dec 31, 2012 5:15:26 PM",
+                  "tag": "initial_state",
+                  "id": "com-squareup-spoon-sample-tests-LoginActivityTest-testBlankPasswordShowsError-initial_state",
+                  "screenshotGroup": "LoginActivityTest-testBlankPasswordShowsError"
+                },
+                {
+                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/016B7EB20601800B/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankPasswordShowsError/1357002927230_username_entered.png",
+                  "taken": "Dec 31, 2012 5:15:27 PM",
+                  "tag": "username_entered",
+                  "id": "com-squareup-spoon-sample-tests-LoginActivityTest-testBlankPasswordShowsError-username_entered",
+                  "screenshotGroup": "LoginActivityTest-testBlankPasswordShowsError"
+                },
+                {
+                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/016B7EB20601800B/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankPasswordShowsError/1357002927731_login_clicked.png",
+                  "taken": "Dec 31, 2012 5:15:27 PM",
+                  "tag": "login_clicked",
+                  "id": "com-squareup-spoon-sample-tests-LoginActivityTest-testBlankPasswordShowsError-login_clicked",
+                  "screenshotGroup": "LoginActivityTest-testBlankPasswordShowsError"
+                }
+              ]
+            }
+          }
+        },
+        "com.squareup.spoon.sample.tests.LoginActivityTest#testBlankUsernameShowsError": {
+          "identifier": {
+            "mClassName": "com.squareup.spoon.sample.tests.LoginActivityTest",
+            "mTestName": "testBlankUsernameShowsError"
+          },
+          "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+          "classSimpleName": "LoginActivityTest",
+          "testName": "testBlankUsernameShowsError",
+          "deviceResults": {
+            "016B7EB20601800B": {
+              "testName": "testBlankUsernameShowsError",
+              "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+              "classSimpleName": "LoginActivityTest",
+              "result": "SUCCESS",
+              "deviceName": "Galaxy Nexus",
+              "serial": "016B7EB20601800B",
+              "screenshots": [
+                {
+                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/016B7EB20601800B/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankUsernameShowsError/1357002928713_initial_state.png",
+                  "taken": "Dec 31, 2012 5:15:28 PM",
+                  "tag": "initial_state",
+                  "id": "com-squareup-spoon-sample-tests-LoginActivityTest-testBlankUsernameShowsError-initial_state",
+                  "screenshotGroup": "LoginActivityTest-testBlankUsernameShowsError"
+                },
+                {
+                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/016B7EB20601800B/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankUsernameShowsError/1357002929230_password_entered.png",
+                  "taken": "Dec 31, 2012 5:15:29 PM",
+                  "tag": "password_entered",
+                  "id": "com-squareup-spoon-sample-tests-LoginActivityTest-testBlankUsernameShowsError-password_entered",
+                  "screenshotGroup": "LoginActivityTest-testBlankUsernameShowsError"
+                },
+                {
+                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/016B7EB20601800B/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankUsernameShowsError/1357002929774_login_clicked.png",
+                  "taken": "Dec 31, 2012 5:15:29 PM",
+                  "tag": "login_clicked",
+                  "id": "com-squareup-spoon-sample-tests-LoginActivityTest-testBlankUsernameShowsError-login_clicked",
+                  "screenshotGroup": "LoginActivityTest-testBlankUsernameShowsError"
+                }
+              ]
+            }
+          }
+        },
+        "com.squareup.spoon.sample.tests.LoginActivityTest#testPasswordTooShortShowsError": {
+          "identifier": {
+            "mClassName": "com.squareup.spoon.sample.tests.LoginActivityTest",
+            "mTestName": "testPasswordTooShortShowsError"
+          },
+          "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+          "classSimpleName": "LoginActivityTest",
+          "testName": "testPasswordTooShortShowsError",
+          "deviceResults": {
+            "016B7EB20601800B": {
+              "testName": "testPasswordTooShortShowsError",
+              "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+              "classSimpleName": "LoginActivityTest",
+              "result": "SUCCESS",
+              "deviceName": "Galaxy Nexus",
+              "serial": "016B7EB20601800B",
+              "screenshots": [
+                {
+                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/016B7EB20601800B/com.squareup.spoon.sample.tests.LoginActivityTest/testPasswordTooShortShowsError/1357002932518_initial_state.png",
+                  "taken": "Dec 31, 2012 5:15:32 PM",
+                  "tag": "initial_state",
+                  "id": "com-squareup-spoon-sample-tests-LoginActivityTest-testPasswordTooShortShowsError-initial_state",
+                  "screenshotGroup": "LoginActivityTest-testPasswordTooShortShowsError"
+                },
+                {
+                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/016B7EB20601800B/com.squareup.spoon.sample.tests.LoginActivityTest/testPasswordTooShortShowsError/1357002933036_values_entered.png",
+                  "taken": "Dec 31, 2012 5:15:33 PM",
+                  "tag": "values_entered",
+                  "id": "com-squareup-spoon-sample-tests-LoginActivityTest-testPasswordTooShortShowsError-values_entered",
+                  "screenshotGroup": "LoginActivityTest-testPasswordTooShortShowsError"
+                },
+                {
+                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/016B7EB20601800B/com.squareup.spoon.sample.tests.LoginActivityTest/testPasswordTooShortShowsError/1357002933516_login_clicked.png",
+                  "taken": "Dec 31, 2012 5:15:33 PM",
+                  "tag": "login_clicked",
+                  "id": "com-squareup-spoon-sample-tests-LoginActivityTest-testPasswordTooShortShowsError-login_clicked",
+                  "screenshotGroup": "LoginActivityTest-testPasswordTooShortShowsError"
+                }
+              ]
+            }
+          }
+        },
+        "com.squareup.spoon.sample.tests.LoginActivityTest#testValidValuesStartsNewActivity": {
+          "identifier": {
+            "mClassName": "com.squareup.spoon.sample.tests.LoginActivityTest",
+            "mTestName": "testValidValuesStartsNewActivity"
+          },
+          "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+          "classSimpleName": "LoginActivityTest",
+          "testName": "testValidValuesStartsNewActivity",
+          "deviceResults": {
+            "016B7EB20601800B": {
+              "testName": "testValidValuesStartsNewActivity",
+              "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+              "classSimpleName": "LoginActivityTest",
+              "result": "SUCCESS",
+              "deviceName": "Galaxy Nexus",
+              "serial": "016B7EB20601800B",
+              "screenshots": [
+                {
+                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/016B7EB20601800B/com.squareup.spoon.sample.tests.LoginActivityTest/testValidValuesStartsNewActivity/1357002934564_initial_state.png",
+                  "taken": "Dec 31, 2012 5:15:34 PM",
+                  "tag": "initial_state",
+                  "id": "com-squareup-spoon-sample-tests-LoginActivityTest-testValidValuesStartsNewActivity-initial_state",
+                  "screenshotGroup": "LoginActivityTest-testValidValuesStartsNewActivity"
+                },
+                {
+                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/016B7EB20601800B/com.squareup.spoon.sample.tests.LoginActivityTest/testValidValuesStartsNewActivity/1357002935127_values_entered.png",
+                  "taken": "Dec 31, 2012 5:15:35 PM",
+                  "tag": "values_entered",
+                  "id": "com-squareup-spoon-sample-tests-LoginActivityTest-testValidValuesStartsNewActivity-values_entered",
+                  "screenshotGroup": "LoginActivityTest-testValidValuesStartsNewActivity"
+                },
+                {
+                  "file": "/Users/jw/dev/square/spoon/sample/tests/target/spoon-output/016B7EB20601800B/com.squareup.spoon.sample.tests.LoginActivityTest/testValidValuesStartsNewActivity/1357002936056_next_activity_shown.png",
+                  "taken": "Dec 31, 2012 5:15:36 PM",
+                  "tag": "next_activity_shown",
+                  "id": "com-squareup-spoon-sample-tests-LoginActivityTest-testValidValuesStartsNewActivity-next_activity_shown",
+                  "screenshotGroup": "LoginActivityTest-testValidValuesStartsNewActivity"
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}
