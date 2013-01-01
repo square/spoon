@@ -90,8 +90,9 @@ a:hover {
         text-align: right;
         position: fixed;
     }
-    .side ul {
-        margin-bottom: 60px;
+    .side h1 {
+        font-size: 80px;
+        line-height: 90px;
     }
     .main {
         padding-top: 30px;
@@ -103,5 +104,12 @@ a:hover {
 
     #ribbon img {
         position: fixed;
+    }
+}
+
+@media(min-width: 980px) {
+    .side h1 {
+        font-size: 100px;
+        line-height: 110px;
     }
 }
