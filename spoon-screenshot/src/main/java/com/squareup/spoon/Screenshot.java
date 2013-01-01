@@ -7,7 +7,6 @@ import android.graphics.Canvas;
 import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.util.Log;
-
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -70,8 +69,9 @@ public final class Screenshot {
       try {
         latch.await();
       } catch (InterruptedException e) {
-        Log.e(TAG, "Unable to get screenshot " + file.getAbsolutePath(), e);
-        return;
+        String msg = "Unable to get screenshot " + file.getAbsolutePath();
+        Log.e(TAG, msg, e);
+        throw new RuntimeException(msg, e);
       }
     }
 
@@ -116,8 +116,8 @@ public final class Screenshot {
   static StackTraceElement findTestClassTraceElement(StackTraceElement[] trace) {
     for (int i = trace.length - 1; i >= 0; i--) {
       StackTraceElement element = trace[i];
-      if (TEST_CASE_CLASS.equals(element.getClassName())
-         && TEST_CASE_METHOD.equals(element.getMethodName())) {
+      if (TEST_CASE_CLASS.equals(element.getClassName()) //
+          && TEST_CASE_METHOD.equals(element.getMethodName())) {
         return trace[i - 3];
       }
     }
