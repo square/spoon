@@ -165,14 +165,8 @@ public class ExecutionSummary {
     } catch (IOException e) {
       throw new RuntimeException("Unable to copy resource " + resource, e);
     } finally {
-      try {
-        if (is != null) is.close();
-      } catch (Exception ignored) {
-      }
-      try {
-        if (os != null) os.close();
-      } catch (Exception ignored) {
-      }
+      IOUtils.closeQuietly(is);
+      IOUtils.closeQuietly(os);
     }
   }
 

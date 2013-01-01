@@ -316,13 +316,7 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
     } catch (IOException e) {
       throw new RuntimeException("Unable to parse test app AndroidManifest.xml.", e);
     } finally {
-      if (is != null) {
-        try {
-          is.close();
-        } catch (IOException e) {
-          // Ignored.
-        }
-      }
+      IOUtils.closeQuietly(is);
     }
   }
 }
