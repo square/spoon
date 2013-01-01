@@ -25,13 +25,17 @@
             <h3 id="introduction">Introduction</h3>
             <p>Android's ever-expanding ecosystem of devices creates a unique challenge to testing applications. Spoon aims to simplify this task by distributing instrumentation test execution and displaying the results in a meaningful way.</p>
             <p>Instead of attempting to be a new form of testing, Spoon makes existing instrumentation tests more useful. Using the application APK and instrumentation APK Spoon runs the tests on all devices which are visible to ADB. Once all tests have completed a static HTML summary is generated with detailed information about each device and test.</p>
-            <p><img src="static/output_example.png" alt="Example output"></p>
+            <p><img src="static/example_main.png" alt="Example output"></p>
             <p>With the high-level output you can immediately see whether or not a test failure is specific to a single device or all devices. This view is designed to be displayed on a dedicated monitor or TV.</p>
 
             <h4 id="device-view">Device View</h4>
             <p>Device view blah blah blah...</p>
+            <p><img src="static/example_device_view.png" alt="Example device view"></p>
+            <p>Device view blah blah blah...</p>
 
             <h4 id="test-view">Test View</h4>
+            <p>Test view blah blah blah...</p>
+            <p><img src="static/example_test_view.png" alt="Example test view"></p>
             <p>Test view blah blah blah...</p>
 
             <h4 id="screenshots">Screenshots</h4>
@@ -41,8 +45,8 @@
 /* Normal test code... */
 Screenshot.snap(activity, "after_login");</pre>
             <p>The tag specified will be used to identify and compare screenshots taken across multiple test runs.</p>
-            <p>Screenshots are displayed in order for each test in the output:</p>
-            <img src="static/screenshot_example.png" alt="Sample output with screenshots" class="well well-small">
+            <p>Screenshots are displayed in order in both the device view and the test view:</p>
+            <p><img src="static/example_screenshots.png" alt="Sample output with screenshots"></p>
             <p>You can also view each test's screenshots as an animated GIF to gauge the actual sequence of interaction.</p>
 
             <h3 id="download">Download</h3>
