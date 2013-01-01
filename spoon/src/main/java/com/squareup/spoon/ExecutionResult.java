@@ -23,7 +23,6 @@ public class ExecutionResult implements ITestRunListener {
   public final String serial;
   public int testsStarted;
   public int testsFailed;
-  public int testsPassed;
   public String deviceName;
   public String deviceManufacturer;
   public String deviceVersion;
@@ -78,8 +77,6 @@ public class ExecutionResult implements ITestRunListener {
   @Override public void testEnded(TestIdentifier identifier, Map<String, String> metrics) {
     System.out.println("[testEnded] test: " + identifier + ", metrics: " + metrics);
     getTest(identifier).setResult(serial, SUCCESS);
-    testsPassed += 1;
-    testClasses.get(identifier.getClassName()).testsPassed += 1;
   }
 
   @Override public void testRunFailed(String errorMessage) {
@@ -104,6 +101,10 @@ public class ExecutionResult implements ITestRunListener {
 
   public Exception getRuntimeException() {
     return runtimeException;
+  }
+
+  public int testsPassed() {
+    return testsStarted - testsFailed;
   }
 
   /** Add a class-level screenshot directory to this execution result. */

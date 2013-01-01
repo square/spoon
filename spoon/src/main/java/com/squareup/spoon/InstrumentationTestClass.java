@@ -12,7 +12,6 @@ public class InstrumentationTestClass {
   public final String className;
   public final String classSimpleName;
   public int testsFailed;
-  public int testsPassed;
   private final Map<String, InstrumentationTest> testList;
 
   public InstrumentationTestClass(TestIdentifier identifier) {
@@ -55,6 +54,10 @@ public class InstrumentationTestClass {
       results.addAll(instrumentationTest.results());
     }
     return results;
+  }
+
+  public int testsPassed() {
+    return numTests() - testsFailed;
   }
 
   public int numTests() {
