@@ -47,7 +47,7 @@ public class SpoonMojo extends AbstractMojo {
   private boolean skip;
 
   /** Location of the output directory. */
-  @Parameter(defaultValue = "${project.build.directory}", required = true)
+  @Parameter(defaultValue = "${project.build.directory}/spoon-output")
   private File outputDirectory;
 
   /** A title for the output website. */
@@ -55,7 +55,7 @@ public class SpoonMojo extends AbstractMojo {
   private String title;
 
   /** The location of the Android SDK. */
-  @Parameter(defaultValue = "${env.ANDROID_HOME}", required = true)
+  @Parameter(defaultValue = "${env.ANDROID_HOME}")
   private String androidSdk;
 
   /** Attaches output artifact as zip when {@code true}. */
@@ -112,21 +112,21 @@ public class SpoonMojo extends AbstractMojo {
     String classpath = getSpoonClasspath();
     log.debug("Classpath: " + classpath);
 
-    File output = new File(outputDirectory, OUTPUT_DIRECTORY_NAME);
-    log.debug("Output directory: " + output.getAbsolutePath());
+    log.debug("Output directory: " + outputDirectory.getAbsolutePath());
 
     log.debug("Spoon title: " + title);
     log.debug("Debug: " + Boolean.toString(debug));
 
-    boolean success = new ExecutionSuite(title, androidSdk, app, instrumentation, output, debug,
-        classpath).execute();
+    boolean success =
+        new ExecutionSuite(title, androidSdk, app, instrumentation, outputDirectory, debug,
+            classpath).execute();
     if (!success && failOnFailure) {
       throw new MojoExecutionException("Spoon returned non-zero exit code.");
     }
 
     if (attachArtifact) {
       File outputZip = new File(buildDirectory, OUTPUT_DIRECTORY_NAME + ".zip");
-      ZipUtil.zip(outputZip, output);
+      ZipUtil.zip(outputZip, outputDirectory);
       projectHelper.attachArtifact(project, ARTIFACT_TYPE, ARTIFACT_CLASSIFIER, outputZip);
     }
   }
