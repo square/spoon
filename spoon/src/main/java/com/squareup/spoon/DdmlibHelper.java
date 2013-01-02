@@ -2,16 +2,19 @@ package com.squareup.spoon;
 
 import com.android.ddmlib.AndroidDebugBridge;
 import com.android.ddmlib.IDevice;
+import com.android.ddmlib.Log;
 import java.io.File;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import org.apache.commons.io.FileUtils;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
 import static com.android.ddmlib.FileListingService.TYPE_DIRECTORY;
+import static com.android.ddmlib.Log.LogLevel.DEBUG;
 
 /** Helper methods for dealing with {@code adb}. */
-final class AdbHelper {
+final class DdmlibHelper {
   private static final String PLATFORM_TOOLS = "platform-tools";
   private static final String ADB_BINARY = "adb";
 
@@ -69,7 +72,18 @@ final class AdbHelper {
     return null;
   }
 
-  private AdbHelper() {
+  /** Turn on debug logging in ddmlib classes. */
+  static void setInternalLoggingLevel() {
+    try {
+      Field level = Log.class.getDeclaredField("mLevel");
+      level.setAccessible(true);
+      level.set(Log.class, DEBUG);
+    } catch (NoSuchFieldException ignored) {
+    } catch (IllegalAccessException ignored) {
+    }
+  }
+
+  private DdmlibHelper() {
     // No instances.
   }
 }

@@ -3,22 +3,14 @@ package com.squareup.spoon;
 import com.android.ddmlib.AdbCommandRejectedException;
 import com.android.ddmlib.AndroidDebugBridge;
 import com.android.ddmlib.IDevice;
-import com.android.ddmlib.Log;
-import com.android.ddmlib.Log.LogLevel;
 import com.android.ddmlib.ShellCommandUnresponsiveException;
 import com.android.ddmlib.SyncException;
 import com.android.ddmlib.TimeoutException;
 import com.android.ddmlib.testrunner.RemoteAndroidTestRunner;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapter;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.concurrent.Callable;
 import java.util.logging.FileHandler;
@@ -29,10 +21,11 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
-import static com.android.ddmlib.SyncService.ISyncProgressMonitor;
-import static com.squareup.spoon.AdbHelper.obtainDirectoryFileEntry;
-import static com.squareup.spoon.AdbHelper.obtainRealDevice;
+import static com.squareup.spoon.DdmlibHelper.obtainDirectoryFileEntry;
+import static com.squareup.spoon.DdmlibHelper.obtainRealDevice;
 import static com.squareup.spoon.Screenshot.SPOON_SCREENSHOTS;
+import static com.squareup.spoon.Utils.GSON;
+import static com.squareup.spoon.Utils.QUIET_MONITOR;
 import static com.squareup.spoon.Utils.getManifestInfo;
 
 /** Represents a single device and the test configuration to be executed. */
@@ -40,37 +33,6 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
   static final String FILE_RESULT = "result.json";
   static final String OUTPUT_FILE = "output.txt";
   private static final String FILE_EXECUTION = "execution.json";
-
-  private static final Gson GSON = new GsonBuilder() //
-      .registerTypeAdapter(File.class, new TypeAdapter<File>() {
-        @Override public void write(JsonWriter jsonWriter, File file) throws IOException {
-          jsonWriter.value(file.getAbsolutePath());
-        }
-
-        @Override public File read(JsonReader jsonReader) throws IOException {
-          return new File(jsonReader.nextString());
-        }
-      }) //
-      .setPrettyPrinting() //
-      .create();
-
-  private static final ISyncProgressMonitor QUIET_MONITOR = new ISyncProgressMonitor() {
-    @Override public void start(int totalWork) {
-    }
-
-    @Override public void stop() {
-    }
-
-    @Override public boolean isCanceled() {
-      return false;
-    }
-
-    @Override public void startSubTask(String name) {
-    }
-
-    @Override public void advance(int work) {
-    }
-  };
 
   private final File sdk;
   private final File apk;
@@ -154,15 +116,6 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
       log.addHandler(handler);
       log.setLevel(target.debug ? Level.FINE : Level.INFO);
 
-      if (!target.apk.exists()) {
-        throw new IllegalArgumentException(String.format("App APK %s does not exist.",
-          target.apk.getAbsolutePath()));
-      }
-      if (!target.testApk.exists()) {
-        throw new IllegalArgumentException(String.format("Test APK %s does not exist.",
-          target.testApk.getAbsolutePath()));
-      }
-
       String[] packages = getManifestInfo(target.testApk);
       final String appPackage = packages[0];
       final String testPackage = packages[1];
@@ -172,10 +125,10 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
       log.fine(testPackage + " in " + target.testApk.getAbsolutePath());
 
       if (target.debug) {
-        setInternalLoggingLevel();
+        DdmlibHelper.setInternalLoggingLevel();
       }
 
-      AndroidDebugBridge adb = AdbHelper.init(target.sdk);
+      AndroidDebugBridge adb = DdmlibHelper.init(target.sdk);
 
       IDevice realDevice = obtainRealDevice(adb, target.serial);
       result.configureFor(realDevice);
@@ -224,16 +177,6 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
         AndroidDebugBridge.terminate();
       } catch (Exception ignore) {
       }
-    }
-  }
-
-  private static void setInternalLoggingLevel() {
-    try {
-      Field level = Log.class.getDeclaredField("mLevel");
-      level.setAccessible(true);
-      level.set(Log.class, LogLevel.DEBUG);
-    } catch (NoSuchFieldException ignored) {
-    } catch (IllegalAccessException ignored) {
     }
   }
 }

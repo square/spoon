@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.squareup.spoon.ExecutionTarget.FILE_RESULT;
 import static com.squareup.spoon.ExecutionTarget.OUTPUT_FILE;
@@ -75,6 +76,9 @@ public final class ExecutionSuite {
 
   /** Returns {@code true} if there were no test failures or exceptions thrown. */
   public boolean run() {
+    checkArgument(applicationApk.exists(), "Could not find application APK.");
+    checkArgument(instrumentationApk.exists(), "Could not find instrumentation APK.");
+
     int targetCount = serials.size();
     if (targetCount == 0) {
       LOG.info("No devices.");

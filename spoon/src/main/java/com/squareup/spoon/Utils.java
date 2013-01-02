@@ -2,6 +2,11 @@ package com.squareup.spoon;
 
 import com.android.ddmlib.AndroidDebugBridge;
 import com.android.ddmlib.IDevice;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import com.squareup.spoon.external.AXMLParser;
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +17,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import org.apache.commons.io.IOUtils;
 
+import static com.android.ddmlib.SyncService.ISyncProgressMonitor;
+
 final class Utils {
   private static final String ANDROID_MANIFEST_XML = "AndroidManifest.xml";
   private static final String TAG_MANIFEST = "manifest";
@@ -20,10 +27,41 @@ final class Utils {
   private static final String ATTR_TARGET_PACKAGE = "targetPackage";
   private static final String ATTR_NAME = "name";
 
+  static final Gson GSON = new GsonBuilder() //
+      .registerTypeAdapter(File.class, new TypeAdapter<File>() {
+        @Override public void write(JsonWriter jsonWriter, File file) throws IOException {
+          jsonWriter.value(file.getAbsolutePath());
+        }
+
+        @Override public File read(JsonReader jsonReader) throws IOException {
+          return new File(jsonReader.nextString());
+        }
+      }) //
+      .setPrettyPrinting() //
+      .create();
+
+  static final ISyncProgressMonitor QUIET_MONITOR = new ISyncProgressMonitor() {
+        @Override public void start(int totalWork) {
+        }
+
+        @Override public void stop() {
+        }
+
+        @Override public boolean isCanceled() {
+          return false;
+        }
+
+        @Override public void startSubTask(String name) {
+        }
+
+        @Override public void advance(int work) {
+        }
+      };
+
   /** Find all device serials that are plugged in through ADB. */
   static Set<String> findAllDevices(File sdkPath) {
     Set<String> devices = new HashSet<String>();
-    AndroidDebugBridge adb = AdbHelper.init(sdkPath);
+    AndroidDebugBridge adb = DdmlibHelper.init(sdkPath);
     for (IDevice realDevice : adb.getDevices()) {
       devices.add(realDevice.getSerialNumber());
     }
