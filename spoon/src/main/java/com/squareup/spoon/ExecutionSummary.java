@@ -266,7 +266,7 @@ public class ExecutionSummary {
       int totalFailure = 0;
       for (ExecutionResult result : results) {
         totalTests += result.testsStarted;
-        totalSuccess += result.testsStarted - result.testsFailed;
+        totalSuccess += result.testsPassed();
         totalFailure += result.testsFailed;
       }
 
