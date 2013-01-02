@@ -102,7 +102,6 @@ public final class ExecutionSuite {
         .setOutputDirectory(output)
         .start();
 
-
     LOG.fine(testInfo.getApplicationPackage() + " in " + applicationApk.getAbsolutePath());
     LOG.fine(testInfo.getInstrumentationPackage() + " in " + instrumentationApk.getAbsolutePath());
 
