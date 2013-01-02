@@ -26,7 +26,6 @@ import static com.squareup.spoon.DdmlibHelper.obtainRealDevice;
 import static com.squareup.spoon.Screenshot.SPOON_SCREENSHOTS;
 import static com.squareup.spoon.Utils.GSON;
 import static com.squareup.spoon.Utils.QUIET_MONITOR;
-import static com.squareup.spoon.Utils.getManifestInfo;
 
 /** Represents a single device and the test configuration to be executed. */
 public class ExecutionTarget implements Callable<ExecutionResult> {
@@ -41,6 +40,7 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
   private final boolean debug;
   private final File output;
   private final String classpath;
+  private final String[] instrumentationInfo;
 
   /**
    * Create a test runner for a single device.
@@ -52,9 +52,10 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
    * @param serial Device to run the test on.
    * @param debug Whether or not debug logging is enabled.
    * @param classpath Custom JVM classpath or {@code null}.
+   * @param instrumentationInfo Output of {@link Utils#getManifestInfo(java.io.File)} for test APK.
    */
   ExecutionTarget(File sdk, File apk, File testApk, File output, String serial,
-      boolean debug, String classpath) {
+      boolean debug, String classpath, String[] instrumentationInfo) {
     this.sdk = sdk;
     this.apk = apk;
     this.testApk = testApk;
@@ -62,6 +63,7 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
     this.debug = debug;
     this.output = new File(output, serial);
     this.classpath = classpath;
+    this.instrumentationInfo = instrumentationInfo;
   }
 
   /////////////////////////////////////////////////////////////////////////////
@@ -116,10 +118,9 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
       log.addHandler(handler);
       log.setLevel(target.debug ? Level.FINE : Level.INFO);
 
-      String[] packages = getManifestInfo(target.testApk);
-      final String appPackage = packages[0];
-      final String testPackage = packages[1];
-      final String testRunner = packages[2];
+      final String appPackage = target.instrumentationInfo[0];
+      final String testPackage = target.instrumentationInfo[1];
+      final String testRunner = target.instrumentationInfo[2];
 
       log.fine(appPackage + " in " + target.apk.getAbsolutePath());
       log.fine(testPackage + " in " + target.testApk.getAbsolutePath());

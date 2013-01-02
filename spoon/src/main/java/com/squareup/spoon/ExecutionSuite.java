@@ -14,6 +14,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.squareup.spoon.ExecutionTarget.FILE_RESULT;
 import static com.squareup.spoon.ExecutionTarget.OUTPUT_FILE;
+import static com.squareup.spoon.Utils.getManifestInfo;
 import static java.util.logging.Level.SEVERE;
 
 /** Represents a collection of devices and the test configuration to be executed. */
@@ -94,6 +95,7 @@ public final class ExecutionSuite {
     }
 
     final CountDownLatch done = new CountDownLatch(targetCount);
+    final String[] instrumentationInfo = getManifestInfo(instrumentationApk);
     final ExecutionSummary.Builder summaryBuilder = new ExecutionSummary.Builder()
         .setTitle(title)
         .setOutputDirectory(output)
@@ -108,7 +110,7 @@ public final class ExecutionSuite {
             try {
               ExecutionTarget target =
                   new ExecutionTarget(androidSdk, applicationApk, instrumentationApk, output,
-                      serial, debug, classpath);
+                      serial, debug, classpath, instrumentationInfo);
               result = target.call();
               summaryBuilder.addResult(result);
             } catch (FileNotFoundException e) {
