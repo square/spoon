@@ -51,7 +51,9 @@
                             {{^getRuntimeException}}
                             <tr class="result">
                                 {{#results}}
-                                <td class="test {{result}}" data-original-title="{{classSimpleName}}" data-content="{{testName}}">&nbsp;</td>
+                                <td class="test {{result}}" data-original-title="{{classSimpleName}}" data-content="{{testName}}">
+                                    <a href="{{serial}}/index.html#{{testName}}">&nbsp;</a>
+                                </td>
                                 {{/results}}
                             </tr>
                             {{/getRuntimeException}}

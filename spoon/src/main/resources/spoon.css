@@ -70,9 +70,10 @@ body {
   text-align: left;
   padding: 10px 0 5px 2px;
 }
-.birds-eye .result td {
-  padding: 5px 8px;
-  cursor: pointer;
+.birds-eye .test a {
+  display: block;
+  height: 30px;
+  text-decoration: none;
 }
 .birds-eye .test.pass:hover {
   background-color: #99c999;

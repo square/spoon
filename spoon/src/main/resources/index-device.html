@@ -17,7 +17,7 @@
                 <p>{{testsStarted}} tests run with {{testsPassed}} passing and {{testsFailed}} failing in {{totalTime}} seconds at {{displayTime}}</p>
             </div>
             {{#results}}
-            <div class="row">
+            <div class="row" id="{{testName}}">
                 <div class="span12">
                     <h2 class="test-result {{result}}">
                         {{testName}} <small>{{classSimpleName}}</small>
