@@ -221,7 +221,8 @@ public final class ExecutionSuite {
       checkNotNull(output, "Output path is required.");
       checkNotNull(serials, "Device serials are required.");
 
-      return new ExecutionSuite(title, androidSdk, applicationApk, instrumentationApk, output, debug, serials, classpath);
+      return new ExecutionSuite(title, androidSdk, applicationApk, instrumentationApk, output,
+          debug, serials, classpath);
     }
   }
 }
