@@ -17,7 +17,6 @@ import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
 import org.apache.maven.repository.RepositorySystem;
 
-import static com.squareup.spoon.ExecutionSuite.DEFAULT_TITLE;
 import static com.squareup.spoon.Main.OUTPUT_DIRECTORY_NAME;
 import static org.apache.maven.plugins.annotations.LifecyclePhase.INTEGRATION_TEST;
 
@@ -51,7 +50,7 @@ public class SpoonMojo extends AbstractMojo {
   private File outputDirectory;
 
   /** A title for the output website. */
-  @Parameter(defaultValue = DEFAULT_TITLE)
+  @Parameter(defaultValue = "${project.name}")
   private String title;
 
   /** The location of the Android SDK. */
