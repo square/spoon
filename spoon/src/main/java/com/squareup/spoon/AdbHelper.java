@@ -1,14 +1,18 @@
 package com.squareup.spoon;
 
 import com.android.ddmlib.AndroidDebugBridge;
+import java.io.File;
+import org.apache.commons.io.FileUtils;
 
 /** Helper methods for dealing with {@code adb}. */
 final class AdbHelper {
-  private static final String PLATFORM_TOOLS_ADB = "/platform-tools/adb";
+  private static final String PLATFORM_TOOLS = "platform-tools";
+  private static final String ADB_BINARY = "adb";
 
-  public static AndroidDebugBridge init(String sdkPath) {
+  public static AndroidDebugBridge init(File sdk) {
     AndroidDebugBridge.init(false);
-    AndroidDebugBridge adb = AndroidDebugBridge.createBridge(sdkPath + PLATFORM_TOOLS_ADB, true);
+    File adbPath = FileUtils.getFile(sdk, PLATFORM_TOOLS, ADB_BINARY);
+    AndroidDebugBridge adb = AndroidDebugBridge.createBridge(adbPath.getAbsolutePath(), true);
     waitForAdb(adb);
     return adb;
   }

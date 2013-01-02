@@ -83,7 +83,7 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
     }
   };
 
-  private final String sdkPath;
+  private final File sdk;
   private final File apk;
   private final File testApk;
   private final String serial;
@@ -94,7 +94,7 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
   /**
    * Create a test runner for a single device.
    *
-   * @param sdkPath Path to the local Android SDK directory.
+   * @param sdk Path to the local Android SDK directory.
    * @param apk Path to application APK.
    * @param testApk Path to test application APK.
    * @param output Path to output directory.
@@ -102,9 +102,9 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
    * @param debug Whether or not debug logging is enabled.
    * @param classpath Custom JVM classpath or {@code null}.
    */
-  ExecutionTarget(String sdkPath, File apk, File testApk, File output, String serial,
+  ExecutionTarget(File sdk, File apk, File testApk, File output, String serial,
       boolean debug, String classpath) {
-    this.sdkPath = sdkPath;
+    this.sdk = sdk;
     this.apk = apk;
     this.testApk = testApk;
     this.serial = serial;
@@ -186,7 +186,7 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
         setInternalLoggingLevel();
       }
 
-      AndroidDebugBridge adb = AdbHelper.init(target.sdkPath);
+      AndroidDebugBridge adb = AdbHelper.init(target.sdk);
 
       IDevice realDevice = obtainRealDevice(adb, target.serial);
       result.configureFor(realDevice);

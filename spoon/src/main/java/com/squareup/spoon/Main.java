@@ -6,8 +6,9 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 import java.io.File;
 
+import static com.squareup.spoon.ExecutionSuite.DEFAULT_TITLE;
+
 public class Main {
-  static final String DEFAULT_TITLE = "Spoon Execution Summary";
   static final String OUTPUT_DIRECTORY_NAME = "spoon-output";
 
   public static class FileConverter implements IStringConverter<File> {
@@ -33,7 +34,7 @@ public class Main {
     public File output = new File(OUTPUT_DIRECTORY_NAME);
 
     @Parameter(names = { "--sdk" }, description = "Path to Android SDK")
-    public String sdk = System.getenv("ANDROID_HOME");
+    public File sdk = new File(System.getenv("ANDROID_HOME"));
 
     @Parameter(names = { "--fail-on-failure" }, description = "Non-zero exit code on failure")
     public boolean failOnFailure;
@@ -64,16 +65,21 @@ public class Main {
       return;
     }
 
-    if (!new File(config.sdk).exists()) {
+    if (!config.sdk.exists()) {
       throw new IllegalStateException(
           "Could not find Android SDK. Ensure ANDROID_HOME environment variable is set.");
     }
 
-    String classpath = System.getProperty("java.class.path");
-
-    boolean success =
-        new ExecutionSuite(config.title, config.sdk, config.apk, config.testApk, config.output,
-            config.debug, classpath).execute();
+    boolean success = new ExecutionSuite.Builder() //
+        .setTitle(config.title)
+        .setApplicationApk(config.apk)
+        .setInstrumentationApk(config.testApk)
+        .setOutputDirectory(config.output)
+        .setDebug(config.debug)
+        .setSdk(config.sdk)
+        .addAllAttachedDevices()
+        .build()
+        .run();
 
     if (!success && config.failOnFailure) {
       System.exit(1);

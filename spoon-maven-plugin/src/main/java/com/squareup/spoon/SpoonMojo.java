@@ -17,7 +17,7 @@ import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
 import org.apache.maven.repository.RepositorySystem;
 
-import static com.squareup.spoon.Main.DEFAULT_TITLE;
+import static com.squareup.spoon.ExecutionSuite.DEFAULT_TITLE;
 import static com.squareup.spoon.Main.OUTPUT_DIRECTORY_NAME;
 import static org.apache.maven.plugins.annotations.LifecyclePhase.INTEGRATION_TEST;
 
@@ -117,9 +117,18 @@ public class SpoonMojo extends AbstractMojo {
     log.debug("Spoon title: " + title);
     log.debug("Debug: " + Boolean.toString(debug));
 
-    boolean success =
-        new ExecutionSuite(title, androidSdk, app, instrumentation, outputDirectory, debug,
-            classpath).execute();
+    boolean success = new ExecutionSuite.Builder() //
+        .setTitle(title)
+        .setApplicationApk(app)
+        .setInstrumentationApk(instrumentation)
+        .setOutputDirectory(outputDirectory)
+        .setSdk(sdkFile)
+        .setDebug(debug)
+        .setClasspath(classpath)
+        .addAllAttachedDevices()
+        .build()
+        .run();
+
     if (!success && failOnFailure) {
       throw new MojoExecutionException("Spoon returned non-zero exit code.");
     }
