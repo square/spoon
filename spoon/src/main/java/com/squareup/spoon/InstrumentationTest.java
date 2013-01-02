@@ -8,10 +8,10 @@ import java.util.Map;
 import org.jetbrains.annotations.TestOnly;
 
 public class InstrumentationTest {
-  public final TestIdentifier identifier;
+  public transient final TestIdentifier identifier;
+  public final String testName;
   public String className;
   public String classSimpleName;
-  public final String testName;
   private final Map<String, ExecutionTestResult> deviceResults =
     new HashMap<String, ExecutionTestResult>();
 
