@@ -40,7 +40,7 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
   private final boolean debug;
   private final File output;
   private final String classpath;
-  private final String[] instrumentationInfo;
+  private final InstrumentationManifestInfo instrumentationInfo;
 
   /**
    * Create a test runner for a single device.
@@ -52,10 +52,10 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
    * @param serial Device to run the test on.
    * @param debug Whether or not debug logging is enabled.
    * @param classpath Custom JVM classpath or {@code null}.
-   * @param instrumentationInfo Output of {@link Utils#getManifestInfo(java.io.File)} for test APK.
+   * @param instrumentationInfo Test apk manifest information.
    */
   ExecutionTarget(File sdk, File apk, File testApk, File output, String serial,
-      boolean debug, String classpath, String[] instrumentationInfo) {
+      boolean debug, String classpath, InstrumentationManifestInfo instrumentationInfo) {
     this.sdk = sdk;
     this.apk = apk;
     this.testApk = testApk;
@@ -118,12 +118,9 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
       log.addHandler(handler);
       log.setLevel(target.debug ? Level.FINE : Level.INFO);
 
-      final String appPackage = target.instrumentationInfo[0];
-      final String testPackage = target.instrumentationInfo[1];
-      final String testRunner = target.instrumentationInfo[2];
-
-      log.fine(appPackage + " in " + target.apk.getAbsolutePath());
-      log.fine(testPackage + " in " + target.testApk.getAbsolutePath());
+      final String appPackage = target.instrumentationInfo.applicationPackage;
+      final String testPackage = target.instrumentationInfo.instrumentationPackage;
+      final String testRunner = target.instrumentationInfo.testRunnerClass;
 
       if (target.debug) {
         DdmlibHelper.setInternalLoggingLevel();
