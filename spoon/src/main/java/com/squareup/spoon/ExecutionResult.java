@@ -69,14 +69,14 @@ public class ExecutionResult implements ITestRunListener {
   @Override public void testFailed(TestFailure status, TestIdentifier identifier, String trace) {
     System.out.println("[testFailed] status: " + status + ", test: " + identifier + ", trace: "
       + trace);
-    getTest(identifier).setResult(serial, FAILURE);
+    getTest(identifier).setResult(serial, FAILURE, trace);
     testsFailed += 1;
     testClasses.get(identifier.getClassName()).testsFailed += 1;
   }
 
   @Override public void testEnded(TestIdentifier identifier, Map<String, String> metrics) {
     System.out.println("[testEnded] test: " + identifier + ", metrics: " + metrics);
-    getTest(identifier).setResult(serial, SUCCESS);
+    getTest(identifier).setResult(serial, SUCCESS, null);
   }
 
   @Override public void testRunFailed(String errorMessage) {

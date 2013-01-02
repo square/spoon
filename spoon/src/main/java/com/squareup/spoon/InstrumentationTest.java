@@ -31,9 +31,11 @@ public class InstrumentationTest {
     deviceResults.put(deviceName, result);
   }
 
-  public void setResult(String deviceName, TestResult result) {
-    if (deviceResults.get(deviceName).result == null) {
-      deviceResults.get(deviceName).result = result;
+  public void setResult(String deviceName, TestResult result, String trace) {
+    ExecutionTestResult executionTestResult = deviceResults.get(deviceName);
+    if (executionTestResult.result == null) {
+      executionTestResult.result = result;
+      executionTestResult.trace = trace;
     }
   }
 

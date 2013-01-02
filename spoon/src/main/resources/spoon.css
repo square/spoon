@@ -55,10 +55,6 @@ body {
   opacity: 1.0;
 }
 
-.stack-trace {
-  margin-left: 3em;
-}
-
 .modal .modal-body {
   max-height: none;
 }
@@ -70,9 +66,11 @@ body {
   text-align: left;
   padding: 10px 0 5px 2px;
 }
+.birds-eye .test {
+  height: 30px;
+}
 .birds-eye .test a {
   display: block;
-  height: 30px;
   text-decoration: none;
 }
 .birds-eye .test.pass:hover {

@@ -31,6 +31,9 @@
                         </a>
                         {{/hasScreenshots}}
                     </h2>
+                    {{#getTrace}}
+                    <pre>{{toString}}</pre>
+                    {{/getTrace}}
                     {{#hasScreenshots}}
                     <ul class="thumbnails">
                         {{#screenshots}}

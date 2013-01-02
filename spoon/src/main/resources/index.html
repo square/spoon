@@ -39,12 +39,9 @@
                             {{#getRuntimeException}}
                             <tr class="result">
                                 <td colspan="{{tests.size}}" class="test error">
-                                    {{toString}}
-                                    <p class="stack-trace">
-                                        {{#getStackTrace}}
-                                        at {{getClassName}}.{{getMethodName}}({{getFileName}}:{{getLineNumber}})<br/>
-                                        {{/getStackTrace}}
-                                    </p>
+                                    <pre>{{toString}}
+{{#getStackTrace}}    at {{getClassName}}.{{getMethodName}}({{getFileName}}:{{getLineNumber}})
+{{/getStackTrace}}</pre>
                                 </td>
                             </tr>
                             {{/getRuntimeException}}
@@ -71,9 +68,9 @@
             });
 
             $(".test.error").mouseenter(function() {
-                $(".test.error .stack-trace").stop().show(300);
+                $(this).find("pre").stop().show(300);
             }).mouseleave(function() {
-                $(".test.error .stack-trace").hide(300);
+                $(this).find("pre").hide(300);
             });
         </script>
     </body>

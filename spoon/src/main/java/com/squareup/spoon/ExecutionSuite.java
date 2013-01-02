@@ -9,9 +9,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+
+import static com.squareup.spoon.ExecutionTarget.FILE_RESULT;
+import static com.squareup.spoon.ExecutionTarget.OUTPUT_FILE;
 
 /** Represents a collection of devices and the test configuration to be executed. */
 public class ExecutionSuite {
@@ -85,16 +89,15 @@ public class ExecutionSuite {
             } catch (FileNotFoundException e) {
               // No results file means fatal exception before it could be written.
               String outputFolder = FilenameUtils.concat(output.getName(), serial);
-              if (e.getMessage().contains(FilenameUtils.concat(outputFolder,
-                ExecutionTarget.FILE_RESULT))) {
+              if (e.getMessage().contains(FilenameUtils.concat(outputFolder, FILE_RESULT))) {
                 logger.severe(String.format(
                   "Fatal exception while running on %s, please check %s for exception.",
-                  serial, FilenameUtils.concat(outputFolder, ExecutionTarget.OUTPUT_FILE)));
+                  serial, FilenameUtils.concat(outputFolder, OUTPUT_FILE)));
               } else {
-                logger.severe(e.toString());
+                logger.log(Level.SEVERE, e.toString(), e);
               }
             } catch (Exception e) {
-              logger.severe(e.toString());
+              logger.log(Level.SEVERE, e.toString(), e);
               result.setRuntimeException(e);
             } finally {
               done.countDown();
