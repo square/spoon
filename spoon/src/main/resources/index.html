@@ -36,7 +36,7 @@
                             <tr class="device">
                                 <th colspan="{{tests.size}}"><a href="{{serial}}/index.html">{{deviceName}}</a></th>
                             </tr>
-                            {{#getRuntimeException}}
+                            {{#getException}}
                             <tr class="result">
                                 <td colspan="{{tests.size}}" class="test error">
                                     <pre>{{toString}}
@@ -44,8 +44,8 @@
 {{/getStackTrace}}</pre>
                                 </td>
                             </tr>
-                            {{/getRuntimeException}}
-                            {{^getRuntimeException}}
+                            {{/getException}}
+                            {{^getException}}
                             <tr class="result">
                                 {{#results}}
                                 <td class="test {{result}}" data-original-title="{{classSimpleName}}" data-content="{{testName}}">
@@ -53,7 +53,7 @@
                                 </td>
                                 {{/results}}
                             </tr>
-                            {{/getRuntimeException}}
+                            {{/getException}}
                             {{/results}}
                         </tbody>
                     </table>

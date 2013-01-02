@@ -36,7 +36,7 @@ public class ExecutionResult implements ITestRunListener {
   public String displayTime;
   private final Map<String, InstrumentationTestClass> testClasses =
     new HashMap<String, InstrumentationTestClass>();
-  public Exception runtimeException;
+  private Exception exception;
 
   public ExecutionResult(String serial) {
     this.serial = serial;
@@ -95,12 +95,12 @@ public class ExecutionResult implements ITestRunListener {
     return testClasses.get(identifier.getClassName()).getTest(identifier);
   }
 
-  public void setRuntimeException(Exception exception) {
-    runtimeException = exception;
+  public void setException(Exception exception) {
+    this.exception = exception;
   }
 
-  public Exception getRuntimeException() {
-    return runtimeException;
+  public Exception getException() {
+    return exception;
   }
 
   public int testsPassed() {

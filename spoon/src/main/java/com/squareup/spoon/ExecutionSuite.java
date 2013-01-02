@@ -114,7 +114,7 @@ public final class ExecutionSuite {
               result = target.runInNewProcess();
             } catch (Exception e) {
               LOG.log(SEVERE, e.toString(), e);
-              result.setRuntimeException(e);
+              result.setException(e);
             } finally {
               done.countDown();
             }
