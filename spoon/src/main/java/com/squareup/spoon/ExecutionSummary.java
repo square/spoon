@@ -3,6 +3,7 @@ package com.squareup.spoon;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.madgag.gif.fmsware.AnimatedGifEncoder;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 import javax.imageio.ImageIO;
@@ -172,8 +173,8 @@ public class ExecutionSummary {
 
   private void makeGif(ExecutionTestResult result) {
     AnimatedGifEncoder encoder = new AnimatedGifEncoder();
-    encoder.start(new File(output + "/" + result.serial,
-      result.classSimpleName + "-" + result.testName + ".gif").getAbsolutePath());
+    String name = result.classSimpleName + "-" + result.testName + ".gif";
+    encoder.start(FileUtils.getFile(output, result.serial, name).getAbsolutePath());
     encoder.setDelay(1000); // 1 frame per second.
     encoder.setRepeat(0); // 0 repeats infinitely.
     encoder.setQuality(1); // Highest quality, scale is from 1 to 256 (lower is better).
