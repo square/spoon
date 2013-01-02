@@ -15,6 +15,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.squareup.spoon.ExecutionTarget.FILE_RESULT;
 import static com.squareup.spoon.ExecutionTarget.OUTPUT_FILE;
 import static com.squareup.spoon.InstrumentationManifestInfo.parseFromFile;
+import static java.util.Collections.unmodifiableSet;
 import static java.util.logging.Level.SEVERE;
 
 /** Represents a collection of devices and the test configuration to be executed. */
@@ -39,7 +40,7 @@ public final class ExecutionSuite {
     this.instrumentationApk = instrumentationApk;
     this.output = output;
     this.debug = debug;
-    this.serials = serials;
+    this.serials = unmodifiableSet(serials);
     this.classpath = classpath;
   }
 
