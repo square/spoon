@@ -126,7 +126,7 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
         DdmlibHelper.setInternalLoggingLevel();
       }
 
-      AndroidDebugBridge adb = DdmlibHelper.init(target.sdk);
+      AndroidDebugBridge adb = DdmlibHelper.initAdb(target.sdk);
 
       IDevice realDevice = obtainRealDevice(adb, target.serial);
       result.configureFor(realDevice);

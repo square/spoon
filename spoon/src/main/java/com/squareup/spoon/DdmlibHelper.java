@@ -21,7 +21,7 @@ final class DdmlibHelper {
   private static final String ADB_BINARY = "adb";
 
   /** Get an {@link AndroidDebugBridge} instance given an SDK path. */
-  static AndroidDebugBridge init(File sdk) {
+  static AndroidDebugBridge initAdb(File sdk) {
     AndroidDebugBridge.init(false);
     File adbPath = FileUtils.getFile(sdk, PLATFORM_TOOLS, ADB_BINARY);
     AndroidDebugBridge adb = AndroidDebugBridge.createBridge(adbPath.getAbsolutePath(), true);
@@ -88,7 +88,7 @@ final class DdmlibHelper {
   /** Find all device serials that are plugged in through ADB. */
   static Set<String> findAllDevices(File sdkPath) {
     Set<String> devices = new HashSet<String>();
-    AndroidDebugBridge adb = init(sdkPath);
+    AndroidDebugBridge adb = initAdb(sdkPath);
     for (IDevice realDevice : adb.getDevices()) {
       devices.add(realDevice.getSerialNumber());
     }
