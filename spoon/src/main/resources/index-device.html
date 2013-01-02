@@ -38,9 +38,16 @@
                         </a>
                         {{/hasScreenshots}}
                     </h2>
-                    {{#getTrace}}
-                    <pre>{{toString}}</pre>
-                    {{/getTrace}}
+                    {{#trace}}
+                    <div class="alert alert-error stacktrace" data-toggle="collapse">
+                        <h4>{{title}}</h4>
+                        <div class="alert-error stacktrace-body">
+                            {{#trace.body}}
+                                <div class="stacktrace-line">{{toString}}</div>
+                            {{/trace.body}}
+                        </div>
+                    </div>
+                    {{/trace}}
                     {{#hasScreenshots}}
                     <ul class="thumbnails">
                         {{#screenshots}}
