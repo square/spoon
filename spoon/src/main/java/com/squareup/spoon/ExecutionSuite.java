@@ -1,19 +1,15 @@
 package com.squareup.spoon;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.squareup.spoon.ExecutionTarget.FILE_RESULT;
-import static com.squareup.spoon.ExecutionTarget.OUTPUT_FILE;
 import static com.squareup.spoon.InstrumentationManifestInfo.parseFromFile;
 import static java.util.Collections.unmodifiableSet;
 import static java.util.logging.Level.SEVERE;
@@ -109,30 +105,20 @@ public final class ExecutionSuite {
       for (final String serial : serials) {
         new Thread(new Runnable() {
           @Override public void run() {
-            // Create an empty result just in case the execution fails before target.call() returns.
+            // Create empty result in case execution fails before runInNewProcess() completes.
             ExecutionResult result = new ExecutionResult(serial);
             try {
               ExecutionTarget target =
                   new ExecutionTarget(androidSdk, applicationApk, instrumentationApk, output,
                       serial, debug, classpath, testInfo);
-              result = target.call();
-              summaryBuilder.addResult(result);
-            } catch (FileNotFoundException e) {
-              // No results file means fatal exception before it could be written.
-              String outputFolder = FilenameUtils.concat(output.getName(), serial);
-              if (e.getMessage().contains(FilenameUtils.concat(outputFolder, FILE_RESULT))) {
-                LOG.severe(String.format(
-                    "Fatal exception while running on %s, please check %s for exception.", serial,
-                    FilenameUtils.concat(outputFolder, OUTPUT_FILE)));
-              } else {
-                LOG.log(SEVERE, e.toString(), e);
-              }
+              result = target.runInNewProcess();
             } catch (Exception e) {
               LOG.log(SEVERE, e.toString(), e);
               result.setRuntimeException(e);
             } finally {
               done.countDown();
             }
+            summaryBuilder.addResult(result);
           }
         }).start();
       }

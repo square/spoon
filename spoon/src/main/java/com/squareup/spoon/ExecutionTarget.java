@@ -1,18 +1,13 @@
 package com.squareup.spoon;
 
-import com.android.ddmlib.AdbCommandRejectedException;
 import com.android.ddmlib.AndroidDebugBridge;
 import com.android.ddmlib.IDevice;
-import com.android.ddmlib.ShellCommandUnresponsiveException;
-import com.android.ddmlib.SyncException;
-import com.android.ddmlib.TimeoutException;
 import com.android.ddmlib.testrunner.RemoteAndroidTestRunner;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
-import java.util.concurrent.Callable;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,9 +21,10 @@ import static com.squareup.spoon.DdmlibHelper.obtainRealDevice;
 import static com.squareup.spoon.Screenshot.SPOON_SCREENSHOTS;
 import static com.squareup.spoon.Utils.GSON;
 import static com.squareup.spoon.Utils.QUIET_MONITOR;
+import static java.util.logging.Level.SEVERE;
 
 /** Represents a single device and the test configuration to be executed. */
-public class ExecutionTarget implements Callable<ExecutionResult> {
+public class ExecutionTarget {
   static final String FILE_RESULT = "result.json";
   static final String OUTPUT_FILE = "output.txt";
   private static final String FILE_EXECUTION = "execution.json";
@@ -71,7 +67,7 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
   /////////////////////////////////////////////////////////////////////////////
 
   /** Serialize ourself to disk and start {@link #main(String...)} in another process. */
-  @Override public ExecutionResult call() throws IOException, InterruptedException {
+  public ExecutionResult runInNewProcess() throws IOException, InterruptedException {
     // Create the output directory.
     output.mkdirs();
 
@@ -94,9 +90,7 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
   ////  Secondary Per-Device Process  /////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////////////
 
-  public static void main(String... args)
-      throws IOException, ShellCommandUnresponsiveException, AdbCommandRejectedException,
-      TimeoutException, SyncException {
+  public static void main(String... args) {
     Logger log = Logger.getLogger(ExecutionTarget.class.getSimpleName());
     try {
       if (args.length != 1) {
@@ -118,9 +112,9 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
       log.addHandler(handler);
       log.setLevel(target.debug ? Level.FINE : Level.INFO);
 
-      final String appPackage = target.instrumentationInfo.getApplicationPackage();
-      final String testPackage = target.instrumentationInfo.getInstrumentationPackage();
-      final String testRunner = target.instrumentationInfo.getTestRunnerClass();
+      String appPackage = target.instrumentationInfo.getApplicationPackage();
+      String testPackage = target.instrumentationInfo.getInstrumentationPackage();
+      String testRunner = target.instrumentationInfo.getTestRunnerClass();
 
       if (target.debug) {
         DdmlibHelper.setInternalLoggingLevel();
@@ -166,15 +160,12 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
       GSON.toJson(result, writer);
       writer.close();
     } catch (IllegalArgumentException ex) {
-      // Arguments thrown by us, log them before dying.
-      log.severe(ex.getMessage());
+    // Arguments thrown by us, log them before dying.
+      log.log(SEVERE, "Unable to initialize execution.", ex);
     } catch (Exception ex) {
-      log.throwing(ExecutionTarget.class.getSimpleName(), "main", ex);
+      log.log(SEVERE, "Unable to execute test for target.", ex);
     } finally {
-      try {
-        AndroidDebugBridge.terminate();
-      } catch (Exception ignore) {
-      }
+      AndroidDebugBridge.terminate();
     }
   }
 }
