@@ -16,18 +16,8 @@ public class InstrumentationTestClass {
 
   public InstrumentationTestClass(TestIdentifier identifier) {
     className = identifier.getClassName();
-    classSimpleName = getClassSimpleName(className);
+    classSimpleName = Utils.getClassSimpleName(className);
     testList = new HashMap<String, InstrumentationTest>();
-  }
-
-  /* Fake Class#getSimpleName logic. */
-  private static String getClassSimpleName(String className) {
-    int lastPeriod = className.lastIndexOf(".");
-    if (lastPeriod != -1) {
-      return className.substring(lastPeriod + 1);
-    } else {
-      return className;
-    }
   }
 
   public void addTest(InstrumentationTest test) {

@@ -42,6 +42,15 @@ final class Utils {
         }
       };
 
+  /** Fake Class#getSimpleName logic. */
+  static String getClassSimpleName(String className) {
+    int lastPeriod = className.lastIndexOf(".");
+    if (lastPeriod != -1) {
+      return className.substring(lastPeriod + 1);
+    }
+    return className;
+  }
+
   private Utils() {
     // No instances.
   }
