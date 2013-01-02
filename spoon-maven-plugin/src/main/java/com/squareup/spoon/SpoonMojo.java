@@ -122,7 +122,7 @@ public class SpoonMojo extends AbstractMojo {
         .setApplicationApk(app)
         .setInstrumentationApk(instrumentation)
         .setOutputDirectory(outputDirectory)
-        .setSdk(sdkFile)
+        .setAndroidSdk(sdkFile)
         .setDebug(debug)
         .setClasspath(classpath)
         .addAllAttachedDevices()

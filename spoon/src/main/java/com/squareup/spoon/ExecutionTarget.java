@@ -14,42 +14,31 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.squareup.spoon.external.AXMLParser;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.concurrent.Callable;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
-import static com.android.ddmlib.FileListingService.TYPE_DIRECTORY;
 import static com.android.ddmlib.SyncService.ISyncProgressMonitor;
+import static com.squareup.spoon.AdbHelper.obtainDirectoryFileEntry;
+import static com.squareup.spoon.AdbHelper.obtainRealDevice;
 import static com.squareup.spoon.Screenshot.SPOON_SCREENSHOTS;
+import static com.squareup.spoon.Utils.getManifestInfo;
 
 /** Represents a single device and the test configuration to be executed. */
 public class ExecutionTarget implements Callable<ExecutionResult> {
   static final String FILE_RESULT = "result.json";
   static final String OUTPUT_FILE = "output.txt";
-
-  private static final String ANDROID_MANIFEST_XML = "AndroidManifest.xml";
-  private static final String TAG_MANIFEST = "manifest";
-  private static final String TAG_INSTRUMENTATION = "instrumentation";
-  private static final String ATTR_PACKAGE = "package";
-  private static final String ATTR_TARGET_PACKAGE = "targetPackage";
-  private static final String ATTR_NAME = "name";
   private static final String FILE_EXECUTION = "execution.json";
 
   private static final Gson GSON = new GsonBuilder() //
@@ -245,78 +234,6 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
       level.set(Log.class, LogLevel.DEBUG);
     } catch (NoSuchFieldException ignored) {
     } catch (IllegalAccessException ignored) {
-    }
-  }
-
-  /** Fetch or create a real device that corresponds to a device model. */
-  private static IDevice obtainRealDevice(AndroidDebugBridge adb, String serial) {
-    // Get an existing real device.
-    for (IDevice adbDevice : adb.getDevices()) {
-      if (adbDevice.getSerialNumber().equals(serial)) {
-        return adbDevice;
-      }
-    }
-    throw new IllegalArgumentException("Unknown device serial: " + serial);
-  }
-
-  private static FileEntry obtainDirectoryFileEntry(String path) {
-    try {
-      FileEntry lastEntry = null;
-      Constructor<FileEntry> c =
-          FileEntry.class.getDeclaredConstructor(FileEntry.class, String.class, int.class,
-              boolean.class);
-      c.setAccessible(true);
-      for (String part : path.split("/")) {
-        lastEntry = c.newInstance(lastEntry, part, TYPE_DIRECTORY, lastEntry == null);
-      }
-      return lastEntry;
-    } catch (NoSuchMethodException ignored) {
-    } catch (InvocationTargetException ignored) {
-    } catch (InstantiationException ignored) {
-    } catch (IllegalAccessException ignored) {
-    }
-    return null;
-  }
-
-  private static String[] getManifestInfo(File apkTestFile) {
-    InputStream is = null;
-    try {
-      ZipFile zip = new ZipFile(apkTestFile);
-      ZipEntry entry = zip.getEntry(ANDROID_MANIFEST_XML);
-      is = zip.getInputStream(entry);
-
-      AXMLParser parser = new AXMLParser(is);
-      int eventType = parser.getType();
-
-      String[] ret = new String[3];
-      while (eventType != AXMLParser.END_DOCUMENT) {
-        if (eventType == AXMLParser.START_TAG) {
-          String parserName = parser.getName();
-          boolean isManifest = TAG_MANIFEST.equals(parserName);
-          boolean isInstrumentation = TAG_INSTRUMENTATION.equals(parserName);
-          if (isManifest || isInstrumentation) {
-            for (int i = 0; i < parser.getAttributeCount(); i++) {
-              String parserAttributeName = parser.getAttributeName(i);
-              if (isManifest && ATTR_PACKAGE.equals(parserAttributeName)) {
-                ret[1] = parser.getAttributeValueString(i);
-              } else if (isInstrumentation && ATTR_TARGET_PACKAGE.equals(parserAttributeName)) {
-                ret[0] = parser.getAttributeValueString(i);
-              } else if (isInstrumentation && ATTR_NAME.equals(parserAttributeName)) {
-                ret[2] = parser.getAttributeValueString(i);
-              }
-            }
-          }
-        }
-        eventType = parser.next();
-      }
-      if (ret[0] == null || ret[1] == null) {
-        throw new IllegalStateException("Unable to find both app and test package.");
-      }
-      return ret;
-    } catch (IOException e) {
-      throw new RuntimeException("Unable to parse test app AndroidManifest.xml.", e);
-    } finally {
-      IOUtils.closeQuietly(is);
     }
   }
 }

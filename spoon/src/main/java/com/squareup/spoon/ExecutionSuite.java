@@ -3,7 +3,6 @@ package com.squareup.spoon;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
@@ -22,24 +21,56 @@ public final class ExecutionSuite {
   private static final Logger LOG = Logger.getLogger(ExecutionSuite.class.getSimpleName());
 
   private final String title;
-  private final File sdkPath;
-  private final File apk;
-  private final File testApk;
+  private final File androidSdk;
+  private final File applicationApk;
+  private final File instrumentationApk;
   private final File output;
   private final boolean debug;
-  private final Collection<String> serials;
+  private final Set<String> serials;
   private final String classpath;
 
-  private ExecutionSuite(String title, File sdkPath, File apk, File testApk, File output,
-      boolean debug, Set<String> serials, String classpath) {
+  private ExecutionSuite(String title, File androidSdk, File applicationApk,
+      File instrumentationApk, File output, boolean debug, Set<String> serials, String classpath) {
     this.title = title;
-    this.sdkPath = sdkPath;
-    this.apk = apk;
-    this.testApk = testApk;
+    this.androidSdk = androidSdk;
+    this.applicationApk = applicationApk;
+    this.instrumentationApk = instrumentationApk;
     this.output = output;
     this.debug = debug;
     this.serials = serials;
     this.classpath = classpath;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public File getAndroidSdk() {
+    return androidSdk;
+  }
+
+  public File getApplicationApk() {
+    return applicationApk;
+  }
+
+  public File getInstrumentationApk() {
+    return instrumentationApk;
+  }
+
+  public File getOutputDirectory() {
+    return output;
+  }
+
+  public boolean getDebug() {
+    return debug;
+  }
+
+  public Set<String> getSerials() {
+    return serials;
+  }
+
+  public String getClasspath() {
+    return classpath;
   }
 
   /** Returns {@code true} if there were no test failures or exceptions thrown. */
@@ -72,7 +103,8 @@ public final class ExecutionSuite {
             ExecutionResult result = new ExecutionResult(serial);
             try {
               ExecutionTarget target =
-                  new ExecutionTarget(sdkPath, apk, testApk, output, serial, debug, classpath);
+                  new ExecutionTarget(androidSdk, applicationApk, instrumentationApk, output,
+                      serial, debug, classpath);
               result = target.call();
               summaryBuilder.addResult(result);
             } catch (FileNotFoundException e) {
@@ -111,9 +143,9 @@ public final class ExecutionSuite {
   /** Build a test suite for the specified devices and configuration. */
   public static class Builder {
     private String title = DEFAULT_TITLE;
-    private File sdk;
-    private File apk;
-    private File testApk;
+    private File androidSdk;
+    private File applicationApk;
+    private File instrumentationApk;
     private File output;
     private boolean debug = false;
     private Set<String> serials;
@@ -126,26 +158,26 @@ public final class ExecutionSuite {
     }
 
     /** Path to the local Android SDK directory. */
-    public Builder setSdk(File sdk) {
-      this.sdk = sdk;
+    public Builder setAndroidSdk(File androidSdk) {
+      this.androidSdk = androidSdk;
       return this;
     }
 
     /** Path to application APK. */
     public Builder setApplicationApk(File apk) {
-      this.apk = apk;
+      this.applicationApk = apk;
       return this;
     }
 
     /** Path to instrumentation APK. */
     public Builder setInstrumentationApk(File apk) {
-      this.testApk = apk;
+      this.instrumentationApk = apk;
       return this;
     }
 
     /** Path to output directory. */
-    public Builder setOutputDirectory(File dir) {
-      this.output = dir;
+    public Builder setOutputDirectory(File output) {
+      this.output = output;
       return this;
     }
 
@@ -169,10 +201,10 @@ public final class ExecutionSuite {
       if (this.serials != null) {
         throw new IllegalStateException("Serial list already contains entries.");
       }
-      if (this.sdk == null) {
+      if (this.androidSdk == null) {
         throw new IllegalStateException("SDK must be set before calling this method.");
       }
-      this.serials = Utils.findAllDevices(sdk);
+      this.serials = Utils.findAllDevices(androidSdk);
       return this;
     }
 
@@ -183,13 +215,13 @@ public final class ExecutionSuite {
     }
 
     public ExecutionSuite build() {
-      checkNotNull(sdk, "SDK is required.");
-      checkNotNull(apk, "Application APK is required.");
-      checkNotNull(testApk, "Instrumentation APK is required.");
+      checkNotNull(androidSdk, "SDK is required.");
+      checkNotNull(applicationApk, "Application APK is required.");
+      checkNotNull(instrumentationApk, "Instrumentation APK is required.");
       checkNotNull(output, "Output path is required.");
       checkNotNull(serials, "Device serials are required.");
 
-      return new ExecutionSuite(title, sdk, apk, testApk, output, debug, serials, classpath);
+      return new ExecutionSuite(title, androidSdk, applicationApk, instrumentationApk, output, debug, serials, classpath);
     }
   }
 }

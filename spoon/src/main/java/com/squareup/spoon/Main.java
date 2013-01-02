@@ -76,7 +76,7 @@ public class Main {
         .setInstrumentationApk(config.testApk)
         .setOutputDirectory(config.output)
         .setDebug(config.debug)
-        .setSdk(config.sdk)
+        .setAndroidSdk(config.sdk)
         .addAllAttachedDevices()
         .build()
         .run();
