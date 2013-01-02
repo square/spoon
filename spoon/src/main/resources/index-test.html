@@ -4,10 +4,11 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{{testName}}</title>
+        <link href="http://fonts.googleapis.com/css?family=Roboto:regular,medium,thin,italic,mediumitalic,bold" rel="stylesheet">
         <link href="../bootstrap.min.css" rel="stylesheet">
-        <link href="../lightbox.css" rel="stylesheet" />
-        <link href="http://fonts.googleapis.com/css?family=Roboto:regular,medium,thin,italic,mediumitalic,bold" rel="stylesheet" title="roboto">
         <link href="../spoon.css" rel="stylesheet">
+        <script src="../jquery.min.js"></script>
+        <script src="../bootstrap.min.js"></script>
     </head>
     <body>
         <div class="container">
@@ -34,7 +35,7 @@
                     <ul class="thumbnails">
                         {{#screenshots}}
                         <li class="span2">
-                            <a href="../{{serial}}/{{className}}/{{testName}}/{{file.getName}}" rel="lightbox[{{id}}]" title="{{classSimpleName}}.{{testName}}" class="thumbnail">
+                            <a href="../{{serial}}/{{className}}/{{testName}}/{{file.getName}}" title="{{classSimpleName}}.{{testName}}" class="thumbnail">
                                 <img src="../{{serial}}/{{className}}/{{testName}}/{{file.getName}}">
                             </a>
                         </li>
@@ -42,19 +43,8 @@
                     </ul>
                     {{/hasScreenshots}}
                 </div>
-                {{#screenshots}}
-                <div id="{{id}}" class="modal hide fade">
-                    <div class="modal-body">
-                        <img src="../{{serial}}/{{className}}/{{testName}}/{{file.getName}}">
-                    </div>
-                </div>
-                {{/screenshots}}
             </div>
             {{/results}}
         </div>
-
-        <script src="../jquery.min.js"></script>
-        <script src="../bootstrap.min.js"></script>
-        <script src="../lightbox.js"></script>
     </body>
 </html>

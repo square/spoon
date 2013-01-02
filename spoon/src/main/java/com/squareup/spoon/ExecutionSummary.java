@@ -37,10 +37,8 @@ public class ExecutionSummary {
 
   /** Assets which need to be copied to the output directory when generating HTML. */
   private static final String[] ASSETS = {
-      "bootstrap.min.css", "bootstrap.min.js", "jquery.min.js", "lightbox.js", "spoon.css",
-      "lightbox.css", "loading.gif", "next.png", "prev.png", "close.png",
-      "jquery-ui-1.8.18.custom.min.js", "jquery.smooth-scroll.min.js", "icon-animated.png",
-      "icon-devices.png"
+      "bootstrap.min.css", "bootstrap.min.js", "icon-animated.png", "icon-devices.png",
+      "jquery.min.js", "spoon.css"
   };
 
   private final File output;
