@@ -208,7 +208,7 @@ public final class ExecutionSuite {
       if (this.androidSdk == null) {
         throw new IllegalStateException("SDK must be set before calling this method.");
       }
-      this.serials = Utils.findAllDevices(androidSdk);
+      this.serials = DdmlibHelper.findAllDevices(androidSdk);
       return this;
     }
 

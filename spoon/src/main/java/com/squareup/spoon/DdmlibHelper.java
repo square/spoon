@@ -7,6 +7,8 @@ import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashSet;
+import java.util.Set;
 import org.apache.commons.io.FileUtils;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
@@ -81,6 +83,17 @@ final class DdmlibHelper {
     } catch (NoSuchFieldException ignored) {
     } catch (IllegalAccessException ignored) {
     }
+  }
+
+  /** Find all device serials that are plugged in through ADB. */
+  static Set<String> findAllDevices(File sdkPath) {
+    Set<String> devices = new HashSet<String>();
+    AndroidDebugBridge adb = init(sdkPath);
+    for (IDevice realDevice : adb.getDevices()) {
+      devices.add(realDevice.getSerialNumber());
+    }
+    AndroidDebugBridge.terminate();
+    return devices;
   }
 
   private DdmlibHelper() {

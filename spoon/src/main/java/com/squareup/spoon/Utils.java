@@ -1,7 +1,5 @@
 package com.squareup.spoon;
 
-import com.android.ddmlib.AndroidDebugBridge;
-import com.android.ddmlib.IDevice;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
@@ -11,8 +9,6 @@ import com.squareup.spoon.external.AXMLParser;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import org.apache.commons.io.IOUtils;
@@ -57,17 +53,6 @@ final class Utils {
         @Override public void advance(int work) {
         }
       };
-
-  /** Find all device serials that are plugged in through ADB. */
-  static Set<String> findAllDevices(File sdkPath) {
-    Set<String> devices = new HashSet<String>();
-    AndroidDebugBridge adb = DdmlibHelper.init(sdkPath);
-    for (IDevice realDevice : adb.getDevices()) {
-      devices.add(realDevice.getSerialNumber());
-    }
-    AndroidDebugBridge.terminate();
-    return devices;
-  }
 
   /**
    * Parse key information from an instrumentation APK's manifest.
