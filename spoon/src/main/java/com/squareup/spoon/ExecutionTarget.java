@@ -118,9 +118,9 @@ public class ExecutionTarget implements Callable<ExecutionResult> {
       log.addHandler(handler);
       log.setLevel(target.debug ? Level.FINE : Level.INFO);
 
-      final String appPackage = target.instrumentationInfo.applicationPackage;
-      final String testPackage = target.instrumentationInfo.instrumentationPackage;
-      final String testRunner = target.instrumentationInfo.testRunnerClass;
+      final String appPackage = target.instrumentationInfo.getApplicationPackage();
+      final String testPackage = target.instrumentationInfo.getInstrumentationPackage();
+      final String testRunner = target.instrumentationInfo.getTestRunnerClass();
 
       if (target.debug) {
         DdmlibHelper.setInternalLoggingLevel();

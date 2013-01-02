@@ -10,7 +10,7 @@ import org.apache.commons.io.IOUtils;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class InstrumentationManifestInfo {
+public final class InstrumentationManifestInfo {
   private static final String ANDROID_MANIFEST_XML = "AndroidManifest.xml";
   private static final String TAG_MANIFEST = "manifest";
   private static final String TAG_INSTRUMENTATION = "instrumentation";
@@ -18,15 +18,27 @@ public class InstrumentationManifestInfo {
   private static final String ATTR_TARGET_PACKAGE = "targetPackage";
   private static final String ATTR_NAME = "name";
 
-  public final String applicationPackage;
-  public final String instrumentationPackage;
-  public final String testRunnerClass;
+  private final String applicationPackage;
+  private final String instrumentationPackage;
+  private final String testRunnerClass;
 
   public InstrumentationManifestInfo(String applicationPackage, String instrumentationPackage,
       String testRunnerClass) {
     this.applicationPackage = applicationPackage;
     this.instrumentationPackage = instrumentationPackage;
     this.testRunnerClass = testRunnerClass;
+  }
+
+  public String getApplicationPackage() {
+    return applicationPackage;
+  }
+
+  public String getInstrumentationPackage() {
+    return instrumentationPackage;
+  }
+
+  public String getTestRunnerClass() {
+    return testRunnerClass;
   }
 
   /** Parse key information from an instrumentation APK's manifest. */

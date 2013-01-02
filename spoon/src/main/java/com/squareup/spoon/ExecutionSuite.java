@@ -103,8 +103,8 @@ public final class ExecutionSuite {
         .start();
 
 
-    LOG.fine(testInfo.applicationPackage + " in " + applicationApk.getAbsolutePath());
-    LOG.fine(testInfo.instrumentationPackage + " in " + instrumentationApk.getAbsolutePath());
+    LOG.fine(testInfo.getApplicationPackage() + " in " + applicationApk.getAbsolutePath());
+    LOG.fine(testInfo.getInstrumentationPackage() + " in " + instrumentationApk.getAbsolutePath());
 
     try {
       for (final String serial : serials) {
