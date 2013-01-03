@@ -20,12 +20,25 @@ final class DdmlibHelper {
   private static final String PLATFORM_TOOLS = "platform-tools";
   private static final String ADB_BINARY = "adb";
 
+  private static AndroidDebugBridge adb;
+
   /** Get an {@link AndroidDebugBridge} instance given an SDK path. */
   static AndroidDebugBridge initAdb(File sdk) {
+    if (adb != null) {
+      return adb;
+    }
+
     AndroidDebugBridge.init(false);
     File adbPath = FileUtils.getFile(sdk, PLATFORM_TOOLS, ADB_BINARY);
-    AndroidDebugBridge adb = AndroidDebugBridge.createBridge(adbPath.getAbsolutePath(), true);
+    adb = AndroidDebugBridge.createBridge(adbPath.getAbsolutePath(), true);
     waitForAdb(adb);
+
+    Runtime.getRuntime().addShutdownHook(new Thread() {
+      @Override public void run() {
+        AndroidDebugBridge.terminate();
+      }
+    });
+
     return adb;
   }
 
@@ -92,7 +105,6 @@ final class DdmlibHelper {
     for (IDevice realDevice : adb.getDevices()) {
       devices.add(realDevice.getSerialNumber());
     }
-    AndroidDebugBridge.terminate();
     return devices;
   }
 

@@ -91,7 +91,6 @@ public final class ExecutionSuite {
       throw new RuntimeException("Unable to clean output directory: " + output, e);
     }
 
-    final CountDownLatch done = new CountDownLatch(targetCount);
     final InstrumentationManifestInfo testInfo = parseFromFile(instrumentationApk);
     final ExecutionSummary.Builder summaryBuilder = new ExecutionSummary.Builder()
         .setTitle(title)
@@ -102,28 +101,27 @@ public final class ExecutionSuite {
     LOG.fine(testInfo.getInstrumentationPackage() + " in " + instrumentationApk.getAbsolutePath());
 
     try {
-      for (final String serial : serials) {
-        new Thread(new Runnable() {
-          @Override public void run() {
-            // Create empty result in case execution fails before runInNewProcess() completes.
-            ExecutionResult result = new ExecutionResult(serial);
-            try {
-              ExecutionTarget target =
-                  new ExecutionTarget(androidSdk, applicationApk, instrumentationApk, output,
-                      serial, debug, classpath, testInfo);
-              result = target.runInNewProcess();
-            } catch (Exception e) {
-              LOG.log(SEVERE, e.toString(), e);
-              result.setException(e);
-            } finally {
-              done.countDown();
+      if (targetCount == 1) {
+        // There's only one device, just execute synchronously in this process.
+        String serial = serials.iterator().next();
+        runTestsOnSerial(serial, testInfo, summaryBuilder, true /* synchronous */);
+      } else {
+        // Spawn a new thread for each device and wait for them all to finish.
+        final CountDownLatch done = new CountDownLatch(targetCount);
+        for (final String serial : serials) {
+          new Thread(new Runnable() {
+            @Override public void run() {
+              try {
+                runTestsOnSerial(serial, testInfo, summaryBuilder, false /* asynchronous */);
+              } finally {
+                done.countDown();
+              }
             }
-            summaryBuilder.addResult(result);
-          }
-        }).start();
-      }
+          }).start();
+        }
 
-      done.await();
+        done.await();
+      }
     } catch (Exception e) {
       summaryBuilder.setException(e);
     }
@@ -134,6 +132,26 @@ public final class ExecutionSuite {
     summary.writeHtml();
 
     return summary.getException() == null && summary.getTotalFailure() == 0;
+  }
+
+  private void runTestsOnSerial(String serial, InstrumentationManifestInfo testInfo,
+      ExecutionSummary.Builder summaryBuilder, boolean synchronous) {
+    // Create empty result in case execution fails before run()/runInNewProcess() completes.
+    ExecutionResult result = new ExecutionResult(serial);
+    try {
+      ExecutionTarget target =
+          new ExecutionTarget(androidSdk, applicationApk, instrumentationApk, output,
+              serial, debug, classpath, testInfo);
+      if (synchronous) {
+        result = target.run();
+      } else {
+        result = target.runInNewProcess();
+      }
+    } catch (Exception e) {
+      LOG.log(SEVERE, e.toString(), e);
+      result.setException(e);
+    }
+    summaryBuilder.addResult(result);
   }
 
   /** Build a test suite for the specified devices and configuration. */

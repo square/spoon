@@ -118,6 +118,8 @@ public class ExecutionSummary {
   }
 
   public void writeHtml() {
+    output.mkdirs();
+
     for (String asset : ASSETS) {
       copyResourceToOutput(asset, output);
     }
@@ -132,7 +134,10 @@ public class ExecutionSummary {
       for (ExecutionResult result : results) {
         result.updateDynamicValues();
 
-        File deviceOutput = new File(output, result.serial + "/index.html");
+        File deviceDirectory = new File(output, result.serial);
+        deviceDirectory.mkdirs();
+
+        File deviceOutput = new File(deviceDirectory, "/index.html");
         device.execute(new FileWriter(deviceOutput), result).flush();
       }
 

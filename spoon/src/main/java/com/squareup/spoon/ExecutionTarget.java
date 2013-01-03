@@ -187,8 +187,6 @@ public class ExecutionTarget {
       writer.close();
     } catch (Exception ex) {
       log.log(SEVERE, "Unable to execute test for target.", ex);
-    } finally {
-      AndroidDebugBridge.terminate();
     }
   }
 }
