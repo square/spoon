@@ -102,8 +102,12 @@ public class ExecutionTarget {
 
     // Install the main application and the testApk package.
     try {
-      realDevice.installPackage(apk.getAbsolutePath(), true);
-      realDevice.installPackage(testApk.getAbsolutePath(), true);
+      if (realDevice.installPackage(apk.getAbsolutePath(), true) != null) {
+        throw new RuntimeException("Unable to install application APK.");
+      }
+      if (realDevice.installPackage(testApk.getAbsolutePath(), true) != null) {
+        throw new RuntimeException("Unable to install instrumentation APK.");
+      }
     } catch (InstallException e) {
       result.setException(e);
       return result; // Installation failed, exit early.
