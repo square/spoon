@@ -11,13 +11,6 @@ import org.apache.commons.io.IOUtils;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public final class InstrumentationManifestInfo {
-  private static final String ANDROID_MANIFEST_XML = "AndroidManifest.xml";
-  private static final String TAG_MANIFEST = "manifest";
-  private static final String TAG_INSTRUMENTATION = "instrumentation";
-  private static final String ATTR_PACKAGE = "package";
-  private static final String ATTR_TARGET_PACKAGE = "targetPackage";
-  private static final String ATTR_NAME = "name";
-
   private final String applicationPackage;
   private final String instrumentationPackage;
   private final String testRunnerClass;
@@ -46,7 +39,7 @@ public final class InstrumentationManifestInfo {
     InputStream is = null;
     try {
       ZipFile zip = new ZipFile(apkTestFile);
-      ZipEntry entry = zip.getEntry(ANDROID_MANIFEST_XML);
+      ZipEntry entry = zip.getEntry("AndroidManifest.xml");
       is = zip.getInputStream(entry);
 
       AXMLParser parser = new AXMLParser(is);
@@ -58,16 +51,16 @@ public final class InstrumentationManifestInfo {
       while (eventType != AXMLParser.END_DOCUMENT) {
         if (eventType == AXMLParser.START_TAG) {
           String parserName = parser.getName();
-          boolean isManifest = TAG_MANIFEST.equals(parserName);
-          boolean isInstrumentation = TAG_INSTRUMENTATION.equals(parserName);
+          boolean isManifest = "manifest".equals(parserName);
+          boolean isInstrumentation = "instrumentation".equals(parserName);
           if (isManifest || isInstrumentation) {
             for (int i = 0; i < parser.getAttributeCount(); i++) {
               String parserAttributeName = parser.getAttributeName(i);
-              if (isManifest && ATTR_PACKAGE.equals(parserAttributeName)) {
+              if (isManifest && "package".equals(parserAttributeName)) {
                 testPackage = parser.getAttributeValueString(i);
-              } else if (isInstrumentation && ATTR_TARGET_PACKAGE.equals(parserAttributeName)) {
+              } else if (isInstrumentation && "targetPackage".equals(parserAttributeName)) {
                 appPackage = parser.getAttributeValueString(i);
-              } else if (isInstrumentation && ATTR_NAME.equals(parserAttributeName)) {
+              } else if (isInstrumentation && "name".equals(parserAttributeName)) {
                 testRunnerClass = parser.getAttributeValueString(i);
               }
             }
