@@ -51,6 +51,38 @@ final class Utils {
     return className;
   }
 
+  /** Convert a test name from {@code testThisThing_DoesThat} to "This Thing, Does That". */
+  static String prettifyTestName(String testName) {
+    if (!testName.startsWith("test")) {
+      throw new IllegalArgumentException("Test name does not start with 'test'.");
+    }
+    StringBuilder pretty = new StringBuilder();
+    String[] parts = testName.substring(4).split("_");
+    for (String part : parts) {
+      if ("".equals(part.trim())) {
+        continue; // Skip empty parts.
+      }
+      if (pretty.length() > 0) {
+        pretty.append(",");
+      }
+      boolean inUpper = true;
+      for (char letter : part.toCharArray()) {
+        boolean isUpper = Character.isUpperCase(letter);
+        if (!isUpper && inUpper && pretty.length() > 1 //
+            && pretty.charAt(pretty.length() - 2) != ' ') {
+          // Lowercase coming from an uppercase, insert a space before uppercase if not present.
+          pretty.insert(pretty.length() - 1, " ");
+        } else if (isUpper && !inUpper) {
+          // Uppercase coming from a lowercase, add a space.
+          pretty.append(" ");
+        }
+        inUpper = isUpper; // Update current upper/lower status.
+        pretty.append(letter); // Append ourselves!
+      }
+    }
+    return pretty.toString();
+  }
+
   private Utils() {
     // No instances.
   }

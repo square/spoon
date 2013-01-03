@@ -7,6 +7,7 @@ import java.util.List;
 
 import static com.squareup.spoon.Screenshot.EXTENSION;
 import static com.squareup.spoon.Screenshot.NAME_SEPARATOR;
+import static com.squareup.spoon.Utils.prettifyTestName;
 
 public class ExecutionTestResult {
   public enum TestResult {
@@ -24,6 +25,7 @@ public class ExecutionTestResult {
   }
 
   public String testName;
+  public String prettyTestName;
   public String className;
   public String classSimpleName;
   public TestResult result;
@@ -36,6 +38,7 @@ public class ExecutionTestResult {
     className = test.className;
     classSimpleName = test.classSimpleName;
     testName = test.testName;
+    prettyTestName = prettifyTestName(testName);
   }
 
   public boolean hasScreenshots() {

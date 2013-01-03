@@ -33,7 +33,7 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
     login = (Button) activity.findViewById(R.id.login);
   }
 
-  public void testEmptyFormShowsBothErrors() {
+  public void testEmptyForm_ShowsBothErrors() {
     Screenshot.snap(activity, "initial_state");
 
     // Make sure the initial state does not show any errors.
@@ -56,7 +56,7 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
     assertEquals(required, password.getError().toString());
   }
 
-  public void testBlankPasswordShowsError() {
+  public void testBlankPassword_ShowsError() {
     Screenshot.snap(activity, "initial_state");
 
     // Make sure the initial state does not show any errors.
@@ -85,7 +85,7 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
     assertEquals(activity.getString(R.string.required), password.getError().toString());
   }
 
-  public void testBlankUsernameShowsError() {
+  public void testBlankUsername_ShowsError() {
     Screenshot.snap(activity, "initial_state");
 
     // Make sure the initial state does not show any errors.
@@ -114,7 +114,7 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
     assertNull(password.getError());
   }
 
-  public void testPasswordTooShortShowsError() {
+  public void testPasswordTooShort_ShowsError() {
     Screenshot.snap(activity, "initial_state");
 
     // Make sure the initial state does not show any errors.
@@ -144,7 +144,7 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
     assertEquals(activity.getString(R.string.password_length), password.getError().toString());
   }
 
-  public void testValidValuesStartsNewActivity() {
+  public void testValidValues_StartsNewActivity() {
     IntentFilter filter = new IntentFilter();
     ActivityMonitor monitor = instrumentation.addMonitor(filter, null, false);
 
