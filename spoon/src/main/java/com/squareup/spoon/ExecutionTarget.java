@@ -116,7 +116,6 @@ public class ExecutionTarget {
       new RemoteAndroidTestRunner(testPackage, testRunner, realDevice).run(result);
     } catch (Exception e) {
       result.setException(e);
-      return result;
     }
 
     result.testEnd = System.nanoTime();

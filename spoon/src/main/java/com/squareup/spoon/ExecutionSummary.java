@@ -2,11 +2,9 @@ package com.squareup.spoon;
 
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 import com.madgag.gif.fmsware.AnimatedGifEncoder;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-
-import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -22,6 +20,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import javax.imageio.ImageIO;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.lesscss.LessCompiler;
 
 import static java.util.Collections.synchronizedList;
 import static java.util.Collections.synchronizedMap;
@@ -38,7 +40,7 @@ public class ExecutionSummary {
   /** Assets which need to be copied to the output directory when generating HTML. */
   private static final String[] ASSETS = {
       "bootstrap.min.css", "bootstrap.min.js", "icon-animated.png", "icon-devices.png",
-      "jquery.min.js", "spoon.css"
+      "jquery.min.js"
   };
 
   private final File output;
@@ -122,6 +124,17 @@ public class ExecutionSummary {
 
     for (String asset : ASSETS) {
       copyResourceToOutput(asset, output);
+    }
+
+    // Convert spoon.less to CSS and write to spoon.css in the output directory.
+    try {
+      String spoonLess = Resources.toString(getClass().getResource("/spoon.less"), Charsets.UTF_8);
+      LessCompiler compiler = new LessCompiler();
+      String spoonCss = compiler.compile(spoonLess);
+      File cssFile = new File(output, "spoon.css");
+      FileUtils.writeStringToFile(cssFile, spoonCss);
+    } catch (Exception e) {
+      throw new RuntimeException("Unable to convert LESS to CSS.", e);
     }
 
     DefaultMustacheFactory mustacheFactory = new DefaultMustacheFactory();
