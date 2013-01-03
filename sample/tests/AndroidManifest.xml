@@ -9,7 +9,7 @@
     <uses-library android:name="android.test.runner"/>
   </application>
 
-  <instrumentation android:name="android.test.InstrumentationTestRunner"
+  <instrumentation android:name=".SpoonInstrumentationTestRunner"
       android:targetPackage="com.squareup.spoon.sample"
       android:label="Spoon Sample Tests"/>
 </manifest>

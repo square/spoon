@@ -71,6 +71,14 @@ public final class InstrumentationManifestInfo {
       checkNotNull(testPackage, "Could not find test application package.");
       checkNotNull(appPackage, "Could not find application package.");
       checkNotNull(testRunnerClass, "Could not find test runner class.");
+
+      // Support relative declaration of instrumentation test runner.
+      if (testRunnerClass.startsWith(".")) {
+        testRunnerClass = testPackage + testRunnerClass;
+      } else if (!testRunnerClass.contains(".")) {
+        testRunnerClass = testPackage + "." + testRunnerClass;
+      }
+
       return new InstrumentationManifestInfo(appPackage, testPackage, testRunnerClass);
     } catch (IOException e) {
       throw new RuntimeException("Unable to parse test app AndroidManifest.xml.", e);
