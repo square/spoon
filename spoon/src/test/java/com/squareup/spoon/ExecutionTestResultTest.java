@@ -18,7 +18,7 @@ public class ExecutionTestResultTest {
   private static final String NAME = TAG + EXTENSION;
   private static final String CLASS_NAME = "com.example.Test";
   private static final String SIMPLE_NAME = "Test";
-  private static final String TEST_NAME = "someTest";
+  private static final String TEST_NAME = "testSomeTest";
 
   private ExecutionTestResult result;
   private long taken;
