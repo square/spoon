@@ -5,6 +5,8 @@ import com.android.ddmlib.testrunner.ITestRunListener;
 import com.android.ddmlib.testrunner.TestIdentifier;
 
 import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -101,6 +103,12 @@ public class ExecutionResult implements ITestRunListener {
 
   public Exception getException() {
     return exception;
+  }
+
+  public String getExceptionString() {
+    StringWriter sw = new StringWriter();
+    exception.printStackTrace(new PrintWriter(sw));
+    return sw.toString();
   }
 
   public int testsPassed() {

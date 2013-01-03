@@ -34,14 +34,14 @@
                         <tbody>
                             {{#results}}
                             <tr class="device">
-                                <th colspan="{{tests.size}}"><a href="{{serial}}/index.html">{{deviceName}}</a></th>
+                                <th colspan="{{tests.size}}">
+                                    <a href="{{serial}}/index.html">{{deviceName}}</a>
+                                </th>
                             </tr>
                             {{#getException}}
                             <tr class="result">
                                 <td colspan="{{tests.size}}" class="test error">
-                                    <pre>{{toString}}
-{{#getStackTrace}}    at {{getClassName}}.{{getMethodName}}({{getFileName}}:{{getLineNumber}})
-{{/getStackTrace}}</pre>
+                                    <a href="{{serial}}/index.html">&nbsp;</a>
                                 </td>
                             </tr>
                             {{/getException}}
