@@ -124,6 +124,7 @@ public class ExecutionTarget {
 
     try {
       // Sync device screenshots, if any, to the local filesystem.
+      output.mkdirs();
       String dirName = "app_" + SPOON_SCREENSHOTS;
       String localDirName = output.getAbsolutePath();
       FileEntry deviceDir = obtainDirectoryFileEntry("/data/data/" + appPackage + "/" + dirName);
