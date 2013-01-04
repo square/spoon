@@ -1,17 +1,9 @@
 package com.squareup.spoon.sample.tests;
 
-import android.test.ActivityInstrumentationTestCase2;
-import com.squareup.spoon.Screenshot;
-import com.squareup.spoon.sample.LoginActivity;
+import android.test.InstrumentationTestCase;
 
-public class FailTest extends ActivityInstrumentationTestCase2<LoginActivity> {
-  public FailTest() {
-    super(LoginActivity.class);
-  }
-
-  public void
-  testThisIsAVeryLongNameJustBecauseIWantToSeeThePageWordWrapAndAlwaysBeFailingForFunAndProfit() {
-    Screenshot.snap(getActivity(), "initial_state");
+public class FailTest extends InstrumentationTestCase {
+  public void testAVeryLongNameJustBecauseIWantToSeeThePageWordWrapAndAlwaysBeFailingForFunAnd() {
     fail("Explicitly testing Stack Traces!");
   }
 }
