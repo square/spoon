@@ -16,49 +16,59 @@ body {
 	font: 14px/19px Roboto, sans-serif;
 	font-weight: 400;
 	letter-spacing: .1;
-	margin-top: 20px;
-	margin-bottom: 50px;
+	padding-top: 20px;
+	padding-bottom: 50px;
 }
 
 .hero-unit {
   padding: 15px 30px;
-}
-.hero-unit h1 {
-  margin-bottom: 5px;
-  font-weight: 200;
-}
-.hero-unit p {
-  margin: 0;
+
+  h1 {
+    margin-bottom: 5px;
+    font-weight: 200;
+  }
+  p {
+    margin: 0;
+  }
 }
 
-.stacktrace-line {
-  white-space: nowrap;
-  margin-left: 1em;
+.stacktrace {
+  overflow-y: scroll;
+  margin-bottom: 10px;
+
+  .stacktrace-line {
+    white-space: nowrap;
+    margin-left: 1em;
+  }
 }
 
-.test-result, .test-result small {
+.test-result {
   font-weight: 200;
-}
-.test-result small {
-  display: none;
-}
-.test-result:hover small {
-  display: inline;
-}
-.test-result.pass {
-  border-bottom: 2px solid #89c989;
-}
-.test-result.fail {
-  border-bottom: 2px solid #c98989;
-}
-.test-result .icon {
-  padding: 0 8px;
-}
-.test-result .icon img {
-  opacity: 0.5;
-}
-.test-result .icon:hover img {
-  opacity: 1.0;
+
+  small {
+    display: none;
+  }
+  &:hover small {
+    display: inline;
+  }
+
+  &.pass {
+    border-bottom: 2px solid #89c989;
+  }
+  &.fail {
+    border-bottom: 2px solid #c98989;
+  }
+
+  .icon {
+    padding: 0 8px;
+
+    image {
+      opacity: 0.5;
+    }
+    &:hover image {
+      opacity: 1.0;
+    }
+  }
 }
 
 .modal .modal-body {
@@ -67,42 +77,47 @@ body {
 
 .birds-eye {
   width: 100%;
-}
-.birds-eye .device th {
-  text-align: left;
-  padding: 10px 0 5px 2px;
-}
-.birds-eye .test {
-  height: 30px;
-}
-.birds-eye .test a {
-  display: block;
-  text-decoration: none;
-}
-.birds-eye .test.pass:hover {
-  background-color: #99c999;
-}
-.birds-eye .test.fail:hover {
-  background-color: #c99999;
-}
-.birds-eye .test.error {
-  /* Blatantly stolen from Twitter Bootstrap's progress bars. */
-  background-color: rgb(238, 95, 91);
-  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
-  background-image: -moz-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
-  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
-  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
-  background-size: 40px 40px;
-  color: #fff;
-  font-size: 12px;
-  text-shadow: #64000000 0px -1px 0px;
+
+  .device th {
+    text-align: left;
+    padding: 10px 0 5px 2px;
+  }
+
+  .test {
+    height: 30px;
+
+    a {
+      display: block;
+      text-decoration: none;
+    }
+
+    &.pass:hover {
+      background-color: #99c999;
+    }
+    &.fail:hover {
+      background-color: #c99999;
+    }
+    &.error {
+      background-color: rgb(238, 95, 91);
+      background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+      background-image: -moz-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+      background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+      background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+      background-size: 40px 40px;
+      color: #fff;
+      font-size: 12px;
+      text-shadow: #64000000 0px -1px 0px;
+    }
+  }
 }
 
-.test.pass {
-  background-color: #b9e9b9;
-}
-.test.fail {
-  background-color: #e9b9b9;
+.test {
+  &.pass {
+    background-color: #b9e9b9;
+  }
+  &.fail {
+    background-color: #e9b9b9;
+  }
 }
 
 pre.error {
