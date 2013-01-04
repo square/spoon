@@ -9,7 +9,8 @@ public class FailTest extends ActivityInstrumentationTestCase2<LoginActivity> {
     super(LoginActivity.class);
   }
 
-  public void testThisIsAVeryLongNameJustBecauseIWantToSeeThePageWordWrapAndAlwaysBeFailingForFun() {
+  public void
+  testThisIsAVeryLongNameJustBecauseIWantToSeeThePageWordWrapAndAlwaysBeFailingForFunAndProfit() {
     Screenshot.snap(getActivity(), "initial_state");
     fail("Explicitly testing Stack Traces!");
   }
