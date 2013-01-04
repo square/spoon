@@ -2,6 +2,7 @@ package com.squareup.spoon;
 
 import com.android.ddmlib.testrunner.TestIdentifier;
 import com.squareup.spoon.ExecutionTestResult.TestResult;
+import com.squareup.spoon.template.StackTrace;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +36,7 @@ public class InstrumentationTest {
     ExecutionTestResult executionTestResult = deviceResults.get(deviceName);
     if (executionTestResult.result == null) {
       executionTestResult.result = result;
-      executionTestResult.trace = trace;
+      executionTestResult.trace = StackTrace.fromString(trace);
     }
   }
 
