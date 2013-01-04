@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.os.Build;
 import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -133,9 +134,16 @@ public final class Screenshot {
     if (!dir.exists() && !dir.mkdirs()) {
       throw new IllegalAccessException("Unable to create output dir: " + dir.getAbsolutePath());
     }
-    dir.setReadable(true, false);
-    dir.setWritable(true, false);
-    dir.setExecutable(true, false);
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
+      try {
+        Runtime.getRuntime().exec("chmod 777 " + dir.getAbsolutePath());
+      } catch (IOException ignored) {
+      }
+    } else {
+      dir.setReadable(true, false);
+      dir.setWritable(true, false);
+      dir.setExecutable(true, false);
+    }
   }
 
   private static void deletePath(File path, boolean inclusive) {
