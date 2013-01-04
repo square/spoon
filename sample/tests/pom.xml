@@ -48,6 +48,11 @@
       <artifactId>spoon-screenshot</artifactId>
       <version>${project.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>com.jayway.android.robotium</groupId>
+      <artifactId>robotium-solo</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
