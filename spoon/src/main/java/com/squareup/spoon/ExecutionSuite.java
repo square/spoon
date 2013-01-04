@@ -11,13 +11,13 @@ import org.apache.commons.io.FileUtils;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.squareup.spoon.InstrumentationManifestInfo.parseFromFile;
+import static com.squareup.spoon.Utils.getConfiguredLogger;
 import static java.util.Collections.unmodifiableSet;
 import static java.util.logging.Level.SEVERE;
 
 /** Represents a collection of devices and the test configuration to be executed. */
 public final class ExecutionSuite {
   public static final String DEFAULT_TITLE = "Spoon Execution";
-  private static final Logger LOG = Logger.getLogger(ExecutionSuite.class.getSimpleName());
 
   private final String title;
   private final File androidSdk;
@@ -27,6 +27,7 @@ public final class ExecutionSuite {
   private final boolean debug;
   private final Set<String> serials;
   private final String classpath;
+  private final Logger log;
 
   private ExecutionSuite(String title, File androidSdk, File applicationApk,
       File instrumentationApk, File output, boolean debug, Set<String> serials, String classpath) {
@@ -38,6 +39,7 @@ public final class ExecutionSuite {
     this.debug = debug;
     this.serials = unmodifiableSet(serials);
     this.classpath = classpath;
+    this.log = getConfiguredLogger(this, debug);
   }
 
   public String getTitle() {
@@ -79,11 +81,11 @@ public final class ExecutionSuite {
 
     int targetCount = serials.size();
     if (targetCount == 0) {
-      LOG.info("No devices.");
+      log.info("No devices.");
       return true;
     }
 
-    LOG.info("Executing instrumentation on " + targetCount + " devices.");
+    log.info("Executing instrumentation on " + targetCount + " devices.");
 
     try {
       FileUtils.deleteDirectory(output);
@@ -97,8 +99,8 @@ public final class ExecutionSuite {
         .setOutputDirectory(output)
         .start();
 
-    LOG.fine(testInfo.getApplicationPackage() + " in " + applicationApk.getAbsolutePath());
-    LOG.fine(testInfo.getInstrumentationPackage() + " in " + instrumentationApk.getAbsolutePath());
+    log.fine(testInfo.getApplicationPackage() + " in " + applicationApk.getAbsolutePath());
+    log.fine(testInfo.getInstrumentationPackage() + " in " + instrumentationApk.getAbsolutePath());
 
     try {
       if (targetCount == 1) {
@@ -148,7 +150,7 @@ public final class ExecutionSuite {
         result = target.runInNewProcess();
       }
     } catch (Exception e) {
-      LOG.log(SEVERE, e.toString(), e);
+      log.log(SEVERE, e.toString(), e);
       result.setException(e);
     }
     summaryBuilder.addResult(result);

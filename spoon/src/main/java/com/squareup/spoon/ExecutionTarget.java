@@ -9,12 +9,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
 import static com.squareup.spoon.DdmlibHelper.obtainDirectoryFileEntry;
@@ -69,18 +65,22 @@ public class ExecutionTarget {
     output.mkdirs();
 
     // Write our configuration to a file in the output directory.
-    FileWriter execution = new FileWriter(new File(output, FILE_EXECUTION));
-    GSON.toJson(this, execution);
-    execution.close();
+    FileWriter executionWriter = new FileWriter(new File(output, FILE_EXECUTION));
+    GSON.toJson(this, executionWriter);
+    executionWriter.close();
 
     // Kick off a new process to interface with ADB and perform the real execution.
     String name = ExecutionTarget.class.getName();
     Process process = new ProcessBuilder("java", "-cp", classpath, name,
       output.getAbsolutePath()).start();
     process.waitFor();
-    IOUtils.copy(process.getErrorStream(), System.out);
 
-    return GSON.fromJson(new FileReader(new File(output, FILE_RESULT)), ExecutionResult.class);
+    // Read the result from a file in the output directory.
+    FileReader resultFile = new FileReader(new File(output, FILE_RESULT));
+    ExecutionResult result = GSON.fromJson(resultFile, ExecutionResult.class);
+    resultFile.close();
+
+    return result;
   }
 
   /** Execute instrumentation on the target device and return a result summary. */
@@ -175,16 +175,13 @@ public class ExecutionTarget {
         throw new IllegalArgumentException("Device directory and/or execution file doesn't exist.");
       }
 
-      ExecutionTarget target = GSON.fromJson(new FileReader(executionFile), ExecutionTarget.class);
-
-      FileHandler handler = new FileHandler(new File(outputDir, FILE_OUTPUT).getAbsolutePath());
-      handler.setFormatter(new SimpleFormatter());
-      log.addHandler(handler);
-      log.setLevel(target.debug ? Level.FINE : Level.INFO);
+      FileReader reader = new FileReader(executionFile);
+      ExecutionTarget target = GSON.fromJson(reader, ExecutionTarget.class);
+      reader.close();
 
       ExecutionResult result = target.run();
       if (result.getException() != null) {
-        log.log(SEVERE, "Unable to execute test for target.", result.getException());
+        log.log(SEVERE, "Unable to execute test for target.\n\n%s", result.getException());
       }
 
       // Write device result file.
@@ -194,5 +191,8 @@ public class ExecutionTarget {
     } catch (Exception ex) {
       log.log(SEVERE, "Unable to execute test for target.", ex);
     }
+
+    // Trigger a runtime exit (ensuring ADB connection is closed).
+    System.exit(0);
   }
 }

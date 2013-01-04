@@ -38,7 +38,7 @@ public class ExecutionResult implements ITestRunListener {
   public String displayTime;
   private final Map<String, InstrumentationTestClass> testClasses =
     new HashMap<String, InstrumentationTestClass>();
-  private Exception exception;
+  private String exception;
 
   public ExecutionResult(String serial) {
     this.serial = serial;
@@ -98,17 +98,13 @@ public class ExecutionResult implements ITestRunListener {
   }
 
   public void setException(Exception exception) {
-    this.exception = exception;
-  }
-
-  public Exception getException() {
-    return exception;
-  }
-
-  public String getExceptionString() {
     StringWriter sw = new StringWriter();
     exception.printStackTrace(new PrintWriter(sw));
-    return sw.toString();
+    this.exception = sw.toString();
+  }
+
+  public String getException() {
+    return exception;
   }
 
   public int testsPassed() {
@@ -183,7 +179,15 @@ public class ExecutionResult implements ITestRunListener {
   }
 
   public void updateDynamicValues() {
-    totalTime = TimeUnit.NANOSECONDS.toSeconds(testEnd - testStart);
-    displayTime = DISPLAY_TIME.get().format(testCompleted);
+    if (testStart != 0 && testEnd != 0) {
+      totalTime = TimeUnit.NANOSECONDS.toSeconds(testEnd - testStart);
+    } else {
+      totalTime = 0;
+    }
+    if (testCompleted != null) {
+      displayTime = DISPLAY_TIME.get().format(testCompleted);
+    } else {
+      displayTime = "Unknown";
+    }
   }
 }

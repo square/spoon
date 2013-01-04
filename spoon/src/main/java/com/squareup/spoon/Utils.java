@@ -7,8 +7,12 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Handler;
+import java.util.logging.Logger;
 
 import static com.android.ddmlib.SyncService.ISyncProgressMonitor;
+import static java.util.logging.Level.FINEST;
+import static java.util.logging.Level.INFO;
 
 final class Utils {
   static final Gson GSON = new GsonBuilder() //
@@ -81,6 +85,16 @@ final class Utils {
       }
     }
     return pretty.toString();
+  }
+
+  static Logger getConfiguredLogger(Object instance, boolean debug) {
+    Logger logger = Logger.getLogger(instance.getClass().getSimpleName());
+    logger.setLevel(FINEST); // Keep track of all log messages.
+    for (Handler handler : logger.getHandlers()) {
+      // Only record higher than INFO for debug executions.
+      handler.setLevel(debug ? FINEST : INFO);
+    }
+    return logger;
   }
 
   private Utils() {

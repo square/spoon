@@ -9,21 +9,24 @@ import java.util.List;
 import java.util.Map;
 
 public class InstrumentationTestClass {
+  private final Map<String, InstrumentationTest> testList =
+      new HashMap<String, InstrumentationTest>();
+
   public final String className;
   public final String classSimpleName;
   public int testsFailed;
-  private final Map<String, InstrumentationTest> testList;
 
   public InstrumentationTestClass(TestIdentifier identifier) {
     className = identifier.getClassName();
     classSimpleName = Utils.getClassSimpleName(className);
-    testList = new HashMap<String, InstrumentationTest>();
   }
 
   public void addTest(InstrumentationTest test) {
     test.className = className;
     test.classSimpleName = classSimpleName;
-    testList.put(test.identifier.toString(), test);
+    if (test.identifier != null) {
+      testList.put(test.identifier.toString(), test);
+    }
   }
 
   public Collection<InstrumentationTest> tests() {
@@ -31,7 +34,7 @@ public class InstrumentationTestClass {
   }
 
   public boolean containsTest(TestIdentifier identifier) {
-    return testList.containsKey(identifier.toString());
+    return identifier != null && testList.containsKey(identifier.toString());
   }
 
   public InstrumentationTest getTest(TestIdentifier identifier) {
