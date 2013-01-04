@@ -9,11 +9,7 @@ public class FailTest extends ActivityInstrumentationTestCase2<LoginActivity> {
     super(LoginActivity.class);
   }
 
-  @Override protected void setUp() throws Exception {
-    super.setUp();
-  }
-
-  public void testThisIsAVeryLongNameJustBecauseIWantToSeeThePageWordWrapAndAlwaysBFailingForFun() {
+  public void testThisIsAVeryLongNameJustBecauseIWantToSeeThePageWordWrapAndAlwaysBeFailingForFun() {
     Screenshot.snap(getActivity(), "initial_state");
     fail("Explicitly testing Stack Traces!");
   }
