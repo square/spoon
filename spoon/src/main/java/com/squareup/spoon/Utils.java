@@ -87,6 +87,23 @@ final class Utils {
     return pretty.toString();
   }
 
+  /** Convert an image tag from {@code this-here-is-it} to "This Here Is It". */
+  static String prettifyImageName(String imageName) {
+    StringBuilder pretty = new StringBuilder();
+
+    for (String part : imageName.replace('_', '-').split("-")) {
+      if ("".equals(part.trim())) {
+        continue; // Skip empty parts.
+      }
+
+      pretty.append(Character.toUpperCase(part.charAt(0)));
+      pretty.append(part, 1, part.length());
+      pretty.append(" ");
+    }
+
+    return pretty.deleteCharAt(pretty.length() - 1).toString();
+  }
+
   static Logger getConfiguredLogger(Object instance, boolean debug) {
     Logger logger = Logger.getLogger(instance.getClass().getSimpleName());
     logger.setLevel(FINEST); // Keep track of all log messages.

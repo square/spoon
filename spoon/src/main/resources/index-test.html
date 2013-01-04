@@ -31,15 +31,23 @@
                         </a>
                         {{/hasScreenshots}}
                     </h2>
-                    {{#getTrace}}
-                    <pre>{{toString}}</pre>
-                    {{/getTrace}}
+                    {{#trace}}
+                    <div class="alert alert-error stacktrace" data-toggle="collapse">
+                        <h4>{{title}}</h4>
+                        <!-- Viewing for all devices, I don't think we want to see all the stacktraces. -->
+                        <!--<div class="alert-error stacktrace-body">-->
+                            <!--{{#trace.body}}-->
+                            <!--<div class="stacktrace-line">{{toString}}</div>-->
+                            <!--{{/trace.body}}-->
+                        <!--</div>-->
+                    </div>
+                    {{/trace}}
                     {{#hasScreenshots}}
                     <ul class="thumbnails">
                         {{#screenshots}}
                         <li class="span2">
-                            <a href="../{{serial}}/{{className}}/{{testName}}/{{file.getName}}" title="{{classSimpleName}}.{{testName}}" class="thumbnail">
-                                <img src="../{{serial}}/{{className}}/{{testName}}/{{file.getName}}">
+                            <a href="../{{serial}}/{{className}}/{{testName}}/{{file.getName}}" class="thumbnail">
+                                <img src="../{{serial}}/{{className}}/{{testName}}/{{file.getName}}" title="{{caption}}">
                             </a>
                         </li>
                         {{/screenshots}}
