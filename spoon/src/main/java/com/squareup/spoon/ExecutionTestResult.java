@@ -61,6 +61,7 @@ public class ExecutionTestResult {
     public final File file;
     public final Date taken;
     public final String tag;
+    public final String caption;
     public final String id;
     public final String screenshotGroup;
 
@@ -75,6 +76,7 @@ public class ExecutionTestResult {
       }
       taken = new Date(Long.valueOf(nameData[0]));
       tag = nameData[1].substring(0, nameData[1].length() - EXTENSION.length());
+      caption = Utils.prettifyImageName(tag);
 
       file = screenshotFile;
 

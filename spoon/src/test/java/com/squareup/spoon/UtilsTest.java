@@ -2,10 +2,17 @@ package com.squareup.spoon;
 
 import org.junit.Test;
 
+import static com.squareup.spoon.Utils.prettifyImageName;
 import static com.squareup.spoon.Utils.prettifyTestName;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 public class UtilsTest {
+  @Test public void prettifyImageNameExamples() {
+    // Simple cases.
+    assertThat(prettifyImageName("click-the-button")).isEqualTo("Click The Button");
+    assertThat(prettifyImageName("click_the_button")).isEqualTo("Click The Button");
+  }
+
   @Test public void prettifyTestNameExamples() {
     // Simple cases.
     assertThat(prettifyTestName("testClickTheButton")).isEqualTo("Click The Button");
