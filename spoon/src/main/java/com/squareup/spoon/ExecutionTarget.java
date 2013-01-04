@@ -23,7 +23,6 @@ import static java.util.logging.Level.SEVERE;
 /** Represents a single device and the test configuration to be executed. */
 public class ExecutionTarget {
   private static final String FILE_EXECUTION = "execution.json";
-  private static final String FILE_OUTPUT = "output.txt";
   private static final String FILE_RESULT = "result.json";
 
   private final File sdk;
