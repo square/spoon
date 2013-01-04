@@ -13,7 +13,7 @@ public class FailTest extends ActivityInstrumentationTestCase2<LoginActivity> {
     super.setUp();
   }
 
-  public void testAlwaysFailingForFun() {
+  public void testThisIsAVeryLongNameJustBecauseIWantToSeeThePageWordWrapAndAlwaysBFailingForFun() {
     Screenshot.snap(getActivity(), "initial_state");
     fail("Explicitly testing Stack Traces!");
   }

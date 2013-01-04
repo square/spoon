@@ -1,5 +1,6 @@
 package com.squareup.spoon;
 
+import com.squareup.spoon.template.StackTrace;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,7 +30,7 @@ public class ExecutionTestResult {
   public String className;
   public String classSimpleName;
   public TestResult result;
-  public String trace;
+  public StackTrace trace;
   public String deviceName;
   public String serial;
   public List<Screenshot> screenshots = new ArrayList<Screenshot>();
@@ -49,16 +50,8 @@ public class ExecutionTestResult {
     screenshots.add(new Screenshot(screenshotFile));
   }
 
-  public String getTrace() {
-    if (trace == null) {
-      return null;
-    }
-    String[] lines = trace.replaceAll("\r\n", "\n").split("\n");
-    StringBuilder builder = new StringBuilder(lines[0]);
-    for (int i = 1; i < lines.length; i++) {
-      builder.append("\n    ").append(lines[i]);
-    }
-    return builder.toString();
+  public StackTrace getTrace() {
+    return trace;
   }
 
   public class Screenshot {
