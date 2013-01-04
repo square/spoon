@@ -6,6 +6,7 @@
         <title>{{title}}</title>
         <link href="http://fonts.googleapis.com/css?family=Roboto:regular,medium,thin,italic,mediumitalic,bold" rel="stylesheet">
         <link href="bootstrap.min.css" rel="stylesheet">
+        <link href="bootstrap-responsive.min.css" rel="stylesheet">
         <link href="spoon.css" rel="stylesheet">
         <script src="jquery.min.js"></script>
         <script src="bootstrap.min.js"></script>
@@ -48,8 +49,8 @@
                             {{^getException}}
                             <tr class="result">
                                 {{#results}}
-                                <td class="test {{result}}" data-original-title="{{classSimpleName}}" data-content="{{prettyTestName}}">
-                                    <a href="{{serial}}/index.html#{{testName}}">&nbsp;</a>
+                                <td class="test {{result}}">
+                                    <a href="{{serial}}/index.html#{{testName}}" data-original-title="{{classSimpleName}}" data-content="{{prettyTestName}}">&nbsp;</a>
                                 </td>
                                 {{/results}}
                             </tr>
@@ -62,15 +63,9 @@
         </div>
 
         <script type="text/javascript">
-            $('.test').popover({
+            $('.test a').popover({
                 placement: 'top',
                 trigger: 'hover'
-            });
-
-            $(".test.error").mouseenter(function() {
-                $(this).find("pre").stop().show(300);
-            }).mouseleave(function() {
-                $(this).find("pre").hide(300);
             });
         </script>
     </body>
