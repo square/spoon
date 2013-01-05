@@ -91,7 +91,7 @@
           </descriptorRefs>
           <archive>
             <manifest>
-              <mainClass>com.squareup.spoon.Main</mainClass>
+              <mainClass>com.squareup.spoon.Spoon</mainClass>
             </manifest>
           </archive>
         </configuration>

@@ -1,5 +1,9 @@
 package com.squareup.spoon;
 
+import com.beust.jcommander.IStringConverter;
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.ParameterException;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
@@ -201,6 +205,7 @@ public final class Spoon {
 
     public Spoon build() {
       checkNotNull(androidSdk, "SDK is required.");
+      checkArgument(androidSdk.exists(), "SDK path does not exist.");
       checkNotNull(applicationApk, "Application APK is required.");
       checkNotNull(instrumentationApk, "Instrumentation APK is required.");
       checkNotNull(output, "Output path is required.");
@@ -208,6 +213,74 @@ public final class Spoon {
 
       return new Spoon(title, androidSdk, applicationApk, instrumentationApk, output,
           debug, serials, classpath);
+    }
+  }
+
+  static class CommandLineArgs {
+    @Parameter(names = { "--title" }, description = "Execution title")
+    public String title = DEFAULT_TITLE;
+
+    @Parameter(names = { "--apk" }, description = "Application APK",
+        converter = FileConverter.class, required = true)
+    public File apk;
+
+    @Parameter(names = { "--test-apk" }, description = "Test application APK",
+        converter = FileConverter.class, required = true)
+    public File testApk;
+
+    @Parameter(names = { "--output" }, description = "Output path",
+        converter = FileConverter.class)
+    public File output = new File(Spoon.DEFAULT_OUTPUT_DIRECTORY);
+
+    @Parameter(names = { "--sdk" }, description = "Path to Android SDK")
+    public File sdk = new File(System.getenv("ANDROID_HOME"));
+
+    @Parameter(names = { "--fail-on-failure" }, description = "Non-zero exit code on failure")
+    public boolean failOnFailure;
+
+    @Parameter(names = { "--debug" }, hidden = true)
+    public boolean debug;
+
+    @Parameter(names = { "-h", "--help" }, description = "Command help", help = true, hidden = true)
+    public boolean help;
+  }
+
+  /* JCommander deems it necessary that this class be public. Lame. */
+  public static class FileConverter implements IStringConverter<File> {
+    @Override public File convert(String s) {
+      return new File(s);
+    }
+  }
+  public static void main(String... args) {
+    CommandLineArgs parsedArgs = new CommandLineArgs();
+    JCommander jc = new JCommander(parsedArgs);
+
+    try {
+      jc.parse(args);
+    } catch (ParameterException e) {
+      StringBuilder out = new StringBuilder(e.getLocalizedMessage()).append("\n\n");
+      jc.usage(out);
+      System.err.println(out.toString());
+      System.exit(1);
+      return;
+    }
+    if (parsedArgs.help) {
+      jc.usage();
+      return;
+    }
+
+    Spoon spoon = new Spoon.Builder() //
+        .setTitle(parsedArgs.title)
+        .setApplicationApk(parsedArgs.apk)
+        .setInstrumentationApk(parsedArgs.testApk)
+        .setOutputDirectory(parsedArgs.output)
+        .setDebug(parsedArgs.debug)
+        .setAndroidSdk(parsedArgs.sdk)
+        .addAllAttachedDevices()
+        .build();
+
+    if (!spoon.run() && parsedArgs.failOnFailure) {
+      System.exit(1);
     }
   }
 }
