@@ -2,7 +2,7 @@ package com.squareup.spoon.sample.tests;
 
 import android.test.InstrumentationTestCase;
 
-public class FailingTest extends InstrumentationTestCase {
+public class MiscellaneousTest extends InstrumentationTestCase {
   public void testAVeryLongNameBecauseIWantToSeeThePageWordWrapAndAlwaysBeFailingForFunAndProfit() {
     fail("Explicitly testing assertion failures!");
   }

@@ -46,6 +46,7 @@ body {
   font-weight: 200;
 
   small {
+    font-weight: 200;
     display: none;
   }
   &:hover small {
@@ -55,7 +56,8 @@ body {
   &.pass {
     border-bottom: 2px solid #89c989;
   }
-  &.fail {
+  &.fail,
+  &.error {
     border-bottom: 2px solid #c98989;
   }
 
@@ -85,38 +87,35 @@ body {
 
   .test {
     height: 30px;
+    padding: 0;
 
     a {
       display: block;
       text-decoration: none;
+      height: 30px;
     }
 
+    &.pass {
+      background-color: #b9e9b9;
+    }
     &.pass:hover {
       background-color: #99c999;
     }
-    &.fail:hover {
+    &.fail,
+    &.error {
+      background-color: #e9b9b9;
+    }
+    &.fail:hover,
+    &.error:hover {
       background-color: #c99999;
     }
     &.error {
-      background-color: rgb(238, 95, 91);
       background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
       background-image: -moz-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
       background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
       background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
       background-size: 40px 40px;
-      color: #fff;
-      font-size: 12px;
-      text-shadow: #64000000 0px -1px 0px;
     }
-  }
-}
-
-.test {
-  &.pass {
-    background-color: #b9e9b9;
-  }
-  &.fail {
-    background-color: #e9b9b9;
   }
 }
 

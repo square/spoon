@@ -10,32 +10,33 @@ import org.apache.commons.io.IOUtils;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public final class InstrumentationManifestInfo {
+/** Detailed instrumentation information. */
+final class SpoonInstrumentationInfo {
   private final String applicationPackage;
   private final String instrumentationPackage;
   private final String testRunnerClass;
 
-  public InstrumentationManifestInfo(String applicationPackage, String instrumentationPackage,
+  SpoonInstrumentationInfo(String applicationPackage, String instrumentationPackage,
       String testRunnerClass) {
     this.applicationPackage = applicationPackage;
     this.instrumentationPackage = instrumentationPackage;
     this.testRunnerClass = testRunnerClass;
   }
 
-  public String getApplicationPackage() {
+  String getApplicationPackage() {
     return applicationPackage;
   }
 
-  public String getInstrumentationPackage() {
+  String getInstrumentationPackage() {
     return instrumentationPackage;
   }
 
-  public String getTestRunnerClass() {
+  String getTestRunnerClass() {
     return testRunnerClass;
   }
 
   /** Parse key information from an instrumentation APK's manifest. */
-  public static InstrumentationManifestInfo parseFromFile(File apkTestFile) {
+  static SpoonInstrumentationInfo parseFromFile(File apkTestFile) {
     InputStream is = null;
     try {
       ZipFile zip = new ZipFile(apkTestFile);
@@ -79,7 +80,7 @@ public final class InstrumentationManifestInfo {
         testRunnerClass = testPackage + "." + testRunnerClass;
       }
 
-      return new InstrumentationManifestInfo(appPackage, testPackage, testRunnerClass);
+      return new SpoonInstrumentationInfo(appPackage, testPackage, testRunnerClass);
     } catch (IOException e) {
       throw new RuntimeException("Unable to parse test app AndroidManifest.xml.", e);
     } finally {

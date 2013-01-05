@@ -5,57 +5,46 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{{title}}</title>
         <link href="http://fonts.googleapis.com/css?family=Roboto:regular,medium,thin,italic,mediumitalic,bold" rel="stylesheet">
-        <link href="bootstrap.min.css" rel="stylesheet">
-        <link href="bootstrap-responsive.min.css" rel="stylesheet">
-        <link href="spoon.css" rel="stylesheet">
-        <script src="jquery.min.js"></script>
-        <script src="bootstrap.min.js"></script>
+        <link href="static/bootstrap.min.css" rel="stylesheet">
+        <link href="static/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="static/spoon.css" rel="stylesheet">
+        <script src="static/jquery.min.js"></script>
+        <script src="static/bootstrap.min.js"></script>
+        <meta name="description" content="{{totalTestsRun}} run across {{totalDevices}} with {{totalSuccess}} passing and {{totalFailure}} failing in {{totalLength}} at {{started}}">
     </head>
     <body>
         <div class="container">
             <div class="hero-unit">
-                <h1>{{getTitle}}</h1>
-                <p>{{getTotalTests}} tests run across {{getResults.size}} devices with {{getTotalSuccess}} passing and {{getTotalFailure}} failing in {{getTotalTime}} seconds at {{getDisplayTime}}</p>
+                <h1>{{title}}</h1>
+                <p>{{totalTestsRun}} run across {{totalDevices}} with {{totalSuccess}} passing and {{totalFailure}} failing in {{totalLength}} at {{started}}</p>
             </div>
-            {{#getException}}
-            <div class="alert alert-error alert-block exception">
-                <button type="button" class="close" data-dismiss="alert">x</button>
-                <h4>Exception!</h4>
-                <p>{{toString}}</p>
-                <p class="stack-trace">
-                {{#getStackTrace}}
-                at {{getClassName}}.{{getMethodName}}({{getFileName}}:{{getLineNumber}})<br/>
-                {{/getStackTrace}}
-                </p>
-            </div>
-            {{/getException}}
             <div class="row">
                 <div class="span12">
                     <table class="birds-eye">
                         <tbody>
-                            {{#results}}
+                            {{#devices}}
                             <tr class="device">
-                                <th colspan="99999999">
-                                    <a href="{{serial}}/index.html">{{deviceName}}</a>
+                                <th colspan="{{testCount}}">
+                                    <a href="device/{{serial}}.html">{{name}}</a>
                                 </th>
                             </tr>
                             {{#getException}}
                             <tr class="result">
-                                <td colspan="99999999" class="test error">
-                                    <a href="{{serial}}/index.html">&nbsp;</a>
+                                <td colspan="{{testCount}}" class="test error">
+                                    <a href="device/{{serial}}.html">&nbsp;</a>
                                 </td>
                             </tr>
                             {{/getException}}
                             {{^getException}}
                             <tr class="result">
-                                {{#results}}
-                                <td class="test {{result}}">
-                                    <a href="{{serial}}/index.html#{{testName}}" data-original-title="{{classSimpleName}}" data-content="{{prettyTestName}}">&nbsp;</a>
+                                {{#testResults}}
+                                <td class="test {{status}}">
+                                    <a href="device/{{serial}}.html#{{testId}}" data-original-title="{{classSimpleName}}" data-content="{{prettyMethodName}}">&nbsp;</a>
                                 </td>
-                                {{/results}}
+                                {{/testResults}}
                             </tr>
                             {{/getException}}
-                            {{/results}}
+                            {{/devices}}
                         </tbody>
                     </table>
                 </div>

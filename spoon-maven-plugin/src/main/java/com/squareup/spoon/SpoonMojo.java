@@ -124,7 +124,7 @@ public class SpoonMojo extends AbstractMojo {
         .setAndroidSdk(sdkFile)
         .setDebug(debug)
         .setClasspath(classpath)
-        .addAllAttachedDevices()
+        .useAllAttachedDevices()
         .build()
         .run();
 

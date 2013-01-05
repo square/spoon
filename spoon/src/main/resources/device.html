@@ -3,58 +3,59 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{{deviceName}}</title>
+        <title>{{name}}</title>
         <link href="http://fonts.googleapis.com/css?family=Roboto:regular,medium,thin,italic,mediumitalic,bold" rel="stylesheet">
-        <link href="../bootstrap.min.css" rel="stylesheet">
-        <link href="../bootstrap-responsive.min.css" rel="stylesheet">
-        <link href="../spoon.css" rel="stylesheet">
-        <script src="../jquery.min.js"></script>
-        <script src="../bootstrap.min.js"></script>
+        <link href="../static/bootstrap.min.css" rel="stylesheet">
+        <link href="../static/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="../static/spoon.css" rel="stylesheet">
+        <script src="../static/jquery.min.js"></script>
+        <script src="../static/bootstrap.min.js"></script>
+        <meta name="description" content="{{testsStarted}} tests run with {{testsPassed}} passing and {{testsFailed}} failing in {{totalTime}} seconds at {{displayTime}}">
     </head>
     <body>
         <div class="container">
             <div class="hero-unit">
-                <h1>{{deviceName}}</h1>
+                <h1>{{name}}</h1>
                 <p>{{testsStarted}} tests run with {{testsPassed}} passing and {{testsFailed}} failing in {{totalTime}} seconds at {{displayTime}}</p>
             </div>
-            {{#getException}}
+            {{#exception}}
             <div class="row" id="exception">
                 <div class="span12">
-                    <pre class="error">{{getException}}</pre>
+                    <pre class="error">{{toString}}</pre>
                 </div>
             </div>
-            {{/getException}}
-            {{#results}}
-            <div class="row" id="{{testName}}">
+            {{/exception}}
+            {{#testResults}}
+            <div class="row" id="{{testId}}">
                 <div class="span12">
-                    <h2 class="test-result {{result}}">
-                        {{prettyTestName}} <small>{{classSimpleName}}</small>
+                    <h2 class="test-result {{status}}">
+                        {{prettyMethodName}} <small>{{classSimpleName}}</small>
                         <!-- Icons modified from Glyphish Free. http://glyphish.com -->
                         <a href="../{{classSimpleName}}/{{testName}}.html" title="View on all devices" class="pull-right icon">
-                            <img src="../icon-devices.png" alt="View on all devices"/>
+                            <img src="../static/icon-devices.png" alt="View on all devices"/>
                         </a>
-                        {{#hasScreenshots}}
-                        <a href="../{{serial}}/{{classSimpleName}}-{{testName}}.gif" title="View as animated GIF" class="pull-right icon">
-                            <img src="../icon-animated.png" alt="View as animated GIF"/>
+                        {{#animatedGif}}
+                        <a href="{{toString}}" title="View as animated GIF" class="pull-right icon">
+                            <img src="../static/icon-animated.png" alt="View as animated GIF"/>
                         </a>
-                        {{/hasScreenshots}}
+                        {{/animatedGif}}
                     </h2>
-                    {{#trace}}
+                    {{#exception}}
                     <div class="alert alert-error stacktrace" data-toggle="collapse">
                         <h4>{{title}}</h4>
                         <div class="alert-error stacktrace-body">
-                            {{#trace.body}}
+                            {{#body}}
                                 <div class="stacktrace-line">{{toString}}</div>
-                            {{/trace.body}}
+                            {{/body}}
                         </div>
                     </div>
-                    {{/trace}}
+                    {{/exception}}
                     {{#hasScreenshots}}
                     <ul class="thumbnails">
                         {{#screenshots}}
                         <li class="span2">
-                            <a href="{{className}}/{{testName}}/{{file.getName}}" class="thumbnail">
-                                <img src="{{className}}/{{testName}}/{{file.getName}}" title="{{caption}}">
+                            <a href="../{{path}}" class="thumbnail">
+                                <img src="../{{path}}" title="{{caption}}">
                             </a>
                         </li>
                         {{/screenshots}}
@@ -62,7 +63,7 @@
                     {{/hasScreenshots}}
                 </div>
             </div>
-            {{/results}}
+            {{/testResults}}
         </div>
         <script type="text/javascript">
             $('.icon').tooltip();
