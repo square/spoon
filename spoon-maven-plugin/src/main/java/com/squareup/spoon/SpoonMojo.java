@@ -17,7 +17,7 @@ import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
 import org.apache.maven.repository.RepositorySystem;
 
-import static com.squareup.spoon.Main.OUTPUT_DIRECTORY_NAME;
+import static com.squareup.spoon.Spoon.DEFAULT_OUTPUT_DIRECTORY;
 import static org.apache.maven.plugins.annotations.LifecyclePhase.INTEGRATION_TEST;
 
 /**
@@ -116,7 +116,7 @@ public class SpoonMojo extends AbstractMojo {
     log.debug("Spoon title: " + title);
     log.debug("Debug: " + Boolean.toString(debug));
 
-    boolean success = new ExecutionSuite.Builder() //
+    boolean success = new Spoon.Builder() //
         .setTitle(title)
         .setApplicationApk(app)
         .setInstrumentationApk(instrumentation)
@@ -133,7 +133,7 @@ public class SpoonMojo extends AbstractMojo {
     }
 
     if (attachArtifact) {
-      File outputZip = new File(buildDirectory, OUTPUT_DIRECTORY_NAME + ".zip");
+      File outputZip = new File(buildDirectory, DEFAULT_OUTPUT_DIRECTORY + ".zip");
       ZipUtil.zip(outputZip, outputDirectory);
       projectHelper.attachArtifact(project, ARTIFACT_TYPE, ARTIFACT_CLASSIFIER, outputZip);
     }

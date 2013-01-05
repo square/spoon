@@ -6,11 +6,9 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 import java.io.File;
 
-import static com.squareup.spoon.ExecutionSuite.DEFAULT_TITLE;
+import static com.squareup.spoon.Spoon.DEFAULT_TITLE;
 
 public class Main {
-  static final String OUTPUT_DIRECTORY_NAME = "spoon-output";
-
   public static class FileConverter implements IStringConverter<File> {
     @Override public File convert(String s) {
       return new File(s);
@@ -31,7 +29,7 @@ public class Main {
 
     @Parameter(names = { "--output" }, description = "Output path",
         converter = FileConverter.class)
-    public File output = new File(OUTPUT_DIRECTORY_NAME);
+    public File output = new File(Spoon.DEFAULT_OUTPUT_DIRECTORY);
 
     @Parameter(names = { "--sdk" }, description = "Path to Android SDK")
     public File sdk = new File(System.getenv("ANDROID_HOME"));
@@ -70,7 +68,7 @@ public class Main {
           "Could not find Android SDK. Ensure ANDROID_HOME environment variable is set.");
     }
 
-    boolean success = new ExecutionSuite.Builder() //
+    boolean success = new Spoon.Builder() //
         .setTitle(config.title)
         .setApplicationApk(config.apk)
         .setInstrumentationApk(config.testApk)

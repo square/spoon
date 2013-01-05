@@ -16,8 +16,9 @@ import static java.util.Collections.unmodifiableSet;
 import static java.util.logging.Level.SEVERE;
 
 /** Represents a collection of devices and the test configuration to be executed. */
-public final class ExecutionSuite {
-  public static final String DEFAULT_TITLE = "Spoon Execution";
+public final class Spoon {
+  static final String DEFAULT_TITLE = "Spoon Execution";
+  static final String DEFAULT_OUTPUT_DIRECTORY = "spoon-output";
 
   private final String title;
   private final File androidSdk;
@@ -29,8 +30,8 @@ public final class ExecutionSuite {
   private final String classpath;
   private final Logger log;
 
-  private ExecutionSuite(String title, File androidSdk, File applicationApk,
-      File instrumentationApk, File output, boolean debug, Set<String> serials, String classpath) {
+  private Spoon(String title, File androidSdk, File applicationApk, File instrumentationApk,
+      File output, boolean debug, Set<String> serials, String classpath) {
     this.title = title;
     this.androidSdk = androidSdk;
     this.applicationApk = applicationApk;
@@ -40,38 +41,6 @@ public final class ExecutionSuite {
     this.serials = unmodifiableSet(serials);
     this.classpath = classpath;
     this.log = getConfiguredLogger(this, debug);
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public File getAndroidSdk() {
-    return androidSdk;
-  }
-
-  public File getApplicationApk() {
-    return applicationApk;
-  }
-
-  public File getInstrumentationApk() {
-    return instrumentationApk;
-  }
-
-  public File getOutputDirectory() {
-    return output;
-  }
-
-  public boolean getDebug() {
-    return debug;
-  }
-
-  public Set<String> getSerials() {
-    return serials;
-  }
-
-  public String getClasspath() {
-    return classpath;
   }
 
   /** Returns {@code true} if there were no test failures or exceptions thrown. */
@@ -141,8 +110,8 @@ public final class ExecutionSuite {
     // Create empty result in case execution fails before run()/runInNewProcess() completes.
     ExecutionResult result = new ExecutionResult(serial);
     try {
-      ExecutionTarget target =
-          new ExecutionTarget(androidSdk, applicationApk, instrumentationApk, output,
+      DeviceTestRunner target =
+          new DeviceTestRunner(androidSdk, applicationApk, instrumentationApk, output,
               serial, debug, classpath, testInfo);
       if (synchronous) {
         result = target.run();
@@ -230,14 +199,14 @@ public final class ExecutionSuite {
       return this;
     }
 
-    public ExecutionSuite build() {
+    public Spoon build() {
       checkNotNull(androidSdk, "SDK is required.");
       checkNotNull(applicationApk, "Application APK is required.");
       checkNotNull(instrumentationApk, "Instrumentation APK is required.");
       checkNotNull(output, "Output path is required.");
       checkNotNull(serials, "Device serials are required.");
 
-      return new ExecutionSuite(title, androidSdk, applicationApk, instrumentationApk, output,
+      return new Spoon(title, androidSdk, applicationApk, instrumentationApk, output,
           debug, serials, classpath);
     }
   }

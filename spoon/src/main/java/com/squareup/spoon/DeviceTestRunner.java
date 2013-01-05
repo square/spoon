@@ -21,7 +21,7 @@ import static com.squareup.spoon.Utils.QUIET_MONITOR;
 import static java.util.logging.Level.SEVERE;
 
 /** Represents a single device and the test configuration to be executed. */
-public class ExecutionTarget {
+public class DeviceTestRunner {
   private static final String FILE_EXECUTION = "execution.json";
   private static final String FILE_RESULT = "result.json";
 
@@ -46,8 +46,8 @@ public class ExecutionTarget {
    * @param classpath Custom JVM classpath or {@code null}.
    * @param instrumentationInfo Test apk manifest information.
    */
-  ExecutionTarget(File sdk, File apk, File testApk, File output, String serial,
-      boolean debug, String classpath, InstrumentationManifestInfo instrumentationInfo) {
+  DeviceTestRunner(File sdk, File apk, File testApk, File output, String serial, boolean debug,
+      String classpath, InstrumentationManifestInfo instrumentationInfo) {
     this.sdk = sdk;
     this.apk = apk;
     this.testApk = testApk;
@@ -69,7 +69,7 @@ public class ExecutionTarget {
     executionWriter.close();
 
     // Kick off a new process to interface with ADB and perform the real execution.
-    String name = ExecutionTarget.class.getName();
+    String name = DeviceTestRunner.class.getName();
     Process process = new ProcessBuilder("java", "-cp", classpath, name,
       output.getAbsolutePath()).start();
     process.waitFor();
@@ -165,7 +165,7 @@ public class ExecutionTarget {
       throw new IllegalArgumentException("Must be started with a device directory.");
     }
 
-    Logger log = Logger.getLogger(ExecutionTarget.class.getSimpleName());
+    Logger log = Logger.getLogger(DeviceTestRunner.class.getSimpleName());
     try {
       String outputDirName = args[0];
       File outputDir = new File(outputDirName);
@@ -175,7 +175,7 @@ public class ExecutionTarget {
       }
 
       FileReader reader = new FileReader(executionFile);
-      ExecutionTarget target = GSON.fromJson(reader, ExecutionTarget.class);
+      DeviceTestRunner target = GSON.fromJson(reader, DeviceTestRunner.class);
       reader.close();
 
       ExecutionResult result = target.run();
