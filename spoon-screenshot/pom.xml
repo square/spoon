@@ -13,7 +13,7 @@
   </parent>
 
   <artifactId>spoon-screenshot</artifactId>
-  <name>Spoon: Screenshot Library</name>
+  <name>Spoon Screenshot</name>
 
   <dependencies>
     <dependency>

@@ -12,9 +12,9 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <artifactId>sample</artifactId>
+  <artifactId>spoon-sample</artifactId>
   <packaging>pom</packaging>
-  <name>Spoon: Sample</name>
+  <name>Spoon Sample (Parent)</name>
 
   <modules>
     <module>app</module>

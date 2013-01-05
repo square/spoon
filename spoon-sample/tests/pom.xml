@@ -7,14 +7,14 @@
 
   <parent>
     <groupId>com.squareup.spoon</groupId>
-    <artifactId>sample</artifactId>
+    <artifactId>spoon-sample</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <artifactId>sample-tests</artifactId>
+  <artifactId>spoon-sample-tests</artifactId>
   <packaging>apk</packaging>
-  <name>Spoon: Sample Instrumentation</name>
+  <name>Spoon Sample Instrumentation</name>
 
   <dependencies>
     <dependency>
@@ -30,14 +30,14 @@
 
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>sample-app</artifactId>
+      <artifactId>spoon-sample-app</artifactId>
       <version>${project.version}</version>
       <type>apk</type>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>sample-app</artifactId>
+      <artifactId>spoon-sample-app</artifactId>
       <version>${project.version}</version>
       <type>jar</type>
       <scope>provided</scope>
