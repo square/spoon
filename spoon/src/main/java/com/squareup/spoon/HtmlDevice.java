@@ -4,23 +4,46 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.squareup.spoon.DeviceTestResult.Status;
+
 /** Model for representing a {@code device.html} page. */
 final class HtmlDevice {
   static HtmlDevice from(String serial, DeviceResult result, File output) {
     List<TestResult> testResults = new ArrayList<TestResult>();
+    int testsPassed = 0;
     for (DeviceTestResult testResult : result.getTestResults()) {
       testResults.add(TestResult.from(serial, testResult, output));
+      if (testResult.getStatus() == Status.PASS) {
+        testsPassed += 1;
+      }
     }
-    return new HtmlDevice(serial, result.getDeviceDetails().getName(), testResults);
+    int testsRun = result.getTestResults().size();
+    int testsFailed = testsRun - testsPassed;
+    String started = HtmlUtils.dateToString(result.getStarted());
+    String totalTestsRun = testsRun + " test" + (testsRun != 1 ? "s" : "");
+    String totalLength = HtmlUtils.secondsToTimeString(result.getLength());
+    return new HtmlDevice(serial, result.getDeviceDetails().getName(), totalTestsRun, testsPassed,
+        testsFailed, totalLength, started, testResults);
   }
 
   public final String serial;
   public final String name;
+  public final String totalTestsRun;
+  public final int testsPassed;
+  public final int testsFailed;
+  public final String totalLength;
+  public final String started;
   public final List<TestResult> testResults;
 
-  HtmlDevice(String serial, String name, List<TestResult> testResults) {
+  HtmlDevice(String serial, String name, String totalTestsRun, int testsPassed, int testsFailed,
+      String totalLength, String started, List<TestResult> testResults) {
     this.serial = serial;
     this.name = name;
+    this.totalTestsRun = totalTestsRun;
+    this.testsPassed = testsPassed;
+    this.testsFailed = testsFailed;
+    this.totalLength = totalLength;
+    this.started = started;
     this.testResults = testResults;
   }
 

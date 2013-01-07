@@ -1,7 +1,5 @@
 package com.squareup.spoon;
 
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -14,9 +12,6 @@ import static com.squareup.spoon.DeviceTestResult.Status;
 /** Model for representing the {@code index.html} page. */
 final class HtmlIndex {
   static HtmlIndex from(SpoonSummary summary) {
-    String started = STARTED_FORMAT.get().format(summary.getStarted());
-    int deviceCount = summary.getResults().size();
-
     int testsRun = 0;
     int totalSuccess = 0;
     Set<String> tests = new HashSet<String>();
@@ -36,25 +31,15 @@ final class HtmlIndex {
 
     int totalFailure = testsRun - totalSuccess;
 
+    int deviceCount = summary.getResults().size();
+    String started = HtmlUtils.dateToString(summary.getStarted());
     String totalTestsRun = testsRun + " test" + (testsRun != 1 ? "s" : "");
     String totalDevices = deviceCount + " device" + (deviceCount != 1 ? "s" : "");
-
-    long minutes = summary.getLength() / 60;
-    long seconds = summary.getLength() - (minutes * 60);
-    String length = seconds + " second" + (seconds != 1 ? "s" : "");
-    if (minutes != 0) {
-      length = minutes + " minute" + (minutes != 1 ? "s" : "") + ", " + length;
-    }
+    String totalLength = HtmlUtils.secondsToTimeString(summary.getLength());
 
     return new HtmlIndex(summary.getTitle(), totalTestsRun, totalDevices, totalSuccess,
-        totalFailure, length, started, tests.size(), devices);
+        totalFailure, totalLength, started, tests.size(), devices);
   }
-
-  private static final ThreadLocal<Format> STARTED_FORMAT = new ThreadLocal<Format>() {
-    @Override protected Format initialValue() {
-      return new SimpleDateFormat("yyyy-MM-dd hh:mm a");
-    }
-  };
 
   public final String title;
   public final String totalTestsRun;

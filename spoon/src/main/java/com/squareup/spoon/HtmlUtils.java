@@ -1,7 +1,10 @@
 package com.squareup.spoon;
 
 import java.io.File;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static com.squareup.spoon.Screenshot.NAME_SEPARATOR;
@@ -9,6 +12,15 @@ import static com.squareup.spoon.Screenshot.NAME_SEPARATOR;
 /** Utilities for representing the execution in HTML. */
 final class HtmlUtils {
   private static final String INVALID_ID_CHARS = "[^a-zA-Z0-9]";
+  private static final ThreadLocal<Format> DATE_FORMAT = new ThreadLocal<Format>() {
+    @Override protected Format initialValue() {
+      return new SimpleDateFormat("yyyy-MM-dd hh:mm a");
+    }
+  };
+
+  static String dateToString(Date date) {
+    return DATE_FORMAT.get().format(date);
+  }
 
   /** Convert a class name and method name to a single HTML ID. */
   static String testClassAndMethodToId(String className, String methodName) {
@@ -133,6 +145,16 @@ final class HtmlUtils {
       body.add(lines[i]);
     }
     return new StackTrace(title, body);
+  }
+
+  static String secondsToTimeString(long length) {
+    long minutes = length / 60;
+    long seconds = length - (minutes * 60);
+    String time = seconds + " second" + (seconds != 1 ? "s" : "");
+    if (minutes != 0) {
+      time = minutes + " minute" + (minutes != 1 ? "s" : "") + ", " + length;
+    }
+    return time;
   }
 
   static final class Screenshot {

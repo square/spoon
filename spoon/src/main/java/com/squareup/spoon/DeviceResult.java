@@ -4,6 +4,7 @@ import com.android.ddmlib.testrunner.TestIdentifier;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,14 +20,16 @@ public final class DeviceResult {
   private final String installMessage;
   private final DeviceDetails deviceDetails;
   private final List<DeviceTestResult> testResults;
+  private final Date started;
   private final long length;
   private final List<String> exceptions;
 
   private DeviceResult(boolean installFailed, String installMessage, DeviceDetails deviceDetails,
-      List<DeviceTestResult> testResults, long length, List<String> exceptions) {
+      List<DeviceTestResult> testResults, Date started, long length, List<String> exceptions) {
     this.installFailed = installFailed;
     this.installMessage = installMessage;
     this.deviceDetails = deviceDetails;
+    this.started = started;
     this.testResults = unmodifiableList(new ArrayList<DeviceTestResult>(testResults));
     this.length = length;
     this.exceptions = unmodifiableList(new ArrayList<String>(exceptions));
@@ -61,6 +64,11 @@ public final class DeviceResult {
     return testResults;
   }
 
+  /** Execution start time. */
+  public Date getStarted() {
+    return started;
+  }
+
   /** Length (in seconds) of execution of all tests on device, or {@code -1} if none ran. */
   public long getLength() {
     return length;
@@ -77,6 +85,7 @@ public final class DeviceResult {
     private final Map<TestIdentifier, DeviceTestResult.Builder> testResultBuilders =
         new HashMap<TestIdentifier, DeviceTestResult.Builder>();
     private DeviceDetails deviceDetails = null;
+    private final Date started = new Date();
     private long start;
     private long length = -1;
     private final List<String> exceptions = new ArrayList<String>();
@@ -136,7 +145,7 @@ public final class DeviceResult {
         testResults.add(builder.build());
       }
 
-      return new DeviceResult(installFailed, installMessage, deviceDetails, testResults,
+      return new DeviceResult(installFailed, installMessage, deviceDetails, testResults, started,
           length, exceptions);
     }
   }
