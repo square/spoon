@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.madgag.gif.fmsware.AnimatedGifEncoder;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,9 +18,11 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
@@ -150,6 +153,18 @@ final class SpoonUtils {
     AndroidDebugBridge adb = AndroidDebugBridge.createBridge(adbPath.getAbsolutePath(), true);
     waitForAdb(adb);
     return adb;
+  }
+
+  static void createAnimatedGif(List<File> testScreenshots, File animatedGif) throws IOException {
+    AnimatedGifEncoder encoder = new AnimatedGifEncoder();
+    encoder.start(animatedGif.getAbsolutePath());
+    encoder.setDelay(1000 /* 1 second */);
+    encoder.setQuality(1 /* highest */);
+    encoder.setRepeat(0 /* infinite */);
+    for (File testScreenshot : testScreenshots) {
+      encoder.addFrame(ImageIO.read(testScreenshot));
+    }
+    encoder.finish();
   }
 
   private static void waitForAdb(AndroidDebugBridge adb) {

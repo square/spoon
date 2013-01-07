@@ -129,7 +129,7 @@ public final class DeviceTestResult {
 
     public Builder setAnimatedGif(File animatedGif) {
       checkNotNull(animatedGif);
-      checkArgument(animatedGif == null, "Animated GIF already set.");
+      checkArgument(this.animatedGif == null, "Animated GIF already set.");
       this.animatedGif = animatedGif;
       return this;
     }
