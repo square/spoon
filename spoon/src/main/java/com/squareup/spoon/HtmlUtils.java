@@ -97,6 +97,9 @@ final class HtmlUtils {
 
   /** Get a relative URI for {@code file} from {@code output} folder. */
   static String createRelativeUri(File file, File output) {
+    if (file == null) {
+      return null;
+    }
     if (file.equals(output)) {
       throw new IllegalArgumentException("File path and output folder are the same.");
     }

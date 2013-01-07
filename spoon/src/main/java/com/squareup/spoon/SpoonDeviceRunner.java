@@ -5,20 +5,26 @@ import com.android.ddmlib.IDevice;
 import com.android.ddmlib.InstallException;
 import com.android.ddmlib.testrunner.RemoteAndroidTestRunner;
 import com.android.ddmlib.testrunner.TestIdentifier;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
-import static com.squareup.spoon.SpoonUtils.obtainDirectoryFileEntry;
-import static com.squareup.spoon.SpoonUtils.obtainRealDevice;
 import static com.squareup.spoon.Screenshot.SPOON_SCREENSHOTS;
 import static com.squareup.spoon.SpoonUtils.GSON;
 import static com.squareup.spoon.SpoonUtils.QUIET_MONITOR;
+import static com.squareup.spoon.SpoonUtils.createAnimatedGif;
+import static com.squareup.spoon.SpoonUtils.obtainDirectoryFileEntry;
+import static com.squareup.spoon.SpoonUtils.obtainRealDevice;
 import static java.util.logging.Level.SEVERE;
 
 /** Represents a single device and the test configuration to be executed. */
@@ -72,8 +78,8 @@ public final class SpoonDeviceRunner {
 
     // Kick off a new process to interface with ADB and perform the real execution.
     String name = SpoonDeviceRunner.class.getName();
-    Process process = new ProcessBuilder("java", "-cp", classpath, name,
-      output.getAbsolutePath()).start();
+    Process process =
+        new ProcessBuilder("java", "-cp", classpath, name, output.getAbsolutePath()).start();
     process.waitFor();
 
     // Read the result from a file in the output directory.
@@ -140,6 +146,7 @@ public final class SpoonDeviceRunner {
         // Move all children of the screenshot directory into the image folder.
         File[] classNameDirs = screenshotDir.listFiles();
         if (classNameDirs != null) {
+          Multimap<TestIdentifier, File> screenshots = ArrayListMultimap.create();
           for (File classNameDir : classNameDirs) {
             String className = classNameDir.getName();
             File destDir = new File(imageDir, className);
@@ -150,8 +157,22 @@ public final class SpoonDeviceRunner {
 
               // Add screenshot to appropriate method result.
               TestIdentifier testIdentifier = new TestIdentifier(className, methodName);
+              screenshots.put(testIdentifier, screenshot);
               result.getMethodResultBuilder(testIdentifier).addScreenshot(screenshot);
             }
+          }
+
+          // Make animated GIFs for all the tests which have screenshots.
+          for (TestIdentifier testIdentifier : screenshots.keySet()) {
+            List<File> testScreenshots = new ArrayList<File>(screenshots.get(testIdentifier));
+            if (testScreenshots.size() == 1) {
+              continue; // Do not make an animated GIF if there is only one screenshot.
+            }
+            Collections.sort(testScreenshots);
+            File animatedGif = FileUtils.getFile(imageDir, testIdentifier.getClassName(),
+                testIdentifier.getTestName() + ".gif");
+            createAnimatedGif(testScreenshots, animatedGif);
+            result.getMethodResultBuilder(testIdentifier).setAnimatedGif(animatedGif);
           }
         }
         FileUtils.deleteDirectory(screenshotDir);

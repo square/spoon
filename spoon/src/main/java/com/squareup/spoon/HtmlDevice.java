@@ -37,9 +37,10 @@ final class HtmlDevice {
         screenshots.add(HtmlUtils.getScreenshot(screenshot, output));
       }
       boolean hasScreenshots = !screenshots.isEmpty();
+      String animatedGif = HtmlUtils.createRelativeUri(testResult.getAnimatedGif(), output);
       HtmlUtils.StackTrace exception = HtmlUtils.parseException(testResult.getException());
       return new TestResult(serial, className, methodName, classSimpleName, prettyMethodName,
-          testId, status, hasScreenshots, screenshots, exception);
+          testId, status, hasScreenshots, screenshots, animatedGif, exception);
     }
 
     public final String serial;
@@ -51,11 +52,13 @@ final class HtmlDevice {
     public final String status;
     public final boolean hasScreenshots;
     public final List<HtmlUtils.Screenshot> screenshots;
+    public final String animatedGif;
     public final HtmlUtils.StackTrace exception;
 
     TestResult(String serial, String className, String methodName, String classSimpleName,
         String prettyMethodName, String testId, String status, boolean hasScreenshots,
-        List<HtmlUtils.Screenshot> screenshots, HtmlUtils.StackTrace exceptions) {
+        List<HtmlUtils.Screenshot> screenshots, String animatedGif,
+        HtmlUtils.StackTrace exceptions) {
       this.serial = serial;
       this.className = className;
       this.methodName = methodName;
@@ -65,6 +68,7 @@ final class HtmlDevice {
       this.status = status;
       this.hasScreenshots = hasScreenshots;
       this.screenshots = screenshots;
+      this.animatedGif = animatedGif;
       this.exception = exceptions;
     }
 
