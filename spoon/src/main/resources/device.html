@@ -41,11 +41,11 @@
                         {{/animatedGif}}
                     </h2>
                     {{#exception}}
-                    <div class="alert alert-error stacktrace" data-toggle="collapse">
-                        <h4>{{title}}</h4>
-                        <div class="alert-error stacktrace-body">
+                    <div class="alert alert-error stacktrace">
+                        <h4 data-toggle="collapse" data-target="#stacktrace-{{testId}}">{{title}}</h4>
+                        <div class="alert-error stacktrace-body collapse" id="stacktrace-{{testId}}">
                             {{#body}}
-                                <div class="stacktrace-line">{{toString}}</div>
+                            <div class="stacktrace-line">{{toString}}</div>
                             {{/body}}
                         </div>
                     </div>
