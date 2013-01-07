@@ -32,17 +32,16 @@
                         </a>
                         {{/hasScreenshots}}
                     </h2>
-                    {{#trace}}
-                    <div class="alert alert-error stacktrace" data-toggle="collapse">
-                        <h4>{{title}}</h4>
-                        <!-- Viewing for all devices, I don't think we want to see all the stacktraces. -->
-                        <!--<div class="alert-error stacktrace-body">-->
-                            <!--{{#trace.body}}-->
-                            <!--<div class="stacktrace-line">{{toString}}</div>-->
-                            <!--{{/trace.body}}-->
-                        <!--</div>-->
+                    {{#exception}}
+                    <div class="alert alert-error stacktrace">
+                        <h4 data-toggle="collapse" data-target="#stacktrace-{{serial}}">{{title}}</h4>
+                        <div class="alert-error stacktrace-body collapse" id="stacktrace-{{serial}}">
+                            {{#body}}
+                            <div class="stacktrace-line">{{toString}}</div>
+                            {{/body}}
+                        </div>
                     </div>
-                    {{/trace}}
+                    {{/exception}}
                     {{#hasScreenshots}}
                     <ul class="thumbnails">
                         {{#screenshots}}
