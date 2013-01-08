@@ -14,14 +14,15 @@ final class HtmlIndex {
   static HtmlIndex from(SpoonSummary summary) {
     int testsRun = 0;
     int totalSuccess = 0;
-    Set<String> tests = new HashSet<String>();
+    Set<DeviceTest> tests = new HashSet<DeviceTest>();
     List<Device> devices = new ArrayList<Device>();
     for (Map.Entry<String, DeviceResult> result : summary.getResults().entrySet()) {
       devices.add(Device.from(result.getKey(), result.getValue()));
-      testsRun += result.getValue().getTestResults().size();
-      for (DeviceTestResult methodResult : result.getValue().getTestResults()) {
-        tests.add(methodResult.getClassName() + " " + methodResult.getMethodName());
-        if (methodResult.getStatus() == Status.PASS) {
+      Map<DeviceTest, DeviceTestResult> testResults = result.getValue().getTestResults();
+      testsRun += testResults.size();
+      for (Map.Entry<DeviceTest, DeviceTestResult> entry : testResults.entrySet()) {
+        tests.add(entry.getKey());
+        if (entry.getValue().getStatus() == Status.PASS) {
           totalSuccess += 1;
         }
       }
@@ -67,8 +68,8 @@ final class HtmlIndex {
   static final class Device implements Comparable<Device> {
     static Device from(String serial, DeviceResult result) {
       List<TestResult> testResults = new ArrayList<TestResult>();
-      for (DeviceTestResult testResult : result.getTestResults()) {
-        testResults.add(TestResult.from(serial, testResult));
+      for (Map.Entry<DeviceTest, DeviceTestResult> entry : result.getTestResults().entrySet()) {
+        testResults.add(TestResult.from(serial, entry.getKey(), entry.getValue()));
       }
       return new Device(serial, result.getDeviceDetails().getName(), testResults);
     }
@@ -89,9 +90,9 @@ final class HtmlIndex {
   }
 
   static final class TestResult implements Comparable<TestResult> {
-    static TestResult from(String serial, DeviceTestResult testResult) {
-      String className = testResult.getClassName();
-      String methodName = testResult.getMethodName();
+    static TestResult from(String serial, DeviceTest test, DeviceTestResult testResult) {
+      String className = test.getClassName();
+      String methodName = test.getMethodName();
       String classSimpleName = HtmlUtils.getClassSimpleName(className);
       String prettyMethodName = HtmlUtils.prettifyMethodName(methodName);
       String testId = HtmlUtils.testClassAndMethodToId(className, methodName);

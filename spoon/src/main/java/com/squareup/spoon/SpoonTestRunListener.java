@@ -23,10 +23,7 @@ final class SpoonTestRunListener implements ITestRunListener {
   }
 
   @Override public void testStarted(TestIdentifier test) {
-    DeviceTestResult.Builder methodResult = new DeviceTestResult.Builder()
-        .setClassName(test.getClassName())
-        .setMethodName(test.getTestName())
-        .startTest();
+    DeviceTestResult.Builder methodResult = new DeviceTestResult.Builder().startTest();
     methodResults.put(test, methodResult);
   }
 
@@ -46,10 +43,11 @@ final class SpoonTestRunListener implements ITestRunListener {
 
   @Override public void testEnded(TestIdentifier test, Map<String, String> testMetrics) {
     DeviceTestResult.Builder methodResultBuilder = methodResults.get(test).endTest();
-    result.addTestResultBuilder(test, methodResultBuilder);
+    result.addTestResultBuilder(DeviceTest.from(test), methodResultBuilder);
   }
 
   @Override public void testRunFailed(String errorMessage) {
+    result.addException(errorMessage);
   }
 
   @Override public void testRunStopped(long elapsedTime) {

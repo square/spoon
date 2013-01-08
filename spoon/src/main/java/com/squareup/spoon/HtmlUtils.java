@@ -150,11 +150,23 @@ final class HtmlUtils {
   static String secondsToTimeString(long length) {
     long minutes = length / 60;
     long seconds = length - (minutes * 60);
-    String time = seconds + " second" + (seconds != 1 ? "s" : "");
+    StringBuilder builder = new StringBuilder();
     if (minutes != 0) {
-      time = minutes + " minute" + (minutes != 1 ? "s" : "") + ", " + length;
+      builder.append(minutes).append(" minute");
+      if (minutes != 1) {
+        builder.append("s");
+      }
     }
-    return time;
+    if (seconds != 0 || minutes == 0) {
+      if (builder.length() > 0) {
+        builder.append(", ");
+      }
+      builder.append(seconds).append(" second");
+      if (seconds != 1) {
+        builder.append("s");
+      }
+    }
+    return builder.toString();
   }
 
   static final class Screenshot {

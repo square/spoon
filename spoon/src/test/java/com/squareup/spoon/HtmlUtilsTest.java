@@ -6,6 +6,7 @@ import org.junit.Test;
 import static com.squareup.spoon.HtmlUtils.createRelativeUri;
 import static com.squareup.spoon.HtmlUtils.prettifyImageName;
 import static com.squareup.spoon.HtmlUtils.prettifyMethodName;
+import static com.squareup.spoon.HtmlUtils.secondsToTimeString;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 public class HtmlUtilsTest {
@@ -50,5 +51,17 @@ public class HtmlUtilsTest {
   public void relativeUriCreationFailsIfSame() {
     File output = new File("/path/to");
     createRelativeUri(output, output);
+  }
+
+  @Test public void secondsToDisplaySeconds() {
+    assertThat(secondsToTimeString(0)).isEqualTo("0 seconds");
+    assertThat(secondsToTimeString(1)).isEqualTo("1 second");
+    assertThat(secondsToTimeString(2)).isEqualTo("2 seconds");
+    assertThat(secondsToTimeString(59)).isEqualTo("59 seconds");
+    assertThat(secondsToTimeString(60)).isEqualTo("1 minute");
+    assertThat(secondsToTimeString(61)).isEqualTo("1 minute, 1 second");
+    assertThat(secondsToTimeString(62)).isEqualTo("1 minute, 2 seconds");
+    assertThat(secondsToTimeString(122)).isEqualTo("2 minutes, 2 seconds");
+    assertThat(secondsToTimeString(3661)).isEqualTo("61 minutes, 1 second");
   }
 }

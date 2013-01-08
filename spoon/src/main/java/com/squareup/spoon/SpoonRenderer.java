@@ -7,7 +7,9 @@ import com.google.common.io.Resources;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.lesscss.LessCompiler;
@@ -94,7 +96,19 @@ final class SpoonRenderer {
   }
 
   private void generateTestHtml(MustacheFactory mustacheFactory) {
-    // TODO things
+    Mustache mustache = mustacheFactory.compile("test.html");
+    // Create a set of unique tests.
+    Set<DeviceTest> tests = new HashSet<DeviceTest>();
+    for (DeviceResult deviceResult : summary.getResults().values()) {
+      tests.addAll(deviceResult.getTestResults().keySet());
+    }
+    // Generate a page for each one.
+    for (DeviceTest test : tests) {
+      HtmlTest scope = HtmlTest.from(test, summary, output);
+      File file =
+          FileUtils.getFile(output, "test", test.getClassName(), test.getMethodName() + ".html");
+      renderMustacheToFile(mustache, scope, file);
+    }
   }
 
   private static void renderMustacheToFile(Mustache mustache, Object scope, File file) {
