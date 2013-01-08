@@ -21,18 +21,18 @@ public final class DeviceResult {
   private final DeviceDetails deviceDetails;
   private final Map<DeviceTest, DeviceTestResult> testResults;
   private final Date started;
-  private final long length;
+  private final long duration;
   private final List<String> exceptions;
 
   private DeviceResult(boolean installFailed, String installMessage, DeviceDetails deviceDetails,
-      Map<DeviceTest, DeviceTestResult> testResults, Date started, long length,
+      Map<DeviceTest, DeviceTestResult> testResults, Date started, long duration,
       List<String> exceptions) {
     this.installFailed = installFailed;
     this.installMessage = installMessage;
     this.deviceDetails = deviceDetails;
     this.started = started;
     this.testResults = unmodifiableMap(new HashMap<DeviceTest, DeviceTestResult>(testResults));
-    this.length = length;
+    this.duration = duration;
     this.exceptions = unmodifiableList(new ArrayList<String>(exceptions));
   }
 
@@ -71,8 +71,8 @@ public final class DeviceResult {
   }
 
   /** Length (in seconds) of execution of all tests on device, or {@code -1} if none ran. */
-  public long getLength() {
-    return length;
+  public long getDuration() {
+    return duration;
   }
 
   /** Exceptions that occurred during execution. */
@@ -88,7 +88,7 @@ public final class DeviceResult {
     private DeviceDetails deviceDetails = null;
     private final Date started = new Date();
     private long start;
-    private long length = -1;
+    private long duration = -1;
     private final List<String> exceptions = new ArrayList<String>();
 
     public Builder addTestResultBuilder(DeviceTest test,
@@ -126,8 +126,8 @@ public final class DeviceResult {
 
     public Builder endTests() {
       checkArgument(start != 0, "Start was not called.");
-      checkArgument(length == -1, "End was already called.");
-      length = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - start);
+      checkArgument(duration == -1, "End was already called.");
+      duration = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - start);
       return this;
     }
 
@@ -153,7 +153,7 @@ public final class DeviceResult {
       }
 
       return new DeviceResult(installFailed, installMessage, deviceDetails, testResults, started,
-          length, exceptions);
+          duration, exceptions);
     }
   }
 }

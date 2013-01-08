@@ -13,13 +13,14 @@ import static java.util.Collections.unmodifiableMap;
 public final class SpoonSummary {
   private final String title;
   private final Date started;
-  private final long length;
+  private final long duration;
   private final Map<String, DeviceResult> results;
 
-  private SpoonSummary(String title, Date started, long length, Map<String, DeviceResult> results) {
+  private SpoonSummary(String title, Date started, long duration,
+      Map<String, DeviceResult> results) {
     this.title = title;
     this.started = started;
-    this.length = length;
+    this.duration = duration;
     this.results = unmodifiableMap(new HashMap<String, DeviceResult>(results));
   }
 
@@ -34,8 +35,8 @@ public final class SpoonSummary {
   }
 
   /** Length of overall execution, in seconds. */
-  public long getLength() {
-    return length;
+  public long getDuration() {
+    return duration;
   }
 
   /** Individual device results by serial number. */
@@ -48,7 +49,7 @@ public final class SpoonSummary {
     private String title;
     private Date started;
     private long start;
-    private long length = -1;
+    private long duration = -1;
 
     Builder setTitle(String title) {
       checkNotNull(title);
@@ -77,8 +78,8 @@ public final class SpoonSummary {
 
     Builder end() {
       checkArgument(start != 0, "Start must be called before end.");
-      checkArgument(length == -1, "End already called.");
-      length = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - start);
+      checkArgument(duration == -1, "End already called.");
+      duration = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - start);
       return this;
     }
 
@@ -86,7 +87,7 @@ public final class SpoonSummary {
       checkNotNull(title, "Title is required.");
       checkNotNull(started, "Never started.");
 
-      return new SpoonSummary(title, started, length, results);
+      return new SpoonSummary(title, started, duration, results);
     }
   }
 }

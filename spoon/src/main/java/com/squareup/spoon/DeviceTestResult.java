@@ -16,15 +16,15 @@ public final class DeviceTestResult {
 
   private final Status status;
   private final String exception;
-  private final long length;
+  private final long duration;
   private final List<File> screenshots;
   private final File animatedGif;
 
-  private DeviceTestResult(Status status, String exception, long length, List<File> screenshots,
+  private DeviceTestResult(Status status, String exception, long duration, List<File> screenshots,
       File animatedGif) {
     this.status = status;
     this.exception = exception;
-    this.length = length;
+    this.duration = duration;
     this.screenshots = unmodifiableList(new ArrayList<File>(screenshots));
     this.animatedGif = animatedGif;
   }
@@ -40,8 +40,8 @@ public final class DeviceTestResult {
   }
 
   /** Length of test execution, in seconds. */
-  public long getLength() {
-    return length;
+  public long getDuration() {
+    return duration;
   }
 
   /** Screenshots taken during test. */
@@ -59,7 +59,7 @@ public final class DeviceTestResult {
     private Status status = Status.PASS;
     private String exception;
     private long start;
-    private long length = -1;
+    private long duration = -1;
     private File animatedGif;
 
     public Builder markTestAsFailed(String exception) {
@@ -86,8 +86,8 @@ public final class DeviceTestResult {
 
     public Builder endTest() {
       checkArgument(start != 0, "Start was not called.");
-      checkArgument(length == -1, "End was already called.");
-      length = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - start);
+      checkArgument(duration == -1, "End was already called.");
+      duration = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - start);
       return this;
     }
 
@@ -105,7 +105,7 @@ public final class DeviceTestResult {
     }
 
     public DeviceTestResult build() {
-      return new DeviceTestResult(status, exception, length, screenshots, animatedGif);
+      return new DeviceTestResult(status, exception, duration, screenshots, animatedGif);
     }
   }
 }

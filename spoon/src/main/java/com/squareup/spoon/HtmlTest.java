@@ -12,7 +12,7 @@ final class HtmlTest {
   public static HtmlTest from(DeviceTest test, SpoonSummary summary, File output) {
     int deviceCount = 0;
     int testsPassed = 0;
-    int length = 0;
+    int duration = 0;
     List<TestResult> devices = new ArrayList<TestResult>();
     for (Map.Entry<String, DeviceResult> entry : summary.getResults().entrySet()) {
       DeviceResult deviceResult = entry.getValue();
@@ -21,7 +21,7 @@ final class HtmlTest {
         deviceCount += 1;
         if (testResult.getStatus() == Status.PASS) {
           testsPassed += 1;
-          length += testResult.getLength();
+          duration += testResult.getDuration();
         }
       }
       String name = deviceResult.getDeviceDetails().getName();
@@ -32,9 +32,9 @@ final class HtmlTest {
     String totalDevices = deviceCount + " device" + (deviceCount != 1 ? "s" : "");
     String averageLength;
     if (testsPassed > 0) {
-      averageLength = HtmlUtils.secondsToTimeString(length / testsPassed);
+      averageLength = HtmlUtils.humanReadableDuration(duration / testsPassed);
     } else {
-      averageLength = HtmlUtils.secondsToTimeString(0);
+      averageLength = HtmlUtils.humanReadableDuration(0);
     }
     String className = HtmlUtils.getClassSimpleName(test.getClassName());
     String testName = HtmlUtils.prettifyMethodName(test.getMethodName());
@@ -48,17 +48,17 @@ final class HtmlTest {
   public final String totalDevices;
   public final int testsPassed;
   public final int testsFailed;
-  public final String averageLength;
+  public final String averageDuration;
   public final List<TestResult> devices;
 
   HtmlTest(String testName, String classSimpleName, String totalDevices, int testsPassed,
-      int testsFailed, String averageLength, List<TestResult> devices) {
+      int testsFailed, String averageDuration, List<TestResult> devices) {
     this.testName = testName;
     this.classSimpleName = classSimpleName;
     this.totalDevices = totalDevices;
     this.testsPassed = testsPassed;
     this.testsFailed = testsFailed;
-    this.averageLength = averageLength;
+    this.averageDuration = averageDuration;
     this.devices = devices;
   }
 

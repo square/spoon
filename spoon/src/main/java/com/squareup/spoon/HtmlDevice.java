@@ -23,7 +23,7 @@ final class HtmlDevice {
     int testsFailed = testsRun - testsPassed;
     String started = HtmlUtils.dateToString(result.getStarted());
     String totalTestsRun = testsRun + " test" + (testsRun != 1 ? "s" : "");
-    String totalLength = HtmlUtils.secondsToTimeString(result.getLength());
+    String totalLength = HtmlUtils.humanReadableDuration(result.getDuration());
     return new HtmlDevice(serial, result.getDeviceDetails().getName(), totalTestsRun, testsPassed,
         testsFailed, totalLength, started, testResults);
   }
@@ -33,18 +33,18 @@ final class HtmlDevice {
   public final String totalTestsRun;
   public final int testsPassed;
   public final int testsFailed;
-  public final String totalLength;
+  public final String totalDuration;
   public final String started;
   public final List<TestResult> testResults;
 
   HtmlDevice(String serial, String name, String totalTestsRun, int testsPassed, int testsFailed,
-      String totalLength, String started, List<TestResult> testResults) {
+      String totalDuration, String started, List<TestResult> testResults) {
     this.serial = serial;
     this.name = name;
     this.totalTestsRun = totalTestsRun;
     this.testsPassed = testsPassed;
     this.testsFailed = testsFailed;
-    this.totalLength = totalLength;
+    this.totalDuration = totalDuration;
     this.started = started;
     this.testResults = testResults;
   }

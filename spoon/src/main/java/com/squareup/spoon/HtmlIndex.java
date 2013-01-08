@@ -36,7 +36,7 @@ final class HtmlIndex {
     String started = HtmlUtils.dateToString(summary.getStarted());
     String totalTestsRun = testsRun + " test" + (testsRun != 1 ? "s" : "");
     String totalDevices = deviceCount + " device" + (deviceCount != 1 ? "s" : "");
-    String totalLength = HtmlUtils.secondsToTimeString(summary.getLength());
+    String totalLength = HtmlUtils.humanReadableDuration(summary.getDuration());
 
     return new HtmlIndex(summary.getTitle(), totalTestsRun, totalDevices, totalSuccess,
         totalFailure, totalLength, started, tests.size(), devices);
@@ -47,19 +47,19 @@ final class HtmlIndex {
   public final String totalDevices;
   public final int totalSuccess;
   public final int totalFailure;
-  public final String totalLength;
+  public final String totalDuration;
   public final String started;
   public final int testCount;
   public final List<Device> devices;
 
   HtmlIndex(String title, String totalTestsRun, String totalDevices, int totalSuccess,
-      int totalFailure, String totalLength, String started, int testCount, List<Device> devices) {
+      int totalFailure, String totalDuration, String started, int testCount, List<Device> devices) {
     this.title = title;
     this.totalTestsRun = totalTestsRun;
     this.totalDevices = totalDevices;
     this.totalSuccess = totalSuccess;
     this.totalFailure = totalFailure;
-    this.totalLength = totalLength;
+    this.totalDuration = totalDuration;
     this.started = started;
     this.testCount = testCount;
     this.devices = devices;

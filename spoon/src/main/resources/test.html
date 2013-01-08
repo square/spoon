@@ -10,13 +10,13 @@
         <link href="../../static/spoon.css" rel="stylesheet">
         <script src="../../static/jquery.min.js"></script>
         <script src="../../static/bootstrap.min.js"></script>
-        <meta name="description" content="Ran on {{totalDevices}} with {{testsPassed}} passing and {{testsFailed}} failing in an average of {{averageLength}}">
+        <meta name="description" content="Ran on {{totalDevices}} with {{testsPassed}} passing and {{testsFailed}} failing in an average of {{averageDuration}}">
     </head>
     <body>
         <div class="container">
             <div class="hero-unit">
                 <h1>{{testName}}</h1>
-                <p>Ran on {{totalDevices}} with {{testsPassed}} passing and {{testsFailed}} failing in an average of {{averageLength}}</p>
+                <p>Ran on {{totalDevices}} with {{testsPassed}} passing and {{testsFailed}} failing in an average of {{averageDuration}}</p>
             </div>
             {{#devices}}
             <div class="row">

@@ -10,13 +10,13 @@
         <link href="../static/spoon.css" rel="stylesheet">
         <script src="../static/jquery.min.js"></script>
         <script src="../static/bootstrap.min.js"></script>
-        <meta name="description" content="{{totalTestsRun}} run with {{testsPassed}} passing and {{testsFailed}} failing in {{totalLength}} at {{started}}">
+        <meta name="description" content="{{totalTestsRun}} run with {{testsPassed}} passing and {{testsFailed}} failing in {{totalDuration}} at {{started}}">
     </head>
     <body>
         <div class="container">
             <div class="hero-unit">
                 <h1>{{name}}</h1>
-                <p>{{totalTestsRun}} run with {{testsPassed}} passing and {{testsFailed}} failing in {{totalLength}} at {{started}}</p>
+                <p>{{totalTestsRun}} run with {{testsPassed}} passing and {{testsFailed}} failing in {{totalDuration}} at {{started}}</p>
             </div>
             {{#exception}}
             <div class="row" id="exception">

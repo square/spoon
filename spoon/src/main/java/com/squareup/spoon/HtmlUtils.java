@@ -147,7 +147,7 @@ final class HtmlUtils {
     return new StackTrace(title, body);
   }
 
-  static String secondsToTimeString(long length) {
+  static String humanReadableDuration(long length) {
     long minutes = length / 60;
     long seconds = length - (minutes * 60);
     StringBuilder builder = new StringBuilder();
