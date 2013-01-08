@@ -143,7 +143,7 @@ public final class Spoon {
       if (result.getInstallFailed()) {
         return false;
       }
-      for (DeviceTestResult methodResult : result.getTestResults()) {
+      for (DeviceTestResult methodResult : result.getTestResults().values()) {
         if (methodResult.getStatus() != Status.PASS) {
           return false;
         }

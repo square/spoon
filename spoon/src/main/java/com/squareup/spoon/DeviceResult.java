@@ -1,6 +1,5 @@
 package com.squareup.spoon;
 
-import com.android.ddmlib.testrunner.TestIdentifier;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -13,24 +12,26 @@ import java.util.concurrent.TimeUnit;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Collections.unmodifiableList;
+import static java.util.Collections.unmodifiableMap;
 
 /** Represents the results of executing instrumentation tests on a single device. */
 public final class DeviceResult {
   private final boolean installFailed;
   private final String installMessage;
   private final DeviceDetails deviceDetails;
-  private final List<DeviceTestResult> testResults;
+  private final Map<DeviceTest, DeviceTestResult> testResults;
   private final Date started;
   private final long length;
   private final List<String> exceptions;
 
   private DeviceResult(boolean installFailed, String installMessage, DeviceDetails deviceDetails,
-      List<DeviceTestResult> testResults, Date started, long length, List<String> exceptions) {
+      Map<DeviceTest, DeviceTestResult> testResults, Date started, long length,
+      List<String> exceptions) {
     this.installFailed = installFailed;
     this.installMessage = installMessage;
     this.deviceDetails = deviceDetails;
     this.started = started;
-    this.testResults = unmodifiableList(new ArrayList<DeviceTestResult>(testResults));
+    this.testResults = unmodifiableMap(new HashMap<DeviceTest, DeviceTestResult>(testResults));
     this.length = length;
     this.exceptions = unmodifiableList(new ArrayList<String>(exceptions));
   }
@@ -60,7 +61,7 @@ public final class DeviceResult {
   }
 
   /** Individual test results. */
-  public List<DeviceTestResult> getTestResults() {
+  public Map<DeviceTest, DeviceTestResult> getTestResults() {
     return testResults;
   }
 
@@ -82,15 +83,15 @@ public final class DeviceResult {
   static class Builder {
     private boolean installFailed = false;
     private String installMessage = null;
-    private final Map<TestIdentifier, DeviceTestResult.Builder> testResultBuilders =
-        new HashMap<TestIdentifier, DeviceTestResult.Builder>();
+    private final Map<DeviceTest, DeviceTestResult.Builder> testResultBuilders =
+        new HashMap<DeviceTest, DeviceTestResult.Builder>();
     private DeviceDetails deviceDetails = null;
     private final Date started = new Date();
     private long start;
     private long length = -1;
     private final List<String> exceptions = new ArrayList<String>();
 
-    public Builder addTestResultBuilder(TestIdentifier test,
+    public Builder addTestResultBuilder(DeviceTest test,
         DeviceTestResult.Builder methodResultBuilder) {
       checkArgument(!installFailed, "Cannot add test result builder when install failed.");
       checkNotNull(methodResultBuilder);
@@ -98,7 +99,7 @@ public final class DeviceResult {
       return this;
     }
 
-    public DeviceTestResult.Builder getMethodResultBuilder(TestIdentifier test) {
+    public DeviceTestResult.Builder getMethodResultBuilder(DeviceTest test) {
       return testResultBuilders.get(test);
     }
 
@@ -138,11 +139,17 @@ public final class DeviceResult {
       return this;
     }
 
+    public Builder addException(String message) {
+      checkNotNull(message);
+      exceptions.add(message);
+      return this;
+    }
+
     public DeviceResult build() {
       // Convert builders to actual instances.
-      List<DeviceTestResult> testResults = new ArrayList<DeviceTestResult>();
-      for (DeviceTestResult.Builder builder : testResultBuilders.values()) {
-        testResults.add(builder.build());
+      Map<DeviceTest, DeviceTestResult> testResults = new HashMap<DeviceTest, DeviceTestResult>();
+      for (Map.Entry<DeviceTest, DeviceTestResult.Builder> entry : testResultBuilders.entrySet()) {
+        testResults.put(entry.getKey(), entry.getValue().build());
       }
 
       return new DeviceResult(installFailed, installMessage, deviceDetails, testResults, started,

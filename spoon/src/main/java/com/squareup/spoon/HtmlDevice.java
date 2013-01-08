@@ -3,6 +3,7 @@ package com.squareup.spoon;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static com.squareup.spoon.DeviceTestResult.Status;
 
@@ -11,8 +12,9 @@ final class HtmlDevice {
   static HtmlDevice from(String serial, DeviceResult result, File output) {
     List<TestResult> testResults = new ArrayList<TestResult>();
     int testsPassed = 0;
-    for (DeviceTestResult testResult : result.getTestResults()) {
-      testResults.add(TestResult.from(serial, testResult, output));
+    for (Map.Entry<DeviceTest, DeviceTestResult> entry : result.getTestResults().entrySet()) {
+      DeviceTestResult testResult = entry.getValue();
+      testResults.add(TestResult.from(serial, entry.getKey(), testResult, output));
       if (testResult.getStatus() == Status.PASS) {
         testsPassed += 1;
       }
@@ -48,20 +50,20 @@ final class HtmlDevice {
   }
 
   static final class TestResult implements Comparable<TestResult> {
-    static TestResult from(String serial, DeviceTestResult testResult, File output) {
-      String className = testResult.getClassName();
-      String methodName = testResult.getMethodName();
+    static TestResult from(String serial, DeviceTest test, DeviceTestResult result, File output) {
+      String className = test.getClassName();
+      String methodName = test.getMethodName();
       String classSimpleName = HtmlUtils.getClassSimpleName(className);
       String prettyMethodName = HtmlUtils.prettifyMethodName(methodName);
       String testId = HtmlUtils.testClassAndMethodToId(className, methodName);
-      String status = HtmlUtils.getStatusCssClass(testResult);
+      String status = HtmlUtils.getStatusCssClass(result);
       List<HtmlUtils.Screenshot> screenshots = new ArrayList<HtmlUtils.Screenshot>();
-      for (File screenshot : testResult.getScreenshots()) {
+      for (File screenshot : result.getScreenshots()) {
         screenshots.add(HtmlUtils.getScreenshot(screenshot, output));
       }
       boolean hasScreenshots = !screenshots.isEmpty();
-      String animatedGif = HtmlUtils.createRelativeUri(testResult.getAnimatedGif(), output);
-      HtmlUtils.StackTrace exception = HtmlUtils.parseException(testResult.getException());
+      String animatedGif = HtmlUtils.createRelativeUri(result.getAnimatedGif(), output);
+      HtmlUtils.StackTrace exception = HtmlUtils.parseException(result.getException());
       return new TestResult(serial, className, methodName, classSimpleName, prettyMethodName,
           testId, status, hasScreenshots, screenshots, animatedGif, exception);
     }
@@ -96,7 +98,11 @@ final class HtmlDevice {
     }
 
     @Override public int compareTo(TestResult other) {
-      return 0;
+      int classComparison = className.compareTo(other.className);
+      if (classComparison != 0) {
+        return classComparison;
+      }
+      return methodName.compareTo(other.methodName);
     }
   }
 }

@@ -5,30 +5,31 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{{testName}}</title>
         <link href="http://fonts.googleapis.com/css?family=Roboto:regular,medium,thin,italic,mediumitalic,bold" rel="stylesheet">
-        <link href="../static/bootstrap.min.css" rel="stylesheet">
-        <link href="../static/bootstrap-responsive.min.css" rel="stylesheet">
-        <link href="../static/spoon.css" rel="stylesheet">
-        <script src="../static/jquery.min.js"></script>
-        <script src="../static/bootstrap.min.js"></script>
+        <link href="../../static/bootstrap.min.css" rel="stylesheet">
+        <link href="../../static/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="../../static/spoon.css" rel="stylesheet">
+        <script src="../../static/jquery.min.js"></script>
+        <script src="../../static/bootstrap.min.js"></script>
+        <meta name="description" content="Ran on {{totalDevices}} with {{testsPassed}} passing and {{testsFailed}} failing in an average of {{averageLength}}">
     </head>
     <body>
         <div class="container">
             <div class="hero-unit">
-                <h1>{{prettyTestName}}</h1>
-                <p>Run on {{numDevices}} devices with {{totalSuccess}} passing and {{totalFailing}} failing.</p>
+                <h1>{{testName}}</h1>
+                <p>Ran on {{totalDevices}} with {{testsPassed}} passing and {{testsFailed}} failing in an average of {{averageLength}}</p>
             </div>
-            {{#results}}
+            {{#devices}}
             <div class="row">
                 <div class="span12">
-                    <h2 class="test-result {{result}}">
-                        {{deviceName}}
+                    <h2 class="test-result {{status}}">
+                        {{name}}
                         <!-- Icons modified from Glyphish Free. http://glyphish.com -->
-                        <a href="../{{serial}}/index.html" title="View only this device" class="pull-right icon">
-                            <img src="../static/icon-devices.png" alt="View only this device"/>
+                        <a href="../../device/{{serial}}.html" title="View only this device" class="pull-right icon">
+                            <img src="../../static/icon-devices.png" alt="View only this device"/>
                         </a>
                         {{#hasScreenshots}}
-                        <a href="../{{serial}}/{{classSimpleName}}-{{testName}}.gif" title="View as animated GIF" class="pull-right icon">
-                            <img src="../static/icon-animated.png" alt="View as animated GIF"/>
+                        <a href="../../{{animatedGif}}" title="View as animated GIF" class="pull-right icon">
+                            <img src="../../static/icon-animated.png" alt="View as animated GIF"/>
                         </a>
                         {{/hasScreenshots}}
                     </h2>
@@ -46,8 +47,8 @@
                     <ul class="thumbnails">
                         {{#screenshots}}
                         <li class="span2">
-                            <a href="../{{serial}}/{{className}}/{{testName}}/{{file.getName}}" class="thumbnail">
-                                <img src="../{{serial}}/{{className}}/{{testName}}/{{file.getName}}" title="{{caption}}">
+                            <a href="../../{{path}}" class="thumbnail">
+                                <img src="../../{{path}}" title="{{caption}}">
                             </a>
                         </li>
                         {{/screenshots}}
@@ -55,7 +56,10 @@
                     {{/hasScreenshots}}
                 </div>
             </div>
-            {{/results}}
+            {{/devices}}
         </div>
+        <script type="text/javascript">
+            $('.icon').tooltip();
+        </script>
     </body>
 </html>

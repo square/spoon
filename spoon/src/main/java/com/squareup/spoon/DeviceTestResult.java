@@ -14,33 +14,19 @@ public final class DeviceTestResult {
     PASS, FAIL, ERROR
   }
 
-  private final String className;
-  private final String methodName;
   private final Status status;
   private final String exception;
   private final long length;
   private final List<File> screenshots;
   private final File animatedGif;
 
-  private DeviceTestResult(String className, String methodName, Status status, String exception,
-      long length, List<File> screenshots, File animatedGif) {
-    this.className = className;
-    this.methodName = methodName;
+  private DeviceTestResult(Status status, String exception, long length, List<File> screenshots,
+      File animatedGif) {
     this.status = status;
     this.exception = exception;
     this.length = length;
     this.screenshots = unmodifiableList(new ArrayList<File>(screenshots));
     this.animatedGif = animatedGif;
-  }
-
-  /** Class name of test. */
-  public String getClassName() {
-    return className;
-  }
-
-  /** Method name of test. */
-  public String getMethodName() {
-    return methodName;
   }
 
   /** Execution status. */
@@ -70,27 +56,11 @@ public final class DeviceTestResult {
 
   public static class Builder {
     private final List<File> screenshots = new ArrayList<File>();
-    private String className;
-    private String methodName;
     private Status status = Status.PASS;
     private String exception;
     private long start;
     private long length = -1;
     private File animatedGif;
-
-    public Builder setClassName(String className) {
-      checkNotNull(className);
-      checkArgument(this.className == null, "Class name already assigned.");
-      this.className = className;
-      return this;
-    }
-
-    public Builder setMethodName(String methodName) {
-      checkNotNull(methodName);
-      checkArgument(this.methodName == null, "Method name already assigned.");
-      this.methodName = methodName;
-      return this;
-    }
 
     public Builder markTestAsFailed(String exception) {
       checkNotNull(exception);
@@ -135,10 +105,7 @@ public final class DeviceTestResult {
     }
 
     public DeviceTestResult build() {
-      checkNotNull(className, "Class name never set.");
-      checkNotNull(methodName, "Method name never set.");
-      return new DeviceTestResult(className, methodName, status, exception, length, screenshots,
-          animatedGif);
+      return new DeviceTestResult(status, exception, length, screenshots, animatedGif);
     }
   }
 }

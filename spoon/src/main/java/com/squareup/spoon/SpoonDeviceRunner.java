@@ -4,7 +4,6 @@ import com.android.ddmlib.AndroidDebugBridge;
 import com.android.ddmlib.IDevice;
 import com.android.ddmlib.InstallException;
 import com.android.ddmlib.testrunner.RemoteAndroidTestRunner;
-import com.android.ddmlib.testrunner.TestIdentifier;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import java.io.File;
@@ -146,7 +145,7 @@ public final class SpoonDeviceRunner {
         // Move all children of the screenshot directory into the image folder.
         File[] classNameDirs = screenshotDir.listFiles();
         if (classNameDirs != null) {
-          Multimap<TestIdentifier, File> screenshots = ArrayListMultimap.create();
+          Multimap<DeviceTest, File> screenshots = ArrayListMultimap.create();
           for (File classNameDir : classNameDirs) {
             String className = classNameDir.getName();
             File destDir = new File(imageDir, className);
@@ -156,23 +155,23 @@ public final class SpoonDeviceRunner {
               String methodName = screenshot.getParentFile().getName();
 
               // Add screenshot to appropriate method result.
-              TestIdentifier testIdentifier = new TestIdentifier(className, methodName);
+              DeviceTest testIdentifier = new DeviceTest(className, methodName);
               screenshots.put(testIdentifier, screenshot);
               result.getMethodResultBuilder(testIdentifier).addScreenshot(screenshot);
             }
           }
 
           // Make animated GIFs for all the tests which have screenshots.
-          for (TestIdentifier testIdentifier : screenshots.keySet()) {
-            List<File> testScreenshots = new ArrayList<File>(screenshots.get(testIdentifier));
+          for (DeviceTest deviceTest : screenshots.keySet()) {
+            List<File> testScreenshots = new ArrayList<File>(screenshots.get(deviceTest));
             if (testScreenshots.size() == 1) {
               continue; // Do not make an animated GIF if there is only one screenshot.
             }
             Collections.sort(testScreenshots);
-            File animatedGif = FileUtils.getFile(imageDir, testIdentifier.getClassName(),
-                testIdentifier.getTestName() + ".gif");
+            File animatedGif = FileUtils.getFile(imageDir, deviceTest.getClassName(),
+                deviceTest.getMethodName() + ".gif");
             createAnimatedGif(testScreenshots, animatedGif);
-            result.getMethodResultBuilder(testIdentifier).setAnimatedGif(animatedGif);
+            result.getMethodResultBuilder(deviceTest).setAnimatedGif(animatedGif);
           }
         }
         FileUtils.deleteDirectory(screenshotDir);
