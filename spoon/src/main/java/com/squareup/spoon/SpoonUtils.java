@@ -49,6 +49,7 @@ final class SpoonUtils {
           return new File(jsonReader.nextString());
         }
       }) //
+      .enableComplexMapKeySerialization() //
       .setPrettyPrinting() //
       .create();
 
