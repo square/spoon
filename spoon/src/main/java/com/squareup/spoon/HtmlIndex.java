@@ -71,7 +71,9 @@ final class HtmlIndex {
       for (Map.Entry<DeviceTest, DeviceTestResult> entry : result.getTestResults().entrySet()) {
         testResults.add(TestResult.from(serial, entry.getKey(), entry.getValue()));
       }
-      return new Device(serial, result.getDeviceDetails().getName(), testResults);
+      DeviceDetails details = result.getDeviceDetails();
+      String name = (details != null) ? details.getName() : serial;
+      return new Device(serial, name, testResults);
     }
 
     public final String serial;

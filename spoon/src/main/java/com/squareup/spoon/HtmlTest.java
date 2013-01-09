@@ -24,8 +24,10 @@ final class HtmlTest {
           duration += testResult.getDuration();
         }
       }
-      String name = deviceResult.getDeviceDetails().getName();
-      devices.add(TestResult.from(entry.getKey(), name, testResult, output));
+      String serial = entry.getKey();
+      DeviceDetails details = deviceResult.getDeviceDetails();
+      String name = (details != null) ? details.getName() : serial;
+      devices.add(TestResult.from(serial, name, testResult, output));
     }
 
     int testsFailed = deviceCount - testsPassed;

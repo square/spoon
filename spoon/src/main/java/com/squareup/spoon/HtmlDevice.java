@@ -24,7 +24,9 @@ final class HtmlDevice {
     String started = HtmlUtils.dateToString(result.getStarted());
     String totalTestsRun = testsRun + " test" + (testsRun != 1 ? "s" : "");
     String totalLength = HtmlUtils.humanReadableDuration(result.getDuration());
-    return new HtmlDevice(serial, result.getDeviceDetails().getName(), totalTestsRun, testsPassed,
+    DeviceDetails details = result.getDeviceDetails();
+    String name = (details != null) ? details.getName() : serial;
+    return new HtmlDevice(serial, name, totalTestsRun, testsPassed,
         testsFailed, totalLength, started, testResults);
   }
 
