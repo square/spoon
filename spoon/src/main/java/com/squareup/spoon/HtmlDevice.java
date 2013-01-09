@@ -19,6 +19,7 @@ final class HtmlDevice {
         testsPassed += 1;
       }
     }
+
     int testsRun = result.getTestResults().size();
     int testsFailed = testsRun - testsPassed;
     String started = HtmlUtils.dateToString(result.getStarted());
@@ -26,8 +27,14 @@ final class HtmlDevice {
     String totalLength = HtmlUtils.humanReadableDuration(result.getDuration());
     DeviceDetails details = result.getDeviceDetails();
     String name = (details != null) ? details.getName() : serial;
-    return new HtmlDevice(serial, name, totalTestsRun, testsPassed,
-        testsFailed, totalLength, started, testResults);
+
+    List<HtmlUtils.StackTrace> exceptions = new ArrayList<HtmlUtils.StackTrace>();
+    for (String exception : result.getExceptions()) {
+      exceptions.add(HtmlUtils.parseException(exception));
+    }
+
+    return new HtmlDevice(serial, name, totalTestsRun, testsPassed, testsFailed, totalLength,
+        started, testResults, exceptions);
   }
 
   public final String serial;
@@ -38,9 +45,12 @@ final class HtmlDevice {
   public final String totalDuration;
   public final String started;
   public final List<TestResult> testResults;
+  public final boolean hasExceptions;
+  public final List<HtmlUtils.StackTrace> exceptions;
 
   HtmlDevice(String serial, String name, String totalTestsRun, int testsPassed, int testsFailed,
-      String totalDuration, String started, List<TestResult> testResults) {
+      String totalDuration, String started, List<TestResult> testResults,
+      List<HtmlUtils.StackTrace> exceptions) {
     this.serial = serial;
     this.name = name;
     this.totalTestsRun = totalTestsRun;
@@ -49,6 +59,8 @@ final class HtmlDevice {
     this.totalDuration = totalDuration;
     this.started = started;
     this.testResults = testResults;
+    this.hasExceptions = !exceptions.isEmpty();
+    this.exceptions = exceptions;
   }
 
   static final class TestResult implements Comparable<TestResult> {
@@ -63,11 +75,10 @@ final class HtmlDevice {
       for (File screenshot : result.getScreenshots()) {
         screenshots.add(HtmlUtils.getScreenshot(screenshot, output));
       }
-      boolean hasScreenshots = !screenshots.isEmpty();
       String animatedGif = HtmlUtils.createRelativeUri(result.getAnimatedGif(), output);
       HtmlUtils.StackTrace exception = HtmlUtils.parseException(result.getException());
       return new TestResult(serial, className, methodName, classSimpleName, prettyMethodName,
-          testId, status, hasScreenshots, screenshots, animatedGif, exception);
+          testId, status, screenshots, animatedGif, exception);
     }
 
     public final String serial;
@@ -83,7 +94,7 @@ final class HtmlDevice {
     public final HtmlUtils.StackTrace exception;
 
     TestResult(String serial, String className, String methodName, String classSimpleName,
-        String prettyMethodName, String testId, String status, boolean hasScreenshots,
+        String prettyMethodName, String testId, String status,
         List<HtmlUtils.Screenshot> screenshots, String animatedGif,
         HtmlUtils.StackTrace exceptions) {
       this.serial = serial;
@@ -93,7 +104,7 @@ final class HtmlDevice {
       this.prettyMethodName = prettyMethodName;
       this.testId = testId;
       this.status = status;
-      this.hasScreenshots = hasScreenshots;
+      this.hasScreenshots = !screenshots.isEmpty();
       this.screenshots = screenshots;
       this.animatedGif = animatedGif;
       this.exception = exceptions;

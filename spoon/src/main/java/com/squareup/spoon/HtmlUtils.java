@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static com.squareup.spoon.Screenshot.NAME_SEPARATOR;
 
@@ -170,19 +171,27 @@ final class HtmlUtils {
   }
 
   static final class Screenshot {
+    private static final AtomicLong ID = new AtomicLong(0);
+
+    public final long id;
     public final String path;
     public final String caption;
 
     Screenshot(String path, String caption) {
+      this.id = ID.getAndIncrement();
       this.path = path;
       this.caption = caption;
     }
   }
   static final class StackTrace {
+    private static final AtomicLong ID = new AtomicLong(0);
+
+    public final long id;
     public final String title;
     public final List<String> body;
 
     StackTrace(String title, List<String> body) {
+      this.id = ID.getAndIncrement();
       this.title = title;
       this.body = body;
     }

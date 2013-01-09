@@ -18,13 +18,22 @@
                 <h1>{{name}}</h1>
                 <p>{{totalTestsRun}} run with {{testsPassed}} passing and {{testsFailed}} failing in {{totalDuration}} at {{started}}</p>
             </div>
-            {{#exception}}
-            <div class="row" id="exception">
+            {{#hasExceptions}}
+            <div class="row">
                 <div class="span12">
-                    <pre class="error">{{toString}}</pre>
+                    {{#exceptions}}
+                    <div class="alert alert-error stacktrace">
+                        <h4 data-toggle="collapse" data-target="#stacktrace-{{id}}">{{title}}</h4>
+                        <div class="alert-error stacktrace-body collapse" id="stacktrace-{{id}}">
+                            {{#body}}
+                            <div class="stacktrace-line">{{toString}}</div>
+                            {{/body}}
+                        </div>
+                    </div>
+                    {{/exceptions}}
                 </div>
             </div>
-            {{/exception}}
+            {{/hasExceptions}}
             {{#testResults}}
             <div class="row" id="{{testId}}">
                 <div class="span12">
@@ -42,8 +51,8 @@
                     </h2>
                     {{#exception}}
                     <div class="alert alert-error stacktrace">
-                        <h4 data-toggle="collapse" data-target="#stacktrace-{{testId}}">{{title}}</h4>
-                        <div class="alert-error stacktrace-body collapse" id="stacktrace-{{testId}}">
+                        <h4 data-toggle="collapse" data-target="#stacktrace-{{id}}">{{title}}</h4>
+                        <div class="alert-error stacktrace-body collapse" id="stacktrace-{{id}}">
                             {{#body}}
                             <div class="stacktrace-line">{{toString}}</div>
                             {{/body}}
