@@ -38,6 +38,7 @@ public final class SpoonDeviceRunner {
   private final String serial;
   private final boolean debug;
   private final File output;
+  private final File work;
   private final String classpath;
   private final SpoonInstrumentationInfo instrumentationInfo;
 
@@ -61,6 +62,7 @@ public final class SpoonDeviceRunner {
     this.serial = serial;
     this.debug = debug;
     this.output = output;
+    this.work = FileUtils.getFile(output, TEMP_DIR, serial);
     this.classpath = classpath;
     this.instrumentationInfo = instrumentationInfo;
   }
@@ -68,21 +70,21 @@ public final class SpoonDeviceRunner {
   /** Serialize ourself to disk and start {@link #main(String...)} in another process. */
   public DeviceResult runInNewProcess() throws IOException, InterruptedException {
     // Create the output directory.
-    output.mkdirs();
+    work.mkdirs();
 
     // Write our configuration to a file in the output directory.
-    FileWriter executionWriter = new FileWriter(new File(output, FILE_EXECUTION));
+    FileWriter executionWriter = new FileWriter(new File(work, FILE_EXECUTION));
     GSON.toJson(this, executionWriter);
     executionWriter.close();
 
     // Kick off a new process to interface with ADB and perform the real execution.
     String name = SpoonDeviceRunner.class.getName();
     Process process =
-        new ProcessBuilder("java", "-cp", classpath, name, output.getAbsolutePath()).start();
+        new ProcessBuilder("java", "-cp", classpath, name, work.getAbsolutePath()).start();
     process.waitFor();
 
     // Read the result from a file in the output directory.
-    FileReader resultFile = new FileReader(new File(output, FILE_RESULT));
+    FileReader resultFile = new FileReader(new File(work, FILE_RESULT));
     DeviceResult result = GSON.fromJson(resultFile, DeviceResult.class);
     resultFile.close();
 
@@ -127,8 +129,7 @@ public final class SpoonDeviceRunner {
     }
 
     try {
-      // Local working directory for screenshots.
-      File work = FileUtils.getFile(output, TEMP_DIR, serial);
+      // Create the output directory, if it does not already exist.
       work.mkdirs();
 
       // Sync device screenshots, if any, to the local filesystem.

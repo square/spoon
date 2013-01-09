@@ -128,10 +128,12 @@ public final class Spoon {
       }
     }
 
-    // Clean up anything in the work directory.
-    try {
-      FileUtils.deleteDirectory(new File(output, SpoonDeviceRunner.TEMP_DIR));
-    } catch (IOException ignored) {
+    if (!debug) {
+      // Clean up anything in the work directory.
+      try {
+        FileUtils.deleteDirectory(new File(output, SpoonDeviceRunner.TEMP_DIR));
+      } catch (IOException ignored) {
+      }
     }
 
     return summary.end().build();
