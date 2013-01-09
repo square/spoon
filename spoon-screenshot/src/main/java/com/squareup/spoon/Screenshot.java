@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.os.Build;
 import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -18,6 +17,8 @@ import java.util.concurrent.CountDownLatch;
 import static android.content.Context.MODE_WORLD_READABLE;
 import static android.graphics.Bitmap.CompressFormat.PNG;
 import static android.graphics.Bitmap.Config.ARGB_8888;
+import static com.squareup.spoon.Chmod.chmodPlusR;
+import static com.squareup.spoon.Chmod.chmodPlusRWX;
 
 /** Utility class for capturing screenshots for Spoon. */
 public final class Screenshot {
@@ -82,7 +83,7 @@ public final class Screenshot {
       bitmap.compress(PNG, 100 /* quality */, fos);
       bitmap.recycle();
 
-      file.setReadable(true, false);
+      chmodPlusR(file);
     } finally {
       if (fos != null) {
         fos.close();
@@ -134,16 +135,7 @@ public final class Screenshot {
     if (!dir.exists() && !dir.mkdirs()) {
       throw new IllegalAccessException("Unable to create output dir: " + dir.getAbsolutePath());
     }
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
-      try {
-        Runtime.getRuntime().exec("chmod 777 " + dir.getAbsolutePath());
-      } catch (IOException ignored) {
-      }
-    } else {
-      dir.setReadable(true, false);
-      dir.setWritable(true, false);
-      dir.setExecutable(true, false);
-    }
+    chmodPlusRWX(dir);
   }
 
   private static void deletePath(File path, boolean inclusive) {
