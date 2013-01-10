@@ -169,9 +169,9 @@ final class SpoonUtils {
   }
 
   private static void waitForAdb(AndroidDebugBridge adb) {
-    for (int i = 10; i > 0; i--) {
+    for (int i = 1; i < 10; i++) {
       try {
-        Thread.sleep(100);
+        Thread.sleep(i * 100);
       } catch (InterruptedException e) {
         throw new RuntimeException(e);
       }
