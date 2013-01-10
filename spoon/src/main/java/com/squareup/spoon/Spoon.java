@@ -108,6 +108,7 @@ public final class Spoon {
       // Spawn a new thread for each device and wait for them all to finish.
       final CountDownLatch done = new CountDownLatch(targetCount);
       for (final String serial : serials) {
+        log.fine("[" + serial + "] Starting execution.");
         new Thread(new Runnable() {
           @Override public void run() {
             try {
@@ -115,6 +116,7 @@ public final class Spoon {
             } catch (Exception e) {
               summary.addResult(serial, new DeviceResult.Builder().addException(e).build());
             } finally {
+              log.fine("[" + serial + "] Execution done.");
               done.countDown();
             }
           }
