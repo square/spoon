@@ -8,6 +8,7 @@ import android.widget.EditText;
 import com.squareup.spoon.Screenshot;
 import com.squareup.spoon.sample.LoginActivity;
 import com.squareup.spoon.sample.R;
+import java.util.Random;
 
 import static android.app.Instrumentation.ActivityMonitor;
 
@@ -175,5 +176,8 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
     assertEquals(1, monitor.getHits());
 
     Screenshot.snap(monitor.getLastActivity(), "next_activity_shown");
+
+    // For fun (and to make the output more interesting), randomly fail!
+    assertTrue(new Random().nextInt(4) != 0);
   }
 }
