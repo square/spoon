@@ -1,0 +1,820 @@
+{
+  "title": "Spoon Sample App",
+  "started": "Jan 17, 2013 6:04:18 PM",
+  "duration": 153,
+  "results": {
+    "HT26GX404472": {
+      "installFailed": false,
+      "deviceDetails": {
+        "name": "HTC One V",
+        "manufacturer": "HTC",
+        "version": "4.0.3",
+        "apiLevel": 15,
+        "language": "hdpi"
+      },
+      "testResults": [
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.OrderActivityTest",
+            "methodName": "testMakeSomeSalad_ItIsHealthy"
+          },
+          {
+            "status": "PASS",
+            "duration": 12,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474719604_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474721097_selected_salad.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474722089_salad_type.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474723626_selected_salad_type.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474724713_dressing.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474726794_your_info.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474729859_completed_your_info.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474730786_review.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy.gif"
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+            "methodName": "testEmptyForm_ShowsBothErrors"
+          },
+          {
+            "status": "PASS",
+            "duration": 2,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.LoginActivityTest/testEmptyForm_ShowsBothErrors/1358474686275_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.LoginActivityTest/testEmptyForm_ShowsBothErrors/1358474686781_login_clicked.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.LoginActivityTest/testEmptyForm_ShowsBothErrors.gif"
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+            "methodName": "testBlankPassword_ShowsError"
+          },
+          {
+            "status": "PASS",
+            "duration": 1,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankPassword_ShowsError/1358474681817_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankPassword_ShowsError/1358474682179_username_entered.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankPassword_ShowsError/1358474682469_login_clicked.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankPassword_ShowsError.gif"
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+            "methodName": "testValidValues_StartsNewActivity"
+          },
+          {
+            "status": "PASS",
+            "duration": 3,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.LoginActivityTest/testValidValues_StartsNewActivity/1358474691733_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.LoginActivityTest/testValidValues_StartsNewActivity/1358474692080_values_entered.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.LoginActivityTest/testValidValues_StartsNewActivity/1358474693218_next_activity_shown.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.LoginActivityTest/testValidValues_StartsNewActivity.gif"
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+            "methodName": "testPasswordTooShort_ShowsError"
+          },
+          {
+            "status": "PASS",
+            "duration": 2,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.LoginActivityTest/testPasswordTooShort_ShowsError/1358474688099_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.LoginActivityTest/testPasswordTooShort_ShowsError/1358474688587_values_entered.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.LoginActivityTest/testPasswordTooShort_ShowsError/1358474689256_login_clicked.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.LoginActivityTest/testPasswordTooShort_ShowsError.gif"
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.OrderActivityTest",
+            "methodName": "testMakeASandwich_ItTastesGood"
+          },
+          {
+            "status": "PASS",
+            "duration": 24,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474695991_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474697391_selected_sandwich.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474698382_bread.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474699834_selected_bread.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474700835_meats.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474703576_selected_meats.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474704570_veggies.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474708339_selected_veggies.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474709360_cheeses.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474710879_selected_cheeses.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474711881_toasted.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474713911_your_info.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474716864_completed_your_info.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474717821_review.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood.gif"
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.MiscellaneousTest",
+            "methodName": "testAVeryLongNameBecauseIWantToSeeThePageWordWrapAndAlwaysBeFailingForFunAndProfit"
+          },
+          {
+            "status": "FAIL",
+            "exception": "junit.framework.AssertionFailedError: Explicitly testing assertion failures!\r\nat com.squareup.spoon.sample.tests.MiscellaneousTest.testAVeryLongNameBecauseIWantToSeeThePageWordWrapAndAlwaysBeFailingForFunAndProfit(MiscellaneousTest.java:7)\r\nat java.lang.reflect.Method.invokeNative(Native Method)\r\nat android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)\r\nat android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)\r\nat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)\r\nat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)\r\nat android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)\r\nat com.squareup.spoon.sample.tests.SpoonInstrumentationTestRunner.onStart(SpoonInstrumentationTestRunner.java:36)\r\nat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)\r\n",
+            "duration": 0,
+            "screenshots": []
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.MiscellaneousTest",
+            "methodName": "testAnotherLongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant"
+          },
+          {
+            "status": "ERROR",
+            "exception": "java.lang.RuntimeException: Explicitly testing unexpected exceptions!\r\nat com.squareup.spoon.sample.tests.MiscellaneousTest.testAnotherLongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant(MiscellaneousTest.java:11)\r\nat java.lang.reflect.Method.invokeNative(Native Method)\r\nat android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)\r\nat android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)\r\nat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)\r\nat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)\r\nat android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)\r\nat com.squareup.spoon.sample.tests.SpoonInstrumentationTestRunner.onStart(SpoonInstrumentationTestRunner.java:36)\r\nat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)\r\n",
+            "duration": 0,
+            "screenshots": []
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+            "methodName": "testBlankUsername_ShowsError"
+          },
+          {
+            "status": "PASS",
+            "duration": 2,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankUsername_ShowsError/1358474683363_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankUsername_ShowsError/1358474683823_password_entered.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankUsername_ShowsError/1358474684625_login_clicked.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/HT26GX404472/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankUsername_ShowsError.gif"
+          }
+        ]
+      ],
+      "started": "Jan 17, 2013 6:04:18 PM",
+      "duration": 50,
+      "exceptions": []
+    },
+    "015d2109a854000a": {
+      "installFailed": false,
+      "deviceDetails": {
+        "name": "Nexus 7",
+        "manufacturer": "asus",
+        "version": "4.2.1",
+        "apiLevel": 17,
+        "language": "en",
+        "region": "US"
+      },
+      "testResults": [
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.OrderActivityTest",
+            "methodName": "testMakeSomeSalad_ItIsHealthy"
+          },
+          {
+            "status": "PASS",
+            "duration": 14,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474709240_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474711147_selected_salad.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474712448_salad_type.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474714266_selected_salad_type.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474715565_dressing.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474717893_your_info.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474720231_completed_your_info.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474721573_review.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy.gif"
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+            "methodName": "testEmptyForm_ShowsBothErrors"
+          },
+          {
+            "status": "PASS",
+            "duration": 1,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.LoginActivityTest/testEmptyForm_ShowsBothErrors/1358474672044_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.LoginActivityTest/testEmptyForm_ShowsBothErrors/1358474672961_login_clicked.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.LoginActivityTest/testEmptyForm_ShowsBothErrors.gif"
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+            "methodName": "testBlankPassword_ShowsError"
+          },
+          {
+            "status": "PASS",
+            "duration": 2,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankPassword_ShowsError/1358474666761_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankPassword_ShowsError/1358474667578_username_entered.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankPassword_ShowsError/1358474668282_login_clicked.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankPassword_ShowsError.gif"
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+            "methodName": "testValidValues_StartsNewActivity"
+          },
+          {
+            "status": "FAIL",
+            "exception": "junit.framework.AssertionFailedError\r\nat com.squareup.spoon.sample.tests.LoginActivityTest.testValidValues_StartsNewActivity(LoginActivityTest.java:181)\r\nat java.lang.reflect.Method.invokeNative(Native Method)\r\nat android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)\r\nat android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)\r\nat android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:192)\r\nat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:190)\r\nat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:175)\r\nat android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:555)\r\nat com.squareup.spoon.sample.tests.SpoonInstrumentationTestRunner.onStart(SpoonInstrumentationTestRunner.java:36)\r\nat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1661)\r\n",
+            "duration": 2,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.LoginActivityTest/testValidValues_StartsNewActivity/1358474677733_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.LoginActivityTest/testValidValues_StartsNewActivity/1358474678584_values_entered.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.LoginActivityTest/testValidValues_StartsNewActivity/1358474679569_next_activity_shown.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.LoginActivityTest/testValidValues_StartsNewActivity.gif"
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+            "methodName": "testPasswordTooShort_ShowsError"
+          },
+          {
+            "status": "PASS",
+            "duration": 3,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.LoginActivityTest/testPasswordTooShort_ShowsError/1358474675279_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.LoginActivityTest/testPasswordTooShort_ShowsError/1358474675997_values_entered.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.LoginActivityTest/testPasswordTooShort_ShowsError/1358474676711_login_clicked.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.LoginActivityTest/testPasswordTooShort_ShowsError.gif"
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.OrderActivityTest",
+            "methodName": "testMakeASandwich_ItTastesGood"
+          },
+          {
+            "status": "PASS",
+            "duration": 27,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474681682_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474683524_selected_sandwich.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474684843_bread.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474686680_selected_bread.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474688011_meats.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474690990_selected_meats.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474692314_veggies.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474696421_selected_veggies.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474697767_cheeses.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474699612_selected_cheeses.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474700935_toasted.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474703276_your_info.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474705769_completed_your_info.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474707105_review.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood.gif"
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.MiscellaneousTest",
+            "methodName": "testAVeryLongNameBecauseIWantToSeeThePageWordWrapAndAlwaysBeFailingForFunAndProfit"
+          },
+          {
+            "status": "FAIL",
+            "exception": "junit.framework.AssertionFailedError: Explicitly testing assertion failures!\r\nat com.squareup.spoon.sample.tests.MiscellaneousTest.testAVeryLongNameBecauseIWantToSeeThePageWordWrapAndAlwaysBeFailingForFunAndProfit(MiscellaneousTest.java:7)\r\nat java.lang.reflect.Method.invokeNative(Native Method)\r\nat android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)\r\nat android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)\r\nat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:190)\r\nat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:175)\r\nat android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:555)\r\nat com.squareup.spoon.sample.tests.SpoonInstrumentationTestRunner.onStart(SpoonInstrumentationTestRunner.java:36)\r\nat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1661)\r\n",
+            "duration": 0,
+            "screenshots": []
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.MiscellaneousTest",
+            "methodName": "testAnotherLongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant"
+          },
+          {
+            "status": "ERROR",
+            "exception": "java.lang.RuntimeException: Explicitly testing unexpected exceptions!\r\nat com.squareup.spoon.sample.tests.MiscellaneousTest.testAnotherLongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant(MiscellaneousTest.java:11)\r\nat java.lang.reflect.Method.invokeNative(Native Method)\r\nat android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)\r\nat android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)\r\nat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:190)\r\nat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:175)\r\nat android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:555)\r\nat com.squareup.spoon.sample.tests.SpoonInstrumentationTestRunner.onStart(SpoonInstrumentationTestRunner.java:36)\r\nat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1661)\r\n",
+            "duration": 0,
+            "screenshots": []
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+            "methodName": "testBlankUsername_ShowsError"
+          },
+          {
+            "status": "PASS",
+            "duration": 2,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankUsername_ShowsError/1358474669515_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankUsername_ShowsError/1358474670266_password_entered.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankUsername_ShowsError/1358474671030_login_clicked.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/015d2109a854000a/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankUsername_ShowsError.gif"
+          }
+        ]
+      ],
+      "started": "Jan 17, 2013 6:04:18 PM",
+      "duration": 56,
+      "exceptions": []
+    },
+    "00498cad94cf304e": {
+      "installFailed": false,
+      "deviceDetails": {
+        "name": "Nexus 4",
+        "manufacturer": "LGE",
+        "version": "4.2.1",
+        "apiLevel": 17,
+        "language": "en",
+        "region": "US"
+      },
+      "testResults": [
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.OrderActivityTest",
+            "methodName": "testMakeSomeSalad_ItIsHealthy"
+          },
+          {
+            "status": "PASS",
+            "duration": 13,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474703558_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474705235_selected_salad.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474706400_salad_type.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474708065_selected_salad_type.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474709240_dressing.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474711426_your_info.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474713742_completed_your_info.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474714913_review.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy.gif"
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+            "methodName": "testEmptyForm_ShowsBothErrors"
+          },
+          {
+            "status": "PASS",
+            "duration": 1,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.LoginActivityTest/testEmptyForm_ShowsBothErrors/1358474670701_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.LoginActivityTest/testEmptyForm_ShowsBothErrors/1358474671372_login_clicked.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.LoginActivityTest/testEmptyForm_ShowsBothErrors.gif"
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+            "methodName": "testBlankPassword_ShowsError"
+          },
+          {
+            "status": "PASS",
+            "duration": 2,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankPassword_ShowsError/1358474666243_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankPassword_ShowsError/1358474666924_username_entered.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankPassword_ShowsError/1358474667469_login_clicked.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankPassword_ShowsError.gif"
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+            "methodName": "testValidValues_StartsNewActivity"
+          },
+          {
+            "status": "FAIL",
+            "exception": "junit.framework.AssertionFailedError\r\nat com.squareup.spoon.sample.tests.LoginActivityTest.testValidValues_StartsNewActivity(LoginActivityTest.java:181)\r\nat java.lang.reflect.Method.invokeNative(Native Method)\r\nat android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)\r\nat android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)\r\nat android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:192)\r\nat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:190)\r\nat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:175)\r\nat android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:555)\r\nat com.squareup.spoon.sample.tests.SpoonInstrumentationTestRunner.onStart(SpoonInstrumentationTestRunner.java:36)\r\nat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1661)\r\n",
+            "duration": 2,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.LoginActivityTest/testValidValues_StartsNewActivity/1358474674725_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.LoginActivityTest/testValidValues_StartsNewActivity/1358474675336_values_entered.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.LoginActivityTest/testValidValues_StartsNewActivity/1358474676254_next_activity_shown.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.LoginActivityTest/testValidValues_StartsNewActivity.gif"
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+            "methodName": "testPasswordTooShort_ShowsError"
+          },
+          {
+            "status": "PASS",
+            "duration": 2,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.LoginActivityTest/testPasswordTooShort_ShowsError/1358474672347_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.LoginActivityTest/testPasswordTooShort_ShowsError/1358474672895_values_entered.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.LoginActivityTest/testPasswordTooShort_ShowsError/1358474673765_login_clicked.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.LoginActivityTest/testPasswordTooShort_ShowsError.gif"
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.OrderActivityTest",
+            "methodName": "testMakeASandwich_ItTastesGood"
+          },
+          {
+            "status": "PASS",
+            "duration": 25,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474678427_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474680167_selected_sandwich.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474681322_bread.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474683035_selected_bread.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474684177_meats.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474686966_selected_meats.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474688107_veggies.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474692020_selected_veggies.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474693184_cheeses.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474694855_selected_cheeses.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474695983_toasted.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474698122_your_info.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474700547_completed_your_info.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474701723_review.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood.gif"
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.MiscellaneousTest",
+            "methodName": "testAVeryLongNameBecauseIWantToSeeThePageWordWrapAndAlwaysBeFailingForFunAndProfit"
+          },
+          {
+            "status": "FAIL",
+            "exception": "junit.framework.AssertionFailedError: Explicitly testing assertion failures!\r\nat com.squareup.spoon.sample.tests.MiscellaneousTest.testAVeryLongNameBecauseIWantToSeeThePageWordWrapAndAlwaysBeFailingForFunAndProfit(MiscellaneousTest.java:7)\r\nat java.lang.reflect.Method.invokeNative(Native Method)\r\nat android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)\r\nat android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)\r\nat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:190)\r\nat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:175)\r\nat android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:555)\r\nat com.squareup.spoon.sample.tests.SpoonInstrumentationTestRunner.onStart(SpoonInstrumentationTestRunner.java:36)\r\nat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1661)\r\n",
+            "duration": 0,
+            "screenshots": []
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.MiscellaneousTest",
+            "methodName": "testAnotherLongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant"
+          },
+          {
+            "status": "ERROR",
+            "exception": "java.lang.RuntimeException: Explicitly testing unexpected exceptions!\r\nat com.squareup.spoon.sample.tests.MiscellaneousTest.testAnotherLongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant(MiscellaneousTest.java:11)\r\nat java.lang.reflect.Method.invokeNative(Native Method)\r\nat android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)\r\nat android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)\r\nat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:190)\r\nat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:175)\r\nat android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:555)\r\nat com.squareup.spoon.sample.tests.SpoonInstrumentationTestRunner.onStart(SpoonInstrumentationTestRunner.java:36)\r\nat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1661)\r\n",
+            "duration": 0,
+            "screenshots": []
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+            "methodName": "testBlankUsername_ShowsError"
+          },
+          {
+            "status": "PASS",
+            "duration": 2,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankUsername_ShowsError/1358474668344_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankUsername_ShowsError/1358474668926_password_entered.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankUsername_ShowsError/1358474669768_login_clicked.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/00498cad94cf304e/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankUsername_ShowsError.gif"
+          }
+        ]
+      ],
+      "started": "Jan 17, 2013 6:04:18 PM",
+      "duration": 50,
+      "exceptions": []
+    },
+    "014691F81500500B": {
+      "installFailed": false,
+      "deviceDetails": {
+        "name": "DROID BIONIC",
+        "manufacturer": "motorola",
+        "version": "2.3.4",
+        "apiLevel": 10,
+        "language": "en",
+        "region": "US"
+      },
+      "testResults": [
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.OrderActivityTest",
+            "methodName": "testMakeSomeSalad_ItIsHealthy"
+          },
+          {
+            "status": "FAIL",
+            "exception": "junit.framework.AssertionFailedError: No TextView with text Next is found!\r\nat com.jayway.android.robotium.solo.Getter.getView(Getter.java:71)\r\nat com.jayway.android.robotium.solo.Solo.getText(Solo.java:1535)\r\nat com.squareup.spoon.sample.tests.OrderActivityTest.testMakeSomeSalad_ItIsHealthy(OrderActivityTest.java:90)\r\nat java.lang.reflect.Method.invokeNative(Native Method)\r\nat android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:204)\r\nat android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:194)\r\nat android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)\r\nat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)\r\nat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)\r\nat android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:529)\r\nat com.squareup.spoon.sample.tests.SpoonInstrumentationTestRunner.onStart(SpoonInstrumentationTestRunner.java:36)\r\nat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1448)\r\n",
+            "duration": 10,
+            "screenshots": []
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+            "methodName": "testEmptyForm_ShowsBothErrors"
+          },
+          {
+            "status": "PASS",
+            "duration": 0,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/014691F81500500B/com.squareup.spoon.sample.tests.LoginActivityTest/testEmptyForm_ShowsBothErrors/1358474684840_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/014691F81500500B/com.squareup.spoon.sample.tests.LoginActivityTest/testEmptyForm_ShowsBothErrors/1358474685221_login_clicked.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/014691F81500500B/com.squareup.spoon.sample.tests.LoginActivityTest/testEmptyForm_ShowsBothErrors.gif"
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+            "methodName": "testBlankPassword_ShowsError"
+          },
+          {
+            "status": "PASS",
+            "duration": 2,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/014691F81500500B/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankPassword_ShowsError/1358474682169_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/014691F81500500B/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankPassword_ShowsError/1358474682536_username_entered.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/014691F81500500B/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankPassword_ShowsError/1358474682912_login_clicked.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/014691F81500500B/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankPassword_ShowsError.gif"
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+            "methodName": "testValidValues_StartsNewActivity"
+          },
+          {
+            "status": "FAIL",
+            "exception": "junit.framework.AssertionFailedError\r\nat com.squareup.spoon.sample.tests.LoginActivityTest.testValidValues_StartsNewActivity(LoginActivityTest.java:181)\r\nat java.lang.reflect.Method.invokeNative(Native Method)\r\nat android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:204)\r\nat android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:194)\r\nat android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)\r\nat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)\r\nat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)\r\nat android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:529)\r\nat com.squareup.spoon.sample.tests.SpoonInstrumentationTestRunner.onStart(SpoonInstrumentationTestRunner.java:36)\r\nat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1448)\r\n",
+            "duration": 1,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/014691F81500500B/com.squareup.spoon.sample.tests.LoginActivityTest/testValidValues_StartsNewActivity/1358474687051_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/014691F81500500B/com.squareup.spoon.sample.tests.LoginActivityTest/testValidValues_StartsNewActivity/1358474687390_values_entered.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/014691F81500500B/com.squareup.spoon.sample.tests.LoginActivityTest/testValidValues_StartsNewActivity/1358474688010_next_activity_shown.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/014691F81500500B/com.squareup.spoon.sample.tests.LoginActivityTest/testValidValues_StartsNewActivity.gif"
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+            "methodName": "testPasswordTooShort_ShowsError"
+          },
+          {
+            "status": "PASS",
+            "duration": 1,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/014691F81500500B/com.squareup.spoon.sample.tests.LoginActivityTest/testPasswordTooShort_ShowsError/1358474685791_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/014691F81500500B/com.squareup.spoon.sample.tests.LoginActivityTest/testPasswordTooShort_ShowsError/1358474686138_values_entered.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/014691F81500500B/com.squareup.spoon.sample.tests.LoginActivityTest/testPasswordTooShort_ShowsError/1358474686481_login_clicked.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/014691F81500500B/com.squareup.spoon.sample.tests.LoginActivityTest/testPasswordTooShort_ShowsError.gif"
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.OrderActivityTest",
+            "methodName": "testMakeASandwich_ItTastesGood"
+          },
+          {
+            "status": "FAIL",
+            "exception": "junit.framework.AssertionFailedError: No TextView with text Next is found!\r\nat com.jayway.android.robotium.solo.Getter.getView(Getter.java:71)\r\nat com.jayway.android.robotium.solo.Solo.getText(Solo.java:1535)\r\nat com.squareup.spoon.sample.tests.OrderActivityTest.testMakeASandwich_ItTastesGood(OrderActivityTest.java:28)\r\nat java.lang.reflect.Method.invokeNative(Native Method)\r\nat android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:204)\r\nat android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:194)\r\nat android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)\r\nat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)\r\nat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)\r\nat android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:529)\r\nat com.squareup.spoon.sample.tests.SpoonInstrumentationTestRunner.onStart(SpoonInstrumentationTestRunner.java:36)\r\nat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1448)\r\n",
+            "duration": 10,
+            "screenshots": []
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.MiscellaneousTest",
+            "methodName": "testAVeryLongNameBecauseIWantToSeeThePageWordWrapAndAlwaysBeFailingForFunAndProfit"
+          },
+          {
+            "status": "FAIL",
+            "exception": "junit.framework.AssertionFailedError: Explicitly testing assertion failures!\r\nat com.squareup.spoon.sample.tests.MiscellaneousTest.testAVeryLongNameBecauseIWantToSeeThePageWordWrapAndAlwaysBeFailingForFunAndProfit(MiscellaneousTest.java:7)\r\nat java.lang.reflect.Method.invokeNative(Native Method)\r\nat android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:204)\r\nat android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:194)\r\nat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)\r\nat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)\r\nat android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:529)\r\nat com.squareup.spoon.sample.tests.SpoonInstrumentationTestRunner.onStart(SpoonInstrumentationTestRunner.java:36)\r\nat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1448)\r\n",
+            "duration": 0,
+            "screenshots": []
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.MiscellaneousTest",
+            "methodName": "testAnotherLongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant"
+          },
+          {
+            "status": "ERROR",
+            "exception": "java.lang.RuntimeException: Explicitly testing unexpected exceptions!\r\nat com.squareup.spoon.sample.tests.MiscellaneousTest.testAnotherLongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant(MiscellaneousTest.java:11)\r\nat java.lang.reflect.Method.invokeNative(Native Method)\r\nat android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:204)\r\nat android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:194)\r\nat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)\r\nat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)\r\nat android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:529)\r\nat com.squareup.spoon.sample.tests.SpoonInstrumentationTestRunner.onStart(SpoonInstrumentationTestRunner.java:36)\r\nat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1448)\r\n",
+            "duration": 0,
+            "screenshots": []
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+            "methodName": "testBlankUsername_ShowsError"
+          },
+          {
+            "status": "PASS",
+            "duration": 1,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/014691F81500500B/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankUsername_ShowsError/1358474683554_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/014691F81500500B/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankUsername_ShowsError/1358474683907_password_entered.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/014691F81500500B/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankUsername_ShowsError/1358474684274_login_clicked.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/014691F81500500B/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankUsername_ShowsError.gif"
+          }
+        ]
+      ],
+      "started": "Jan 17, 2013 6:04:18 PM",
+      "duration": 28,
+      "exceptions": []
+    },
+    "3334B602A8B600EC": {
+      "installFailed": false,
+      "deviceDetails": {
+        "name": "Nexus S",
+        "manufacturer": "samsung",
+        "version": "4.0.4",
+        "apiLevel": 15,
+        "language": "en",
+        "region": "US"
+      },
+      "testResults": [
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.OrderActivityTest",
+            "methodName": "testMakeSomeSalad_ItIsHealthy"
+          },
+          {
+            "status": "PASS",
+            "duration": 13,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474793676_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474795282_selected_salad.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474796372_salad_type.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474797995_selected_salad_type.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474799102_dressing.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474801249_your_info.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474803961_completed_your_info.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1358474804990_review.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy.gif"
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+            "methodName": "testEmptyForm_ShowsBothErrors"
+          },
+          {
+            "status": "PASS",
+            "duration": 1,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.LoginActivityTest/testEmptyForm_ShowsBothErrors/1358474762292_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.LoginActivityTest/testEmptyForm_ShowsBothErrors/1358474762893_login_clicked.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.LoginActivityTest/testEmptyForm_ShowsBothErrors.gif"
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+            "methodName": "testBlankPassword_ShowsError"
+          },
+          {
+            "status": "PASS",
+            "duration": 2,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankPassword_ShowsError/1358474758105_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankPassword_ShowsError/1358474758957_username_entered.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankPassword_ShowsError/1358474759390_login_clicked.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankPassword_ShowsError.gif"
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+            "methodName": "testValidValues_StartsNewActivity"
+          },
+          {
+            "status": "PASS",
+            "duration": 2,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.LoginActivityTest/testValidValues_StartsNewActivity/1358474765642_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.LoginActivityTest/testValidValues_StartsNewActivity/1358474766245_values_entered.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.LoginActivityTest/testValidValues_StartsNewActivity/1358474766952_next_activity_shown.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.LoginActivityTest/testValidValues_StartsNewActivity.gif"
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+            "methodName": "testPasswordTooShort_ShowsError"
+          },
+          {
+            "status": "PASS",
+            "duration": 1,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.LoginActivityTest/testPasswordTooShort_ShowsError/1358474763869_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.LoginActivityTest/testPasswordTooShort_ShowsError/1358474764355_values_entered.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.LoginActivityTest/testPasswordTooShort_ShowsError/1358474764779_login_clicked.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.LoginActivityTest/testPasswordTooShort_ShowsError.gif"
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.OrderActivityTest",
+            "methodName": "testMakeASandwich_ItTastesGood"
+          },
+          {
+            "status": "PASS",
+            "duration": 24,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474768809_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474770376_selected_sandwich.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474771494_bread.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474773171_selected_bread.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474774302_meats.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474777105_selected_meats.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474778194_veggies.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474782133_selected_veggies.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474783251_cheeses.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474784813_selected_cheeses.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474785893_toasted.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474787971_your_info.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474790870_completed_your_info.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1358474791879_review.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.OrderActivityTest/testMakeASandwich_ItTastesGood.gif"
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.MiscellaneousTest",
+            "methodName": "testAVeryLongNameBecauseIWantToSeeThePageWordWrapAndAlwaysBeFailingForFunAndProfit"
+          },
+          {
+            "status": "FAIL",
+            "exception": "junit.framework.AssertionFailedError: Explicitly testing assertion failures!\r\nat com.squareup.spoon.sample.tests.MiscellaneousTest.testAVeryLongNameBecauseIWantToSeeThePageWordWrapAndAlwaysBeFailingForFunAndProfit(MiscellaneousTest.java:7)\r\nat java.lang.reflect.Method.invokeNative(Native Method)\r\nat android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)\r\nat android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)\r\nat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)\r\nat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)\r\nat android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:545)\r\nat com.squareup.spoon.sample.tests.SpoonInstrumentationTestRunner.onStart(SpoonInstrumentationTestRunner.java:36)\r\nat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1551)\r\n",
+            "duration": 0,
+            "screenshots": []
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.MiscellaneousTest",
+            "methodName": "testAnotherLongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant"
+          },
+          {
+            "status": "ERROR",
+            "exception": "java.lang.RuntimeException: Explicitly testing unexpected exceptions!\r\nat com.squareup.spoon.sample.tests.MiscellaneousTest.testAnotherLongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant(MiscellaneousTest.java:11)\r\nat java.lang.reflect.Method.invokeNative(Native Method)\r\nat android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)\r\nat android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)\r\nat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)\r\nat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)\r\nat android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:545)\r\nat com.squareup.spoon.sample.tests.SpoonInstrumentationTestRunner.onStart(SpoonInstrumentationTestRunner.java:36)\r\nat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1551)\r\n",
+            "duration": 0,
+            "screenshots": []
+          }
+        ],
+        [
+          {
+            "className": "com.squareup.spoon.sample.tests.LoginActivityTest",
+            "methodName": "testBlankUsername_ShowsError"
+          },
+          {
+            "status": "PASS",
+            "duration": 1,
+            "screenshots": [
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankUsername_ShowsError/1358474760314_initial_state.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankUsername_ShowsError/1358474760832_password_entered.png",
+              "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankUsername_ShowsError/1358474761320_login_clicked.png"
+            ],
+            "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.squareup.spoon.sample.tests.LoginActivityTest/testBlankUsername_ShowsError.gif"
+          }
+        ]
+      ],
+      "started": "Jan 17, 2013 6:04:18 PM",
+      "duration": 48,
+      "exceptions": []
+    }
+  }
+}

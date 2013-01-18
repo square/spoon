@@ -78,6 +78,11 @@ code {
 a:link, a:visited, a:active, a:hover {
     color: #4183C4;
 }
+a.btn:link, a.btn:visited, a.btn:hover {
+    color: #ddd;
+    font-weight: 300;
+    font-size: 14px;
+}
 a:hover {
     text-decoration: underline;
 }
