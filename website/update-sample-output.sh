@@ -11,7 +11,7 @@ set -ex
 git rm -rf sample
 cd ..
 mvn clean verify
-cp -R sample/tests/target/spoon-output website/sample
+cp -R spoon-sample/tests/target/spoon-output website/sample
 cd -
 git add sample
 
