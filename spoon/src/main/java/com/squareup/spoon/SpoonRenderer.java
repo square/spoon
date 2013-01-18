@@ -22,7 +22,7 @@ final class SpoonRenderer {
   private static final String STATIC_DIRECTORY = "static";
   private static final String[] STATIC_ASSETS = {
     "bootstrap.min.css", "bootstrap-responsive.min.css", "bootstrap.min.js", "jquery.min.js",
-    "icon-animated.png", "icon-devices.png"
+    "icon-animated.png", "icon-devices.png", "ceiling_android.png"
   };
 
   private final SpoonSummary summary;
