@@ -172,9 +172,8 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
     });
     instrumentation.waitForIdleSync();
 
-    // Verify error was shown only for username field.
+    // Verify new activity was shown.
     assertEquals(1, monitor.getHits());
-
     Screenshot.snap(monitor.getLastActivity(), "next_activity_shown");
 
     // For fun (and to make the output more interesting), randomly fail!

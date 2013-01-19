@@ -53,6 +53,10 @@
       <groupId>com.jayway.android.robotium</groupId>
       <artifactId>robotium-solo</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.squareup</groupId>
+      <artifactId>fest-android</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
