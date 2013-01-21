@@ -17,7 +17,7 @@ import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Handler;
@@ -140,7 +140,7 @@ final class SpoonUtils {
 
   /** Find all device serials that are plugged in through ADB. */
   static Set<String> findAllDevices(AndroidDebugBridge adb) {
-    Set<String> devices = new HashSet<String>();
+    Set<String> devices = new LinkedHashSet<String>();
     for (IDevice realDevice : adb.getDevices()) {
       devices.add(realDevice.getSerialNumber());
     }

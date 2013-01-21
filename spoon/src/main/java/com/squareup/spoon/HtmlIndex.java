@@ -2,7 +2,7 @@ package com.squareup.spoon;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -14,7 +14,7 @@ final class HtmlIndex {
   static HtmlIndex from(SpoonSummary summary) {
     int testsRun = 0;
     int totalSuccess = 0;
-    Set<DeviceTest> tests = new HashSet<DeviceTest>();
+    Set<DeviceTest> tests = new LinkedHashSet<DeviceTest>();
     List<Device> devices = new ArrayList<Device>();
     for (Map.Entry<String, DeviceResult> result : summary.getResults().entrySet()) {
       devices.add(Device.from(result.getKey(), result.getValue()));

@@ -7,7 +7,7 @@ import com.google.common.io.Resources;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.io.FileUtils;
@@ -98,7 +98,7 @@ final class SpoonRenderer {
   private void generateTestHtml(MustacheFactory mustacheFactory) {
     Mustache mustache = mustacheFactory.compile("test.html");
     // Create a set of unique tests.
-    Set<DeviceTest> tests = new HashSet<DeviceTest>();
+    Set<DeviceTest> tests = new LinkedHashSet<DeviceTest>();
     for (DeviceResult deviceResult : summary.getResults().values()) {
       tests.addAll(deviceResult.getTestResults().keySet());
     }

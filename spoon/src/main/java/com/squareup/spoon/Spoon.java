@@ -8,7 +8,7 @@ import com.beust.jcommander.ParameterException;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.logging.Logger;
@@ -218,7 +218,7 @@ public final class Spoon {
       checkNotNull(serial);
       checkArgument(!serials.isEmpty(), "Already marked as using all devices.");
       if (serials == null) {
-        serials = new HashSet<String>();
+        serials = new LinkedHashSet<String>();
       }
       serials.add(serial);
       return this;
