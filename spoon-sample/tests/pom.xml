@@ -47,7 +47,7 @@
     <!-- The Spoon client library for taking screenshots. -->
     <dependency>
       <groupId>com.squareup.spoon</groupId>
-      <artifactId>spoon-screenshot</artifactId>
+      <artifactId>spoon</artifactId>
       <version>${project.version}</version>
     </dependency>
 

@@ -18,7 +18,7 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>spoon</artifactId>
+      <artifactId>spoon-runner</artifactId>
       <version>${project.version}</version>
     </dependency>
 

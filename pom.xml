@@ -26,8 +26,8 @@
   <modules>
     <module>spoon</module>
     <module>spoon-maven-plugin</module>
+    <module>spoon-runner</module>
     <module>spoon-sample</module>
-    <module>spoon-screenshot</module>
   </modules>
 
   <dependencyManagement>
