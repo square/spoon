@@ -3,13 +3,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     android:versionCode="1"
     android:versionName="1.0.0"
-    package="com.squareup.spoon.sample.tests">
+    package="com.example.spoon.ordering.tests">
 
   <application android:label="Spoon Sample Tests">
     <uses-library android:name="android.test.runner"/>
   </application>
 
   <instrumentation android:name=".SpoonInstrumentationTestRunner"
-      android:targetPackage="com.squareup.spoon.sample"
+      android:targetPackage="com.example.spoon.ordering"
       android:label="Spoon Sample Tests"/>
 </manifest>

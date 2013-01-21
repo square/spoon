@@ -19,7 +19,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-  <com.squareup.spoon.sample.wizard.ui.StepPagerStrip
+  <com.example.spoon.ordering.wizard.ui.StepPagerStrip
       android:id="@+id/strip"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
