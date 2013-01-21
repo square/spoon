@@ -185,7 +185,7 @@
           <failsOnError>true</failsOnError>
           <configLocation>checkstyle.xml</configLocation>
           <consoleOutput>true</consoleOutput>
-          <excludes>com/squareup/spoon/external/**</excludes>
+          <excludes>com/squareup/spoon/axmlparser/**</excludes>
         </configuration>
         <executions>
           <execution>
