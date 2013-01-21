@@ -28,27 +28,30 @@
       <scope>provided</scope>
     </dependency>
 
+    <!-- Pointer to the target app in both 'apk' and 'jar' form. -->
     <dependency>
-      <groupId>${project.groupId}</groupId>
+      <groupId>com.squareup.spoon</groupId>
       <artifactId>spoon-sample-app</artifactId>
       <version>${project.version}</version>
       <type>apk</type>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>${project.groupId}</groupId>
+      <groupId>com.squareup.spoon</groupId>
       <artifactId>spoon-sample-app</artifactId>
       <version>${project.version}</version>
       <type>jar</type>
       <scope>provided</scope>
     </dependency>
 
+    <!-- The Spoon client library for taking screenshots. -->
     <dependency>
-      <groupId>${project.groupId}</groupId>
+      <groupId>com.squareup.spoon</groupId>
       <artifactId>spoon-screenshot</artifactId>
       <version>${project.version}</version>
     </dependency>
 
+    <!-- Other testing utilities. -->
     <dependency>
       <groupId>com.jayway.android.robotium</groupId>
       <artifactId>robotium-solo</artifactId>
