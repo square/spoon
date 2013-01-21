@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.squareup.spoon.external;
+package com.squareup.spoon.axmlparser;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,7 +23,7 @@ import java.io.InputStream;
  *
  * Parser for Android's binary xml files (axml).
  *
- * TODO: 
+ * TODO:
  * 	* understand ? values
  */
 public final class AXMLParser {

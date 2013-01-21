@@ -1,6 +1,6 @@
 package com.squareup.spoon;
 
-import com.squareup.spoon.external.AXMLParser;
+import com.squareup.spoon.axmlparser.AXMLParser;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
