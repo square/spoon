@@ -21,7 +21,7 @@ import static com.squareup.spoon.Chmod.chmodPlusR;
 import static com.squareup.spoon.Chmod.chmodPlusRWX;
 
 /** Utility class for capturing screenshots for Spoon. */
-public final class Screenshot {
+public final class Spoon {
   static final String SPOON_SCREENSHOTS = "spoon-screenshots";
   static final String NAME_SEPARATOR = "_";
   static final String TEST_CASE_CLASS = "android.test.InstrumentationTestCase";
@@ -39,7 +39,7 @@ public final class Screenshot {
    * @param activity Activity with which to capture a screenshot.
    * @param tag Unique tag to further identify the screenshot.
    */
-  public static void snap(Activity activity, String tag) {
+  public static void screenshot(Activity activity, String tag) {
     try {
       File screenshotDirectory = obtainScreenshotDirectory(activity);
       String screenshotName = System.currentTimeMillis() + NAME_SEPARATOR + tag + EXTENSION;
@@ -152,7 +152,7 @@ public final class Screenshot {
     }
   }
 
-  private Screenshot() {
+  private Spoon() {
     // No instances.
   }
 }

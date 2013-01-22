@@ -5,7 +5,7 @@ import android.content.IntentFilter;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.Button;
 import android.widget.EditText;
-import com.squareup.spoon.Screenshot;
+import com.squareup.spoon.Spoon;
 import com.example.spoon.ordering.LoginActivity;
 import com.example.spoon.ordering.R;
 import java.util.Random;
@@ -35,7 +35,7 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
   }
 
   public void testEmptyForm_ShowsBothErrors() {
-    Screenshot.snap(activity, "initial_state");
+    Spoon.screenshot(activity, "initial_state");
 
     // Make sure the initial state does not show any errors.
     assertNull(username.getError());
@@ -49,7 +49,7 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
     });
     instrumentation.waitForIdleSync();
 
-    Screenshot.snap(activity, "login_clicked");
+    Spoon.screenshot(activity, "login_clicked");
 
     // Verify errors were shown for both input fields.
     String required = activity.getString(R.string.required);
@@ -58,7 +58,7 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
   }
 
   public void testBlankPassword_ShowsError() {
-    Screenshot.snap(activity, "initial_state");
+    Spoon.screenshot(activity, "initial_state");
 
     // Make sure the initial state does not show any errors.
     assertNull(username.getError());
@@ -71,7 +71,7 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
       }
     });
     instrumentation.waitForIdleSync();
-    Screenshot.snap(activity, "username_entered");
+    Spoon.screenshot(activity, "username_entered");
 
     // Click the "login" button.
     instrumentation.runOnMainSync(new Runnable() {
@@ -79,7 +79,7 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
         login.performClick();
       }
     });
-    Screenshot.snap(activity, "login_clicked");
+    Spoon.screenshot(activity, "login_clicked");
 
     // Verify error was shown only for password field.
     assertNull(username.getError());
@@ -87,7 +87,7 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
   }
 
   public void testBlankUsername_ShowsError() {
-    Screenshot.snap(activity, "initial_state");
+    Spoon.screenshot(activity, "initial_state");
 
     // Make sure the initial state does not show any errors.
     assertNull(username.getError());
@@ -99,7 +99,7 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
         password.setText("secretpassword");
       }
     });
-    Screenshot.snap(activity, "password_entered");
+    Spoon.screenshot(activity, "password_entered");
 
     // Click the "login" button.
     instrumentation.runOnMainSync(new Runnable() {
@@ -108,7 +108,7 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
       }
     });
     instrumentation.waitForIdleSync();
-    Screenshot.snap(activity, "login_clicked");
+    Spoon.screenshot(activity, "login_clicked");
 
     // Verify error was shown only for username field.
     assertEquals(activity.getString(R.string.required), username.getError().toString());
@@ -116,7 +116,7 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
   }
 
   public void testPasswordTooShort_ShowsError() {
-    Screenshot.snap(activity, "initial_state");
+    Spoon.screenshot(activity, "initial_state");
 
     // Make sure the initial state does not show any errors.
     assertNull(username.getError());
@@ -129,7 +129,7 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
         password.setText("secret");
       }
     });
-    Screenshot.snap(activity, "values_entered");
+    Spoon.screenshot(activity, "values_entered");
 
     // Click the "login" button.
     instrumentation.runOnMainSync(new Runnable() {
@@ -138,7 +138,7 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
       }
     });
     instrumentation.waitForIdleSync();
-    Screenshot.snap(activity, "login_clicked");
+    Spoon.screenshot(activity, "login_clicked");
 
     // Verify error was shown only for username field.
     assertNull(username.getError());
@@ -149,7 +149,7 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
     IntentFilter filter = new IntentFilter();
     ActivityMonitor monitor = instrumentation.addMonitor(filter, null, false);
 
-    Screenshot.snap(activity, "initial_state");
+    Spoon.screenshot(activity, "initial_state");
 
     // Make sure the initial state does not show any errors.
     assertNull(username.getError());
@@ -162,7 +162,7 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
         password.setText("secretpassword");
       }
     });
-    Screenshot.snap(activity, "values_entered");
+    Spoon.screenshot(activity, "values_entered");
 
     // Click the "login" button.
     instrumentation.runOnMainSync(new Runnable() {
@@ -174,7 +174,7 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
 
     // Verify new activity was shown.
     assertEquals(1, monitor.getHits());
-    Screenshot.snap(monitor.getLastActivity(), "next_activity_shown");
+    Spoon.screenshot(monitor.getLastActivity(), "next_activity_shown");
 
     // For fun (and to make the output more interesting), randomly fail!
     assertTrue(new Random().nextInt(4) != 0);

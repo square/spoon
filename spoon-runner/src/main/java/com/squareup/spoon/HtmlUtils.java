@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
-import static com.squareup.spoon.Screenshot.NAME_SEPARATOR;
+import static com.squareup.spoon.Spoon.NAME_SEPARATOR;
 
 /** Utilities for representing the execution in HTML. */
 final class HtmlUtils {

@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 
-import static com.squareup.spoon.Screenshot.TEST_CASE_CLASS;
-import static com.squareup.spoon.Screenshot.TEST_CASE_METHOD;
-import static com.squareup.spoon.Screenshot.findTestClassTraceElement;
+import static com.squareup.spoon.Spoon.TEST_CASE_CLASS;
+import static com.squareup.spoon.Spoon.TEST_CASE_METHOD;
+import static com.squareup.spoon.Spoon.findTestClassTraceElement;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 // TODO custom test runner, fill out what the ?s actually are
-public class ScreenshotTest {
-  private static final String SCREENSHOT = Screenshot.class.getName();
+public class SpoonTest {
+  private static final String SCREENSHOT = Spoon.class.getName();
   private static final String EXPECTED_CLASS = "SomeClass";
   private static final String EXPECTED_METHOD = "someMethod";
 
@@ -43,8 +43,8 @@ public class ScreenshotTest {
         .add("?", "?", "?", 0)
         .add("?", "?", "?", 0)
         .add(EXPECTED_CLASS, EXPECTED_METHOD, "Whatever.java", 50)
-        .add(SCREENSHOT, "snap", "Screenshot.java", 30)
-        .add(SCREENSHOT, "obtainScreenshotDirectory", "Screenshot.java", 40)
+        .add(SCREENSHOT, "screenshot", "Spoon.java", 30)
+        .add(SCREENSHOT, "obtainScreenshotDirectory", "Spoon.java", 40)
         .build());
 
     assertThat(actual.getClassName()).isEqualTo(EXPECTED_CLASS);
@@ -60,8 +60,8 @@ public class ScreenshotTest {
         .add("?", "?", "?", 0)
         .add(EXPECTED_CLASS, EXPECTED_METHOD, "Whatever.java", 50)
         .add("com.example.Utils", "captureScreen", "Utils.java", 100)
-        .add(SCREENSHOT, "snap", "Screenshot.java", 30)
-        .add(SCREENSHOT, "obtainScreenshotDirectory", "Screenshot.java", 40)
+        .add(SCREENSHOT, "screenshot", "Spoon.java", 30)
+        .add(SCREENSHOT, "obtainScreenshotDirectory", "Spoon.java", 40)
         .build());
 
     assertThat(actual.getClassName()).isEqualTo(EXPECTED_CLASS);

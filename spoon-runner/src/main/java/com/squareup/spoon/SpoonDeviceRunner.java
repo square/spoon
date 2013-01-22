@@ -18,7 +18,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
-import static com.squareup.spoon.Screenshot.SPOON_SCREENSHOTS;
+import static com.squareup.spoon.Spoon.SPOON_SCREENSHOTS;
 import static com.squareup.spoon.SpoonUtils.GSON;
 import static com.squareup.spoon.SpoonUtils.QUIET_MONITOR;
 import static com.squareup.spoon.SpoonUtils.createAnimatedGif;

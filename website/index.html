@@ -38,20 +38,20 @@
 
             <h4 id="screenshots">Screenshots</h4>
             <p>In addition to simply running instrumentation tests, Spoon has the ability to snap screenshots at key points during your tests which are then included in the output. This allows for visual inspection of test executions across different devices.</p>
-            <p>Taking screenshots requires that you include the <code>spoon-screenshot</code> JAR in your instrumentation app. In your tests call the <code>snap</code> method with a human-readable tag.</p>
-            <pre class="prettyprint">Screenshot.snap(activity, "initial_state");
+            <p>Taking screenshots requires that you include the <code>spoon</code> JAR in your instrumentation app. In your tests call the <code>snap</code> method with a human-readable tag.</p>
+            <pre class="prettyprint">Spoon.screenshot(activity, "initial_state");
 /* Normal test code... */
-Screenshot.snap(activity, "after_login");</pre>
+Spoon.screenshot(activity, "after_login");</pre>
             <p>The tag specified will be used to identify and compare screenshots taken across multiple test runs.</p>
             <p>Screenshots are displayed in order in both the device view and the test view:</p>
             <p><img src="static/example_screenshots.png" alt="Sample output with screenshots"></p>
             <p>You can also view each test's screenshots as an animated GIF to gauge the actual sequence of interaction.</p>
 
             <h3 id="download">Download</h3>
-            <p><a href="#" class="btn btn-large btn-inverse">Spoon JAR v1.0.0</a> <a href="#" class="btn btn-large btn-inverse">Screenshot JAR v1.0.0</a></p>
+            <p><a href="#" class="btn btn-large btn-inverse">Spoon Runner JAR v1.0.0</a> <a href="#" class="btn btn-large btn-inverse">Spoon Screenshot JAR v1.0.0</a></p>
 
             <h4 id="sample">Sample</h4>
-            <p>Included with Spoon is a sample application and instrumetnation tests to demonstrate both the usage as well as provide <a href="sample/index.html">an example of the output</a>.</p>
+            <p>Included with Spoon is a sample application and instrumentation tests to demonstrate both the usage as well as provide <a href="sample/index.html">an example of the output</a>.</p>
             <p>The sample shows a simple login screen and an ordering wizard run on a few devices. Some of the tests have been constructed so that they will fail on various devices to give a better idea of what the output looks like.</p>
 
             <h3 id="execution">Execution</h3>
@@ -59,7 +59,7 @@ Screenshot.snap(activity, "after_login");</pre>
 
             <h4 id="cli">Command Line</h4>
             <p>You can run Spoon as a standalone tool with your application and instrumentation APKs.</p>
-            <pre>java -jar spoon-1.0.0-jar-with-dependencies.jar \
+            <pre>java -jar spoon-runner-1.0.0-jar-with-dependencies.jar \
     --apk example-app.apk \
     --test-apk example-tests.apk</pre>
             <p>By default the output will be placed in a <code>spoon-output/</code> folder of the current directory. You can control additional parameters of the execution using other flags.</p>

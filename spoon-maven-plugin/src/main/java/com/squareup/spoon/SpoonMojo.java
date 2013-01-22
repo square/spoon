@@ -17,7 +17,7 @@ import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
 import org.apache.maven.repository.RepositorySystem;
 
-import static com.squareup.spoon.Spoon.DEFAULT_OUTPUT_DIRECTORY;
+import static com.squareup.spoon.SpoonRunner.DEFAULT_OUTPUT_DIRECTORY;
 import static org.apache.maven.plugins.annotations.LifecyclePhase.INTEGRATION_TEST;
 
 /**
@@ -116,7 +116,7 @@ public class SpoonMojo extends AbstractMojo {
     log.debug("Spoon title: " + title);
     log.debug("Debug: " + Boolean.toString(debug));
 
-    boolean success = new Spoon.Builder() //
+    boolean success = new SpoonRunner.Builder() //
         .setTitle(title)
         .setApplicationApk(app)
         .setInstrumentationApk(instrumentation)

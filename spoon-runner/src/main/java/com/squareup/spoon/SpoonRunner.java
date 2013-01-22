@@ -22,7 +22,7 @@ import static com.squareup.spoon.SpoonUtils.getConfiguredLogger;
 import static java.util.Collections.unmodifiableSet;
 
 /** Represents a collection of devices and the test configuration to be executed. */
-public final class Spoon {
+public final class SpoonRunner {
   private static final String DEFAULT_TITLE = "Spoon Execution";
   static final String DEFAULT_OUTPUT_DIRECTORY = "spoon-output";
 
@@ -36,7 +36,7 @@ public final class Spoon {
   private final String classpath;
   private final Logger log;
 
-  private Spoon(String title, File androidSdk, File applicationApk, File instrumentationApk,
+  private SpoonRunner(String title, File androidSdk, File applicationApk, File instrumentationApk,
       File output, boolean debug, Set<String> serials, String classpath) {
     this.title = title;
     this.androidSdk = androidSdk;
@@ -243,7 +243,7 @@ public final class Spoon {
       return this;
     }
 
-    public Spoon build() {
+    public SpoonRunner build() {
       checkNotNull(androidSdk, "SDK is required.");
       checkArgument(androidSdk.exists(), "SDK path does not exist.");
       checkNotNull(applicationApk, "Application APK is required.");
@@ -251,7 +251,7 @@ public final class Spoon {
       checkNotNull(output, "Output path is required.");
       checkNotNull(serials, "Device serials are required.");
 
-      return new Spoon(title, androidSdk, applicationApk, instrumentationApk, output, debug,
+      return new SpoonRunner(title, androidSdk, applicationApk, instrumentationApk, output, debug,
           serials, classpath);
     }
   }
@@ -270,7 +270,7 @@ public final class Spoon {
 
     @Parameter(names = { "--output" }, description = "Output path",
         converter = FileConverter.class)
-    public File output = new File(Spoon.DEFAULT_OUTPUT_DIRECTORY);
+    public File output = new File(SpoonRunner.DEFAULT_OUTPUT_DIRECTORY);
 
     @Parameter(names = { "--sdk" }, description = "Path to Android SDK")
     public File sdk = new File(System.getenv("ANDROID_HOME"));
@@ -310,7 +310,7 @@ public final class Spoon {
       return;
     }
 
-    Spoon spoon = new Spoon.Builder() //
+    SpoonRunner spoonRunner = new SpoonRunner.Builder() //
         .setTitle(parsedArgs.title)
         .setApplicationApk(parsedArgs.apk)
         .setInstrumentationApk(parsedArgs.testApk)
@@ -320,7 +320,7 @@ public final class Spoon {
         .useAllAttachedDevices()
         .build();
 
-    if (!spoon.run() && parsedArgs.failOnFailure) {
+    if (!spoonRunner.run() && parsedArgs.failOnFailure) {
       System.exit(1);
     }
   }
