@@ -38,7 +38,7 @@
 
             <h4 id="screenshots">Screenshots</h4>
             <p>In addition to simply running instrumentation tests, Spoon has the ability to snap screenshots at key points during your tests which are then included in the output. This allows for visual inspection of test executions across different devices.</p>
-            <p>Taking screenshots requires that you include the <code>spoon</code> JAR in your instrumentation app. In your tests call the <code>snap</code> method with a human-readable tag.</p>
+            <p>Taking screenshots requires that you include the <code>spoon</code> JAR in your instrumentation app. In your tests call the <code>screenshot</code> method with a human-readable tag.</p>
             <pre class="prettyprint">Spoon.screenshot(activity, "initial_state");
 /* Normal test code... */
 Spoon.screenshot(activity, "after_login");</pre>
@@ -48,7 +48,9 @@ Spoon.screenshot(activity, "after_login");</pre>
             <p>You can also view each test's screenshots as an animated GIF to gauge the actual sequence of interaction.</p>
 
             <h3 id="download">Download</h3>
-            <p><a href="#" class="btn btn-large btn-inverse">Spoon Runner JAR v1.0.0</a> <a href="#" class="btn btn-large btn-inverse">Spoon Screenshot JAR v1.0.0</a></p>
+            <p class="downloads"><a href="#" class="btn btn-large btn-inverse">Spoon Runner JAR v1.0.0</a> <a href="#" class="btn btn-large btn-inverse">Spoon Screenshot JAR v1.0.0</a></p>
+            <p>The source code to the runner, screenshot library, and sample applications as well as the website is available <a href="http://github.com/square/spoon">on GitHub</a>.</p>
+
             <h4>Maven</h4>
             <p>If you are using Maven for compilation you can declare the screenshot library as a dependency.</p>
             <pre class="prettyprint">&lt;dependency>
@@ -84,14 +86,6 @@ Spoon.screenshot(activity, "after_login");</pre>
   &lt;groupId>com.squareup.spoon&lt;/groupId>
   &lt;artifactId>spoon-maven-plugin&lt;/artifactId>
   &lt;version><span class="version">(insert latest version)</span>&lt;/version>
-  &lt;executions>
-    &lt;execution>
-      &lt;phase>integration-test&lt;/phase>
-      &lt;goals>
-        &lt;goal>run&lt;/goal>
-      &lt;/goals>
-    &lt;/execution>
-  &lt;/executions>
 &lt;/plugin></pre>
             <p>The plugin will look for an <code>apk</code> dependency for the corresponding application. Typically this is specified in parallel with the <code>jar</code> dependency on the application.</p>
             <pre class="prettyprint">&lt;dependency>
@@ -108,7 +102,7 @@ Spoon.screenshot(activity, "after_login");</pre>
   &lt;type>apk&lt;/type>
   &lt;scope>provied&lt;/scope>
 &lt;/dependency></pre>
-            <p>The plugin will now run automatically when running phases such as <code>verify</code> or you can invoke it directly by running <code>mvn spoon:run</code>. The execution result will be placed in the <code>target/spoon-output/</code> folder.</p>
+            <p>You can invoke the plugin by running <code>mvn spoon:run</code>. The execution result will be placed in the <code>target/spoon-output/</code> folder.</p>
             <p>For a working example see the sample application and instrumentation tests in the <code>spoon-sample/</code> folder.</p>
 
             <h3 id="contributing">Contributing</h3>

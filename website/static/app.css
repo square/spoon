@@ -7,6 +7,10 @@ body {
   letter-spacing: .1
 }
 
+.downloads {
+  margin-bottom: 20px;
+}
+
 code, pre {
   color: #444;
   background: none;
@@ -75,16 +79,8 @@ code {
     border: 0;
 }
 
-a:link, a:visited, a:active, a:hover {
-    color: #4183C4;
-}
-a.btn:link, a.btn:visited, a.btn:hover {
-    color: #ddd;
-    font-weight: 300;
-    font-size: 14px;
-}
-a:hover {
-    text-decoration: underline;
+.btn-large {
+  font-weight: 200;
 }
 
 @media(min-width:768px) {
