@@ -13,6 +13,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.concurrent.CountDownLatch;
+import java.util.regex.Pattern;
 
 import static android.content.Context.MODE_WORLD_READABLE;
 import static android.graphics.Bitmap.CompressFormat.PNG;
@@ -29,6 +30,7 @@ public final class Spoon {
   static final String EXTENSION = ".png";
   private static final String TAG = "SpoonScreenshot";
   private static final Object LOCK = new Object();
+  private static final Pattern TAG_VALIDATION = Pattern.compile("[a-zA-Z0-9_-]+");
 
   /** Whether or not the screenshot output directory needs cleared. */
   private static boolean outputNeedsClear = true;
@@ -37,9 +39,12 @@ public final class Spoon {
    * Take a screenshot with the specified tag.
    *
    * @param activity Activity with which to capture a screenshot.
-   * @param tag Unique tag to further identify the screenshot.
+   * @param tag Unique tag to further identify the screenshot. Must match [a-zA-Z0-9_-]+.
    */
   public static void screenshot(Activity activity, String tag) {
+    if (!TAG_VALIDATION.matcher(tag).matches()) {
+      throw new IllegalArgumentException("Tag must match " + TAG_VALIDATION.pattern() + ".");
+    }
     try {
       File screenshotDirectory = obtainScreenshotDirectory(activity);
       String screenshotName = System.currentTimeMillis() + NAME_SEPARATOR + tag + EXTENSION;

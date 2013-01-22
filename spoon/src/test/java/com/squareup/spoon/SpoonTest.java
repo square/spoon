@@ -68,6 +68,11 @@ public class SpoonTest {
     assertThat(actual.getMethodName()).isEqualTo(EXPECTED_METHOD);
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void invalidTagThrowsException() {
+    Spoon.screenshot(null, "!@#$%^&*()");
+  }
+
   private static class StackTraceBuilder {
     private final List<StackTraceElement> elements = new ArrayList<StackTraceElement>();
 
