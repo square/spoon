@@ -12,11 +12,11 @@ import static java.util.Collections.unmodifiableMap;
 /** Result summary of executing instrumentation on multiple devices. */
 public final class SpoonSummary {
   private final String title;
-  private final Date started;
+  private final long started;
   private final long duration;
   private final Map<String, DeviceResult> results;
 
-  private SpoonSummary(String title, Date started, long duration,
+  private SpoonSummary(String title, long started, long duration,
       Map<String, DeviceResult> results) {
     this.title = title;
     this.started = started;
@@ -30,7 +30,7 @@ public final class SpoonSummary {
   }
 
   /** Execution start time. */
-  public Date getStarted() {
+  public long getStarted() {
     return started;
   }
 
@@ -47,7 +47,7 @@ public final class SpoonSummary {
   static class Builder {
     private final Map<String, DeviceResult> results = new HashMap<String, DeviceResult>();
     private String title;
-    private Date started;
+    private long started;
     private long start;
     private long duration = -1;
 
@@ -72,7 +72,7 @@ public final class SpoonSummary {
     Builder start() {
       checkArgument(start == 0, "Start already called.");
       start = System.nanoTime();
-      started = new Date();
+      started = new Date().getTime();
       return this;
     }
 

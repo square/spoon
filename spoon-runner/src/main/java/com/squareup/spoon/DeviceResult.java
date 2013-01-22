@@ -20,12 +20,12 @@ public final class DeviceResult {
   private final String installMessage;
   private final DeviceDetails deviceDetails;
   private final Map<DeviceTest, DeviceTestResult> testResults;
-  private final Date started;
+  private final long started;
   private final long duration;
   private final List<String> exceptions;
 
   private DeviceResult(boolean installFailed, String installMessage, DeviceDetails deviceDetails,
-      Map<DeviceTest, DeviceTestResult> testResults, Date started, long duration,
+      Map<DeviceTest, DeviceTestResult> testResults, long started, long duration,
       List<String> exceptions) {
     this.installFailed = installFailed;
     this.installMessage = installMessage;
@@ -66,7 +66,7 @@ public final class DeviceResult {
   }
 
   /** Execution start time. */
-  public Date getStarted() {
+  public long getStarted() {
     return started;
   }
 
@@ -86,7 +86,7 @@ public final class DeviceResult {
     private final Map<DeviceTest, DeviceTestResult.Builder> testResultBuilders =
         new HashMap<DeviceTest, DeviceTestResult.Builder>();
     private DeviceDetails deviceDetails = null;
-    private final Date started = new Date();
+    private final long started = new Date().getTime();
     private long start;
     private long duration = -1;
     private final List<String> exceptions = new ArrayList<String>();

@@ -19,8 +19,8 @@ final class HtmlUtils {
     }
   };
 
-  static String dateToString(Date date) {
-    return DATE_FORMAT.get().format(date);
+  static String dateToString(long date) {
+    return DATE_FORMAT.get().format(new Date(date));
   }
 
   /** Convert a class name and method name to a single HTML ID. */
