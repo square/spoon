@@ -49,6 +49,13 @@ Spoon.screenshot(activity, "after_login");</pre>
 
             <h3 id="download">Download</h3>
             <p><a href="#" class="btn btn-large btn-inverse">Spoon Runner JAR v1.0.0</a> <a href="#" class="btn btn-large btn-inverse">Spoon Screenshot JAR v1.0.0</a></p>
+            <h4>Maven</h4>
+            <p>If you are using Maven for compilation you can declare the screenshot library as a dependency.</p>
+            <pre class="prettyprint">&lt;dependency>
+  &lt;groupId>com.squareup.spoon&lt;/groupId>
+  &lt;artifactId>spoon&lt;/artifactId>
+  &lt;version><span class="version">(insert latest version)</span>&lt;/version>
+&lt;/dependency></pre>
 
             <h4 id="sample">Sample</h4>
             <p>Included with Spoon is a sample application and instrumentation tests to demonstrate both the usage as well as provide <a href="sample/index.html">an example of the output</a>.</p>
@@ -76,7 +83,7 @@ Spoon.screenshot(activity, "after_login");</pre>
             <pre class="prettyprint">&lt;plugin>
   &lt;groupId>com.squareup.spoon&lt;/groupId>
   &lt;artifactId>spoon-maven-plugin&lt;/artifactId>
-  &lt;version><em class="version">(insert latest version)</em>&lt;/version>
+  &lt;version><span class="version">(insert latest version)</span>&lt;/version>
   &lt;executions>
     &lt;execution>
       &lt;phase>integration-test&lt;/phase>
@@ -102,7 +109,7 @@ Spoon.screenshot(activity, "after_login");</pre>
   &lt;scope>provied&lt;/scope>
 &lt;/dependency></pre>
             <p>The plugin will now run automatically when running phases such as <code>verify</code> or you can invoke it directly by running <code>mvn spoon:run</code>. The execution result will be placed in the <code>target/spoon-output/</code> folder.</p>
-            <p>For a working example see the sample application and instrumentation tests in the <code>sample/</code> folder.</p>
+            <p>For a working example see the sample application and instrumentation tests in the <code>spoon-sample/</code> folder.</p>
 
             <h3 id="contributing">Contributing</h3>
             <p>If you would like to contribute code to Spoon you can do so through GitHub by forking the repository and sending a pull request.</p>
