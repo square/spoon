@@ -82,6 +82,9 @@ code {
 .btn-large {
   font-weight: 200;
 }
+.btn-inverse, .btn-inverse:hover {
+  color: #e0e0e0;
+}
 
 @media(min-width:768px) {
     body {
