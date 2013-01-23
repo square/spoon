@@ -19,6 +19,8 @@ APK Spoon runs the tests on all devices which are visible to ADB. Once all tests
 have completed a static HTML summary is generated with detailed information
 about each device and test.
 
+![High-level output](http://square.github.com/spoon/static/example_main.png)
+
 
 
 Screenshots
