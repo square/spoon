@@ -44,6 +44,8 @@ Spoon.screenshot(activity, "after_login");
 The tag specified will be used to identify and compare screenshots taken across
 multiple test runs.
 
+![Results with screenshots](http://square.github.com/spoon/static/example_screenshots.png)
+
 You can also view each test's screenshots as an animated GIF to gauge the actual
 sequence of interaction.
 
