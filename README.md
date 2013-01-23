@@ -15,11 +15,18 @@ instrumentation test execution and displaying the results in a meaningful way.
 
 Instead of attempting to be a new form of testing, Spoon makes existing
 instrumentation tests more useful. Using the application APK and instrumentation
-APK Spoon runs the tests on all devices which are visible to ADB. Once all tests
+APK, Spoon runs the tests on multiple devices simultaneously. Once all tests
 have completed a static HTML summary is generated with detailed information
 about each device and test.
 
 ![High-level output](http://square.github.com/spoon/static/example_main.png)
+
+Spoon will run on all targets which are visible to `adb devices`. Plug in
+multiple different phones and tablets, start different configurations of
+emulators, or use some combination of both!
+
+The greater diversity of the targets in use, the more useful the output will be
+in visualizing your applications.
 
 
 
