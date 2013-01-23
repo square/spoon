@@ -11,6 +11,7 @@ import com.example.spoon.ordering.R;
 import java.util.Random;
 
 import static android.app.Instrumentation.ActivityMonitor;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginActivity> {
   public LoginActivityTest() {
@@ -38,8 +39,8 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
     Spoon.screenshot(activity, "initial_state");
 
     // Make sure the initial state does not show any errors.
-    assertNull(username.getError());
-    assertNull(password.getError());
+    assertThat(username.getError()).isNull();
+    assertThat(password.getError()).isNull();
 
     // Click the "login" button.
     instrumentation.runOnMainSync(new Runnable() {
@@ -53,16 +54,16 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
 
     // Verify errors were shown for both input fields.
     String required = activity.getString(R.string.required);
-    assertEquals(required, username.getError().toString());
-    assertEquals(required, password.getError().toString());
+    assertThat(username.getError().toString()).isEqualTo(required);
+    assertThat(password.getError().toString()).isEqualTo(required);
   }
 
   public void testBlankPassword_ShowsError() {
     Spoon.screenshot(activity, "initial_state");
 
     // Make sure the initial state does not show any errors.
-    assertNull(username.getError());
-    assertNull(password.getError());
+    assertThat(username.getError()).isNull();
+    assertThat(password.getError()).isNull();
 
     // Type a value into the username field.
     instrumentation.runOnMainSync(new Runnable() {
@@ -82,16 +83,16 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
     Spoon.screenshot(activity, "login_clicked");
 
     // Verify error was shown only for password field.
-    assertNull(username.getError());
-    assertEquals(activity.getString(R.string.required), password.getError().toString());
+    assertThat(username.getError()).isNull();
+    assertThat(password.getError().toString()).isEqualTo(activity.getString(R.string.required));
   }
 
   public void testBlankUsername_ShowsError() {
     Spoon.screenshot(activity, "initial_state");
 
     // Make sure the initial state does not show any errors.
-    assertNull(username.getError());
-    assertNull(password.getError());
+    assertThat(username.getError()).isNull();
+    assertThat(password.getError()).isNull();
 
     // Type a value into the password field.
     instrumentation.runOnMainSync(new Runnable() {
@@ -111,16 +112,16 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
     Spoon.screenshot(activity, "login_clicked");
 
     // Verify error was shown only for username field.
-    assertEquals(activity.getString(R.string.required), username.getError().toString());
-    assertNull(password.getError());
+    assertThat(username.getError().toString()).isEqualTo(activity.getString(R.string.required));
+    assertThat(password.getError()).isNull();
   }
 
   public void testPasswordTooShort_ShowsError() {
     Spoon.screenshot(activity, "initial_state");
 
     // Make sure the initial state does not show any errors.
-    assertNull(username.getError());
-    assertNull(password.getError());
+    assertThat(username.getError()).isNull();
+    assertThat(password.getError()).isNull();
 
     // Type a value into the username and password field.
     instrumentation.runOnMainSync(new Runnable() {
@@ -141,8 +142,9 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
     Spoon.screenshot(activity, "login_clicked");
 
     // Verify error was shown only for username field.
-    assertNull(username.getError());
-    assertEquals(activity.getString(R.string.password_length), password.getError().toString());
+    assertThat(username.getError()).isNull();
+    assertThat(username.getError().toString()) //
+        .isEqualTo(activity.getString(R.string.password_length));
   }
 
   public void testValidValues_StartsNewActivity() {
@@ -152,8 +154,8 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
     Spoon.screenshot(activity, "initial_state");
 
     // Make sure the initial state does not show any errors.
-    assertNull(username.getError());
-    assertNull(password.getError());
+    assertThat(username.getError()).isNull();
+    assertThat(password.getError()).isNull();
 
     // Type a value into the username and password field.
     instrumentation.runOnMainSync(new Runnable() {
@@ -173,10 +175,12 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
     instrumentation.waitForIdleSync();
 
     // Verify new activity was shown.
-    assertEquals(1, monitor.getHits());
+    assertThat(monitor.getHits()).isEqualTo(1);
     Spoon.screenshot(monitor.getLastActivity(), "next_activity_shown");
 
     // For fun (and to make the output more interesting), randomly fail!
-    assertTrue(new Random().nextInt(4) != 0);
+    if (new Random().nextInt(4) == 0) {
+      throw new AssertionError("Someone set up us the bomb!");
+    }
   }
 }
