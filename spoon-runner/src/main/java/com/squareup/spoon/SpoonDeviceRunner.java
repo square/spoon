@@ -175,7 +175,11 @@ public final class SpoonDeviceRunner {
             result.getMethodResultBuilder(deviceTest).setAnimatedGif(animatedGif);
           }
         }
-        FileUtils.deleteDirectory(screenshotDir);
+        try {
+          FileUtils.deleteDirectory(screenshotDir);
+        } catch (Exception ignored) {
+          // DDMS r16 bug on Windows. Le sigh.
+        }
       }
     } catch (Exception e) {
       result.addException(e);
