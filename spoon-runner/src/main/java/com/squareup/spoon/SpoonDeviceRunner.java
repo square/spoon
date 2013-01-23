@@ -177,7 +177,7 @@ public final class SpoonDeviceRunner {
         }
         try {
           FileUtils.deleteDirectory(screenshotDir);
-        } catch (Exception ignored) {
+        } catch (IOException ignored) {
           // DDMS r16 bug on Windows. Le sigh.
         }
       }
