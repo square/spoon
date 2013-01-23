@@ -24,9 +24,12 @@
           <div class="main-inner">
             <h3 id="introduction">Introduction</h3>
             <p>Android's ever-expanding ecosystem of devices creates a unique challenge to testing applications. Spoon aims to simplify this task by distributing instrumentation test execution and displaying the results in a meaningful way.</p>
-            <p>Instead of attempting to be a new form of testing, Spoon makes existing instrumentation tests more useful. Using the application APK and instrumentation APK Spoon runs the tests on all devices which are visible to ADB. Once all tests have completed a static HTML summary is generated with detailed information about each device and test.</p>
+            <p>Instead of attempting to be a new form of testing, Spoon makes existing instrumentation tests more useful. Using the application APK and instrumentation APK, Spoon runs the tests on multiple devices simultaneously. Once all tests have completed a static HTML summary is generated with detailed information about each device and test.</p>
             <p><img src="static/example_main.png" alt="Example output"></p>
             <p>With the high-level output you can immediately see whether or not a test failure is specific to a single device or all devices. This view is designed to be displayed on a dedicated monitor or TV.</p>
+            <img src="static/device_cluster.png" class="picture">
+            <p>Spoon will run on all targets which are visible to <code>adb devices</code>. Plug in multiple different phones and tablets, start different configurations of emulators, or use some combination of both!</p>
+            <p>The greater diversity of the targets in use, the more useful the output will be in visualizing your applications.</p>
 
             <h4 id="device-view">Device View</h4>
             <p>The device view outlines the results of each test one a single device. This is useful for tracking down device-specific failures of individual tests.</p>

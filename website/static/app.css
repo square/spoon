@@ -11,6 +11,14 @@ body {
   margin-bottom: 20px;
 }
 
+.picture {
+  float: right;
+  margin: 5px 0 5px 15px;
+  border: 1px solid #999;
+  padding: 1px;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
 code, pre {
   color: #444;
   background: none;
