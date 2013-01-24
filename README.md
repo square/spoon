@@ -37,7 +37,7 @@ snap screenshots at key points during your tests which are then included in the
 output. This allows for visual inspection of test executions across different
 devices.
 
-Taking screenshots requires that you include the `spoon` JAR in your
+Taking screenshots requires that you include the `spoon-client` JAR in your
 instrumentation app. In your tests call the `screenshot` method with a
 human-readable tag.
 
@@ -60,13 +60,13 @@ sequence of interaction.
 Download
 --------
 
-Download [the latest runner JAR][1] or [the latest screenshot JAR][2], or grab
+Download the [latest runner JAR][1] or the [latest client JAR][2], or grab
 via Maven:
 
 ```xml
 <dependency>
   <groupId>com.squareup.spoon</groupId>
-  <artifactId>spoon</artifactId>
+  <artifactId>spoon-client</artifactId>
   <version>(insert latest version)</version>
 </dependency>
 ```
@@ -163,4 +163,4 @@ License
 
 
  [1]: http://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&g=com.squareup.spoon&a=spoon-runner&v=LATEST
- [2]: http://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&g=com.squareup.spoon&a=spoon&v=LATEST
+ [2]: http://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&g=com.squareup.spoon&a=spoon-client&v=LATEST

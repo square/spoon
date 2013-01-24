@@ -29,7 +29,7 @@ import static org.apache.maven.plugins.annotations.LifecyclePhase.INTEGRATION_TE
 public class SpoonMojo extends AbstractMojo {
   private static final String SPOON_GROUP_ID = "com.squareup.spoon";
   private static final String SPOON_PLUGIN_ARTIFACT_ID = "spoon-maven-plugin";
-  private static final String SPOON_ARTIFACT_ID = "spoon";
+  private static final String SPOON_ARTIFACT_ID = "spoon-client";
   private static final String ARTIFACT_TYPE = "zip";
   private static final String ARTIFACT_CLASSIFIER = "spoon-output";
 
