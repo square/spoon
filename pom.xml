@@ -24,7 +24,7 @@
   </properties>
 
   <modules>
-    <module>spoon</module>
+    <module>spoon-client</module>
     <module>spoon-maven-plugin</module>
     <module>spoon-runner</module>
     <module>spoon-sample</module>
