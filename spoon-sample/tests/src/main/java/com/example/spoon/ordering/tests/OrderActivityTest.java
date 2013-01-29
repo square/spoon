@@ -1,6 +1,5 @@
 package com.example.spoon.ordering.tests;
 
-import android.app.Instrumentation;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.Button;
 import android.widget.CheckedTextView;
@@ -15,15 +14,13 @@ public class OrderActivityTest extends ActivityInstrumentationTestCase2<OrderAct
     super(OrderActivity.class);
   }
 
-  private Instrumentation instrumentation;
   private OrderActivity activity;
   private Solo solo;
 
   @Override protected void setUp() throws Exception {
     super.setUp();
-    instrumentation = getInstrumentation();
     activity = getActivity();
-    solo = new Solo(instrumentation, activity);
+    solo = new Solo(getInstrumentation(), activity);
   }
 
   public void testMakeASandwich_ItTastesGood() {
