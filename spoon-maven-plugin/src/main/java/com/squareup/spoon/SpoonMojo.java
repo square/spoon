@@ -1,9 +1,6 @@
 // Copyright 2012 Square, Inc.
 package com.squareup.spoon;
 
-import java.io.File;
-import java.util.Iterator;
-import java.util.Set;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.resolver.ArtifactResolutionRequest;
@@ -16,6 +13,10 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
 import org.apache.maven.repository.RepositorySystem;
+
+import java.io.File;
+import java.util.Iterator;
+import java.util.Set;
 
 import static com.squareup.spoon.SpoonRunner.DEFAULT_OUTPUT_DIRECTORY;
 import static org.apache.maven.plugins.annotations.LifecyclePhase.INTEGRATION_TEST;
@@ -78,6 +79,14 @@ public class SpoonMojo extends AbstractMojo {
   @Parameter(property = "localRepository", readonly = true, required = true)
   private ArtifactRepository local;
 
+  /** Run only a specific test. */
+  @Parameter
+  private String className;
+
+  /** Run only a specific test method.  Must be specified with {@link #className}. */
+  @Parameter
+  private String methodName;
+
   @Component
   private MavenProjectHelper projectHelper;
 
@@ -108,6 +117,13 @@ public class SpoonMojo extends AbstractMojo {
     File app = getApplicationApk();
     log.debug("Application APK: " + app.getAbsolutePath());
 
+    if (className != null) {
+      log.debug("Class name: " + className);
+      if (methodName != null) {
+        log.debug("Method name: " + methodName);
+      }
+    }
+
     String classpath = getSpoonClasspath();
     log.debug("Classpath: " + classpath);
 
@@ -124,6 +140,8 @@ public class SpoonMojo extends AbstractMojo {
         .setAndroidSdk(sdkFile)
         .setDebug(debug)
         .setClasspath(classpath)
+        .setClassName(className)
+        .setMethodName(methodName)
         .useAllAttachedDevices()
         .build()
         .run();

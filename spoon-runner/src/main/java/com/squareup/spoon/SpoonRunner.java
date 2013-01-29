@@ -5,6 +5,8 @@ import com.beust.jcommander.IStringConverter;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
@@ -12,7 +14,6 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.logging.Logger;
-import org.apache.commons.io.FileUtils;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -32,18 +33,23 @@ public final class SpoonRunner {
   private final File instrumentationApk;
   private final File output;
   private final boolean debug;
+  private final String className;
+  private final String methodName;
   private final Set<String> serials;
   private final String classpath;
   private final Logger log;
 
   private SpoonRunner(String title, File androidSdk, File applicationApk, File instrumentationApk,
-      File output, boolean debug, Set<String> serials, String classpath) {
+                      File output, boolean debug, Set<String> serials, String classpath,
+                      String className, String methodName) {
     this.title = title;
     this.androidSdk = androidSdk;
     this.applicationApk = applicationApk;
     this.instrumentationApk = instrumentationApk;
     this.output = output;
     this.debug = debug;
+    this.className = className;
+    this.methodName = methodName;
     this.serials = unmodifiableSet(serials);
     this.classpath = classpath;
     this.log = getConfiguredLogger(this, debug);
@@ -158,7 +164,7 @@ public final class SpoonRunner {
 
   private SpoonDeviceRunner getTestRunner(String serial, SpoonInstrumentationInfo testInfo) {
     return new SpoonDeviceRunner(androidSdk, applicationApk, instrumentationApk, output, serial,
-        debug, classpath, testInfo);
+        debug, classpath, testInfo, className, methodName);
   }
 
   /** Build a test suite for the specified devices and configuration. */
@@ -171,6 +177,8 @@ public final class SpoonRunner {
     private boolean debug = false;
     private Set<String> serials;
     private String classpath = System.getProperty("java.class.path");
+    private String className;
+    private String methodName;
 
     /** Identifying title for this execution. */
     public Builder setTitle(String title) {
@@ -243,6 +251,16 @@ public final class SpoonRunner {
       return this;
     }
 
+    public Builder setClassName(String className) {
+      this.className = className;
+      return this;
+    }
+
+    public Builder setMethodName(String methodName) {
+      this.methodName = methodName;
+      return this;
+    }
+
     public SpoonRunner build() {
       checkNotNull(androidSdk, "SDK is required.");
       checkArgument(androidSdk.exists(), "SDK path does not exist.");
@@ -250,9 +268,12 @@ public final class SpoonRunner {
       checkNotNull(instrumentationApk, "Instrumentation APK is required.");
       checkNotNull(output, "Output path is required.");
       checkNotNull(serials, "Device serials are required.");
+      if (methodName != null) {
+        checkNotNull(className, "Must specify class name if you're specifying a method name.");
+      }
 
       return new SpoonRunner(title, androidSdk, applicationApk, instrumentationApk, output, debug,
-          serials, classpath);
+          serials, classpath, className, methodName);
     }
   }
 
@@ -267,6 +288,13 @@ public final class SpoonRunner {
     @Parameter(names = { "--test-apk" }, description = "Test application APK",
         converter = FileConverter.class, required = true)
     public File testApk;
+
+    @Parameter(names = { "--class-name" }, description = "Test class name to run (fully-qualified)")
+    public String className;
+
+    @Parameter(names = { "--method-name" }, description =
+        "Test method name to run (must also use --class-name)")
+    public String methodName;
 
     @Parameter(names = { "--output" }, description = "Output path",
         converter = FileConverter.class)
@@ -317,6 +345,8 @@ public final class SpoonRunner {
         .setOutputDirectory(parsedArgs.output)
         .setDebug(parsedArgs.debug)
         .setAndroidSdk(parsedArgs.sdk)
+        .setClassName(parsedArgs.className)
+        .setMethodName(parsedArgs.methodName)
         .useAllAttachedDevices()
         .build();
 

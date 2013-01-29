@@ -6,6 +6,9 @@ import com.android.ddmlib.InstallException;
 import com.android.ddmlib.testrunner.RemoteAndroidTestRunner;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.TrueFileFilter;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -14,8 +17,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.TrueFileFilter;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
 import static com.squareup.spoon.Spoon.SPOON_SCREENSHOTS;
@@ -38,6 +39,8 @@ public final class SpoonDeviceRunner {
   private final String serial;
   private final boolean debug;
   private final File output;
+  private final String className;
+  private final String methodName;
   private final File work;
   private final String classpath;
   private final SpoonInstrumentationInfo instrumentationInfo;
@@ -53,15 +56,21 @@ public final class SpoonDeviceRunner {
    * @param debug Whether or not debug logging is enabled.
    * @param classpath Custom JVM classpath or {@code null}.
    * @param instrumentationInfo Test apk manifest information.
+   * @param className Test class name to run or {@code null} to run all tests.
+   * @param methodName Test method name to run or {@code null} to run all tests.  Must also pass
+   *        {@code className}.
    */
   SpoonDeviceRunner(File sdk, File apk, File testApk, File output, String serial, boolean debug,
-      String classpath, SpoonInstrumentationInfo instrumentationInfo) {
+                    String classpath, SpoonInstrumentationInfo instrumentationInfo,
+                    String className, String methodName) {
     this.sdk = sdk;
     this.apk = apk;
     this.testApk = testApk;
     this.serial = serial;
     this.debug = debug;
     this.output = output;
+    this.className = className;
+    this.methodName = methodName;
     this.work = FileUtils.getFile(output, TEMP_DIR, serial);
     this.classpath = classpath;
     this.instrumentationInfo = instrumentationInfo;
@@ -122,8 +131,15 @@ public final class SpoonDeviceRunner {
 
     // Run all the tests! o/
     try {
-      new RemoteAndroidTestRunner(testPackage, testRunner, device) //
-          .run(new SpoonTestRunListener(result));
+      RemoteAndroidTestRunner runner = new RemoteAndroidTestRunner(testPackage, testRunner, device);
+      if (className != null) {
+        if (methodName != null) {
+          runner.setMethodName(className, methodName);
+        } else {
+          runner.setClassName(className);
+        }
+      }
+      runner.run(new SpoonTestRunListener(result));
     } catch (Exception e) {
       result.addException(e);
     }
