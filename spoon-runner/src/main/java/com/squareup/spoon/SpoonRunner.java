@@ -269,8 +269,9 @@ public final class SpoonRunner {
       checkNotNull(instrumentationApk, "Instrumentation APK is required.");
       checkNotNull(output, "Output path is required.");
       checkNotNull(serials, "Device serials are required.");
-      if (Strings.isNullOrEmpty(methodName)) {
-        checkNotNull(className, "Must specify class name if you're specifying a method name.");
+      if (!Strings.isNullOrEmpty(methodName)) {
+        checkArgument(!Strings.isNullOrEmpty(className),
+            "Must specify class name if you're specifying a method name.");
       }
 
       return new SpoonRunner(title, androidSdk, applicationApk, instrumentationApk, output, debug,
