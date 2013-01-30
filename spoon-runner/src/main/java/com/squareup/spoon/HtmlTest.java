@@ -32,35 +32,31 @@ final class HtmlTest {
 
     int testsFailed = deviceCount - testsPassed;
     String totalDevices = deviceCount + " device" + (deviceCount != 1 ? "s" : "");
-    String averageLength;
-    if (testsPassed > 0) {
-      averageLength = HtmlUtils.humanReadableDuration(duration / testsPassed);
-    } else {
-      averageLength = HtmlUtils.humanReadableDuration(0);
-    }
-    String className = HtmlUtils.getClassSimpleName(test.getClassName());
-    String testName = HtmlUtils.prettifyMethodName(test.getMethodName());
+    String title = HtmlUtils.prettifyMethodName(test.getMethodName());
 
-    return new HtmlTest(testName, className, totalDevices, testsPassed, testsFailed, averageLength,
-        devices);
+    StringBuilder subtitle = new StringBuilder();
+    subtitle.append("Ran on ")
+        .append(totalDevices)
+        .append(" with ")
+        .append(testsPassed)
+        .append(" passing and ")
+        .append(testsFailed)
+        .append(" failing");
+    if (testsPassed > 0) {
+      subtitle.append(" in an average of ")
+        .append(HtmlUtils.humanReadableDuration(duration / testsPassed));
+    }
+
+    return new HtmlTest(title, subtitle.toString(), devices);
   }
 
-  public final String testName;
-  public final String classSimpleName;
-  public final String totalDevices;
-  public final int testsPassed;
-  public final int testsFailed;
-  public final String averageDuration;
+  public final String title;
+  public final String subtitle;
   public final List<TestResult> devices;
 
-  HtmlTest(String testName, String classSimpleName, String totalDevices, int testsPassed,
-      int testsFailed, String averageDuration, List<TestResult> devices) {
-    this.testName = testName;
-    this.classSimpleName = classSimpleName;
-    this.totalDevices = totalDevices;
-    this.testsPassed = testsPassed;
-    this.testsFailed = testsFailed;
-    this.averageDuration = averageDuration;
+  HtmlTest(String title, String subtitle, List<TestResult> devices) {
+    this.title = title;
+    this.subtitle = subtitle;
     this.devices = devices;
   }
 
