@@ -3,20 +3,20 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{{testName}}</title>
+        <title>{{title}}</title>
         <link href="http://fonts.googleapis.com/css?family=Roboto:regular,medium,thin,italic,mediumitalic,bold" rel="stylesheet">
         <link href="../../static/bootstrap.min.css" rel="stylesheet">
         <link href="../../static/bootstrap-responsive.min.css" rel="stylesheet">
         <link href="../../static/spoon.css" rel="stylesheet">
         <script src="../../static/jquery.min.js"></script>
         <script src="../../static/bootstrap.min.js"></script>
-        <meta name="description" content="Ran on {{totalDevices}} with {{testsPassed}} passing and {{testsFailed}} failing in an average of {{averageDuration}}">
+        <meta name="description" content="{{subtitle}}">
     </head>
     <body>
         <div class="container">
             <div class="hero-unit">
-                <h1>{{testName}}</h1>
-                <p>Ran on {{totalDevices}} with {{testsPassed}} passing and {{testsFailed}} failing in an average of {{averageDuration}}</p>
+                <h1>{{title}}</h1>
+                <p>{{subtitle}}</p>
             </div>
             {{#devices}}
             <div class="row">
