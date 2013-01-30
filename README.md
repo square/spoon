@@ -100,6 +100,8 @@ Options:
     --sdk               Path to Android SDK
     --test-apk          Test application APK
     --title             Execution title
+    --class-name        Test class name to run (fully-qualified)
+    --method-name       Test method name to run (must also use --class-name)
 ```
 
 If you are using Maven for compilation, a plugin is provided for easy execution.
@@ -135,7 +137,9 @@ application.
 ```
 
 You can invoke the plugin by running `mvn spoon:run`. The execution result will
-be placed in the `target/spoon-output/` folder.
+be placed in the `target/spoon-output/` folder.  If you want to specify a test 
+class to run, add `-Dspoon.test.class=fully.qualified.ClassName`.  If you only
+want to run a single test in that class, add `-Dspoon.test.method=testAllTheThings`.
 
 For a working example see the sample application and instrumentation tests in
 the `spoon-sample/` folder.
