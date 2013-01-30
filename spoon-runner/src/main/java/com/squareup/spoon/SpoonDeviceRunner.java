@@ -4,6 +4,7 @@ import com.android.ddmlib.AndroidDebugBridge;
 import com.android.ddmlib.IDevice;
 import com.android.ddmlib.InstallException;
 import com.android.ddmlib.testrunner.RemoteAndroidTestRunner;
+import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import org.apache.commons.io.FileUtils;
@@ -132,11 +133,11 @@ public final class SpoonDeviceRunner {
     // Run all the tests! o/
     try {
       RemoteAndroidTestRunner runner = new RemoteAndroidTestRunner(testPackage, testRunner, device);
-      if (className != null) {
-        if (methodName != null) {
-          runner.setMethodName(className, methodName);
-        } else {
+      if (!Strings.isNullOrEmpty(className)) {
+        if (Strings.isNullOrEmpty(methodName)) {
           runner.setClassName(className);
+        } else {
+          runner.setMethodName(className, methodName);
         }
       }
       runner.run(new SpoonTestRunListener(result));
