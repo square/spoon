@@ -1,6 +1,7 @@
 // Copyright 2012 Square, Inc.
 package com.squareup.spoon;
 
+import com.google.common.base.Strings;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.resolver.ArtifactResolutionRequest;
@@ -80,11 +81,11 @@ public class SpoonMojo extends AbstractMojo {
   private ArtifactRepository local;
 
   /** Run only a specific test. */
-  @Parameter
+  @Parameter(defaultValue = "${spoon.test.class}")
   private String className;
 
   /** Run only a specific test method.  Must be specified with {@link #className}. */
-  @Parameter
+  @Parameter(defaultValue = "${spoon.test.method}")
   private String methodName;
 
   @Component
@@ -117,9 +118,9 @@ public class SpoonMojo extends AbstractMojo {
     File app = getApplicationApk();
     log.debug("Application APK: " + app.getAbsolutePath());
 
-    if (className != null) {
+    if (!Strings.isNullOrEmpty(className)) {
       log.debug("Class name: " + className);
-      if (methodName != null) {
+      if (!Strings.isNullOrEmpty(methodName)) {
         log.debug("Method name: " + methodName);
       }
     }
