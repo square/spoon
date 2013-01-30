@@ -149,14 +149,17 @@ public final class SpoonRunner {
   }
 
   /** Returns {@code false} if a test failed on any device. */
-  private boolean parseOverallSuccess(SpoonSummary summary) {
+  static boolean parseOverallSuccess(SpoonSummary summary) {
     for (DeviceResult result : summary.getResults().values()) {
       if (result.getInstallFailed()) {
-        return false;
+        return false; // App and/or test installation failed.
+      }
+      if (!result.getExceptions().isEmpty() && result.getTestResults().isEmpty()) {
+        return false; // No tests run and top-level exception present.
       }
       for (DeviceTestResult methodResult : result.getTestResults().values()) {
         if (methodResult.getStatus() != Status.PASS) {
-          return false;
+          return false; // Individual test failure.
         }
       }
     }
