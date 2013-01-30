@@ -36,31 +36,30 @@ final class HtmlIndex {
     String started = HtmlUtils.dateToString(summary.getStarted());
     String totalTestsRun = testsRun + " test" + (testsRun != 1 ? "s" : "");
     String totalDevices = deviceCount + " device" + (deviceCount != 1 ? "s" : "");
-    String totalLength = HtmlUtils.humanReadableDuration(summary.getDuration());
 
-    return new HtmlIndex(summary.getTitle(), totalTestsRun, totalDevices, totalSuccess,
-        totalFailure, totalLength, started, tests.size(), devices);
+    StringBuilder subtitle = new StringBuilder();
+    subtitle.append(totalTestsRun).append(" run across ").append(totalDevices);
+    if (testsRun > 0) {
+      subtitle.append(" with ")
+          .append(totalSuccess)
+          .append(" passing and ")
+          .append(totalFailure)
+          .append(" failing in ")
+          .append(HtmlUtils.humanReadableDuration(summary.getDuration()));
+    }
+    subtitle.append(" at ").append(started);
+
+    return new HtmlIndex(summary.getTitle(), subtitle.toString(), tests.size(), devices);
   }
 
   public final String title;
-  public final String totalTestsRun;
-  public final String totalDevices;
-  public final int totalSuccess;
-  public final int totalFailure;
-  public final String totalDuration;
-  public final String started;
+  public final String subtitle;
   public final int testCount;
   public final List<Device> devices;
 
-  HtmlIndex(String title, String totalTestsRun, String totalDevices, int totalSuccess,
-      int totalFailure, String totalDuration, String started, int testCount, List<Device> devices) {
+  HtmlIndex(String title, String subtitle, int testCount, List<Device> devices) {
     this.title = title;
-    this.totalTestsRun = totalTestsRun;
-    this.totalDevices = totalDevices;
-    this.totalSuccess = totalSuccess;
-    this.totalFailure = totalFailure;
-    this.totalDuration = totalDuration;
-    this.started = started;
+    this.subtitle = subtitle;
     this.testCount = testCount;
     this.devices = devices;
   }

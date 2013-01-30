@@ -24,40 +24,41 @@ final class HtmlDevice {
     int testsFailed = testsRun - testsPassed;
     String started = HtmlUtils.dateToString(result.getStarted());
     String totalTestsRun = testsRun + " test" + (testsRun != 1 ? "s" : "");
-    String totalLength = HtmlUtils.humanReadableDuration(result.getDuration());
     DeviceDetails details = result.getDeviceDetails();
-    String name = (details != null) ? details.getName() : serial;
+    String title = (details != null) ? details.getName() : serial;
 
     List<HtmlUtils.StackTrace> exceptions = new ArrayList<HtmlUtils.StackTrace>();
     for (String exception : result.getExceptions()) {
       exceptions.add(HtmlUtils.parseException(exception));
     }
 
-    return new HtmlDevice(serial, name, totalTestsRun, testsPassed, testsFailed, totalLength,
-        started, testResults, exceptions);
+    StringBuilder subtitle = new StringBuilder();
+    subtitle.append(totalTestsRun).append(" run");
+    if (testsPassed > 0) {
+      subtitle.append(" with ")
+          .append(testsPassed)
+          .append(" passing and ")
+          .append(testsFailed)
+          .append(" failing in ")
+          .append(HtmlUtils.humanReadableDuration(result.getDuration()));
+    }
+    subtitle.append(" at ").append(started);
+
+    return new HtmlDevice(serial, title, subtitle.toString(), testResults, exceptions);
   }
 
   public final String serial;
-  public final String name;
-  public final String totalTestsRun;
-  public final int testsPassed;
-  public final int testsFailed;
-  public final String totalDuration;
-  public final String started;
+  public final String title;
+  public final String subtitle;
   public final List<TestResult> testResults;
   public final boolean hasExceptions;
   public final List<HtmlUtils.StackTrace> exceptions;
 
-  HtmlDevice(String serial, String name, String totalTestsRun, int testsPassed, int testsFailed,
-      String totalDuration, String started, List<TestResult> testResults,
+  HtmlDevice(String serial, String title, String subtitle, List<TestResult> testResults,
       List<HtmlUtils.StackTrace> exceptions) {
     this.serial = serial;
-    this.name = name;
-    this.totalTestsRun = totalTestsRun;
-    this.testsPassed = testsPassed;
-    this.testsFailed = testsFailed;
-    this.totalDuration = totalDuration;
-    this.started = started;
+    this.title = title;
+    this.subtitle = subtitle;
     this.testResults = testResults;
     this.hasExceptions = !exceptions.isEmpty();
     this.exceptions = exceptions;
