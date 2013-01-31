@@ -79,6 +79,7 @@
         <version>${project.version}</version>
         <configuration>
           <title>Spoon Sample App</title>
+          <debug>true</debug>
         </configuration>
         <executions>
           <execution>

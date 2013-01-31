@@ -6,21 +6,18 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 import com.google.common.base.Strings;
-import org.apache.commons.io.FileUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
-import java.util.logging.Logger;
+import org.apache.commons.io.FileUtils;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.squareup.spoon.DeviceTestResult.Status;
 import static com.squareup.spoon.SpoonInstrumentationInfo.parseFromFile;
-import static com.squareup.spoon.SpoonUtils.getConfiguredLogger;
 import static java.util.Collections.unmodifiableSet;
 
 /** Represents a collection of devices and the test configuration to be executed. */
@@ -38,11 +35,12 @@ public final class SpoonRunner {
   private final String methodName;
   private final Set<String> serials;
   private final String classpath;
-  private final Logger log;
+  private final SpoonLogger log;
 
-  private SpoonRunner(String title, File androidSdk, File applicationApk, File instrumentationApk,
-                      File output, boolean debug, Set<String> serials, String classpath,
-                      String className, String methodName) {
+  private SpoonRunner(SpoonLogger log, String title, File androidSdk, File applicationApk,
+      File instrumentationApk, File output, boolean debug, Set<String> serials, String classpath,
+      String className, String methodName) {
+    this.log = log;
     this.title = title;
     this.androidSdk = androidSdk;
     this.applicationApk = applicationApk;
@@ -53,7 +51,6 @@ public final class SpoonRunner {
     this.methodName = methodName;
     this.serials = unmodifiableSet(serials);
     this.classpath = classpath;
-    this.log = getConfiguredLogger(this, debug);
   }
 
   /**
@@ -87,7 +84,7 @@ public final class SpoonRunner {
 
   private SpoonSummary runTests(AndroidDebugBridge adb, Set<String> serials) {
     int targetCount = serials.size();
-    log.info("Executing instrumentation on " + targetCount + " devices.");
+    log.info("Executing instrumentation on %d devices.", targetCount);
 
     try {
       FileUtils.deleteDirectory(output);
@@ -96,8 +93,9 @@ public final class SpoonRunner {
     }
 
     final SpoonInstrumentationInfo testInfo = parseFromFile(instrumentationApk);
-    log.fine(testInfo.getApplicationPackage() + " in " + applicationApk.getAbsolutePath());
-    log.fine(testInfo.getInstrumentationPackage() + " in " + instrumentationApk.getAbsolutePath());
+    log.fine("%s in %s", testInfo.getApplicationPackage(), applicationApk.getAbsolutePath());
+    log.fine("%s in %s", testInfo.getInstrumentationPackage(),
+        instrumentationApk.getAbsolutePath());
 
     final SpoonSummary.Builder summary = new SpoonSummary.Builder()
         .setTitle(title)
@@ -107,15 +105,18 @@ public final class SpoonRunner {
       // Since there is only one device just execute it synchronously in this process.
       String serial = serials.iterator().next();
       try {
+        log.fine("[%s] Starting execution.", serial);
         summary.addResult(serial, getTestRunner(serial, testInfo).run(adb));
       } catch (Exception e) {
         summary.addResult(serial, new DeviceResult.Builder().addException(e).build());
+      } finally {
+        log.fine("[%s] Execution done.", serial);
       }
     } else {
       // Spawn a new thread for each device and wait for them all to finish.
       final CountDownLatch done = new CountDownLatch(targetCount);
       for (final String serial : serials) {
-        log.fine("[" + serial + "] Starting execution.");
+        log.fine("[%s] Starting execution.", serial);
         new Thread(new Runnable() {
           @Override public void run() {
             try {
@@ -123,7 +124,7 @@ public final class SpoonRunner {
             } catch (Exception e) {
               summary.addResult(serial, new DeviceResult.Builder().addException(e).build());
             } finally {
-              log.fine("[" + serial + "] Execution done.");
+              log.fine("[%s] Execution done.", serial);
               done.countDown();
             }
           }
@@ -183,6 +184,7 @@ public final class SpoonRunner {
     private String classpath = System.getProperty("java.class.path");
     private String className;
     private String methodName;
+    private SpoonLogger log;
 
     /** Identifying title for this execution. */
     public Builder setTitle(String title) {
@@ -265,6 +267,11 @@ public final class SpoonRunner {
       return this;
     }
 
+    public Builder setLog(SpoonLogger log) {
+      this.log = log;
+      return this;
+    }
+
     public SpoonRunner build() {
       checkNotNull(androidSdk, "SDK is required.");
       checkArgument(androidSdk.exists(), "SDK path does not exist.");
@@ -277,8 +284,8 @@ public final class SpoonRunner {
             "Must specify class name if you're specifying a method name.");
       }
 
-      return new SpoonRunner(title, androidSdk, applicationApk, instrumentationApk, output, debug,
-          serials, classpath, className, methodName);
+      return new SpoonRunner(log, title, androidSdk, applicationApk, instrumentationApk, output,
+          debug, serials, classpath, className, methodName);
     }
   }
 
@@ -344,6 +351,7 @@ public final class SpoonRunner {
     }
 
     SpoonRunner spoonRunner = new SpoonRunner.Builder() //
+        .setLog(new StdOutLogger(parsedArgs.debug))
         .setTitle(parsedArgs.title)
         .setApplicationApk(parsedArgs.apk)
         .setInstrumentationApk(parsedArgs.testApk)
@@ -357,6 +365,22 @@ public final class SpoonRunner {
 
     if (!spoonRunner.run() && parsedArgs.failOnFailure) {
       System.exit(1);
+    }
+  }
+
+  private static class StdOutLogger implements SpoonLogger {
+    private final boolean debug;
+
+    public StdOutLogger(boolean debug) {
+      this.debug = debug;
+    }
+
+    @Override public void info(String message, Object... args) {
+      System.out.println(String.format(message, args));
+    }
+
+    @Override public void fine(String message, Object... args) {
+      if (debug) System.out.println(String.format(message, args));
     }
   }
 }
