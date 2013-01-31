@@ -20,8 +20,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Handler;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -30,8 +28,6 @@ import static com.android.ddmlib.FileListingService.FileEntry;
 import static com.android.ddmlib.FileListingService.TYPE_DIRECTORY;
 import static com.android.ddmlib.Log.LogLevel.DEBUG;
 import static com.android.ddmlib.SyncService.ISyncProgressMonitor;
-import static java.util.logging.Level.FINEST;
-import static java.util.logging.Level.INFO;
 
 /** Utilities for executing instrumentation tests on devices. */
 final class SpoonUtils {
@@ -70,16 +66,6 @@ final class SpoonUtils {
         @Override public void advance(int work) {
         }
       };
-
-  static Logger getConfiguredLogger(Object instance, boolean debug) {
-    Logger logger = Logger.getLogger(instance.getClass().getSimpleName());
-    logger.setLevel(FINEST); // Keep track of all log messages.
-    for (Handler handler : logger.getHandlers()) {
-      // Only record higher than INFO for debug executions.
-      handler.setLevel(debug ? FINEST : INFO);
-    }
-    return logger;
-  }
 
   static void copyResourceToOutput(String resource, File output) {
     InputStream is = null;

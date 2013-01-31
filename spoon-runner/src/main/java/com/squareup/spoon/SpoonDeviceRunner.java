@@ -7,9 +7,6 @@ import com.android.ddmlib.testrunner.RemoteAndroidTestRunner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.TrueFileFilter;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -17,7 +14,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Logger;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.TrueFileFilter;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
 import static com.squareup.spoon.Spoon.SPOON_SCREENSHOTS;
@@ -26,7 +24,6 @@ import static com.squareup.spoon.SpoonUtils.QUIET_MONITOR;
 import static com.squareup.spoon.SpoonUtils.createAnimatedGif;
 import static com.squareup.spoon.SpoonUtils.obtainDirectoryFileEntry;
 import static com.squareup.spoon.SpoonUtils.obtainRealDevice;
-import static java.util.logging.Level.SEVERE;
 
 /** Represents a single device and the test configuration to be executed. */
 public final class SpoonDeviceRunner {
@@ -215,7 +212,6 @@ public final class SpoonDeviceRunner {
       throw new IllegalArgumentException("Must be started with a device directory.");
     }
 
-    Logger log = Logger.getLogger(SpoonDeviceRunner.class.getSimpleName());
     try {
       String outputDirName = args[0];
       File outputDir = new File(outputDirName);
@@ -237,7 +233,8 @@ public final class SpoonDeviceRunner {
       GSON.toJson(result, writer);
       writer.close();
     } catch (Exception ex) {
-      log.log(SEVERE, "Unable to execute test for target.", ex);
+      System.out.println("ERROR: Unable to execute test for target.");
+      ex.printStackTrace();
     }
   }
 }

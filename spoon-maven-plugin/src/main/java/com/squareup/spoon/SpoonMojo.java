@@ -2,6 +2,9 @@
 package com.squareup.spoon;
 
 import com.google.common.base.Strings;
+import java.io.File;
+import java.util.Iterator;
+import java.util.Set;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.resolver.ArtifactResolutionRequest;
@@ -14,10 +17,6 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
 import org.apache.maven.repository.RepositorySystem;
-
-import java.io.File;
-import java.util.Iterator;
-import java.util.Set;
 
 import static com.squareup.spoon.SpoonRunner.DEFAULT_OUTPUT_DIRECTORY;
 import static org.apache.maven.plugins.annotations.LifecyclePhase.INTEGRATION_TEST;
@@ -67,7 +66,7 @@ public class SpoonMojo extends AbstractMojo {
   @Parameter
   private boolean failOnFailure;
 
-  /** Whether debug execution debug logging is enabled. */
+  /** Whether debug logging is enabled. */
   @Parameter
   private boolean debug;
 
@@ -134,6 +133,7 @@ public class SpoonMojo extends AbstractMojo {
     log.debug("Debug: " + Boolean.toString(debug));
 
     boolean success = new SpoonRunner.Builder() //
+        .setLog(new MojoLogger(log))
         .setTitle(title)
         .setApplicationApk(app)
         .setInstrumentationApk(instrumentation)
@@ -177,8 +177,8 @@ public class SpoonMojo extends AbstractMojo {
   }
 
   private String getSpoonClasspath() throws MojoExecutionException {
-    Artifact spoonPlugin = findArtifact(SPOON_GROUP_ID, SPOON_PLUGIN_ARTIFACT_ID,
-        project.getPluginArtifacts());
+    Artifact spoonPlugin =
+        findArtifact(SPOON_GROUP_ID, SPOON_PLUGIN_ARTIFACT_ID, project.getPluginArtifacts());
     Set<Artifact> spoonPluginDeps = getDependenciesForArtifact(spoonPlugin);
     Artifact spoon = findArtifact(SPOON_GROUP_ID, SPOON_ARTIFACT_ID, spoonPluginDeps);
     Set<Artifact> spoonDeps = getDependenciesForArtifact(spoon);
@@ -196,8 +196,7 @@ public class SpoonMojo extends AbstractMojo {
   }
 
   private Set<Artifact> getDependenciesForArtifact(Artifact artifact) {
-    ArtifactResolutionRequest arr = new ArtifactResolutionRequest()
-        .setArtifact(artifact)
+    ArtifactResolutionRequest arr = new ArtifactResolutionRequest().setArtifact(artifact)
         .setResolveTransitively(true)
         .setLocalRepository(local);
     return repositorySystem.resolve(arr).getArtifacts();
@@ -217,5 +216,21 @@ public class SpoonMojo extends AbstractMojo {
 
   private String getLocalPathToArtifact(Artifact artifact) {
     return new File(local.getBasedir(), local.pathOf(artifact)).getAbsolutePath();
+  }
+
+  private static class MojoLogger implements SpoonLogger {
+    private final Log log;
+
+    public MojoLogger(Log log) {
+      this.log = log;
+    }
+
+    @Override public void info(String message, Object... args) {
+      log.info(String.format(message, args));
+    }
+
+    @Override public void fine(String message, Object... args) {
+      log.debug(String.format(message, args));
+    }
   }
 }
