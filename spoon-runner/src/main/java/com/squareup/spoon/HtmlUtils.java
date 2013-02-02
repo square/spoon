@@ -3,7 +3,7 @@ package com.squareup.spoon;
 import java.io.File;
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -141,11 +141,7 @@ final class HtmlUtils {
     }
     String[] lines = exception.replaceAll("\r\n", "\n").split("\n");
     String title = lines[0];
-    List<String> body = new ArrayList<String>(lines.length - 1);
-    for (int i = 1; i < lines.length; i++) {
-      body.add(lines[i]);
-    }
-    return new StackTrace(title, body);
+    return new StackTrace(title, Arrays.asList(lines).subList(1, lines.length));
   }
 
   static String humanReadableDuration(long length) {

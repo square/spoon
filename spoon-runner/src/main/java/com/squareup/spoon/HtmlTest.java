@@ -47,16 +47,24 @@ final class HtmlTest {
         .append(HtmlUtils.humanReadableDuration(duration / testsPassed));
     }
 
-    return new HtmlTest(title, subtitle.toString(), devices);
+    String className = test.getClassName();
+    String methodName = test.getMethodName();
+
+    return new HtmlTest(title, subtitle.toString(), className, methodName, devices);
   }
 
   public final String title;
   public final String subtitle;
+  public final String className;
+  public final String methodName;
   public final List<TestResult> devices;
 
-  HtmlTest(String title, String subtitle, List<TestResult> devices) {
+  HtmlTest(String title, String subtitle, String className, String methodName,
+      List<TestResult> devices) {
     this.title = title;
     this.subtitle = subtitle;
+    this.className = className;
+    this.methodName = methodName;
     this.devices = devices;
   }
 

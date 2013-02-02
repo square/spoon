@@ -24,12 +24,15 @@
                     <h2 class="test-result {{status}}">
                         {{name}}
                         <!-- Icons modified from Glyphish Free. http://glyphish.com -->
+                        <a href="../../logs/{{serial}}/{{className}}/{{methodName}}.html" title="View device log" class="pull-right icon">
+                            <img src="../static/icon-log.png" alt="View device log">
+                        </a>
                         <a href="../../device/{{serial}}.html" title="View only this device" class="pull-right icon">
-                            <img src="../../static/icon-devices.png" alt="View only this device"/>
+                            <img src="../../static/icon-devices.png" alt="View only this device">
                         </a>
                         {{#hasScreenshots}}
                         <a href="../../{{animatedGif}}" title="View as animated GIF" class="pull-right icon">
-                            <img src="../../static/icon-animated.png" alt="View as animated GIF"/>
+                            <img src="../../static/icon-animated.png" alt="View as animated GIF">
                         </a>
                         {{/hasScreenshots}}
                     </h2>

@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 
@@ -127,6 +128,9 @@ public final class SpoonDeviceRunner {
       return result.markInstallAsFailed(e.getMessage()).build();
     }
 
+    // Initiate device logging.
+    SpoonDeviceLogger deviceLogger = new SpoonDeviceLogger(device);
+
     // Run all the tests! o/
     try {
       RemoteAndroidTestRunner runner = new RemoteAndroidTestRunner(testPackage, testRunner, device);
@@ -140,6 +144,15 @@ public final class SpoonDeviceRunner {
       runner.run(new SpoonTestRunListener(result));
     } catch (Exception e) {
       result.addException(e);
+    }
+
+    // Grab all the parsed logs and map them to individual tests.
+    Map<DeviceTest, List<DeviceLogMessage>> logs = deviceLogger.getParsedLogs();
+    for (Map.Entry<DeviceTest, List<DeviceLogMessage>> entry : logs.entrySet()) {
+      DeviceTestResult.Builder builder = result.getMethodResultBuilder(entry.getKey());
+      if (builder != null) {
+        builder.setLog(entry.getValue());
+      }
     }
 
     try {
