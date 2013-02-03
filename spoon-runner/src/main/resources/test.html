@@ -34,9 +34,9 @@
                         {{/hasScreenshots}}
                     </h2>
                     {{#exception}}
-                    <div class="alert alert-error stacktrace">
+                    <div class="alert alert-error stacktrace {{status}}">
                         <h4 data-toggle="collapse" data-target="#stacktrace-{{serial}}">{{title}}</h4>
-                        <div class="alert-error stacktrace-body collapse" id="stacktrace-{{serial}}">
+                        <div class="stacktrace-body collapse" id="stacktrace-{{serial}}">
                             {{#body}}
                             <div class="stacktrace-line">{{toString}}</div>
                             {{/body}}
