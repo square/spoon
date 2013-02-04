@@ -19,14 +19,16 @@ public final class DeviceTestResult {
   private final long duration;
   private final List<File> screenshots;
   private final File animatedGif;
+  private final List<DeviceLogMessage> log;
 
   private DeviceTestResult(Status status, String exception, long duration, List<File> screenshots,
-      File animatedGif) {
+      File animatedGif, List<DeviceLogMessage> log) {
     this.status = status;
     this.exception = exception;
     this.duration = duration;
     this.screenshots = unmodifiableList(new ArrayList<File>(screenshots));
     this.animatedGif = animatedGif;
+    this.log = log;
   }
 
   /** Execution status. */
@@ -54,6 +56,10 @@ public final class DeviceTestResult {
     return animatedGif;
   }
 
+  public List<DeviceLogMessage> getLog() {
+    return log;
+  }
+
   public static class Builder {
     private final List<File> screenshots = new ArrayList<File>();
     private Status status = Status.PASS;
@@ -61,6 +67,7 @@ public final class DeviceTestResult {
     private long start;
     private long duration = -1;
     private File animatedGif;
+    private List<DeviceLogMessage> log;
 
     public Builder markTestAsFailed(String exception) {
       checkNotNull(exception);
@@ -75,6 +82,13 @@ public final class DeviceTestResult {
       checkArgument(status == Status.PASS, "Status was already marked as " + status);
       status = Status.ERROR;
       this.exception = exception;
+      return this;
+    }
+
+    public Builder setLog(List<DeviceLogMessage> log) {
+      checkNotNull(log);
+      checkArgument(this.log == null, "Log already added.");
+      this.log = log;
       return this;
     }
 
@@ -105,7 +119,7 @@ public final class DeviceTestResult {
     }
 
     public DeviceTestResult build() {
-      return new DeviceTestResult(status, exception, duration, screenshots, animatedGif);
+      return new DeviceTestResult(status, exception, duration, screenshots, animatedGif, log);
     }
   }
 }

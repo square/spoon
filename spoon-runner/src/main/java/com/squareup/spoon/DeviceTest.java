@@ -46,6 +46,10 @@ public final class DeviceTest implements Comparable<DeviceTest> {
     return result;
   }
 
+  @Override public String toString() {
+    return className + "#" + methodName;
+  }
+
   @Override public int compareTo(DeviceTest other) {
     int classCompare = className.compareTo(other.className);
     if (classCompare != 0) {
