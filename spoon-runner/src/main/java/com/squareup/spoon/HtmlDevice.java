@@ -22,7 +22,6 @@ final class HtmlDevice {
 
     int testsRun = result.getTestResults().size();
     int testsFailed = testsRun - testsPassed;
-    String started = HtmlUtils.dateToString(result.getStarted());
     String totalTestsRun = testsRun + " test" + (testsRun != 1 ? "s" : "");
     DeviceDetails details = result.getDeviceDetails();
     String title = (details != null) ? details.getName() : serial;
@@ -42,7 +41,8 @@ final class HtmlDevice {
           .append(" failing in ")
           .append(HtmlUtils.humanReadableDuration(result.getDuration()));
     }
-    subtitle.append(" at ").append(started);
+    subtitle.append(" at ")
+        .append(HtmlUtils.dateToString(result.getStarted()));
 
     return new HtmlDevice(serial, title, subtitle.toString(), testResults, exceptions);
   }
@@ -97,7 +97,7 @@ final class HtmlDevice {
     TestResult(String serial, String className, String methodName, String classSimpleName,
         String prettyMethodName, String testId, String status,
         List<HtmlUtils.Screenshot> screenshots, String animatedGif,
-        HtmlUtils.StackTrace exceptions) {
+        HtmlUtils.StackTrace exception) {
       this.serial = serial;
       this.className = className;
       this.methodName = methodName;
@@ -108,7 +108,7 @@ final class HtmlDevice {
       this.hasScreenshots = !screenshots.isEmpty();
       this.screenshots = screenshots;
       this.animatedGif = animatedGif;
-      this.exception = exceptions;
+      this.exception = exception;
     }
 
     @Override public int compareTo(TestResult other) {
