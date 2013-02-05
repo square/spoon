@@ -8,11 +8,12 @@ read
 
 set -ex
 
-git rm -rf sample
+rm -rf sample
 cd ..
-mvn clean verify
+mvn clean verify -e
 cp -R spoon-sample/tests/target/spoon-output website/sample
 cd -
 git add sample
+git add -u sample
 
 echo "Sample output updated. Make sure to commit the changes."

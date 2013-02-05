@@ -117,7 +117,8 @@ final class SpoonRenderer {
     for (Map.Entry<String, DeviceResult> resultEntry : summary.getResults().entrySet()) {
       String serial = resultEntry.getKey();
       DeviceResult result = resultEntry.getValue();
-      String name = result.getDeviceDetails().getName();
+      DeviceDetails details = result.getDeviceDetails();
+      String name = (details != null) ? details.getName() : serial;
       for (Map.Entry<DeviceTest, DeviceTestResult> entry : result.getTestResults().entrySet()) {
         DeviceTest test = entry.getKey();
         HtmlLog scope = HtmlLog.from(name, test, entry.getValue());
