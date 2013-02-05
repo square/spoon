@@ -1,6 +1,7 @@
 package com.squareup.spoon;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -113,18 +114,24 @@ final class HtmlUtils {
     if (file == null) {
       return null;
     }
-    if (file.equals(output)) {
-      throw new IllegalArgumentException("File path and output folder are the same.");
-    }
-    StringBuilder builder = new StringBuilder();
-    while (!file.equals(output)) {
-      if (builder.length() > 0) {
-        builder.insert(0, "/");
+    try {
+      file = file.getCanonicalFile();
+      output = output.getCanonicalFile();
+      if (file.equals(output)) {
+        throw new IllegalArgumentException("File path and output folder are the same.");
       }
-      builder.insert(0, file.getName());
-      file = file.getParentFile();
+      StringBuilder builder = new StringBuilder();
+      while (!file.equals(output)) {
+        if (builder.length() > 0) {
+          builder.insert(0, "/");
+        }
+        builder.insert(0, file.getName());
+        file = file.getParentFile().getCanonicalFile();
+      }
+      return builder.toString();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
-    return builder.toString();
   }
 
   /** Get a HTML representation of a screenshot with respect to {@code output} directory. */
