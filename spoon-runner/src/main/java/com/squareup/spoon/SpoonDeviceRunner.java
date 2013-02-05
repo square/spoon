@@ -32,6 +32,7 @@ public final class SpoonDeviceRunner {
   private static final String FILE_RESULT = "result.json";
   static final String TEMP_DIR = "work";
 
+  private final SpoonLogger log;
   private final File sdk;
   private final File apk;
   private final File testApk;
@@ -47,6 +48,7 @@ public final class SpoonDeviceRunner {
   /**
    * Create a test runner for a single device.
    *
+   * @param log Logger for debug output.
    * @param sdk Path to the local Android SDK directory.
    * @param apk Path to application APK.
    * @param testApk Path to test application APK.
@@ -57,11 +59,12 @@ public final class SpoonDeviceRunner {
    * @param instrumentationInfo Test apk manifest information.
    * @param className Test class name to run or {@code null} to run all tests.
    * @param methodName Test method name to run or {@code null} to run all tests.  Must also pass
-   *        {@code className}.
+   *     {@code className}.
    */
-  SpoonDeviceRunner(File sdk, File apk, File testApk, File output, String serial, boolean debug,
-                    String classpath, SpoonInstrumentationInfo instrumentationInfo,
-                    String className, String methodName) {
+  SpoonDeviceRunner(SpoonLogger log, File sdk, File apk, File testApk, File output, String serial,
+      boolean debug, String classpath, SpoonInstrumentationInfo instrumentationInfo,
+      String className, String methodName) {
+    this.log = log;
     this.sdk = sdk;
     this.apk = apk;
     this.testApk = testApk;
@@ -77,6 +80,8 @@ public final class SpoonDeviceRunner {
 
   /** Serialize ourself to disk and start {@link #main(String...)} in another process. */
   public DeviceResult runInNewProcess() throws IOException, InterruptedException {
+    log.fine("SpoonDeviceRunner.runInNewProcess for [%s]", serial);
+
     // Create the output directory.
     work.mkdirs();
 
@@ -90,6 +95,7 @@ public final class SpoonDeviceRunner {
     Process process =
         new ProcessBuilder("java", "-cp", classpath, name, work.getAbsolutePath()).start();
     process.waitFor();
+    log.fine("Process.waitFor() finished for [%s]", serial);
 
     // Read the result from a file in the output directory.
     FileReader resultFile = new FileReader(new File(work, FILE_RESULT));
@@ -101,30 +107,40 @@ public final class SpoonDeviceRunner {
 
   /** Execute instrumentation on the target device and return a result summary. */
   public DeviceResult run(AndroidDebugBridge adb) {
+    log.fine("SpoonDeviceRunner.run for [%s]", serial);
     String appPackage = instrumentationInfo.getApplicationPackage();
     String testPackage = instrumentationInfo.getInstrumentationPackage();
     String testRunner = instrumentationInfo.getTestRunnerClass();
+    log.fine("SpoonDeviceRunner.run got instrumentationInfo for [%s]", serial);
 
     if (debug) {
+      log.fine("SpoonDeviceRunner.run setting ddmlib log-level for [%s]", serial);
       SpoonUtils.setDdmlibInternalLoggingLevel();
     }
 
     DeviceResult.Builder result = new DeviceResult.Builder();
 
+    log.fine("SpoonDeviceRunner.run obtaining device for [%s]", serial);
     IDevice device = obtainRealDevice(adb, serial);
+    log.fine("SpoonDeviceRunner.run got realDevice for [%s]", serial);
 
     // Get relevant device information.
     result.setDeviceDetails(DeviceDetails.createForDevice(device));
+    log.fine("SpoonDeviceRunner.run setDeviceDetails for [%s]", serial);
 
     // Install the main application and the instrumentation application.
     try {
       if (device.installPackage(apk.getAbsolutePath(), true) != null) {
+        log.info("SpoonDeviceRunner.run app install failed for [%s]", serial);
         return result.markInstallAsFailed("Unable to install application APK.").build();
       }
       if (device.installPackage(testApk.getAbsolutePath(), true) != null) {
+        log.info("SpoonDeviceRunner.run instrumentation install failed for [%s]", serial);
         return result.markInstallAsFailed("Unable to install instrumentation APK.").build();
       }
     } catch (InstallException e) {
+      log.info("SpoonDeviceRunner.run got an InstallException on device [%s]", serial);
+      e.printStackTrace();
       return result.markInstallAsFailed(e.getMessage()).build();
     }
 
@@ -133,6 +149,7 @@ public final class SpoonDeviceRunner {
 
     // Run all the tests! o/
     try {
+      log.fine("About to actually run tests for [%s]", serial);
       RemoteAndroidTestRunner runner = new RemoteAndroidTestRunner(testPackage, testRunner, device);
       if (!Strings.isNullOrEmpty(className)) {
         if (Strings.isNullOrEmpty(methodName)) {
@@ -141,7 +158,7 @@ public final class SpoonDeviceRunner {
           runner.setMethodName(className, methodName);
         }
       }
-      runner.run(new SpoonTestRunListener(result));
+      runner.run(new SpoonTestRunListener(result, log));
     } catch (Exception e) {
       result.addException(e);
     }
@@ -156,6 +173,7 @@ public final class SpoonDeviceRunner {
     }
 
     try {
+      log.fine("About to grab screenshots and prepare output for [%s]", serial);
       // Create the output directory, if it does not already exist.
       work.mkdirs();
 
@@ -163,6 +181,8 @@ public final class SpoonDeviceRunner {
       String dirName = "app_" + SPOON_SCREENSHOTS;
       String localDirName = work.getAbsolutePath();
       FileEntry deviceDir = obtainDirectoryFileEntry("/data/data/" + appPackage + "/" + dirName);
+      log.fine("Pulling screenshots from [%s] %s", serial, deviceDir);
+
       device.getSyncService().pull(new FileEntry[] {deviceDir}, localDirName, QUIET_MONITOR);
 
       File screenshotDir = new File(work, dirName);
@@ -206,6 +226,9 @@ public final class SpoonDeviceRunner {
           FileUtils.deleteDirectory(screenshotDir);
         } catch (IOException ignored) {
           // DDMS r16 bug on Windows. Le sigh.
+          log.info(
+              "Warning: IOException when trying to delete %s.  If you're not on Windows, panic.",
+              screenshotDir);
         }
       }
     } catch (Exception e) {

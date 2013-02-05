@@ -106,8 +106,10 @@ public final class SpoonRunner {
       String serial = serials.iterator().next();
       try {
         log.fine("[%s] Starting execution.", serial);
-        summary.addResult(serial, getTestRunner(serial, testInfo).run(adb));
+        summary.addResult(serial, getTestRunner(serial, testInfo, log).run(adb));
       } catch (Exception e) {
+        log.fine("[%s] Execution exception!", serial);
+        e.printStackTrace();
         summary.addResult(serial, new DeviceResult.Builder().addException(e).build());
       } finally {
         log.fine("[%s] Execution done.", serial);
@@ -120,7 +122,7 @@ public final class SpoonRunner {
         new Thread(new Runnable() {
           @Override public void run() {
             try {
-              summary.addResult(serial, getTestRunner(serial, testInfo).runInNewProcess());
+              summary.addResult(serial, getTestRunner(serial, testInfo, log).runInNewProcess());
             } catch (Exception e) {
               summary.addResult(serial, new DeviceResult.Builder().addException(e).build());
             } finally {
@@ -167,9 +169,10 @@ public final class SpoonRunner {
     return true;
   }
 
-  private SpoonDeviceRunner getTestRunner(String serial, SpoonInstrumentationInfo testInfo) {
-    return new SpoonDeviceRunner(androidSdk, applicationApk, instrumentationApk, output, serial,
-        debug, classpath, testInfo, className, methodName);
+  private SpoonDeviceRunner getTestRunner(String serial, SpoonInstrumentationInfo testInfo,
+      SpoonLogger log) {
+    return new SpoonDeviceRunner(log, androidSdk, applicationApk, instrumentationApk, output,
+        serial, debug, classpath, testInfo, className, methodName);
   }
 
   /** Build a test suite for the specified devices and configuration. */
