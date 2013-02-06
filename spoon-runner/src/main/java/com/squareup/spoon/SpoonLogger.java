@@ -1,8 +1,12 @@
 package com.squareup.spoon;
 
 /** Simple logger interface. */
-public interface SpoonLogger {
-  void info(String message, Object... args);
+public class SpoonLogger {
+  public static void logInfo(String message, Object... args) {
+    System.out.println(String.format(message, args));
+  }
 
-  void fine(String message, Object... args);
+  public static void logDebug(boolean debug, String message, Object... args) {
+    if (debug) System.out.println(String.format(message, args));
+  }
 }

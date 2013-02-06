@@ -30,7 +30,7 @@ import static org.apache.maven.plugins.annotations.LifecyclePhase.INTEGRATION_TE
 public class SpoonMojo extends AbstractMojo {
   private static final String SPOON_GROUP_ID = "com.squareup.spoon";
   private static final String SPOON_PLUGIN_ARTIFACT_ID = "spoon-maven-plugin";
-  private static final String SPOON_ARTIFACT_ID = "spoon-client";
+  private static final String SPOON_ARTIFACT_ID = "spoon-runner";
   private static final String ARTIFACT_TYPE = "zip";
   private static final String ARTIFACT_CLASSIFIER = "spoon-output";
 
@@ -133,7 +133,6 @@ public class SpoonMojo extends AbstractMojo {
     log.debug("Debug: " + Boolean.toString(debug));
 
     boolean success = new SpoonRunner.Builder() //
-        .setLog(new MojoLogger(log))
         .setTitle(title)
         .setApplicationApk(app)
         .setInstrumentationApk(instrumentation)
@@ -216,21 +215,5 @@ public class SpoonMojo extends AbstractMojo {
 
   private String getLocalPathToArtifact(Artifact artifact) {
     return new File(local.getBasedir(), local.pathOf(artifact)).getAbsolutePath();
-  }
-
-  private static class MojoLogger implements SpoonLogger {
-    private final Log log;
-
-    public MojoLogger(Log log) {
-      this.log = log;
-    }
-
-    @Override public void info(String message, Object... args) {
-      log.info(String.format(message, args));
-    }
-
-    @Override public void fine(String message, Object... args) {
-      log.debug(String.format(message, args));
-    }
   }
 }
