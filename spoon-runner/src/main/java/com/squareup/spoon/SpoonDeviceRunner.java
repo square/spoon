@@ -7,10 +7,13 @@ import com.android.ddmlib.testrunner.RemoteAndroidTestRunner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,6 +23,8 @@ import org.apache.commons.io.filefilter.TrueFileFilter;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
 import static com.squareup.spoon.Spoon.SPOON_SCREENSHOTS;
+import static com.squareup.spoon.SpoonLogger.logDebug;
+import static com.squareup.spoon.SpoonLogger.logInfo;
 import static com.squareup.spoon.SpoonUtils.GSON;
 import static com.squareup.spoon.SpoonUtils.QUIET_MONITOR;
 import static com.squareup.spoon.SpoonUtils.createAnimatedGif;
@@ -60,8 +65,8 @@ public final class SpoonDeviceRunner {
    *        {@code className}.
    */
   SpoonDeviceRunner(File sdk, File apk, File testApk, File output, String serial, boolean debug,
-                    String classpath, SpoonInstrumentationInfo instrumentationInfo,
-                    String className, String methodName) {
+      String classpath, SpoonInstrumentationInfo instrumentationInfo, String className,
+      String methodName) {
     this.sdk = sdk;
     this.apk = apk;
     this.testApk = testApk;
@@ -77,6 +82,8 @@ public final class SpoonDeviceRunner {
 
   /** Serialize ourself to disk and start {@link #main(String...)} in another process. */
   public DeviceResult runInNewProcess() throws IOException, InterruptedException {
+    logDebug(debug, "SpoonDeviceRunner.runInNewProcess for [%s]", serial);
+
     // Create the output directory.
     work.mkdirs();
 
@@ -89,7 +96,10 @@ public final class SpoonDeviceRunner {
     String name = SpoonDeviceRunner.class.getName();
     Process process =
         new ProcessBuilder("java", "-cp", classpath, name, work.getAbsolutePath()).start();
-    process.waitFor();
+    printStream(process.getInputStream(), "STDOUT");
+    printStream(process.getErrorStream(), "STDERR");
+    final int exitCode = process.waitFor();
+    logDebug(debug, "Process.waitFor() finished for [%s] with exitCode %d", serial, exitCode);
 
     // Read the result from a file in the output directory.
     FileReader resultFile = new FileReader(new File(work, FILE_RESULT));
@@ -99,11 +109,20 @@ public final class SpoonDeviceRunner {
     return result;
   }
 
+  private void printStream(InputStream stream, String tag) throws IOException {
+    BufferedReader stdout = new BufferedReader(new InputStreamReader(stream));
+    String s;
+    while ((s = stdout.readLine()) != null) {
+      logDebug(debug, "[%s] %s %s", serial, tag, s);
+    }
+  }
+
   /** Execute instrumentation on the target device and return a result summary. */
   public DeviceResult run(AndroidDebugBridge adb) {
     String appPackage = instrumentationInfo.getApplicationPackage();
     String testPackage = instrumentationInfo.getInstrumentationPackage();
     String testRunner = instrumentationInfo.getTestRunnerClass();
+    logDebug(debug, "InstrumentationInfo: [%s]", instrumentationInfo);
 
     if (debug) {
       SpoonUtils.setDdmlibInternalLoggingLevel();
@@ -112,19 +131,31 @@ public final class SpoonDeviceRunner {
     DeviceResult.Builder result = new DeviceResult.Builder();
 
     IDevice device = obtainRealDevice(adb, serial);
+    logDebug(debug, "SpoonDeviceRunner.run got realDevice for [%s]", serial);
 
     // Get relevant device information.
     result.setDeviceDetails(DeviceDetails.createForDevice(device));
+    logDebug(debug, "SpoonDeviceRunner.run setDeviceDetails for [%s]", serial);
 
-    // Install the main application and the instrumentation application.
     try {
-      if (device.installPackage(apk.getAbsolutePath(), true) != null) {
+      // First try to uninstall the old apks.  This will avoid "inconsistent certificate" errors.
+      tryToUninstall(device, instrumentationInfo.getApplicationPackage());
+      tryToUninstall(device, instrumentationInfo.getInstrumentationPackage());
+
+      // Now install the main application and the instrumentation application.
+      String installError = device.installPackage(apk.getAbsolutePath(), true);
+      if (installError != null) {
+        logInfo("[%s] app apk install failed.  Error [%s]", serial, installError);
         return result.markInstallAsFailed("Unable to install application APK.").build();
       }
-      if (device.installPackage(testApk.getAbsolutePath(), true) != null) {
+      installError = device.installPackage(testApk.getAbsolutePath(), true);
+      if (installError != null) {
+        logInfo("[%s] test apk install failed.  Error [%s]", serial, installError);
         return result.markInstallAsFailed("Unable to install instrumentation APK.").build();
       }
     } catch (InstallException e) {
+      logInfo("SpoonDeviceRunner.run got an InstallException on device [%s]", serial);
+      e.printStackTrace();
       return result.markInstallAsFailed(e.getMessage()).build();
     }
 
@@ -133,6 +164,7 @@ public final class SpoonDeviceRunner {
 
     // Run all the tests! o/
     try {
+      logDebug(debug, "About to actually run tests for [%s]", serial);
       RemoteAndroidTestRunner runner = new RemoteAndroidTestRunner(testPackage, testRunner, device);
       if (!Strings.isNullOrEmpty(className)) {
         if (Strings.isNullOrEmpty(methodName)) {
@@ -141,7 +173,7 @@ public final class SpoonDeviceRunner {
           runner.setMethodName(className, methodName);
         }
       }
-      runner.run(new SpoonTestRunListener(result));
+      runner.run(new SpoonTestRunListener(result, debug));
     } catch (Exception e) {
       result.addException(e);
     }
@@ -156,13 +188,17 @@ public final class SpoonDeviceRunner {
     }
 
     try {
+      logDebug(debug, "About to grab screenshots and prepare output for [%s]", serial);
       // Create the output directory, if it does not already exist.
       work.mkdirs();
 
       // Sync device screenshots, if any, to the local filesystem.
       String dirName = "app_" + SPOON_SCREENSHOTS;
       String localDirName = work.getAbsolutePath();
-      FileEntry deviceDir = obtainDirectoryFileEntry("/data/data/" + appPackage + "/" + dirName);
+      final String devicePath = "/data/data/" + appPackage + "/" + dirName;
+      FileEntry deviceDir = obtainDirectoryFileEntry(devicePath);
+      logDebug(debug, "Pulling screenshots from [%s] %s", serial, devicePath);
+
       device.getSyncService().pull(new FileEntry[] {deviceDir}, localDirName, QUIET_MONITOR);
 
       File screenshotDir = new File(work, dirName);
@@ -206,6 +242,9 @@ public final class SpoonDeviceRunner {
           FileUtils.deleteDirectory(screenshotDir);
         } catch (IOException ignored) {
           // DDMS r16 bug on Windows. Le sigh.
+          logInfo(
+              "Warning: IOException when trying to delete %s.  If you're not on Windows, panic.",
+              screenshotDir);
         }
       }
     } catch (Exception e) {
@@ -213,6 +252,14 @@ public final class SpoonDeviceRunner {
     }
 
     return result.build();
+  }
+
+  private static void tryToUninstall(IDevice device, String appId) {
+    try {
+      device.uninstallPackage(appId);
+    } catch (InstallException e) {
+      logInfo("[%s] Unable to uninstall %s", device.getSerialNumber(), appId);
+    }
   }
 
   /////////////////////////////////////////////////////////////////////////////
@@ -245,9 +292,10 @@ public final class SpoonDeviceRunner {
       FileWriter writer = new FileWriter(new File(outputDir, FILE_RESULT));
       GSON.toJson(result, writer);
       writer.close();
-    } catch (Exception ex) {
-      System.out.println("ERROR: Unable to execute test for target.");
-      ex.printStackTrace();
+    } catch (Throwable ex) {
+      logInfo("ERROR: Unable to execute test for target.  Exception message: %s", ex.getMessage());
+      ex.printStackTrace(System.out);
+      System.exit(1);
     }
   }
 }
