@@ -22,12 +22,12 @@ final class SpoonTestRunListener implements ITestRunListener {
   }
 
   @Override public void testRunStarted(String runName, int testCount) {
-    logDebug(debug, "STRL.testRunStarted %d %s", testCount, runName);
+    logDebug(debug, "testCount=%d runName=%s", testCount, runName);
     result.startTests();
   }
 
   @Override public void testStarted(TestIdentifier test) {
-    logDebug(debug, "STRL.testStarted %s", test);
+    logDebug(debug, "test=%s", test);
     DeviceTestResult.Builder methodResult = new DeviceTestResult.Builder().startTest();
     methodResults.put(test, methodResult);
   }
@@ -36,11 +36,11 @@ final class SpoonTestRunListener implements ITestRunListener {
     DeviceTestResult.Builder methodResult = methodResults.get(test);
     switch (status) {
       case FAILURE:
-        logDebug(debug, "STRL.testFailed FAILURE %s", trace);
+        logDebug(debug, "failed %s", trace);
         methodResult.markTestAsFailed(trace);
         break;
       case ERROR:
-        logDebug(debug, "STRL.testFailed ERROR %s", trace);
+        logDebug(debug, "error %s", trace);
         methodResult.markTestAsError(trace);
         break;
       default:
@@ -49,22 +49,22 @@ final class SpoonTestRunListener implements ITestRunListener {
   }
 
   @Override public void testEnded(TestIdentifier test, Map<String, String> testMetrics) {
-    logDebug(debug, "STRL.testEnded %s", test);
+    logDebug(debug, "test=%s", test);
     DeviceTestResult.Builder methodResultBuilder = methodResults.get(test).endTest();
     result.addTestResultBuilder(DeviceTest.from(test), methodResultBuilder);
   }
 
   @Override public void testRunFailed(String errorMessage) {
-    logDebug(debug, "STRL.testRunFailed %s", errorMessage);
+    logDebug(debug, "errorMessage=%s", errorMessage);
     result.addException(errorMessage);
   }
 
   @Override public void testRunStopped(long elapsedTime) {
-    logDebug(debug, "STRL.testRunStopped elapsedTime=%d", elapsedTime);
+    logDebug(debug, "elapsedTime=%d", elapsedTime);
   }
 
   @Override public void testRunEnded(long elapsedTime, Map<String, String> runMetrics) {
-    logDebug(debug, "STRL.testRunEnded elapsedTime=%d", elapsedTime);
+    logDebug(debug, "elapsedTime=%d", elapsedTime);
     result.endTests();
   }
 }

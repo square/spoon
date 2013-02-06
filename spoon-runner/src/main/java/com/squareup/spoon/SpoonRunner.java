@@ -107,7 +107,7 @@ public final class SpoonRunner {
         summary.addResult(serial, getTestRunner(serial, testInfo).run(adb));
       } catch (Exception e) {
         logDebug(debug, "[%s] Execution exception!", serial);
-        e.printStackTrace();
+        e.printStackTrace(System.out);
         summary.addResult(serial, new DeviceResult.Builder().addException(e).build());
       } finally {
         logDebug(debug, "[%s] Execution done.", serial);

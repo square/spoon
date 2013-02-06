@@ -82,7 +82,7 @@ public final class SpoonDeviceRunner {
 
   /** Serialize ourself to disk and start {@link #main(String...)} in another process. */
   public DeviceResult runInNewProcess() throws IOException, InterruptedException {
-    logDebug(debug, "SpoonDeviceRunner.runInNewProcess for [%s]", serial);
+    logDebug(debug, "[%s]", serial);
 
     // Create the output directory.
     work.mkdirs();
@@ -131,11 +131,12 @@ public final class SpoonDeviceRunner {
     DeviceResult.Builder result = new DeviceResult.Builder();
 
     IDevice device = obtainRealDevice(adb, serial);
-    logDebug(debug, "SpoonDeviceRunner.run got realDevice for [%s]", serial);
+    logDebug(debug, "Got realDevice for [%s]", serial);
 
     // Get relevant device information.
-    result.setDeviceDetails(DeviceDetails.createForDevice(device));
-    logDebug(debug, "SpoonDeviceRunner.run setDeviceDetails for [%s]", serial);
+    final DeviceDetails deviceDetails = DeviceDetails.createForDevice(device);
+    result.setDeviceDetails(deviceDetails);
+    logDebug(debug, "[%s] setDeviceDetails %s", serial, deviceDetails);
 
     try {
       // First try to uninstall the old apks.  This will avoid "inconsistent certificate" errors.
@@ -154,8 +155,8 @@ public final class SpoonDeviceRunner {
         return result.markInstallAsFailed("Unable to install instrumentation APK.").build();
       }
     } catch (InstallException e) {
-      logInfo("SpoonDeviceRunner.run got an InstallException on device [%s]", serial);
-      e.printStackTrace();
+      logInfo("InstallException on device [%s]", serial);
+      e.printStackTrace(System.out);
       return result.markInstallAsFailed(e.getMessage()).build();
     }
 
