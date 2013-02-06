@@ -62,7 +62,7 @@ public final class SpoonDeviceRunner {
    * @param instrumentationInfo Test apk manifest information.
    * @param className Test class name to run or {@code null} to run all tests.
    * @param methodName Test method name to run or {@code null} to run all tests.  Must also pass
-   *     {@code className}.
+   *        {@code className}.
    */
   SpoonDeviceRunner(File sdk, File apk, File testApk, File output, String serial, boolean debug,
       String classpath, SpoonInstrumentationInfo instrumentationInfo, String className,
@@ -281,9 +281,10 @@ public final class SpoonDeviceRunner {
       FileWriter writer = new FileWriter(new File(outputDir, FILE_RESULT));
       GSON.toJson(result, writer);
       writer.close();
-    } catch (Exception ex) {
-      System.out.println("ERROR: Unable to execute test for target.");
-      ex.printStackTrace();
+    } catch (Throwable ex) {
+      logInfo("ERROR: Unable to execute test for target.  Exception message: %s", ex.getMessage());
+      ex.printStackTrace(System.out);
+      System.exit(1);
     }
   }
 }
