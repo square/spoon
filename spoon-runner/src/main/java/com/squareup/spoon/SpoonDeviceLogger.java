@@ -69,7 +69,7 @@ final class SpoonDeviceLogger {
           }
         } catch (Exception e) {
           System.err.println("Unable to connect to logcat on device. Check connection.");
-          e.printStackTrace();
+          e.printStackTrace(System.err);
         }
       }
     }).start();

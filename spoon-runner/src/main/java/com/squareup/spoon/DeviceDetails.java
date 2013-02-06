@@ -1,6 +1,7 @@
 package com.squareup.spoon;
 
 import com.android.ddmlib.IDevice;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /** Device configuration and hardware information. */
 public final class DeviceDetails {
@@ -60,5 +61,9 @@ public final class DeviceDetails {
     String region = device.getProperty("ro.product.locale.region");
 
     return new DeviceDetails(name, manufacturer, version, apiLevel, language, region);
+  }
+
+  @Override public String toString() {
+    return ToStringBuilder.reflectionToString(this);
   }
 }
