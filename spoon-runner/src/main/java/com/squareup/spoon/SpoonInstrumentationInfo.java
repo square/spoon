@@ -87,4 +87,12 @@ final class SpoonInstrumentationInfo {
       IOUtils.closeQuietly(is);
     }
   }
+
+  @Override public String toString() {
+    return "SpoonInstrumentationInfo{"
+        + "applicationPackage='" + applicationPackage + '\''
+        + ", instrumentationPackage='" + instrumentationPackage + '\''
+        + ", testRunnerClass='" + testRunnerClass + '\''
+        + '}';
+  }
 }
