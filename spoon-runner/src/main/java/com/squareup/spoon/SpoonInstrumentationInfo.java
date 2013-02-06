@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -89,10 +90,6 @@ final class SpoonInstrumentationInfo {
   }
 
   @Override public String toString() {
-    return "SpoonInstrumentationInfo{"
-        + "applicationPackage='" + applicationPackage + '\''
-        + ", instrumentationPackage='" + instrumentationPackage + '\''
-        + ", testRunnerClass='" + testRunnerClass + '\''
-        + '}';
+    return ToStringBuilder.reflectionToString(this);
   }
 }

@@ -94,12 +94,11 @@ public final class SpoonDeviceRunner {
 
     // Kick off a new process to interface with ADB and perform the real execution.
     String name = SpoonDeviceRunner.class.getName();
-    //logDebug(debug, "[%s] java -cp %s %s %s", serial, classpath, name, work.getAbsolutePath());
     Process process =
         new ProcessBuilder("java", "-cp", classpath, name, work.getAbsolutePath()).start();
-    final int exitCode = process.waitFor();
     printStream(process.getInputStream(), "STDOUT");
     printStream(process.getErrorStream(), "STDERR");
+    final int exitCode = process.waitFor();
     logDebug(debug, "Process.waitFor() finished for [%s] with exitCode %d", serial, exitCode);
 
     // Read the result from a file in the output directory.
@@ -138,8 +137,12 @@ public final class SpoonDeviceRunner {
     result.setDeviceDetails(DeviceDetails.createForDevice(device));
     logDebug(debug, "SpoonDeviceRunner.run setDeviceDetails for [%s]", serial);
 
-    // Install the main application and the instrumentation application.
     try {
+      // First try to uninstall the old apks.  This will avoid "inconsistent certificate" errors.
+      tryToUninstall(device, instrumentationInfo.getApplicationPackage());
+      tryToUninstall(device, instrumentationInfo.getInstrumentationPackage());
+
+      // Now install the main application and the instrumentation application.
       String installError = device.installPackage(apk.getAbsolutePath(), true);
       if (installError != null) {
         logInfo("[%s] app apk install failed.  Error [%s]", serial, installError);
@@ -249,6 +252,14 @@ public final class SpoonDeviceRunner {
     }
 
     return result.build();
+  }
+
+  private static void tryToUninstall(IDevice device, String appId) {
+    try {
+      device.uninstallPackage(appId);
+    } catch (InstallException e) {
+      logInfo("[%s] Unable to uninstall %s", device.getSerialNumber(), appId);
+    }
   }
 
   /////////////////////////////////////////////////////////////////////////////
