@@ -56,7 +56,8 @@ public final class DeviceDetails {
     String name = device.getProperty("ro.product.model");
     String manufacturer = device.getProperty("ro.product.manufacturer");
     String version = device.getProperty("ro.build.version.release");
-    int apiLevel = Integer.parseInt(device.getProperty("ro.build.version.sdk"));
+    String api = device.getProperty("ro.build.version.sdk");
+    int apiLevel = api != null ? Integer.parseInt(api) : 0;
     String language = device.getProperty("ro.product.locale.language");
     String region = device.getProperty("ro.product.locale.region");
 
