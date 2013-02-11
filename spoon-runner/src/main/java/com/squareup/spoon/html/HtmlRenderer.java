@@ -90,14 +90,14 @@ public final class HtmlRenderer {
   }
 
   private void generateIndexHtml(MustacheFactory mustacheFactory) {
-    Mustache mustache = mustacheFactory.compile("index.html");
+    Mustache mustache = mustacheFactory.compile("page/index.html");
     HtmlIndex scope = HtmlIndex.from(summary);
     File file = new File(output, "index.html");
     renderMustacheToFile(mustache, scope, file);
   }
 
   private void generateDeviceHtml(MustacheFactory mustacheFactory) {
-    Mustache mustache = mustacheFactory.compile("device.html");
+    Mustache mustache = mustacheFactory.compile("page/device.html");
     for (Map.Entry<String, DeviceResult> entry : summary.getResults().entrySet()) {
       String serial = entry.getKey();
       HtmlDevice scope = HtmlDevice.from(serial, entry.getValue(), output);
@@ -107,7 +107,7 @@ public final class HtmlRenderer {
   }
 
   private void generateTestHtml(MustacheFactory mustacheFactory) {
-    Mustache mustache = mustacheFactory.compile("test.html");
+    Mustache mustache = mustacheFactory.compile("page/test.html");
     // Create a set of unique tests.
     Set<DeviceTest> tests = new LinkedHashSet<DeviceTest>();
     for (DeviceResult deviceResult : summary.getResults().values()) {
@@ -123,7 +123,7 @@ public final class HtmlRenderer {
   }
 
   private void generateLogHtml(MustacheFactory mustacheFactory) {
-    Mustache mustache = mustacheFactory.compile("log.html");
+    Mustache mustache = mustacheFactory.compile("page/log.html");
     for (Map.Entry<String, DeviceResult> resultEntry : summary.getResults().entrySet()) {
       String serial = resultEntry.getKey();
       DeviceResult result = resultEntry.getValue();

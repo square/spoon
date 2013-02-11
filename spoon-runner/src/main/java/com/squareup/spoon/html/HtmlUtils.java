@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
-import static com.squareup.spoon.Spoon.NAME_SEPARATOR;
+import static com.squareup.spoon.DeviceTestResult.SCREENSHOT_SEPARATOR;
 
 /** Utilities for representing the execution in HTML. */
 final class HtmlUtils {
@@ -95,7 +95,7 @@ final class HtmlUtils {
   /** Convert an image name from {@code 87243508_this-here-is-it} to "This Here Is It". */
   static String prettifyImageName(String imageName) {
     // Remove the timestamp information.
-    imageName = imageName.split(NAME_SEPARATOR, 2)[1];
+    imageName = imageName.split(SCREENSHOT_SEPARATOR, 2)[1];
 
     StringBuilder pretty = new StringBuilder();
     for (String part : imageName.replace('_', '-').split("-")) {
