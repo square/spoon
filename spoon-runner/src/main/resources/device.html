@@ -23,10 +23,10 @@
                 <div class="span12">
                     {{#exceptions}}
                     <div class="alert alert-error stacktrace">
-                        <h4 data-toggle="collapse" data-target="#stacktrace-{{id}}">{{title}}</h4>
+                        <h4 data-toggle="collapse" data-target="#stacktrace-{{id}}">{{{title}}}</h4>
                         <div class="alert-error stacktrace-body collapse" id="stacktrace-{{id}}">
                             {{#body}}
-                            <div class="stacktrace-line">{{toString}}</div>
+                            <div class="stacktrace-line">{{{toString}}}</div>
                             {{/body}}
                         </div>
                     </div>
@@ -54,10 +54,10 @@
                     </h2>
                     {{#exception}}
                     <div class="alert alert-error stacktrace {{status}}">
-                        <h4 data-toggle="collapse" data-target="#stacktrace-{{id}}">{{title}}</h4>
+                        <h4 data-toggle="collapse" data-target="#stacktrace-{{id}}">{{{title}}}</h4>
                         <div class="stacktrace-body collapse" id="stacktrace-{{id}}">
                             {{#body}}
-                            <div class="stacktrace-line">{{toString}}</div>
+                            <div class="stacktrace-line">{{{toString}}}</div>
                             {{/body}}
                         </div>
                     </div>

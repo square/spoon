@@ -1,5 +1,6 @@
 package com.squareup.spoon;
 
+import com.squareup.spoon.misc.StackTrace;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +27,9 @@ final class HtmlDevice {
     DeviceDetails details = result.getDeviceDetails();
     String title = (details != null) ? details.getName() : serial;
 
-    List<HtmlUtils.StackTrace> exceptions = new ArrayList<HtmlUtils.StackTrace>();
-    for (String exception : result.getExceptions()) {
-      exceptions.add(HtmlUtils.parseException(exception));
+    List<HtmlUtils.ExceptionInfo> exceptions = new ArrayList<HtmlUtils.ExceptionInfo>();
+    for (StackTrace exception : result.getExceptions()) {
+      exceptions.add(HtmlUtils.processStackTrace(exception));
     }
 
     StringBuilder subtitle = new StringBuilder();
@@ -52,10 +53,10 @@ final class HtmlDevice {
   public final String subtitle;
   public final List<TestResult> testResults;
   public final boolean hasExceptions;
-  public final List<HtmlUtils.StackTrace> exceptions;
+  public final List<HtmlUtils.ExceptionInfo> exceptions;
 
   HtmlDevice(String serial, String title, String subtitle, List<TestResult> testResults,
-      List<HtmlUtils.StackTrace> exceptions) {
+      List<HtmlUtils.ExceptionInfo> exceptions) {
     this.serial = serial;
     this.title = title;
     this.subtitle = subtitle;
@@ -77,7 +78,7 @@ final class HtmlDevice {
         screenshots.add(HtmlUtils.getScreenshot(screenshot, output));
       }
       String animatedGif = HtmlUtils.createRelativeUri(result.getAnimatedGif(), output);
-      HtmlUtils.StackTrace exception = HtmlUtils.parseException(result.getException());
+      HtmlUtils.ExceptionInfo exception = HtmlUtils.processStackTrace(result.getException());
       return new TestResult(serial, className, methodName, classSimpleName, prettyMethodName,
           testId, status, screenshots, animatedGif, exception);
     }
@@ -92,12 +93,12 @@ final class HtmlDevice {
     public final boolean hasScreenshots;
     public final List<HtmlUtils.Screenshot> screenshots;
     public final String animatedGif;
-    public final HtmlUtils.StackTrace exception;
+    public final HtmlUtils.ExceptionInfo exception;
 
     TestResult(String serial, String className, String methodName, String classSimpleName,
         String prettyMethodName, String testId, String status,
         List<HtmlUtils.Screenshot> screenshots, String animatedGif,
-        HtmlUtils.StackTrace exception) {
+        HtmlUtils.ExceptionInfo exception) {
       this.serial = serial;
       this.className = className;
       this.methodName = methodName;

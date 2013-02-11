@@ -1,7 +1,6 @@
 package com.squareup.spoon;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import com.squareup.spoon.misc.StackTrace;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -22,18 +21,18 @@ public final class DeviceResult {
   private final Map<DeviceTest, DeviceTestResult> testResults;
   private final long started;
   private final long duration;
-  private final List<String> exceptions;
+  private final List<StackTrace> exceptions;
 
   private DeviceResult(boolean installFailed, String installMessage, DeviceDetails deviceDetails,
       Map<DeviceTest, DeviceTestResult> testResults, long started, long duration,
-      List<String> exceptions) {
+      List<StackTrace> exceptions) {
     this.installFailed = installFailed;
     this.installMessage = installMessage;
     this.deviceDetails = deviceDetails;
     this.started = started;
     this.testResults = unmodifiableMap(new HashMap<DeviceTest, DeviceTestResult>(testResults));
     this.duration = duration;
-    this.exceptions = unmodifiableList(new ArrayList<String>(exceptions));
+    this.exceptions = unmodifiableList(new ArrayList<StackTrace>(exceptions));
   }
 
   /**
@@ -76,7 +75,7 @@ public final class DeviceResult {
   }
 
   /** Exceptions that occurred during execution. */
-  public List<String> getExceptions() {
+  public List<StackTrace> getExceptions() {
     return exceptions;
   }
 
@@ -89,7 +88,7 @@ public final class DeviceResult {
     private final long started = new Date().getTime();
     private long start;
     private long duration = -1;
-    private final List<String> exceptions = new ArrayList<String>();
+    private final List<StackTrace> exceptions = new ArrayList<StackTrace>();
 
     public Builder addTestResultBuilder(DeviceTest test,
         DeviceTestResult.Builder methodResultBuilder) {
@@ -131,17 +130,15 @@ public final class DeviceResult {
       return this;
     }
 
-    public Builder addException(Throwable exception) {
-      checkNotNull(exception);
-      StringWriter sw = new StringWriter();
-      exception.printStackTrace(new PrintWriter(sw));
-      exceptions.add(sw.toString());
+    public Builder addException(Throwable throwable) {
+      checkNotNull(throwable);
+      exceptions.add(StackTrace.from(throwable));
       return this;
     }
 
     public Builder addException(String message) {
       checkNotNull(message);
-      exceptions.add(message);
+      exceptions.add(StackTrace.from(message));
       return this;
     }
 
