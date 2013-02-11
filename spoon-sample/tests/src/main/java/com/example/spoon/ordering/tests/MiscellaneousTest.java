@@ -8,6 +8,10 @@ public class MiscellaneousTest extends InstrumentationTestCase {
   }
 
   public void testAnotherLongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant() {
-    throw new RuntimeException("Explicitly testing unexpected exceptions!");
+    try {
+      throw new RuntimeException("Messages can have...\n...newlines.");
+    } catch (RuntimeException e) {
+      throw new IllegalStateException("Explicitly testing unexpected, nested exceptions.", e);
+    }
   }
 }

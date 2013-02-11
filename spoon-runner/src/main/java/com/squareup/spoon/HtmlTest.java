@@ -77,7 +77,7 @@ final class HtmlTest {
         screenshots.add(HtmlUtils.getScreenshot(screenshot, output));
       }
       String animatedGif = HtmlUtils.createRelativeUri(result.getAnimatedGif(), output);
-      HtmlUtils.StackTrace exception = HtmlUtils.parseException(result.getException());
+      HtmlUtils.ExceptionInfo exception = HtmlUtils.processStackTrace(result.getException());
 
       return new TestResult(name, serial, status, screenshots, animatedGif, exception);
     }
@@ -88,10 +88,10 @@ final class HtmlTest {
     public final boolean hasScreenshots;
     public final List<HtmlUtils.Screenshot> screenshots;
     public final String animatedGif;
-    public final HtmlUtils.StackTrace exception;
+    public final HtmlUtils.ExceptionInfo exception;
 
     TestResult(String name, String serial, String status, List<HtmlUtils.Screenshot> screenshots,
-        String animatedGif, HtmlUtils.StackTrace exception) {
+        String animatedGif, HtmlUtils.ExceptionInfo exception) {
       this.name = name;
       this.serial = serial;
       this.status = status;
