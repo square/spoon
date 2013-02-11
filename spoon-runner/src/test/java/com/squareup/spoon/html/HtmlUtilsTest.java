@@ -1,12 +1,12 @@
-package com.squareup.spoon;
+package com.squareup.spoon.html;
 
 import java.io.File;
 import org.junit.Test;
 
-import static com.squareup.spoon.HtmlUtils.createRelativeUri;
-import static com.squareup.spoon.HtmlUtils.prettifyImageName;
-import static com.squareup.spoon.HtmlUtils.prettifyMethodName;
-import static com.squareup.spoon.HtmlUtils.humanReadableDuration;
+import static com.squareup.spoon.html.HtmlUtils.createRelativeUri;
+import static com.squareup.spoon.html.HtmlUtils.prettifyImageName;
+import static com.squareup.spoon.html.HtmlUtils.prettifyMethodName;
+import static com.squareup.spoon.html.HtmlUtils.humanReadableDuration;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 public class HtmlUtilsTest {

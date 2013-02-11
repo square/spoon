@@ -10,10 +10,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.madgag.gif.fmsware.AnimatedGifEncoder;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -22,7 +19,6 @@ import java.util.List;
 import java.util.Set;
 import javax.imageio.ImageIO;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
 import static com.android.ddmlib.FileListingService.TYPE_DIRECTORY;
@@ -66,21 +62,6 @@ final class SpoonUtils {
         @Override public void advance(int work) {
         }
       };
-
-  static void copyResourceToOutput(String resource, File output) {
-    InputStream is = null;
-    OutputStream os = null;
-    try {
-      is = SpoonUtils.class.getResourceAsStream("/" + resource);
-      os = new FileOutputStream(new File(output, resource));
-      IOUtils.copy(is, os);
-    } catch (IOException e) {
-      throw new RuntimeException("Unable to copy resource " + resource + " to " + output, e);
-    } finally {
-      IOUtils.closeQuietly(is);
-      IOUtils.closeQuietly(os);
-    }
-  }
 
   /** Fetch or create a real device that corresponds to a device model. */
   static IDevice obtainRealDevice(AndroidDebugBridge adb, String serial) {

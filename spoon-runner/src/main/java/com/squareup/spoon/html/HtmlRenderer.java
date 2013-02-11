@@ -1,12 +1,21 @@
-package com.squareup.spoon;
+package com.squareup.spoon.html;
 
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
 import com.google.common.io.Resources;
+import com.google.gson.Gson;
+import com.squareup.spoon.DeviceDetails;
+import com.squareup.spoon.DeviceResult;
+import com.squareup.spoon.DeviceTest;
+import com.squareup.spoon.DeviceTestResult;
+import com.squareup.spoon.SpoonSummary;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -15,10 +24,9 @@ import org.apache.commons.io.IOUtils;
 import org.lesscss.LessCompiler;
 
 import static com.google.common.base.Charsets.UTF_8;
-import static com.squareup.spoon.SpoonUtils.copyResourceToOutput;
 
-/** Renders a {@link SpoonSummary} as HTML to an output directory. */
-final class SpoonRenderer {
+/** Renders a {@link com.squareup.spoon.SpoonSummary} as static HTML to an output directory. */
+public final class HtmlRenderer {
   private static final String STATIC_DIRECTORY = "static";
   private static final String[] STATIC_ASSETS = {
     "bootstrap.min.css", "bootstrap-responsive.min.css", "bootstrap.min.js", "jquery.min.js",
@@ -26,14 +34,16 @@ final class SpoonRenderer {
   };
 
   private final SpoonSummary summary;
+  private final Gson gson;
   private final File output;
 
-  SpoonRenderer(SpoonSummary summary, File output) {
+  public HtmlRenderer(SpoonSummary summary, Gson gson, File output) {
     this.summary = summary;
+    this.gson = gson;
     this.output = output;
   }
 
-  void render() {
+  public void render() {
     output.mkdirs();
 
     copyStaticAssets();
@@ -51,7 +61,7 @@ final class SpoonRenderer {
     File statics = new File(output, STATIC_DIRECTORY);
     statics.mkdir();
     for (String staticAsset : STATIC_ASSETS) {
-      copyResourceToOutput(staticAsset, statics);
+      copyStaticToOutput(staticAsset, statics);
     }
   }
 
@@ -71,7 +81,7 @@ final class SpoonRenderer {
     FileWriter result = null;
     try {
       result = new FileWriter(new File(output, "result.json"));
-      SpoonUtils.GSON.toJson(summary, result);
+      gson.toJson(summary, result);
     } catch (IOException e) {
       throw new RuntimeException("Unable to write result.json file.", e);
     } finally {
@@ -139,6 +149,21 @@ final class SpoonRenderer {
       throw new RuntimeException(e);
     } finally {
       IOUtils.closeQuietly(writer);
+    }
+  }
+
+  private static void copyStaticToOutput(String resource, File output) {
+    InputStream is = null;
+    OutputStream os = null;
+    try {
+      is = HtmlRenderer.class.getResourceAsStream("/static/" + resource);
+      os = new FileOutputStream(new File(output, resource));
+      IOUtils.copy(is, os);
+    } catch (IOException e) {
+      throw new RuntimeException("Unable to copy static resource " + resource + " to " + output, e);
+    } finally {
+      IOUtils.closeQuietly(is);
+      IOUtils.closeQuietly(os);
     }
   }
 }
