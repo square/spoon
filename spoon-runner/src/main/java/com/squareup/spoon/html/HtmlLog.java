@@ -1,5 +1,8 @@
-package com.squareup.spoon;
+package com.squareup.spoon.html;
 
+import com.squareup.spoon.DeviceLogMessage;
+import com.squareup.spoon.DeviceTest;
+import com.squareup.spoon.DeviceTestResult;
 import java.util.ArrayList;
 import java.util.List;
 
