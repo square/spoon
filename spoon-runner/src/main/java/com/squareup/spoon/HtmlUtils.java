@@ -1,10 +1,11 @@
 package com.squareup.spoon;
 
+import com.squareup.spoon.misc.StackTrace;
 import java.io.File;
 import java.io.IOException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -141,14 +142,21 @@ final class HtmlUtils {
     return new Screenshot(relativePath, caption);
   }
 
-  /** Parse the string representation of an exception to a {@link StackTrace} instance. */
-  static StackTrace parseException(String exception) {
+  /** Parse the string representation of an exception to a {@link ExceptionInfo} instance. */
+  static ExceptionInfo processStackTrace(StackTrace exception) {
     if (exception == null) {
       return null;
     }
-    String[] lines = exception.replaceAll("\r\n", "\n").split("\n");
-    String title = lines[0];
-    return new StackTrace(title, Arrays.asList(lines).subList(1, lines.length));
+    String message = exception.toString().replace("\n", "<br/>");
+    List<String> lines = new ArrayList<String>();
+    for (StackTrace.Element element : exception.getElements()) {
+      lines.add("&nbsp;&nbsp;&nbsp;&nbsp;at " + element.toString());
+    }
+    while (exception.getCause() != null) {
+      exception = exception.getCause();
+      lines.add("Caused by: " + exception.toString().replace("\n", "<br/>"));
+    }
+    return new ExceptionInfo(message, lines);
   }
 
   static String humanReadableDuration(long length) {
@@ -186,14 +194,14 @@ final class HtmlUtils {
       this.caption = caption;
     }
   }
-  static final class StackTrace {
+  static final class ExceptionInfo {
     private static final AtomicLong ID = new AtomicLong(0);
 
     public final long id;
     public final String title;
     public final List<String> body;
 
-    StackTrace(String title, List<String> body) {
+    ExceptionInfo(String title, List<String> body) {
       this.id = ID.getAndIncrement();
       this.title = title;
       this.body = body;

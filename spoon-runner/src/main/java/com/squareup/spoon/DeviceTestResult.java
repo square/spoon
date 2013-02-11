@@ -1,5 +1,6 @@
 package com.squareup.spoon;
 
+import com.squareup.spoon.misc.StackTrace;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,14 +16,14 @@ public final class DeviceTestResult {
   }
 
   private final Status status;
-  private final String exception;
+  private final StackTrace exception;
   private final long duration;
   private final List<File> screenshots;
   private final File animatedGif;
   private final List<DeviceLogMessage> log;
 
-  private DeviceTestResult(Status status, String exception, long duration, List<File> screenshots,
-      File animatedGif, List<DeviceLogMessage> log) {
+  private DeviceTestResult(Status status, StackTrace exception, long duration,
+      List<File> screenshots, File animatedGif, List<DeviceLogMessage> log) {
     this.status = status;
     this.exception = exception;
     this.duration = duration;
@@ -37,7 +38,7 @@ public final class DeviceTestResult {
   }
 
   /** Exception thrown during execution. */
-  public String getException() {
+  public StackTrace getException() {
     return exception;
   }
 
@@ -63,25 +64,25 @@ public final class DeviceTestResult {
   public static class Builder {
     private final List<File> screenshots = new ArrayList<File>();
     private Status status = Status.PASS;
-    private String exception;
+    private StackTrace exception;
     private long start;
     private long duration = -1;
     private File animatedGif;
     private List<DeviceLogMessage> log;
 
-    public Builder markTestAsFailed(String exception) {
-      checkNotNull(exception);
+    public Builder markTestAsFailed(String message) {
+      checkNotNull(message);
       checkArgument(status == Status.PASS, "Status was already marked as " + status);
       status = Status.FAIL;
-      this.exception = exception;
+      exception = StackTrace.from(message);
       return this;
     }
 
-    public Builder markTestAsError(String exception) {
-      checkNotNull(exception);
+    public Builder markTestAsError(String message) {
+      checkNotNull(message);
       checkArgument(status == Status.PASS, "Status was already marked as " + status);
       status = Status.ERROR;
-      this.exception = exception;
+      exception = StackTrace.from(message);
       return this;
     }
 

@@ -58,7 +58,7 @@ public class SpoonRunnerTest {
             .startTests() //
             .addTestResultBuilder(device, new DeviceTestResult.Builder() //
                 .startTest() //
-                .markTestAsFailed("Failed")
+                .markTestAsFailed("java.fake.Exception: Failed!")
                 .endTest()) //
             .build()) //
         .end() //
@@ -73,7 +73,7 @@ public class SpoonRunnerTest {
             .startTests() //
             .addTestResultBuilder(device, new DeviceTestResult.Builder() //
                 .startTest() //
-                .markTestAsError("Failed")
+                .markTestAsError("java.fake.Exception: Failed!")
                 .endTest()) //
             .build()) //
         .end() //

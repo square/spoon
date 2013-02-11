@@ -36,6 +36,10 @@ final class SpoonInstrumentationInfo {
     return testRunnerClass;
   }
 
+  @Override public String toString() {
+    return ToStringBuilder.reflectionToString(this);
+  }
+
   /** Parse key information from an instrumentation APK's manifest. */
   static SpoonInstrumentationInfo parseFromFile(File apkTestFile) {
     InputStream is = null;
@@ -87,9 +91,5 @@ final class SpoonInstrumentationInfo {
     } finally {
       IOUtils.closeQuietly(is);
     }
-  }
-
-  @Override public String toString() {
-    return ToStringBuilder.reflectionToString(this);
   }
 }
