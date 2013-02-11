@@ -6,6 +6,7 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 import com.google.common.base.Strings;
+import com.squareup.spoon.html.HtmlRenderer;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
@@ -74,7 +75,7 @@ public final class SpoonRunner {
       // Execute all the things...
       SpoonSummary summary = runTests(adb, serials);
       // ...and render to HTML
-      new SpoonRenderer(summary, output).render();
+      new HtmlRenderer(summary, SpoonUtils.GSON, output).render();
 
       return parseOverallSuccess(summary);
     } finally {
