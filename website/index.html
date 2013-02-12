@@ -52,17 +52,17 @@ Spoon.screenshot(activity, "after_login");</pre>
 
             <h3 id="download">Download</h3>
             <p class="downloads">
-              <a href="http://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&g=com.squareup.spoon&a=spoon-runner&v=LATEST" class="btn btn-large btn-inverse">Spoon Runner JAR <span class="version"></span></a>
-              <a href="http://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&g=com.squareup.spoon&a=spoon-client&v=LATEST" class="btn btn-large btn-inverse">Spoon Client JAR <span class="version"></span></a>
+              <a href="http://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&g=com.squareup.spoon&a=spoon-runner&v=LATEST" class="btn btn-large btn-inverse runner-href">Spoon Runner JAR <span class="runner-version"></span></a>
+              <a href="http://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&g=com.squareup.spoon&a=spoon-client&v=LATEST" class="btn btn-large btn-inverse client-href">Spoon Client JAR <span class="client-version"></span></a>
             </p>
-            <p>The source code to the runner, screenshot library, and sample applications as well as the website is <a href="http://github.com/square/spoon">available on GitHub</a>.</p>
+            <p>The source code to the runner, client library, and sample applications as well as this website is <a href="http://github.com/square/spoon">available on GitHub</a>.</p>
 
             <h4>Maven</h4>
             <p>If you are using Maven for compilation you can declare the screenshot library as a dependency.</p>
             <pre class="prettyprint">&lt;dependency>
   &lt;groupId>com.squareup.spoon&lt;/groupId>
   &lt;artifactId>spoon-client&lt;/artifactId>
-  &lt;version><span class="version">(insert latest version)</span>&lt;/version>
+  &lt;version><span class="client-version"><em>(insert latest version)</em></span>&lt;/version>
 &lt;/dependency></pre>
 
             <h4 id="sample">Sample</h4>
@@ -93,7 +93,7 @@ Spoon.screenshot(activity, "after_login");</pre>
             <pre class="prettyprint">&lt;plugin>
   &lt;groupId>com.squareup.spoon&lt;/groupId>
   &lt;artifactId>spoon-maven-plugin&lt;/artifactId>
-  &lt;version><span class="version">(insert latest version)</span>&lt;/version>
+  &lt;version><span class="runner-version"><em>(insert latest version)</em></span>&lt;/version>
 &lt;/plugin></pre>
             <p>The plugin will look for an <code>apk</code> dependency for the corresponding application. Typically this is specified in parallel with the <code>jar</code> dependency on the application.</p>
             <pre class="prettyprint">&lt;dependency>
@@ -138,7 +138,20 @@ limitations under the License.</pre>
         </div>
       </div>
     </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="static/jquery-maven-artifact.min.js"></script>
     <script src="static/prettify.js"></script>
-    <script> prettyPrint(); </script>
+    <script>
+      prettyPrint();
+
+      $.fn.artifactVersion('com.squareup.spoon', 'spoon-runner', function(version, url) {
+        $('.runner-version').text(version);
+        $('.runner-href').attr('href', url);
+      });
+      $.fn.artifactVersion('com.squareup.spoon', 'spoon-client', function(version, url) {
+        $('.client-version').text(version);
+        $('.client-href').attr('href', url);
+      });
+    </script>
   </body>
 </html>
