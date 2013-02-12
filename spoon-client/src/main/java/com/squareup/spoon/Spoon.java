@@ -86,10 +86,10 @@ public final class Spoon {
     try {
       fos = new BufferedOutputStream(new FileOutputStream(file));
       bitmap.compress(PNG, 100 /* quality */, fos);
-      bitmap.recycle();
 
       chmodPlusR(file);
     } finally {
+      bitmap.recycle();
       if (fos != null) {
         fos.close();
       }
