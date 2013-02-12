@@ -3,6 +3,8 @@
 echo ""
 echo "Make sure test devices are plugged in and recognized by ADB."
 echo ""
+adb devices
+echo ""
 echo "Press [enter] when ready..."
 read
 
@@ -10,7 +12,7 @@ set -ex
 
 rm -rf sample
 cd ..
-mvn clean verify -e
+mvn clean install -e
 cp -R spoon-sample/tests/target/spoon-output website/sample
 cd -
 git add sample

@@ -3,6 +3,7 @@ package com.squareup.spoon;
 import com.squareup.spoon.misc.StackTrace;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -32,7 +33,7 @@ public final class DeviceTestResult {
     this.duration = duration;
     this.screenshots = unmodifiableList(new ArrayList<File>(screenshots));
     this.animatedGif = animatedGif;
-    this.log = log;
+    this.log = unmodifiableList(new ArrayList<DeviceLogMessage>(log));
   }
 
   /** Execution status. */
@@ -123,6 +124,9 @@ public final class DeviceTestResult {
     }
 
     public DeviceTestResult build() {
+      if (log == null) {
+        log = Collections.emptyList();
+      }
       return new DeviceTestResult(status, exception, duration, screenshots, animatedGif, log);
     }
   }
