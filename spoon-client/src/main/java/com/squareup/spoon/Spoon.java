@@ -27,7 +27,7 @@ public final class Spoon {
   static final String NAME_SEPARATOR = "_";
   static final String TEST_CASE_CLASS = "android.test.InstrumentationTestCase";
   static final String TEST_CASE_METHOD = "runMethod";
-  static final String EXTENSION = ".png";
+  private static final String EXTENSION = ".png";
   private static final String TAG = "SpoonScreenshot";
   private static final Object LOCK = new Object();
   private static final Pattern TAG_VALIDATION = Pattern.compile("[a-zA-Z0-9_-]+");
