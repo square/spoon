@@ -10,6 +10,7 @@ import com.squareup.spoon.html.HtmlRenderer;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
@@ -21,6 +22,7 @@ import static com.squareup.spoon.DeviceTestResult.Status;
 import static com.squareup.spoon.SpoonInstrumentationInfo.parseFromFile;
 import static com.squareup.spoon.SpoonLogger.logDebug;
 import static com.squareup.spoon.SpoonLogger.logInfo;
+import static java.util.Collections.synchronizedSet;
 import static java.util.Collections.unmodifiableSet;
 
 /** Represents a collection of devices and the test configuration to be executed. */
@@ -116,6 +118,7 @@ public final class SpoonRunner {
     } else {
       // Spawn a new thread for each device and wait for them all to finish.
       final CountDownLatch done = new CountDownLatch(targetCount);
+      final Set<String> remaining = synchronizedSet(new HashSet<String>(serials));
       for (final String serial : serials) {
         logDebug(debug, "[%s] Starting execution.", serial);
         new Thread(new Runnable() {
@@ -125,8 +128,10 @@ public final class SpoonRunner {
             } catch (Exception e) {
               summary.addResult(serial, new DeviceResult.Builder().addException(e).build());
             } finally {
-              logDebug(debug, "[%s] Execution done.", serial);
               done.countDown();
+              remaining.remove(serial);
+              logDebug(debug, "[%s] Execution done. (%s remaining %s)", serial, done.getCount(),
+                  remaining);
             }
           }
         }).start();
