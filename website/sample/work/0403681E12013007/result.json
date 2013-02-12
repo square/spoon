@@ -1,0 +1,4396 @@
+{
+  "installFailed": false,
+  "deviceDetails": {
+    "name": "Droid",
+    "manufacturer": "Motorola",
+    "version": "2.2.3",
+    "apiLevel": 8,
+    "language": "en",
+    "region": "US"
+  },
+  "testResults": [
+    [
+      {
+        "className": "com.example.spoon.ordering.tests.LoginActivityTest",
+        "methodName": "testBlankPassword_ShowsError"
+      },
+      {
+        "status": "PASS",
+        "duration": 4,
+        "screenshots": [
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.LoginActivityTest/testBlankPassword_ShowsError/1360693683494_initial_state.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.LoginActivityTest/testBlankPassword_ShowsError/1360693684458_username_entered.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.LoginActivityTest/testBlankPassword_ShowsError/1360693685082_login_clicked.png"
+        ],
+        "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.LoginActivityTest/testBlankPassword_ShowsError.gif",
+        "log": [
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:01.568",
+            "message": "started: testBlankPassword_ShowsError(com.example.spoon.ordering.tests.LoginActivityTest)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.263",
+            "message": "Could not find method com.actionbarsherlock.internal.nineoldandroids.widget.NineFrameLayout.onHoverEvent, referenced from method com.actionbarsherlock.internal.widget.ActionBarContainer.onHoverEvent"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.271",
+            "message": "VFY: unable to resolve virtual method 4285: Lcom/actionbarsherlock/internal/nineoldandroids/widget/NineFrameLayout;.onHoverEvent (Landroid/view/MotionEvent;)Z"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.271",
+            "message": "VFY: replacing opcode 0x6f at 0x0000"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.271",
+            "message": "VFY: dead code 0x0003-0004 in Lcom/actionbarsherlock/internal/widget/ActionBarContainer;.onHoverEvent (Landroid/view/MotionEvent;)Z"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.271",
+            "message": "Could not find method android.widget.FrameLayout.getAlpha, referenced from method com.actionbarsherlock.internal.nineoldandroids.widget.NineFrameLayout.getAlpha"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.279",
+            "message": "VFY: unable to resolve virtual method 3019: Landroid/widget/FrameLayout;.getAlpha ()F"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.287",
+            "message": "VFY: replacing opcode 0x6f at 0x000b"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.287",
+            "message": "VFY: dead code 0x000e-000f in Lcom/actionbarsherlock/internal/nineoldandroids/widget/NineFrameLayout;.getAlpha ()F"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.287",
+            "message": "Could not find method android.widget.FrameLayout.getTranslationY, referenced from method com.actionbarsherlock.internal.nineoldandroids.widget.NineFrameLayout.getTranslationY"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.287",
+            "message": "VFY: unable to resolve virtual method 3020: Landroid/widget/FrameLayout;.getTranslationY ()F"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.287",
+            "message": "VFY: replacing opcode 0x6f at 0x000b"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.287",
+            "message": "VFY: dead code 0x000e-000f in Lcom/actionbarsherlock/internal/nineoldandroids/widget/NineFrameLayout;.getTranslationY ()F"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.287",
+            "message": "Could not find method android.widget.FrameLayout.setAlpha, referenced from method com.actionbarsherlock.internal.nineoldandroids.widget.NineFrameLayout.setAlpha"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.287",
+            "message": "VFY: unable to resolve virtual method 3023: Landroid/widget/FrameLayout;.setAlpha (F)V"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.294",
+            "message": "VFY: replacing opcode 0x6f at 0x000a"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.294",
+            "message": "VFY: dead code 0x000d-000d in Lcom/actionbarsherlock/internal/nineoldandroids/widget/NineFrameLayout;.setAlpha (F)V"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.294",
+            "message": "Could not find method android.widget.FrameLayout.setTranslationY, referenced from method com.actionbarsherlock.internal.nineoldandroids.widget.NineFrameLayout.setTranslationY"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.294",
+            "message": "VFY: unable to resolve virtual method 3031: Landroid/widget/FrameLayout;.setTranslationY (F)V"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.294",
+            "message": "VFY: replacing opcode 0x6f at 0x000a"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.294",
+            "message": "VFY: dead code 0x000d-000d in Lcom/actionbarsherlock/internal/nineoldandroids/widget/NineFrameLayout;.setTranslationY (F)V"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.310",
+            "message": "Could not find method android.content.pm.PackageManager.getActivityLogo, referenced from method com.actionbarsherlock.internal.widget.ActionBarView.\u003cinit\u003e"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.310",
+            "message": "VFY: unable to resolve virtual method 289: Landroid/content/pm/PackageManager;.getActivityLogo (Landroid/content/ComponentName;)Landroid/graphics/drawable/Drawable;"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.310",
+            "message": "VFY: replacing opcode 0x6e at 0x01d3"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.310",
+            "message": "Could not find method android.content.pm.ApplicationInfo.loadLogo, referenced from method com.actionbarsherlock.internal.widget.ActionBarView.\u003cinit\u003e"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.310",
+            "message": "VFY: unable to resolve virtual method 285: Landroid/content/pm/ApplicationInfo;.loadLogo (Landroid/content/pm/PackageManager;)Landroid/graphics/drawable/Drawable;"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.310",
+            "message": "VFY: replacing opcode 0x6e at 0x01e1"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.318",
+            "message": "VFY: dead code 0x01d6-01da in Lcom/actionbarsherlock/internal/widget/ActionBarView;.\u003cinit\u003e (Landroid/content/Context;Landroid/util/AttributeSet;)V"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.318",
+            "message": "VFY: dead code 0x01e4-01ea in Lcom/actionbarsherlock/internal/widget/ActionBarView;.\u003cinit\u003e (Landroid/content/Context;Landroid/util/AttributeSet;)V"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.349",
+            "message": "Could not find method android.view.ViewGroup.getAlpha, referenced from method com.actionbarsherlock.internal.nineoldandroids.view.NineViewGroup.getAlpha"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.357",
+            "message": "VFY: unable to resolve virtual method 2782: Landroid/view/ViewGroup;.getAlpha ()F"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.357",
+            "message": "VFY: replacing opcode 0x6f at 0x000b"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.357",
+            "message": "VFY: dead code 0x000e-000f in Lcom/actionbarsherlock/internal/nineoldandroids/view/NineViewGroup;.getAlpha ()F"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.357",
+            "message": "Could not find method android.view.ViewGroup.getTranslationX, referenced from method com.actionbarsherlock.internal.nineoldandroids.view.NineViewGroup.getTranslationX"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.357",
+            "message": "VFY: unable to resolve virtual method 2788: Landroid/view/ViewGroup;.getTranslationX ()F"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.357",
+            "message": "VFY: replacing opcode 0x6f at 0x000b"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.357",
+            "message": "VFY: dead code 0x000e-000f in Lcom/actionbarsherlock/internal/nineoldandroids/view/NineViewGroup;.getTranslationX ()F"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.357",
+            "message": "Could not find method android.view.ViewGroup.getTranslationY, referenced from method com.actionbarsherlock.internal.nineoldandroids.view.NineViewGroup.getTranslationY"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.357",
+            "message": "VFY: unable to resolve virtual method 2789: Landroid/view/ViewGroup;.getTranslationY ()F"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.357",
+            "message": "VFY: replacing opcode 0x6f at 0x000b"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.357",
+            "message": "VFY: dead code 0x000e-000f in Lcom/actionbarsherlock/internal/nineoldandroids/view/NineViewGroup;.getTranslationY ()F"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.357",
+            "message": "Could not find method android.view.ViewGroup.setAlpha, referenced from method com.actionbarsherlock.internal.nineoldandroids.view.NineViewGroup.setAlpha"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.357",
+            "message": "VFY: unable to resolve virtual method 2804: Landroid/view/ViewGroup;.setAlpha (F)V"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.357",
+            "message": "VFY: replacing opcode 0x6f at 0x000a"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.357",
+            "message": "VFY: dead code 0x000d-000d in Lcom/actionbarsherlock/internal/nineoldandroids/view/NineViewGroup;.setAlpha (F)V"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.357",
+            "message": "Could not find method android.view.ViewGroup.setTranslationX, referenced from method com.actionbarsherlock.internal.nineoldandroids.view.NineViewGroup.setTranslationX"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.357",
+            "message": "VFY: unable to resolve virtual method 2808: Landroid/view/ViewGroup;.setTranslationX (F)V"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.357",
+            "message": "VFY: replacing opcode 0x6f at 0x000a"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.357",
+            "message": "VFY: dead code 0x000d-000d in Lcom/actionbarsherlock/internal/nineoldandroids/view/NineViewGroup;.setTranslationX (F)V"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.357",
+            "message": "Could not find method android.view.ViewGroup.setTranslationY, referenced from method com.actionbarsherlock.internal.nineoldandroids.view.NineViewGroup.setTranslationY"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.357",
+            "message": "VFY: unable to resolve virtual method 2809: Landroid/view/ViewGroup;.setTranslationY (F)V"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.357",
+            "message": "VFY: replacing opcode 0x6f at 0x000a"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.357",
+            "message": "VFY: dead code 0x000d-000d in Lcom/actionbarsherlock/internal/nineoldandroids/view/NineViewGroup;.setTranslationY (F)V"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.607",
+            "message": "Could not find method com.actionbarsherlock.internal.widget.ActionBarView$HomeView.onHoverEvent, referenced from method com.actionbarsherlock.internal.widget.ActionBarView$HomeView.dispatchHoverEvent"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.615",
+            "message": "VFY: unable to resolve virtual method 5148: Lcom/actionbarsherlock/internal/widget/ActionBarView$HomeView;.onHoverEvent (Landroid/view/MotionEvent;)Z"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.615",
+            "message": "VFY: replacing opcode 0x6e at 0x0000"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.615",
+            "message": "VFY: dead code 0x0003-0004 in Lcom/actionbarsherlock/internal/widget/ActionBarView$HomeView;.dispatchHoverEvent (Landroid/view/MotionEvent;)Z"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.615",
+            "message": "Could not find method android.widget.FrameLayout.onPopulateAccessibilityEvent, referenced from method com.actionbarsherlock.internal.widget.ActionBarView$HomeView.onPopulateAccessibilityEvent"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.638",
+            "message": "VFY: unable to resolve virtual method 3022: Landroid/widget/FrameLayout;.onPopulateAccessibilityEvent (Landroid/view/accessibility/AccessibilityEvent;)V"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:02.638",
+            "message": "VFY: replacing opcode 0x6f at 0x0006"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:03.044",
+            "message": "Could not find method android.view.View.jumpDrawablesToCurrentState, referenced from method com.actionbarsherlock.internal.view.menu.BaseMenuPresenter.updateMenuView"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:03.044",
+            "message": "VFY: unable to resolve virtual method 2712: Landroid/view/View;.jumpDrawablesToCurrentState ()V"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:03.044",
+            "message": "VFY: replacing opcode 0x6e at 0x0047"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:03.052",
+            "message": "Could not find method android.widget.LinearLayout.getAlpha, referenced from method com.actionbarsherlock.internal.nineoldandroids.widget.NineLinearLayout.getAlpha"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:03.052",
+            "message": "VFY: unable to resolve virtual method 3072: Landroid/widget/LinearLayout;.getAlpha ()F"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:03.052",
+            "message": "VFY: replacing opcode 0x6f at 0x000b"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:03.052",
+            "message": "VFY: dead code 0x000e-000f in Lcom/actionbarsherlock/internal/nineoldandroids/widget/NineLinearLayout;.getAlpha ()F"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:03.052",
+            "message": "Could not find method android.widget.LinearLayout.getTranslationX, referenced from method com.actionbarsherlock.internal.nineoldandroids.widget.NineLinearLayout.getTranslationX"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:03.052",
+            "message": "VFY: unable to resolve virtual method 3075: Landroid/widget/LinearLayout;.getTranslationX ()F"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:03.052",
+            "message": "VFY: replacing opcode 0x6f at 0x000b"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:03.052",
+            "message": "VFY: dead code 0x000e-000f in Lcom/actionbarsherlock/internal/nineoldandroids/widget/NineLinearLayout;.getTranslationX ()F"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:03.052",
+            "message": "Could not find method android.widget.LinearLayout.setAlpha, referenced from method com.actionbarsherlock.internal.nineoldandroids.widget.NineLinearLayout.setAlpha"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:03.052",
+            "message": "VFY: unable to resolve virtual method 3087: Landroid/widget/LinearLayout;.setAlpha (F)V"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:03.052",
+            "message": "VFY: replacing opcode 0x6f at 0x000a"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:03.052",
+            "message": "VFY: dead code 0x000d-000d in Lcom/actionbarsherlock/internal/nineoldandroids/widget/NineLinearLayout;.setAlpha (F)V"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:03.052",
+            "message": "Could not find method android.widget.LinearLayout.setTranslationX, referenced from method com.actionbarsherlock.internal.nineoldandroids.widget.NineLinearLayout.setTranslationX"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:03.052",
+            "message": "VFY: unable to resolve virtual method 3093: Landroid/widget/LinearLayout;.setTranslationX (F)V"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:03.060",
+            "message": "VFY: replacing opcode 0x6f at 0x000a"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:03.060",
+            "message": "VFY: dead code 0x000d-000d in Lcom/actionbarsherlock/internal/nineoldandroids/widget/NineLinearLayout;.setTranslationX (F)V"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "KeyCharacterMap",
+            "time": "02-12 10:28:03.060",
+            "message": "No keyboard for id -1"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "KeyCharacterMap",
+            "time": "02-12 10:28:03.060",
+            "message": "Using default keymap: /system/usr/keychars/qwerty.kcm.bin"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:03.162",
+            "message": "GC_EXTERNAL_ALLOC freed 8255 objects / 464128 bytes in 52ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:03.255",
+            "message": "GC_EXTERNAL_ALLOC freed 324 objects / 15952 bytes in 62ms"
+          },
+          {
+            "logLevel": "ASSERT",
+            "pid": "1753",
+            "tid": "1754",
+            "tag": "PowerManager",
+            "time": "02-12 10:28:03.255",
+            "message": "android.util.Log$TerribleFailure: WakeLock finalized while still held: SpoonInstrumentationTestRunner"
+          },
+          {
+            "logLevel": "ASSERT",
+            "pid": "1753",
+            "tid": "1754",
+            "tag": "PowerManager",
+            "time": "02-12 10:28:03.255",
+            "message": "\tat android.util.Log.wtf(Log.java:260)"
+          },
+          {
+            "logLevel": "ASSERT",
+            "pid": "1753",
+            "tid": "1754",
+            "tag": "PowerManager",
+            "time": "02-12 10:28:03.255",
+            "message": "\tat android.util.Log.wtf(Log.java:239)"
+          },
+          {
+            "logLevel": "ASSERT",
+            "pid": "1753",
+            "tid": "1754",
+            "tag": "PowerManager",
+            "time": "02-12 10:28:03.255",
+            "message": "\tat android.os.PowerManager$WakeLock.finalize(PowerManager.java:329)"
+          },
+          {
+            "logLevel": "ASSERT",
+            "pid": "1753",
+            "tid": "1754",
+            "tag": "PowerManager",
+            "time": "02-12 10:28:03.255",
+            "message": "\tat dalvik.system.NativeStart.run(Native Method)"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:03.544",
+            "message": "GC_EXTERNAL_ALLOC freed 1010 objects / 57168 bytes in 50ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:03.599",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.083",
+            "message": "Could not find method android.widget.TextView.getHighlightColor, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasHighlightColor"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.083",
+            "message": "VFY: unable to resolve virtual method 1084: Landroid/widget/TextView;.getHighlightColor ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.083",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.083",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;.hasHighlightColor (I)Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.083",
+            "message": "Could not find method android.widget.TextView.getLineSpacingExtra, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasLineSpacingExtra"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.083",
+            "message": "VFY: unable to resolve virtual method 1093: Landroid/widget/TextView;.getLineSpacingExtra ()F"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.083",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.083",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;.hasLineSpacingExtra (F)Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.083",
+            "message": "Could not find method android.widget.TextView.getLineSpacingMultiplier, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasLineSpacingMultiplier"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.083",
+            "message": "VFY: unable to resolve virtual method 1094: Landroid/widget/TextView;.getLineSpacingMultiplier ()F"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.083",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.083",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;.hasLineSpacingMultiplier (F)Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.083",
+            "message": "Could not find method android.widget.TextView.getMarqueeRepeatLimit, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasMarqueeRepeatLimit"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.083",
+            "message": "VFY: unable to resolve virtual method 1096: Landroid/widget/TextView;.getMarqueeRepeatLimit ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.083",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.083",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;.hasMarqueeRepeatLimit (I)Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.083",
+            "message": "Could not find method android.widget.TextView.getMaxEms, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasMaxEms"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.091",
+            "message": "VFY: unable to resolve virtual method 1097: Landroid/widget/TextView;.getMaxEms ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.091",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.091",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;.hasMaxEms (I)Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.091",
+            "message": "Could not find method android.widget.TextView.getMaxHeight, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasMaxHeight"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.091",
+            "message": "VFY: unable to resolve virtual method 1098: Landroid/widget/TextView;.getMaxHeight ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.091",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.091",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;.hasMaxHeight (I)Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.091",
+            "message": "Could not find method android.widget.TextView.getMaxLines, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasMaxLines"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.091",
+            "message": "VFY: unable to resolve virtual method 1099: Landroid/widget/TextView;.getMaxLines ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.091",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.091",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;.hasMaxLines (I)Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "Could not find method android.widget.TextView.getMaxWidth, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasMaxWidth"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: unable to resolve virtual method 1100: Landroid/widget/TextView;.getMaxWidth ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;.hasMaxWidth (I)Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "Could not find method android.widget.TextView.getMinEms, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasMinEms"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: unable to resolve virtual method 1101: Landroid/widget/TextView;.getMinEms ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;.hasMinEms (I)Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "Could not find method android.widget.TextView.getMinHeight, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasMinHeight"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: unable to resolve virtual method 1102: Landroid/widget/TextView;.getMinHeight ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;.hasMinHeight (I)Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "Could not find method android.widget.TextView.getMinLines, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasMinLines"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: unable to resolve virtual method 1103: Landroid/widget/TextView;.getMinLines ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;.hasMinLines (I)Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "Could not find method android.widget.TextView.getMinWidth, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasMinWidth"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: unable to resolve virtual method 1104: Landroid/widget/TextView;.getMinWidth ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;.hasMinWidth (I)Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "Could not find method android.widget.TextView.isTextSelectable, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasSelectableText"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: unable to resolve virtual method 1122: Landroid/widget/TextView;.isTextSelectable ()Z"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: dead code 0x000a-0021 in Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;.hasSelectableText ()Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "Could not find method android.widget.TextView.getShadowColor, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasShadowColor"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: unable to resolve virtual method 1108: Landroid/widget/TextView;.getShadowColor ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;.hasShadowColor (I)Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "Could not find method android.widget.TextView.getShadowDx, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasShadowDx"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: unable to resolve virtual method 1109: Landroid/widget/TextView;.getShadowDx ()F"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;.hasShadowDx (F)Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "Could not find method android.widget.TextView.getShadowDy, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasShadowDy"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: unable to resolve virtual method 1110: Landroid/widget/TextView;.getShadowDy ()F"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;.hasShadowDy (F)Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "Could not find method android.widget.TextView.getShadowRadius, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasShadowRadius"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: unable to resolve virtual method 1111: Landroid/widget/TextView;.getShadowRadius ()F"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;.hasShadowRadius (F)Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "Could not find method android.widget.TextView.isTextSelectable, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasUnselectableText"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: unable to resolve virtual method 1122: Landroid/widget/TextView;.isTextSelectable ()Z"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: dead code 0x000a-0021 in Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;.hasUnselectableText ()Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "Could not find method android.widget.TextView.isCursorVisible, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.isCursorNotVisible"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: unable to resolve virtual method 1120: Landroid/widget/TextView;.isCursorVisible ()Z"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.099",
+            "message": "VFY: dead code 0x000a-0021 in Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;.isCursorNotVisible ()Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.107",
+            "message": "Could not find method android.widget.TextView.isCursorVisible, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.isCursorVisible"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.107",
+            "message": "VFY: unable to resolve virtual method 1120: Landroid/widget/TextView;.isCursorVisible ()Z"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.107",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.107",
+            "message": "VFY: dead code 0x000a-0021 in Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;.isCursorVisible ()Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.107",
+            "message": "Could not find method android.widget.TextView.getIncludeFontPadding, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.isIncludingFontPadding"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.107",
+            "message": "VFY: unable to resolve virtual method 1089: Landroid/widget/TextView;.getIncludeFontPadding ()Z"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.107",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.107",
+            "message": "VFY: dead code 0x000a-0021 in Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;.isIncludingFontPadding ()Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.107",
+            "message": "Could not find method android.widget.TextView.getIncludeFontPadding, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.isNotIncludingFontPadding"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.107",
+            "message": "VFY: unable to resolve virtual method 1089: Landroid/widget/TextView;.getIncludeFontPadding ()Z"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.107",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.107",
+            "message": "VFY: dead code 0x000a-0021 in Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;.isNotIncludingFontPadding ()Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.107",
+            "message": "Could not find method android.view.View.getAlpha, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasAlpha"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.107",
+            "message": "VFY: unable to resolve virtual method 611: Landroid/view/View;.getAlpha ()F"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.107",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.107",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.hasAlpha (F)Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.115",
+            "message": "Could not find method android.view.View.getLayerType, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasLayerType"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.115",
+            "message": "VFY: unable to resolve virtual method 626: Landroid/view/View;.getLayerType ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.115",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.115",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.hasLayerType (I)Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.115",
+            "message": "Could not find method android.view.View.getMeasuredHeightAndState, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasMeasuredHeightAndState"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.115",
+            "message": "VFY: unable to resolve virtual method 630: Landroid/view/View;.getMeasuredHeightAndState ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.115",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.115",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.hasMeasuredHeightAndState (I)Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.115",
+            "message": "Could not find method android.view.View.getMeasuredState, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasMeasuredState"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.115",
+            "message": "VFY: unable to resolve virtual method 631: Landroid/view/View;.getMeasuredState ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.115",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.115",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.hasMeasuredState (I)Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.115",
+            "message": "Could not find method android.view.View.getMeasuredWidthAndState, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasMeasuredWidthAndState"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.115",
+            "message": "VFY: unable to resolve virtual method 633: Landroid/view/View;.getMeasuredWidthAndState ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.115",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.115",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.hasMeasuredWidthAndState (I)Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.115",
+            "message": "Could not find method android.view.View.getMinimumHeight, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasMinimumHeight"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.115",
+            "message": "VFY: unable to resolve virtual method 634: Landroid/view/View;.getMinimumHeight ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.115",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.115",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.hasMinimumHeight (I)Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.115",
+            "message": "Could not find method android.view.View.getMinimumWidth, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasMinimumWidth"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.115",
+            "message": "VFY: unable to resolve virtual method 635: Landroid/view/View;.getMinimumWidth ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.115",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.115",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.hasMinimumWidth (I)Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.115",
+            "message": "Could not find method android.view.View.getNextFocusForwardId, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasNextFocusForwardId"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.115",
+            "message": "VFY: unable to resolve virtual method 637: Landroid/view/View;.getNextFocusForwardId ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.115",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.115",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.hasNextFocusForwardId (I)Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.123",
+            "message": "Could not find method android.view.View.getOverScrollMode, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasOverScrollMode"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.123",
+            "message": "VFY: unable to resolve virtual method 641: Landroid/view/View;.getOverScrollMode ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.123",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.123",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.hasOverScrollMode (I)Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.123",
+            "message": "Could not find method android.view.View.getParentForAccessibility, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasParentForAccessibility"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.123",
+            "message": "VFY: unable to resolve virtual method 647: Landroid/view/View;.getParentForAccessibility ()Landroid/view/ViewParent;"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.123",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.123",
+            "message": "VFY: dead code 0x000a-0027 in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.hasParentForAccessibility (Landroid/view/ViewParent;)Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.123",
+            "message": "Could not find method android.view.View.getPivotX, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasPivotX"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.123",
+            "message": "VFY: unable to resolve virtual method 648: Landroid/view/View;.getPivotX ()F"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.123",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.123",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.hasPivotX (F)Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.123",
+            "message": "Could not find method android.view.View.getPivotY, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasPivotY"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.123",
+            "message": "VFY: unable to resolve virtual method 649: Landroid/view/View;.getPivotY ()F"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.123",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.123",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.hasPivotY (F)Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.123",
+            "message": "Could not find method android.view.View.getRotation, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasRotation"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.123",
+            "message": "VFY: unable to resolve virtual method 652: Landroid/view/View;.getRotation ()F"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.123",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.123",
+            "message": "VFY: dead code 0x000a-0033 in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.hasRotation (F)Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "Could not find method android.view.View.getRotationX, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasRotationX"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: unable to resolve virtual method 653: Landroid/view/View;.getRotationX ()F"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: dead code 0x000a-0033 in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.hasRotationX (F)Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "Could not find method android.view.View.getRotationY, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasRotationY"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: unable to resolve virtual method 654: Landroid/view/View;.getRotationY ()F"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: dead code 0x000a-0033 in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.hasRotationY (F)Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "Could not find method android.view.View.isSaveFromParentEnabled, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasSaveFromParentDisabled"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: unable to resolve virtual method 702: Landroid/view/View;.isSaveFromParentEnabled ()Z"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: dead code 0x000a-0021 in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.hasSaveFromParentDisabled ()Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "Could not find method android.view.View.isSaveFromParentEnabled, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasSaveFromParentEnabled"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: unable to resolve virtual method 702: Landroid/view/View;.isSaveFromParentEnabled ()Z"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: dead code 0x000a-0021 in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.hasSaveFromParentEnabled ()Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "Could not find method android.view.View.getScaleX, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasScaleX"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: unable to resolve virtual method 655: Landroid/view/View;.getScaleX ()F"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: dead code 0x000a-0033 in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.hasScaleX (F)Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "Could not find method android.view.View.getScaleY, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasScaleY"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: unable to resolve virtual method 656: Landroid/view/View;.getScaleY ()F"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: dead code 0x000a-0033 in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.hasScaleY (F)Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "Could not find method android.view.View.getScrollBarDefaultDelayBeforeFade, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasScrollBarDefaultDelayBeforeFade"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: unable to resolve virtual method 657: Landroid/view/View;.getScrollBarDefaultDelayBeforeFade ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.hasScrollBarDefaultDelayBeforeFade (I)Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "Could not find method android.view.View.getScrollBarFadeDuration, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasScrollBarFadeDuration"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: unable to resolve virtual method 658: Landroid/view/View;.getScrollBarFadeDuration ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.hasScrollBarFadeDuration (I)Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "Could not find method android.view.View.getScrollBarSize, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasScrollBarSize"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: unable to resolve virtual method 659: Landroid/view/View;.getScrollBarSize ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.hasScrollBarSize (I)Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "Could not find method android.view.View.isSaveFromParentEnabled, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasSoundEffectsDisabled"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: unable to resolve virtual method 702: Landroid/view/View;.isSaveFromParentEnabled ()Z"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: dead code 0x000a-0021 in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.hasSoundEffectsDisabled ()Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "Could not find method android.view.View.getSystemUiVisibility, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasSystemUiVisibility"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: unable to resolve virtual method 664: Landroid/view/View;.getSystemUiVisibility ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.hasSystemUiVisibility (I)Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "Could not find method android.view.View.getTranslationX, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasTranslationX"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: unable to resolve virtual method 668: Landroid/view/View;.getTranslationX ()F"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.hasTranslationX (F)Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "Could not find method android.view.View.getTranslationY, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasTranslationY"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: unable to resolve virtual method 669: Landroid/view/View;.getTranslationY ()F"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.hasTranslationY (F)Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "Could not find method android.view.View.getVerticalScrollbarPosition, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasVerticalScrollbarPosition"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: unable to resolve virtual method 671: Landroid/view/View;.getVerticalScrollbarPosition ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.130",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.154",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.hasVerticalScrollbarPosition (I)Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.154",
+            "message": "Could not find method android.view.View.getX, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasX"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.154",
+            "message": "VFY: unable to resolve virtual method 676: Landroid/view/View;.getX ()F"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.154",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.154",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.hasX (F)Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.154",
+            "message": "Could not find method android.view.View.getY, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasY"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.154",
+            "message": "VFY: unable to resolve virtual method 677: Landroid/view/View;.getY ()F"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.154",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.154",
+            "message": "VFY: dead code 0x000a-002f in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.hasY (F)Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.154",
+            "message": "Could not find method android.view.View.isActivated, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.isActivated"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.154",
+            "message": "VFY: unable to resolve virtual method 681: Landroid/view/View;.isActivated ()Z"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.154",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.154",
+            "message": "VFY: dead code 0x000a-0021 in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.isActivated ()Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.154",
+            "message": "Could not find method android.view.View.isDirty, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.isDirty"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.154",
+            "message": "VFY: unable to resolve virtual method 683: Landroid/view/View;.isDirty ()Z"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.154",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.154",
+            "message": "VFY: dead code 0x000a-0021 in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.isDirty ()Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "Could not find method android.view.View.isHardwareAccelerated, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.isHardwareAccelerated"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "VFY: unable to resolve virtual method 691: Landroid/view/View;.isHardwareAccelerated ()Z"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "VFY: dead code 0x000a-0021 in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.isHardwareAccelerated ()Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "Could not find method android.view.View.isHovered, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.isHovered"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "VFY: unable to resolve virtual method 694: Landroid/view/View;.isHovered ()Z"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "VFY: dead code 0x000a-0021 in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.isHovered ()Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "Could not find method android.view.View.isActivated, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.isNotActivated"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "VFY: unable to resolve virtual method 681: Landroid/view/View;.isActivated ()Z"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "VFY: dead code 0x000a-0021 in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.isNotActivated ()Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "Could not find method android.view.View.isDirty, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.isNotDirty"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "VFY: unable to resolve virtual method 683: Landroid/view/View;.isDirty ()Z"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "VFY: dead code 0x000a-0021 in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.isNotDirty ()Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "Could not find method android.view.View.isHardwareAccelerated, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.isNotHardwareAccelerated"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "VFY: unable to resolve virtual method 691: Landroid/view/View;.isHardwareAccelerated ()Z"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "VFY: dead code 0x000a-0021 in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.isNotHardwareAccelerated ()Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "Could not find method android.view.View.isHovered, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.isNotHovered"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "VFY: unable to resolve virtual method 694: Landroid/view/View;.isHovered ()Z"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "VFY: dead code 0x000a-0021 in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.isNotHovered ()Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "Could not find method android.view.View.isScrollContainer, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.isNotScrollContainer"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "VFY: unable to resolve virtual method 703: Landroid/view/View;.isScrollContainer ()Z"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "VFY: dead code 0x000a-0021 in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.isNotScrollContainer ()Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "Could not find method android.view.View.isScrollContainer, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.isScrollContainer"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "VFY: unable to resolve virtual method 703: Landroid/view/View;.isScrollContainer ()Z"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.162",
+            "message": "VFY: dead code 0x000a-0021 in Lorg/fest/assertions/api/android/view/AbstractViewAssert;.isScrollContainer ()Lorg/fest/assertions/api/android/view/AbstractViewAssert;"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.177",
+            "message": "VFY: unable to find class referenced in signature (Ljava/beans/PropertyDescriptor;)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.177",
+            "message": "Could not find method java.beans.PropertyDescriptor.getReadMethod, referenced from method org.fest.assertions.internal.JavaBeanDescriptor.invokeReadMethod"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.177",
+            "message": "VFY: unable to resolve virtual method 1567: Ljava/beans/PropertyDescriptor;.getReadMethod ()Ljava/lang/reflect/Method;"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.177",
+            "message": "VFY: replacing opcode 0x6e at 0x0000"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.177",
+            "message": "VFY: dead code 0x0003-000b in Lorg/fest/assertions/internal/JavaBeanDescriptor;.invokeReadMethod (Ljava/beans/PropertyDescriptor;Ljava/lang/Object;)Ljava/lang/Object;"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:04.505",
+            "message": "GC_EXTERNAL_ALLOC freed 547 objects / 47024 bytes in 52ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:04.544",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "ERROR",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "LoginActivity",
+            "time": "02-12 10:28:05.044",
+            "message": "Password was blank."
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:05.146",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:05.826",
+            "message": "GC_EXPLICIT freed 571 objects / 56720 bytes in 108ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:05.927",
+            "message": "GC_EXPLICIT freed 174 objects / 7888 bytes in 95ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:05.927",
+            "message": "finished: testBlankPassword_ShowsError(com.example.spoon.ordering.tests.LoginActivityTest)"
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "className": "com.example.spoon.ordering.tests.LoginActivityTest",
+        "methodName": "testBlankUsername_ShowsError"
+      },
+      {
+        "status": "PASS",
+        "duration": 3,
+        "screenshots": [
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.LoginActivityTest/testBlankUsername_ShowsError/1360693687102_initial_state.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.LoginActivityTest/testBlankUsername_ShowsError/1360693687741_password_entered.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.LoginActivityTest/testBlankUsername_ShowsError/1360693688588_login_clicked.png"
+        ],
+        "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.LoginActivityTest/testBlankUsername_ShowsError.gif",
+        "log": [
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:05.974",
+            "message": "started: testBlankUsername_ShowsError(com.example.spoon.ordering.tests.LoginActivityTest)"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "IInputConnectionWrapper",
+            "time": "02-12 10:28:06.201",
+            "message": "showStatusIcon on inactive InputConnection"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "KeyCharacterMap",
+            "time": "02-12 10:28:06.677",
+            "message": "No keyboard for id -1"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "KeyCharacterMap",
+            "time": "02-12 10:28:06.708",
+            "message": "Using default keymap: /system/usr/keychars/qwerty.kcm.bin"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:07.154",
+            "message": "GC_EXTERNAL_ALLOC freed 1685 objects / 93384 bytes in 57ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:07.201",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:07.802",
+            "message": "GC_EXTERNAL_ALLOC freed 1558 objects / 99888 bytes in 60ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:07.841",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "ERROR",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "LoginActivity",
+            "time": "02-12 10:28:08.419",
+            "message": "Username was blank."
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:08.708",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:09.419",
+            "message": "GC_EXPLICIT freed 603 objects / 57664 bytes in 117ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:09.490",
+            "message": "GC_EXPLICIT freed 268 objects / 12760 bytes in 60ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:09.490",
+            "message": "finished: testBlankUsername_ShowsError(com.example.spoon.ordering.tests.LoginActivityTest)"
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "className": "com.example.spoon.ordering.tests.LoginActivityTest",
+        "methodName": "testEmptyForm_ShowsBothErrors"
+      },
+      {
+        "status": "PASS",
+        "duration": 2,
+        "screenshots": [
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.LoginActivityTest/testEmptyForm_ShowsBothErrors/1360693690619_initial_state.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.LoginActivityTest/testEmptyForm_ShowsBothErrors/1360693691382_login_clicked.png"
+        ],
+        "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.LoginActivityTest/testEmptyForm_ShowsBothErrors.gif",
+        "log": [
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:09.552",
+            "message": "started: testEmptyForm_ShowsBothErrors(com.example.spoon.ordering.tests.LoginActivityTest)"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "IInputConnectionWrapper",
+            "time": "02-12 10:28:09.833",
+            "message": "showStatusIcon on inactive InputConnection"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "KeyCharacterMap",
+            "time": "02-12 10:28:10.373",
+            "message": "No keyboard for id -1"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "KeyCharacterMap",
+            "time": "02-12 10:28:10.380",
+            "message": "Using default keymap: /system/usr/keychars/qwerty.kcm.bin"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:10.677",
+            "message": "GC_EXTERNAL_ALLOC freed 2861 objects / 168032 bytes in 57ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:10.740",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "ERROR",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "LoginActivity",
+            "time": "02-12 10:28:11.248",
+            "message": "Username was blank."
+          },
+          {
+            "logLevel": "ERROR",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "LoginActivity",
+            "time": "02-12 10:28:11.255",
+            "message": "Password was blank."
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:11.458",
+            "message": "GC_EXTERNAL_ALLOC freed 1620 objects / 106696 bytes in 79ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:11.521",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:12.185",
+            "message": "GC_EXPLICIT freed 171 objects / 21864 bytes in 79ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:12.240",
+            "message": "GC_EXPLICIT freed 31 objects / 816 bytes in 57ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:12.240",
+            "message": "finished: testEmptyForm_ShowsBothErrors(com.example.spoon.ordering.tests.LoginActivityTest)"
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "className": "com.example.spoon.ordering.tests.LoginActivityTest",
+        "methodName": "testPasswordTooShort_ShowsError"
+      },
+      {
+        "status": "PASS",
+        "duration": 3,
+        "screenshots": [
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.LoginActivityTest/testPasswordTooShort_ShowsError/1360693693362_initial_state.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.LoginActivityTest/testPasswordTooShort_ShowsError/1360693694023_values_entered.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.LoginActivityTest/testPasswordTooShort_ShowsError/1360693694753_login_clicked.png"
+        ],
+        "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.LoginActivityTest/testPasswordTooShort_ShowsError.gif",
+        "log": [
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:12.263",
+            "message": "started: testPasswordTooShort_ShowsError(com.example.spoon.ordering.tests.LoginActivityTest)"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "KeyCharacterMap",
+            "time": "02-12 10:28:13.123",
+            "message": "No keyboard for id -1"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "KeyCharacterMap",
+            "time": "02-12 10:28:13.123",
+            "message": "Using default keymap: /system/usr/keychars/qwerty.kcm.bin"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:13.419",
+            "message": "GC_EXTERNAL_ALLOC freed 2413 objects / 146088 bytes in 58ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:13.458",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:14.076",
+            "message": "GC_EXTERNAL_ALLOC freed 1904 objects / 118128 bytes in 57ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:14.130",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "ERROR",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "LoginActivity",
+            "time": "02-12 10:28:14.693",
+            "message": "Password too short."
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:14.794",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:15.412",
+            "message": "GC_EXPLICIT freed 528 objects / 54424 bytes in 53ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:15.521",
+            "message": "GC_EXPLICIT freed 145 objects / 6896 bytes in 109ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:15.521",
+            "message": "finished: testPasswordTooShort_ShowsError(com.example.spoon.ordering.tests.LoginActivityTest)"
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "className": "com.example.spoon.ordering.tests.LoginActivityTest",
+        "methodName": "testValidValues_StartsNewActivity"
+      },
+      {
+        "status": "PASS",
+        "duration": 3,
+        "screenshots": [
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.LoginActivityTest/testValidValues_StartsNewActivity/1360693696619_initial_state.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.LoginActivityTest/testValidValues_StartsNewActivity/1360693697276_values_entered.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.LoginActivityTest/testValidValues_StartsNewActivity/1360693698656_next_activity_shown.png"
+        ],
+        "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.LoginActivityTest/testValidValues_StartsNewActivity.gif",
+        "log": [
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:15.537",
+            "message": "started: testValidValues_StartsNewActivity(com.example.spoon.ordering.tests.LoginActivityTest)"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "IInputConnectionWrapper",
+            "time": "02-12 10:28:15.646",
+            "message": "showStatusIcon on inactive InputConnection"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "KeyCharacterMap",
+            "time": "02-12 10:28:16.380",
+            "message": "No keyboard for id -1"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "KeyCharacterMap",
+            "time": "02-12 10:28:16.380",
+            "message": "Using default keymap: /system/usr/keychars/qwerty.kcm.bin"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:16.677",
+            "message": "GC_EXTERNAL_ALLOC freed 2910 objects / 169968 bytes in 57ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:16.724",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:17.333",
+            "message": "GC_EXTERNAL_ALLOC freed 1574 objects / 102600 bytes in 57ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:17.396",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:18.732",
+            "message": "GC_EXTERNAL_ALLOC freed 1692 objects / 116776 bytes in 78ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:18.771",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:19.294",
+            "message": "GC_EXPLICIT freed 407 objects / 31928 bytes in 49ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:19.341",
+            "message": "GC_EXPLICIT freed 91 objects / 3656 bytes in 45ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.341",
+            "message": "finished: testValidValues_StartsNewActivity(com.example.spoon.ordering.tests.LoginActivityTest)"
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "className": "com.example.spoon.ordering.tests.MiscellaneousTest",
+        "methodName": "testAVeryLongNameBecauseIWantToSeeThePageWordWrapAndAlwaysBeFailingForFunAndProfit"
+      },
+      {
+        "status": "FAIL",
+        "exception": {
+          "className": "junit.framework.AssertionFailedError",
+          "message": "Explicitly testing assertion failures!",
+          "elements": [
+            {
+              "className": "com.example.spoon.ordering.tests.MiscellaneousTest",
+              "fileName": "MiscellaneousTest.java",
+              "line": 7,
+              "methodName": "testAVeryLongNameBecauseIWantToSeeThePageWordWrapAndAlwaysBeFailingForFunAndProfit",
+              "isNative": false
+            },
+            {
+              "className": "java.lang.reflect.Method",
+              "line": 0,
+              "methodName": "invokeNative",
+              "isNative": true
+            },
+            {
+              "className": "android.test.InstrumentationTestCase",
+              "fileName": "InstrumentationTestCase.java",
+              "line": 204,
+              "methodName": "runMethod",
+              "isNative": false
+            },
+            {
+              "className": "android.test.InstrumentationTestCase",
+              "fileName": "InstrumentationTestCase.java",
+              "line": 194,
+              "methodName": "runTest",
+              "isNative": false
+            },
+            {
+              "className": "android.test.AndroidTestRunner",
+              "fileName": "AndroidTestRunner.java",
+              "line": 169,
+              "methodName": "runTest",
+              "isNative": false
+            },
+            {
+              "className": "android.test.AndroidTestRunner",
+              "fileName": "AndroidTestRunner.java",
+              "line": 154,
+              "methodName": "runTest",
+              "isNative": false
+            },
+            {
+              "className": "android.test.InstrumentationTestRunner",
+              "fileName": "InstrumentationTestRunner.java",
+              "line": 520,
+              "methodName": "onStart",
+              "isNative": false
+            },
+            {
+              "className": "com.example.spoon.ordering.tests.SpoonInstrumentationTestRunner",
+              "fileName": "SpoonInstrumentationTestRunner.java",
+              "line": 36,
+              "methodName": "onStart",
+              "isNative": false
+            },
+            {
+              "className": "android.app.Instrumentation$InstrumentationThread",
+              "fileName": "Instrumentation.java",
+              "line": 1447,
+              "methodName": "run",
+              "isNative": false
+            }
+          ]
+        },
+        "duration": 0,
+        "screenshots": [],
+        "log": [
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.373",
+            "message": "started: testAVeryLongNameBecauseIWantToSeeThePageWordWrapAndAlwaysBeFailingForFunAndProfit(com.example.spoon.ordering.tests.MiscellaneousTest)"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:19.451",
+            "message": "GC_EXPLICIT freed 592 objects / 31736 bytes in 66ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:19.505",
+            "message": "GC_EXPLICIT freed 526 objects / 37432 bytes in 57ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.529",
+            "message": "failed: testAVeryLongNameBecauseIWantToSeeThePageWordWrapAndAlwaysBeFailingForFunAndProfit(com.example.spoon.ordering.tests.MiscellaneousTest)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.529",
+            "message": "----- begin exception -----"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.529",
+            "message": "junit.framework.AssertionFailedError: Explicitly testing assertion failures!"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.529",
+            "message": "\tat junit.framework.Assert.fail(Assert.java:47)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.529",
+            "message": "\tat com.example.spoon.ordering.tests.MiscellaneousTest.testAVeryLongNameBecauseIWantToSeeThePageWordWrapAndAlwaysBeFailingForFunAndProfit(MiscellaneousTest.java:7)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.529",
+            "message": "\tat java.lang.reflect.Method.invokeNative(Native Method)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.529",
+            "message": "\tat java.lang.reflect.Method.invoke(Method.java:521)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.529",
+            "message": "\tat android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:204)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.529",
+            "message": "\tat android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:194)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.529",
+            "message": "\tat junit.framework.TestCase.runBare(TestCase.java:127)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.529",
+            "message": "\tat junit.framework.TestResult$1.protect(TestResult.java:106)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.529",
+            "message": "\tat junit.framework.TestResult.runProtected(TestResult.java:124)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.529",
+            "message": "\tat junit.framework.TestResult.run(TestResult.java:109)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.529",
+            "message": "\tat junit.framework.TestCase.run(TestCase.java:118)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.529",
+            "message": "\tat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.529",
+            "message": "\tat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.529",
+            "message": "\tat android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:520)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.529",
+            "message": "\tat com.example.spoon.ordering.tests.SpoonInstrumentationTestRunner.onStart(SpoonInstrumentationTestRunner.java:36)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.529",
+            "message": "\tat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1447)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.529",
+            "message": "----- end exception -----"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.544",
+            "message": "finished: testAVeryLongNameBecauseIWantToSeeThePageWordWrapAndAlwaysBeFailingForFunAndProfit(com.example.spoon.ordering.tests.MiscellaneousTest)"
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "className": "com.example.spoon.ordering.tests.MiscellaneousTest",
+        "methodName": "testAnotherLongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant"
+      },
+      {
+        "status": "ERROR",
+        "exception": {
+          "className": "java.lang.IllegalStateException",
+          "message": "Explicitly testing unexpected, nested exceptions.",
+          "elements": [
+            {
+              "className": "com.example.spoon.ordering.tests.MiscellaneousTest",
+              "fileName": "MiscellaneousTest.java",
+              "line": 14,
+              "methodName": "testAnotherLongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant",
+              "isNative": false
+            },
+            {
+              "className": "java.lang.reflect.Method",
+              "line": 0,
+              "methodName": "invokeNative",
+              "isNative": true
+            },
+            {
+              "className": "android.test.InstrumentationTestCase",
+              "fileName": "InstrumentationTestCase.java",
+              "line": 204,
+              "methodName": "runMethod",
+              "isNative": false
+            },
+            {
+              "className": "android.test.InstrumentationTestCase",
+              "fileName": "InstrumentationTestCase.java",
+              "line": 194,
+              "methodName": "runTest",
+              "isNative": false
+            },
+            {
+              "className": "android.test.AndroidTestRunner",
+              "fileName": "AndroidTestRunner.java",
+              "line": 169,
+              "methodName": "runTest",
+              "isNative": false
+            },
+            {
+              "className": "android.test.AndroidTestRunner",
+              "fileName": "AndroidTestRunner.java",
+              "line": 154,
+              "methodName": "runTest",
+              "isNative": false
+            },
+            {
+              "className": "android.test.InstrumentationTestRunner",
+              "fileName": "InstrumentationTestRunner.java",
+              "line": 520,
+              "methodName": "onStart",
+              "isNative": false
+            },
+            {
+              "className": "com.example.spoon.ordering.tests.SpoonInstrumentationTestRunner",
+              "fileName": "SpoonInstrumentationTestRunner.java",
+              "line": 36,
+              "methodName": "onStart",
+              "isNative": false
+            },
+            {
+              "className": "android.app.Instrumentation$InstrumentationThread",
+              "fileName": "Instrumentation.java",
+              "line": 1447,
+              "methodName": "run",
+              "isNative": false
+            }
+          ],
+          "cause": {
+            "className": "java.lang.RuntimeException",
+            "message": "Messages can have...\n...newlines.",
+            "elements": [
+              {
+                "className": "com.example.spoon.ordering.tests.MiscellaneousTest",
+                "fileName": "MiscellaneousTest.java",
+                "line": 12,
+                "methodName": "testAnotherLongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant",
+                "isNative": false
+              }
+            ]
+          }
+        },
+        "duration": 0,
+        "screenshots": [],
+        "log": [
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.560",
+            "message": "started: testAnotherLongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant(com.example.spoon.ordering.tests.MiscellaneousTest)"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:19.623",
+            "message": "GC_EXPLICIT freed 936 objects / 124856 bytes in 62ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:19.701",
+            "message": "GC_EXPLICIT freed 14 objects / 688 bytes in 70ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.701",
+            "message": "failed: testAnotherLongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant(com.example.spoon.ordering.tests.MiscellaneousTest)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.701",
+            "message": "----- begin exception -----"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.716",
+            "message": "java.lang.IllegalStateException: Explicitly testing unexpected, nested exceptions."
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.716",
+            "message": "\tat com.example.spoon.ordering.tests.MiscellaneousTest.testAnotherLongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant(MiscellaneousTest.java:14)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.716",
+            "message": "\tat java.lang.reflect.Method.invokeNative(Native Method)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.716",
+            "message": "\tat java.lang.reflect.Method.invoke(Method.java:521)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.716",
+            "message": "\tat android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:204)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.716",
+            "message": "\tat android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:194)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.716",
+            "message": "\tat junit.framework.TestCase.runBare(TestCase.java:127)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.716",
+            "message": "\tat junit.framework.TestResult$1.protect(TestResult.java:106)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.716",
+            "message": "\tat junit.framework.TestResult.runProtected(TestResult.java:124)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.716",
+            "message": "\tat junit.framework.TestResult.run(TestResult.java:109)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.716",
+            "message": "\tat junit.framework.TestCase.run(TestCase.java:118)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.716",
+            "message": "\tat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.716",
+            "message": "\tat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.716",
+            "message": "\tat android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:520)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.716",
+            "message": "\tat com.example.spoon.ordering.tests.SpoonInstrumentationTestRunner.onStart(SpoonInstrumentationTestRunner.java:36)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.716",
+            "message": "\tat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1447)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.716",
+            "message": "Caused by: java.lang.RuntimeException: Messages can have..."
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.716",
+            "message": "...newlines."
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.716",
+            "message": "\tat com.example.spoon.ordering.tests.MiscellaneousTest.testAnotherLongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant(MiscellaneousTest.java:12)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.716",
+            "message": "\t... 14 more"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.716",
+            "message": "----- end exception -----"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.732",
+            "message": "finished: testAnotherLongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant(com.example.spoon.ordering.tests.MiscellaneousTest)"
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "className": "com.example.spoon.ordering.tests.OrderActivityTest",
+        "methodName": "testMakeASandwich_ItTastesGood"
+      },
+      {
+        "status": "PASS",
+        "duration": 34,
+        "screenshots": [
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1360693701391_initial_state.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1360693703178_selected_sandwich.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1360693704467_bread.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1360693706250_selected_bread.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1360693707575_meats.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1360693713665_selected_meats.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1360693714901_veggies.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1360693722046_selected_veggies.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1360693723298_cheeses.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1360693725041_selected_cheeses.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1360693726281_toasted.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1360693728523_your_info.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1360693732108_completed_your_info.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1360693733274_review.png"
+        ],
+        "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.OrderActivityTest/testMakeASandwich_ItTastesGood.gif",
+        "log": [
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:19.748",
+            "message": "started: testMakeASandwich_ItTastesGood(com.example.spoon.ordering.tests.OrderActivityTest)"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:20.021",
+            "message": "GC_EXTERNAL_ALLOC freed 2140 objects / 210320 bytes in 53ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:20.240",
+            "message": "Could not find method android.app.Activity.getFragmentManager, referenced from method com.jayway.android.robotium.solo.Waiter.getFragment"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:20.240",
+            "message": "VFY: unable to resolve virtual method 30: Landroid/app/Activity;.getFragmentManager ()Landroid/app/FragmentManager;"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:20.240",
+            "message": "VFY: replacing opcode 0x6e at 0x0008"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:20.240",
+            "message": "Could not find method android.app.Activity.getFragmentManager, referenced from method com.jayway.android.robotium.solo.Waiter.getFragment"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:20.240",
+            "message": "VFY: unable to resolve virtual method 30: Landroid/app/Activity;.getFragmentManager ()Landroid/app/FragmentManager;"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:20.240",
+            "message": "VFY: replacing opcode 0x6e at 0x0017"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:20.240",
+            "message": "VFY: unable to find class referenced in signature (Landroid/app/Fragment;)"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:20.240",
+            "message": "VFY: dead code 0x000b-000f in Lcom/jayway/android/robotium/solo/Waiter;.getFragment (Ljava/lang/String;I)Landroid/app/Fragment;"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:20.240",
+            "message": "VFY: dead code 0x001a-001f in Lcom/jayway/android/robotium/solo/Waiter;.getFragment (Ljava/lang/String;I)Landroid/app/Fragment;"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:20.240",
+            "message": "VFY: unable to find class referenced in signature (Landroid/app/Fragment;)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1756",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:21.294",
+            "message": "Jit: resizing JitTable from 4096 to 8192"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:21.443",
+            "message": "GC_EXTERNAL_ALLOC freed 1344 objects / 95128 bytes in 54ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:21.474",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:23.232",
+            "message": "GC_EXTERNAL_ALLOC freed 1149 objects / 98816 bytes in 53ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:23.287",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:24.505",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:26.310",
+            "message": "GC_EXTERNAL_ALLOC freed 1864 objects / 165616 bytes in 63ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:26.373",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:27.615",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:33.724",
+            "message": "GC_EXTERNAL_ALLOC freed 5132 objects / 431680 bytes in 62ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:33.763",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:34.943",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:42.115",
+            "message": "GC_EXTERNAL_ALLOC freed 5866 objects / 494528 bytes in 71ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:42.169",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:43.349",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:45.107",
+            "message": "GC_EXTERNAL_ALLOC freed 2613 objects / 212248 bytes in 66ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:45.154",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:46.326",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:47.841",
+            "message": "Could not find method android.widget.CheckedTextView.getCheckMarkDrawable, referenced from method org.fest.assertions.api.android.widget.CheckedTextViewAssert.hasCheckMarkDrawable"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:47.841",
+            "message": "VFY: unable to resolve virtual method 896: Landroid/widget/CheckedTextView;.getCheckMarkDrawable ()Landroid/graphics/drawable/Drawable;"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:47.841",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:47.841",
+            "message": "VFY: dead code 0x000a-0023 in Lorg/fest/assertions/api/android/widget/CheckedTextViewAssert;.hasCheckMarkDrawable (Landroid/graphics/drawable/Drawable;)Lorg/fest/assertions/api/android/widget/CheckedTextViewAssert;"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:48.576",
+            "message": "GC_EXTERNAL_ALLOC freed 3397 objects / 265464 bytes in 54ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:48.638",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:52.154",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "1753",
+            "tid": "1753",
+            "tag": "ResourceType",
+            "time": "02-12 10:28:53.146",
+            "message": "Entry identifier 0xff is larger than entry count 0xa2"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:53.349",
+            "message": "GC_EXTERNAL_ALLOC freed 8039 objects / 633088 bytes in 77ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:53.404",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:53.912",
+            "message": "GC_EXPLICIT freed 1153 objects / 86344 bytes in 58ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:54.005",
+            "message": "GC_EXPLICIT freed 131 objects / 6392 bytes in 69ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:54.013",
+            "message": "finished: testMakeASandwich_ItTastesGood(com.example.spoon.ordering.tests.OrderActivityTest)"
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "className": "com.example.spoon.ordering.tests.OrderActivityTest",
+        "methodName": "testMakeSomeSalad_ItIsHealthy"
+      },
+      {
+        "status": "PASS",
+        "duration": 15,
+        "screenshots": [
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1360693735523_initial_state.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1360693737317_selected_salad.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1360693738593_salad_type.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1360693740415_selected_salad_type.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1360693741717_dressing.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1360693743995_your_info.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1360693747402_completed_your_info.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1360693748557_review.png"
+        ],
+        "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/0403681E12013007/com.example.spoon.ordering.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy.gif",
+        "log": [
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:28:54.029",
+            "message": "started: testMakeSomeSalad_ItIsHealthy(com.example.spoon.ordering.tests.OrderActivityTest)"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:55.583",
+            "message": "GC_EXTERNAL_ALLOC freed 2279 objects / 155176 bytes in 63ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:55.638",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:28:57.380",
+            "message": "GC_EXTERNAL_ALLOC freed 2531 objects / 185328 bytes in 62ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:57.451",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:28:58.630",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:00.474",
+            "message": "GC_EXTERNAL_ALLOC freed 1888 objects / 166632 bytes in 63ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:29:00.537",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:29:01.771",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:04.052",
+            "message": "GC_EXTERNAL_ALLOC freed 3440 objects / 267576 bytes in 59ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:29:04.123",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:29:07.443",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:08.615",
+            "message": "GC_EXTERNAL_ALLOC freed 7056 objects / 591344 bytes in 61ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "global",
+            "time": "02-12 10:29:08.669",
+            "message": "Default buffer size used in BufferedOutputStream constructor. It would be better to be explicit if an 8k buffer is required."
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:09.201",
+            "message": "GC_EXPLICIT freed 1168 objects / 87744 bytes in 60ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:09.294",
+            "message": "GC_EXPLICIT freed 135 objects / 6632 bytes in 68ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "1753",
+            "tid": "1759",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:09.294",
+            "message": "finished: testMakeSomeSalad_ItIsHealthy(com.example.spoon.ordering.tests.OrderActivityTest)"
+          }
+        ]
+      }
+    ]
+  ],
+  "started": 1360693653783,
+  "duration": 67,
+  "exceptions": []
+}
