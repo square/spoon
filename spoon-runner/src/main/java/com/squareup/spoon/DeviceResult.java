@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -30,7 +31,7 @@ public final class DeviceResult {
     this.installMessage = installMessage;
     this.deviceDetails = deviceDetails;
     this.started = started;
-    this.testResults = unmodifiableMap(new HashMap<DeviceTest, DeviceTestResult>(testResults));
+    this.testResults = unmodifiableMap(new TreeMap<DeviceTest, DeviceTestResult>(testResults));
     this.duration = duration;
     this.exceptions = unmodifiableList(new ArrayList<StackTrace>(exceptions));
   }
