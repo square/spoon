@@ -18,7 +18,7 @@ APK, Spoon runs the tests on multiple devices simultaneously. Once all tests
 have completed a static HTML summary is generated with detailed information
 about each device and test.
 
-![High-level output](http://square.github.com/spoon/static/example_main.png)
+![High-level output](website/static/example_main.png)
 
 Spoon will run on all targets which are visible to `adb devices`. Plug in
 multiple different phones and tablets, start different configurations of
@@ -50,7 +50,7 @@ Spoon.screenshot(activity, "after_login");
 The tag specified will be used to identify and compare screenshots taken across
 multiple test runs.
 
-![Results with screenshots](http://square.github.com/spoon/static/example_screenshots.png)
+![Results with screenshots](website/static/example_screenshots.png)
 
 You can also view each test's screenshots as an animated GIF to gauge the actual
 sequence of interaction.
@@ -137,7 +137,7 @@ application.
 ```
 
 You can invoke the plugin by running `mvn spoon:run`. The execution result will
-be placed in the `target/spoon-output/` folder.  If you want to specify a test 
+be placed in the `target/spoon-output/` folder.  If you want to specify a test
 class to run, add `-Dspoon.test.class=fully.qualified.ClassName`.  If you only
 want to run a single test in that class, add `-Dspoon.test.method=testAllTheThings`.
 
