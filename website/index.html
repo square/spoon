@@ -24,7 +24,7 @@
           <div class="main-inner">
             <h3 id="introduction">Introduction</h3>
             <p>Android's ever-expanding ecosystem of devices creates a unique challenge to testing applications. Spoon aims to simplify this task by distributing instrumentation test execution and displaying the results in a meaningful way.</p>
-            <p>Instead of attempting to be a new form of testing, Spoon makes existing instrumentation tests more useful. Using the application APK and instrumentation APK, Spoon runs the tests on multiple devices simultaneously. Once all tests have completed a static HTML summary is generated with detailed information about each device and test.</p>
+            <p>Instead of attempting to be a new form of testing, Spoon makes existing instrumentation tests more useful. Using the application APK and instrumentation APK, Spoon runs the tests on multiple devices simultaneously. Once all tests have completed, a static HTML summary is generated with detailed information about each device and test.</p>
             <p><img src="static/example_main.png" alt="Example output"></p>
             <p>With the high-level output you can immediately see whether or not a test failure is specific to a single device or all devices. This view is designed to be displayed on a dedicated monitor or TV.</p>
             <img src="static/device_cluster.png" class="picture">
@@ -62,7 +62,7 @@ Spoon.screenshot(activity, "after_login");</pre>
             <pre class="prettyprint">&lt;dependency>
   &lt;groupId>com.squareup.spoon&lt;/groupId>
   &lt;artifactId>spoon-client&lt;/artifactId>
-  &lt;version><span class="client-version"><em>(insert latest version)</em></span>&lt;/version>
+  &lt;version><span class="version"><em>(insert latest version)</em></span>&lt;/version>
 &lt;/dependency></pre>
 
             <h4 id="sample">Sample</h4>
@@ -94,7 +94,7 @@ Spoon.screenshot(activity, "after_login");</pre>
             <pre class="prettyprint">&lt;plugin>
   &lt;groupId>com.squareup.spoon&lt;/groupId>
   &lt;artifactId>spoon-maven-plugin&lt;/artifactId>
-  &lt;version><span class="runner-version"><em>(insert latest version)</em></span>&lt;/version>
+  &lt;version><span class="version"><em>(insert latest version)</em></span>&lt;/version>
 &lt;/plugin></pre>
             <p>The plugin will look for an <code>apk</code> dependency for the corresponding application. Typically this is specified in parallel with the <code>jar</code> dependency on the application.</p>
             <pre class="prettyprint">&lt;dependency>
@@ -146,11 +146,12 @@ limitations under the License.</pre>
       prettyPrint();
 
       $.fn.artifactVersion('com.squareup.spoon', 'spoon-runner', function(version, url) {
-        $('.runner-version').text(version);
+        $('.runner-version').text('v' + version);
         $('.runner-href').attr('href', url);
       });
       $.fn.artifactVersion('com.squareup.spoon', 'spoon-client', function(version, url) {
-        $('.client-version').text(version);
+        $('.version').text(version);
+        $('.client-version').text('v' + version);
         $('.client-href').attr('href', url);
       });
     </script>
