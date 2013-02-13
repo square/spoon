@@ -166,5 +166,5 @@ License
 
 
 
- [1]: http://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&g=com.squareup.spoon&a=spoon-runner&v=LATEST
+ [1]: http://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&g=com.squareup.spoon&a=spoon-runner&v=LATEST&c=jar-with-dependencies
  [2]: http://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&g=com.squareup.spoon&a=spoon-client&v=LATEST
