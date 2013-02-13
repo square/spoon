@@ -1,0 +1,127 @@
+body {
+  background: #ffffff url('bedge_grunge.png') fixed repeat;
+  margin-top: 40px;
+  color: #222;
+  font: 14px/19px Roboto, sans-serif;
+  font-weight: 400;
+  letter-spacing: .1
+}
+
+.downloads {
+  margin-bottom: 20px;
+}
+
+.picture {
+  float: right;
+  margin: 5px 0 5px 15px;
+  border: 1px solid #999;
+  padding: 1px;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+code, pre {
+  color: #444;
+  background: none;
+  border: none;
+}
+pre {
+  font-size: 11px;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+code {
+  white-space: nowrap;
+}
+
+.well {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.side h1 {
+  font-size: 100px;
+  line-height: 110px;
+  font-weight: 200;
+  margin-bottom: 30px;
+}
+.side h2 {
+  font-size: 18px;
+  line-height: 25px;
+  font-weight: 300;
+  margin-bottom: 60px;
+}
+
+.main {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+.main h3 {
+    padding-top: 40px;
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-weight: 200;
+    font-size: 20px;
+}
+.main h4 {
+    padding-top: 20px;
+    margin-top: 0;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 14px;
+    color: #555;
+}
+.main h4:first-child, .main h3:first-child {
+    padding-top: 0;
+}
+.main h5 {
+    font-size: 12px;
+    margin-top: 14px;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+}
+
+#ribbon img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 0;
+}
+
+.btn-large {
+  font-weight: 200;
+}
+.btn-inverse, .btn-inverse:hover {
+  color: #e0e0e0;
+}
+
+@media(min-width:768px) {
+    body {
+        margin-top: 60px;
+    }
+    .side {
+        text-align: right;
+        position: fixed;
+    }
+    .side h1 {
+        font-size: 80px;
+        line-height: 90px;
+    }
+    .main {
+        padding-top: 30px;
+        padding-bottom: 100px;
+    }
+    .main-inner {
+        margin-left: 25px;
+    }
+
+    #ribbon img {
+        position: fixed;
+    }
+}
+
+@media(min-width: 980px) {
+    .side h1 {
+        font-size: 100px;
+        line-height: 110px;
+    }
+}

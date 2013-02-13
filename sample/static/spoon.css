@@ -1,0 +1,132 @@
+::-webkit-selection,
+::-moz-selection,
+::selection {
+  background-color: #0099cc;
+  color: #fff;
+}
+html,
+body {
+  height: 100%;
+  background-color: #f9f9f9;
+  -webkit-font-smoothing: antialiased;
+}
+body {
+  color: #222;
+  font: 14px/19px Roboto, sans-serif;
+  font-weight: 400;
+  letter-spacing: .1;
+  padding-top: 20px;
+  padding-bottom: 50px;
+}
+.hero-unit {
+  background-image: url('ceiling_android.png');
+  background-repeat: no-repeat;
+  background-position: top right;
+  padding: 15px 30px;
+}
+.hero-unit h1 {
+  margin-bottom: 5px;
+  font-weight: 200;
+}
+.hero-unit p {
+  margin: 0;
+}
+.stacktrace {
+  overflow-y: scroll;
+  margin-bottom: 10px;
+}
+.stacktrace.error {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -moz-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-size: 40px 40px;
+}
+.stacktrace h4 {
+  cursor: pointer;
+}
+.stacktrace .stacktrace-line {
+  white-space: nowrap;
+}
+.test-result {
+  font-weight: 200;
+}
+.test-result small {
+  font-weight: 200;
+  display: none;
+}
+.test-result:hover small {
+  display: inline;
+}
+.test-result.pass {
+  border-bottom: 2px solid #89c989;
+}
+.test-result.fail,
+.test-result.error {
+  border-bottom: 2px solid #c98989;
+}
+.test-result .icon {
+  padding: 0 8px;
+}
+.test-result .icon image {
+  opacity: 0.5;
+}
+.test-result .icon:hover image {
+  opacity: 1.0;
+}
+.modal .modal-body {
+  max-height: none;
+}
+.birds-eye {
+  width: 100%;
+  table-layout: fixed;
+}
+.birds-eye .device th {
+  text-align: left;
+  padding: 10px 0 5px 2px;
+}
+.birds-eye .test {
+  height: 30px;
+  padding: 0;
+}
+.birds-eye .test a {
+  display: block;
+  text-decoration: none;
+  height: 30px;
+}
+.birds-eye .test.pass {
+  background-color: #b9e9b9;
+}
+.birds-eye .test.pass:hover {
+  background-color: #99c999;
+}
+.birds-eye .test.fail,
+.birds-eye .test.error {
+  background-color: #e9b9b9;
+}
+.birds-eye .test.fail:hover,
+.birds-eye .test.error:hover {
+  background-color: #c99999;
+}
+.birds-eye .test.error {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -moz-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-size: 40px 40px;
+}
+pre.error {
+  border-color: #ee5f5b;
+  background-color: rgba(238, 95, 91, 0.1);
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -moz-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-size: 40px 40px;
+}
+.log .span12 {
+  overflow-y: auto;
+}
+.log td {
+  white-space: nowrap;
+}
