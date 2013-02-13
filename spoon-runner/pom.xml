@@ -51,10 +51,6 @@
       <artifactId>animated-gif-lib</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.intellij</groupId>
-      <artifactId>annotations</artifactId>
-    </dependency>
-    <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
     </dependency>
