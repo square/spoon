@@ -30,7 +30,7 @@ import static org.apache.maven.plugins.annotations.LifecyclePhase.INTEGRATION_TE
 public class SpoonMojo extends AbstractMojo {
   private static final String SPOON_GROUP_ID = "com.squareup.spoon";
   private static final String SPOON_PLUGIN_ARTIFACT_ID = "spoon-maven-plugin";
-  private static final String SPOON_ARTIFACT_ID = "spoon-runner";
+  private static final String SPOON_RUNNER_ARTIFACT_ID = "spoon-runner";
   private static final String ARTIFACT_TYPE = "zip";
   private static final String ARTIFACT_CLASSIFIER = "spoon-output";
 
@@ -176,12 +176,17 @@ public class SpoonMojo extends AbstractMojo {
   }
 
   private String getSpoonClasspath() throws MojoExecutionException {
+    Log log = getLog();
     Artifact spoonPlugin =
         findArtifact(SPOON_GROUP_ID, SPOON_PLUGIN_ARTIFACT_ID, project.getPluginArtifacts());
+    log.debug("[getSpoonClasspath] Plugin artifact: " + spoonPlugin);
     Set<Artifact> spoonPluginDeps = getDependenciesForArtifact(spoonPlugin);
-    Artifact spoon = findArtifact(SPOON_GROUP_ID, SPOON_ARTIFACT_ID, spoonPluginDeps);
-    Set<Artifact> spoonDeps = getDependenciesForArtifact(spoon);
-    return createClasspath(spoonDeps);
+    log.debug("[getSpoonClasspath] Plugin dependencies: " + spoonPluginDeps);
+    Artifact spoonRunner = findArtifact(SPOON_GROUP_ID, SPOON_RUNNER_ARTIFACT_ID, spoonPluginDeps);
+    log.debug("[getSpoonClasspath] Runner artifact: " + spoonRunner);
+    Set<Artifact> spoonRunnerDeps = getDependenciesForArtifact(spoonRunner);
+    log.debug("[getSpoonClasspath] Runner dependencies: " + spoonRunnerDeps);
+    return createClasspath(spoonRunnerDeps);
   }
 
   private static Artifact findArtifact(String groupId, String artifactId, Set<Artifact> artifacts)
