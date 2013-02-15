@@ -3,11 +3,8 @@ package com.squareup.spoon;
 
 import com.google.common.base.Strings;
 import java.io.File;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.List;
 import org.apache.maven.artifact.Artifact;
-import org.apache.maven.artifact.repository.ArtifactRepository;
-import org.apache.maven.artifact.resolver.ArtifactResolutionRequest;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
@@ -16,7 +13,20 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
-import org.apache.maven.repository.RepositorySystem;
+import org.sonatype.aether.RepositorySystem;
+import org.sonatype.aether.RepositorySystemSession;
+import org.sonatype.aether.collection.CollectRequest;
+import org.sonatype.aether.collection.CollectResult;
+import org.sonatype.aether.collection.DependencyCollectionException;
+import org.sonatype.aether.graph.Dependency;
+import org.sonatype.aether.graph.DependencyNode;
+import org.sonatype.aether.graph.DependencyVisitor;
+import org.sonatype.aether.repository.RemoteRepository;
+import org.sonatype.aether.resolution.ArtifactRequest;
+import org.sonatype.aether.resolution.ArtifactResolutionException;
+import org.sonatype.aether.resolution.ArtifactResult;
+import org.sonatype.aether.resolution.DependencyRequest;
+import org.sonatype.aether.util.artifact.DefaultArtifact;
 
 import static com.squareup.spoon.SpoonRunner.DEFAULT_OUTPUT_DIRECTORY;
 import static org.apache.maven.plugins.annotations.LifecyclePhase.INTEGRATION_TEST;
@@ -76,9 +86,6 @@ public class SpoonMojo extends AbstractMojo {
   @Parameter(property = "project", required = true, readonly = true)
   private MavenProject project;
 
-  @Parameter(property = "localRepository", readonly = true, required = true)
-  private ArtifactRepository local;
-
   /** Run only a specific test. */
   @Parameter(defaultValue = "${spoon.test.class}")
   private String className;
@@ -92,6 +99,12 @@ public class SpoonMojo extends AbstractMojo {
 
   @Component
   private RepositorySystem repositorySystem;
+
+  @Parameter(defaultValue = "${repositorySystemSession}", readonly = true)
+  private RepositorySystemSession repoSession;
+
+  @Parameter(defaultValue = "${project.remoteProjectRepositories}", readonly = true)
+  private List<RemoteRepository> remoteRepositories;
 
   public void execute() throws MojoExecutionException {
     Log log = getLog();
@@ -177,48 +190,89 @@ public class SpoonMojo extends AbstractMojo {
 
   private String getSpoonClasspath() throws MojoExecutionException {
     Log log = getLog();
-    Artifact spoonPlugin =
-        findArtifact(SPOON_GROUP_ID, SPOON_PLUGIN_ARTIFACT_ID, project.getPluginArtifacts());
-    log.debug("[getSpoonClasspath] Plugin artifact: " + spoonPlugin);
-    Set<Artifact> spoonPluginDeps = getDependenciesForArtifact(spoonPlugin);
-    log.debug("[getSpoonClasspath] Plugin dependencies: " + spoonPluginDeps);
-    Artifact spoonRunner = findArtifact(SPOON_GROUP_ID, SPOON_RUNNER_ARTIFACT_ID, spoonPluginDeps);
+
+    String spoonVersion = findMyVersion();
+    log.debug("[getSpoonClasspath] Plugin version: " + spoonVersion);
+
+    org.sonatype.aether.artifact.Artifact spoonRunner =
+        resolveArtifact(SPOON_GROUP_ID, SPOON_RUNNER_ARTIFACT_ID, spoonVersion);
     log.debug("[getSpoonClasspath] Runner artifact: " + spoonRunner);
-    Set<Artifact> spoonRunnerDeps = getDependenciesForArtifact(spoonRunner);
-    log.debug("[getSpoonClasspath] Runner dependencies: " + spoonRunnerDeps);
-    return createClasspath(spoonRunnerDeps);
+
+    return createClasspath(spoonRunner);
   }
 
-  private static Artifact findArtifact(String groupId, String artifactId, Set<Artifact> artifacts)
+  private String findMyVersion() throws MojoExecutionException {
+    for (Artifact artifact : project.getPluginArtifacts()) {
+      if (SPOON_GROUP_ID.equals(artifact.getGroupId()) //
+          && SPOON_PLUGIN_ARTIFACT_ID.equals(artifact.getArtifactId())) {
+        return artifact.getVersion();
+      }
+    }
+    throw new MojoExecutionException("Could not find reference to Spoon plugin artifact.");
+  }
+
+  private org.sonatype.aether.artifact.Artifact resolveArtifact(String groupId, String artifactId,
+      String version) throws MojoExecutionException {
+    ArtifactRequest request = new ArtifactRequest();
+    request.setArtifact(new DefaultArtifact(groupId, artifactId, null, null, version));
+    request.setRepositories(remoteRepositories);
+
+    try {
+      ArtifactResult artifactResult = repositorySystem.resolveArtifact(repoSession, request);
+      return artifactResult.getArtifact();
+    } catch (ArtifactResolutionException e) {
+      throw new MojoExecutionException("Unable to resolve runner from repository.", e);
+    }
+  }
+
+  private String createClasspath(org.sonatype.aether.artifact.Artifact artifact)
       throws MojoExecutionException {
-    for (Artifact artifact : artifacts) {
-      if (groupId.equals(artifact.getGroupId()) && artifactId.equals(artifact.getArtifactId())) {
-        return artifact;
-      }
+    // Request a collection of all dependencies for the artifact.
+    DependencyRequest dependencyRequest = new DependencyRequest();
+    CollectRequest collectRequest = new CollectRequest();
+    collectRequest.setRoot(new Dependency(artifact, ""));
+    for (RemoteRepository remoteRepository : remoteRepositories) {
+      collectRequest.addRepository(remoteRepository);
     }
-    throw new MojoExecutionException("Could not find " + groupId + ":" + artifactId + " artifact.");
-  }
-
-  private Set<Artifact> getDependenciesForArtifact(Artifact artifact) {
-    ArtifactResolutionRequest arr = new ArtifactResolutionRequest().setArtifact(artifact)
-        .setResolveTransitively(true)
-        .setLocalRepository(local);
-    return repositorySystem.resolve(arr).getArtifacts();
-  }
-
-  private String createClasspath(Set<Artifact> selfWithDeps) {
-    StringBuilder builder = new StringBuilder();
-    Iterator<Artifact> i = selfWithDeps.iterator();
-    if (i.hasNext()) {
-      builder.append(getLocalPathToArtifact(i.next()));
-      while (i.hasNext()) {
-        builder.append(File.pathSeparator).append(getLocalPathToArtifact(i.next()));
-      }
+    CollectResult result;
+    try {
+      result = repositorySystem.collectDependencies(repoSession, collectRequest);
+    } catch (DependencyCollectionException e) {
+      throw new MojoExecutionException("Unable to resolve runner dependencies.", e);
     }
+
+    final Log log = getLog();
+    final StringBuilder builder = new StringBuilder();
+
+    // Walk the tree of all dependencies to add to the classpath.
+    result.getRoot().accept(new DependencyVisitor() {
+      @Override public boolean visitEnter(DependencyNode node) {
+        log.debug("Visiting: " + node);
+
+        // Resolve the dependency node artifact into a real, local artifact.
+        org.sonatype.aether.artifact.Artifact resolvedArtifact;
+        try {
+          org.sonatype.aether.artifact.Artifact nodeArtifact = node.getDependency().getArtifact();
+          resolvedArtifact = resolveArtifact(nodeArtifact.getGroupId(),
+              nodeArtifact.getArtifactId(), nodeArtifact.getVersion());
+        } catch (MojoExecutionException e) {
+          throw new RuntimeException(e);
+        }
+
+        // Add the artifact's path to our classpath.
+        if (builder.length() > 0) {
+          builder.append(File.pathSeparator);
+        }
+        builder.append(resolvedArtifact.getFile().getAbsolutePath());
+
+        return true;
+      }
+
+      @Override public boolean visitLeave(DependencyNode node) {
+        return true;
+      }
+    });
+
     return builder.toString();
-  }
-
-  private String getLocalPathToArtifact(Artifact artifact) {
-    return new File(local.getBasedir(), local.pathOf(artifact)).getAbsolutePath();
   }
 }
