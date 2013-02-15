@@ -214,7 +214,7 @@ public class SpoonMojo extends AbstractMojo {
   private org.sonatype.aether.artifact.Artifact resolveArtifact(String groupId, String artifactId,
       String version) throws MojoExecutionException {
     ArtifactRequest request = new ArtifactRequest();
-    request.setArtifact(new DefaultArtifact(groupId, artifactId, null, null, version));
+    request.setArtifact(new DefaultArtifact(groupId, artifactId, "jar", version));
     request.setRepositories(remoteRepositories);
 
     try {
