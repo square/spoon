@@ -193,35 +193,38 @@ public final class SpoonRunner {
 
     /** Identifying title for this execution. */
     public Builder setTitle(String title) {
-      checkNotNull(title);
+      checkNotNull(title, "Title cannot be null.");
       this.title = title;
       return this;
     }
 
     /** Path to the local Android SDK directory. */
     public Builder setAndroidSdk(File androidSdk) {
-      checkNotNull(androidSdk);
+      checkNotNull(androidSdk, "SDK path not specified.");
+      checkArgument(androidSdk.exists(), "SDK path does not exist.");
       this.androidSdk = androidSdk;
       return this;
     }
 
     /** Path to application APK. */
     public Builder setApplicationApk(File apk) {
-      checkNotNull(apk);
+      checkNotNull(apk, "APK path not specified.");
+      checkArgument(apk.exists(), "APK path does not exist.");
       this.applicationApk = apk;
       return this;
     }
 
     /** Path to instrumentation APK. */
     public Builder setInstrumentationApk(File apk) {
-      checkNotNull(apk);
+      checkNotNull(apk, "Instrumentation APK path not specified.");
+      checkArgument(apk.exists(), "Instrumentation APK path does not exist.");
       this.instrumentationApk = apk;
       return this;
     }
 
     /** Path to output directory. */
     public Builder setOutputDirectory(File output) {
-      checkNotNull(output);
+      checkNotNull(output, "Output directory not specified.");
       this.output = output;
       return this;
     }
@@ -234,7 +237,7 @@ public final class SpoonRunner {
 
     /** Add a device serial for test execution. */
     public Builder addDevice(String serial) {
-      checkNotNull(serial);
+      checkNotNull(serial, "Serial cannot be null.");
       checkArgument(!serials.isEmpty(), "Already marked as using all devices.");
       if (serials == null) {
         serials = new LinkedHashSet<String>();
@@ -257,7 +260,7 @@ public final class SpoonRunner {
 
     /** Classpath to use for new JVM processes. */
     public Builder setClasspath(String classpath) {
-      checkNotNull(classpath);
+      checkNotNull(classpath, "Classpath cannot be null.");
       this.classpath = classpath;
       return this;
     }
@@ -310,10 +313,10 @@ public final class SpoonRunner {
 
     @Parameter(names = { "--output" }, description = "Output path",
         converter = FileConverter.class)
-    public File output = new File(SpoonRunner.DEFAULT_OUTPUT_DIRECTORY);
+    public File output = cleanFile(SpoonRunner.DEFAULT_OUTPUT_DIRECTORY);
 
     @Parameter(names = { "--sdk" }, description = "Path to Android SDK")
-    public File sdk = new File(System.getenv("ANDROID_HOME"));
+    public File sdk = cleanFile(System.getenv("ANDROID_HOME"));
 
     @Parameter(names = { "--fail-on-failure" }, description = "Non-zero exit code on failure")
     public boolean failOnFailure;
@@ -325,10 +328,17 @@ public final class SpoonRunner {
     public boolean help;
   }
 
+  private static File cleanFile(String path) {
+    if (path == null) {
+      return null;
+    }
+    return new File(path);
+  }
+
   /* JCommander deems it necessary that this class be public. Lame. */
   public static class FileConverter implements IStringConverter<File> {
     @Override public File convert(String s) {
-      return new File(s);
+      return cleanFile(s);
     }
   }
 
