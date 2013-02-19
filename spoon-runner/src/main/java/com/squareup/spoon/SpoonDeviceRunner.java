@@ -24,6 +24,7 @@ import org.apache.commons.io.filefilter.TrueFileFilter;
 import static com.android.ddmlib.FileListingService.FileEntry;
 import static com.squareup.spoon.Spoon.SPOON_SCREENSHOTS;
 import static com.squareup.spoon.SpoonLogger.logDebug;
+import static com.squareup.spoon.SpoonLogger.logError;
 import static com.squareup.spoon.SpoonLogger.logInfo;
 import static com.squareup.spoon.SpoonUtils.GSON;
 import static com.squareup.spoon.SpoonUtils.QUIET_MONITOR;
@@ -221,8 +222,13 @@ public final class SpoonDeviceRunner {
 
               // Add screenshot to appropriate method result.
               DeviceTest testIdentifier = new DeviceTest(className, methodName);
-              screenshots.put(testIdentifier, screenshot);
-              result.getMethodResultBuilder(testIdentifier).addScreenshot(screenshot);
+              DeviceTestResult.Builder builder = result.getMethodResultBuilder(testIdentifier);
+              if (builder != null) {
+                builder.addScreenshot(screenshot);
+                screenshots.put(testIdentifier, screenshot);
+              } else {
+                logError("Unable to find test for %s", testIdentifier);
+              }
             }
           }
 
