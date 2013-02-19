@@ -42,6 +42,11 @@
                                     <a href="device/{{serial}}.html#{{testId}}" data-original-title="{{classSimpleName}}" data-content="{{prettyMethodName}}">&nbsp;</a>
                                 </td>
                                 {{/testResults}}
+                                {{#executionFailed}}
+                                <td class="test error" colspan="{{testCount}}">
+                                    <a href="device/{{serial}}.html">&nbsp;</a>
+                                </td>
+                                {{/executionFailed}}
                             </tr>
                             {{/getException}}
                             {{/devices}}
