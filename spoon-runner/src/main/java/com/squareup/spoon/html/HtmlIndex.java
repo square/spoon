@@ -77,17 +77,20 @@ final class HtmlIndex {
       }
       DeviceDetails details = result.getDeviceDetails();
       String name = (details != null) ? details.getName() : serial;
-      return new Device(serial, name, testResults);
+      boolean executionFailed = testResults.isEmpty() && !result.getExceptions().isEmpty();
+      return new Device(serial, name, testResults, executionFailed);
     }
 
     public final String serial;
     public final String name;
     public final List<TestResult> testResults;
+    public final boolean executionFailed;
 
-    Device(String serial, String name, List<TestResult> testResults) {
+    Device(String serial, String name, List<TestResult> testResults, boolean executionFailed) {
       this.serial = serial;
       this.name = name;
       this.testResults = testResults;
+      this.executionFailed = executionFailed;
     }
 
     @Override public int compareTo(Device other) {
