@@ -12,6 +12,10 @@ final class SpoonLogger {
     }
   };
 
+  static void logError(String message, Object... args) {
+    System.err.println(getPrefix() + String.format(message, args));
+  }
+
   static void logInfo(String message, Object... args) {
     System.out.println(getPrefix() + String.format(message, args));
   }
