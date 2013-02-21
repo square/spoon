@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
+import org.apache.commons.io.FilenameUtils;
 
 import static com.squareup.spoon.DeviceTestResult.SCREENSHOT_SEPARATOR;
 
@@ -94,6 +95,8 @@ final class HtmlUtils {
 
   /** Convert an image name from {@code 87243508_this-here-is-it} to "This Here Is It". */
   static String prettifyImageName(String imageName) {
+    imageName = FilenameUtils.removeExtension(imageName);
+
     // Remove the timestamp information.
     imageName = imageName.split(SCREENSHOT_SEPARATOR, 2)[1];
 
