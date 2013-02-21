@@ -28,7 +28,7 @@ public final class Spoon {
   static final String TEST_CASE_CLASS = "android.test.InstrumentationTestCase";
   static final String TEST_CASE_METHOD = "runMethod";
   private static final String EXTENSION = ".png";
-  private static final String TAG = "SpoonScreenshot";
+  private static final String TAG = "Spoon";
   private static final Object LOCK = new Object();
   private static final Pattern TAG_VALIDATION = Pattern.compile("[a-zA-Z0-9_-]+");
 
@@ -49,6 +49,7 @@ public final class Spoon {
       File screenshotDirectory = obtainScreenshotDirectory(activity);
       String screenshotName = System.currentTimeMillis() + NAME_SEPARATOR + tag + EXTENSION;
       takeScreenshot(new File(screenshotDirectory, screenshotName), activity);
+      Log.d(TAG, "Captured screenshot '" + tag + "'.");
     } catch (Exception e) {
       throw new RuntimeException("Unable to capture screenshot.", e);
     }
