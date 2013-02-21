@@ -6,7 +6,6 @@
     <groupId>com.squareup.spoon</groupId>
     <artifactId>parent</artifactId>
     <version>1.0.1-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
   </parent>
 
   <artifactId>spoon-maven-plugin</artifactId>
