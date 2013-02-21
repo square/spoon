@@ -215,7 +215,7 @@ public final class SpoonDeviceRunner {
           for (File classNameDir : classNameDirs) {
             String className = classNameDir.getName();
             File destDir = new File(imageDir, className);
-            FileUtils.moveDirectory(classNameDir, destDir);
+            FileUtils.copyDirectory(classNameDir, destDir);
             for (File screenshot : FileUtils.listFiles(destDir, TrueFileFilter.INSTANCE,
                 TrueFileFilter.INSTANCE)) {
               String methodName = screenshot.getParentFile().getName();
@@ -252,6 +252,7 @@ public final class SpoonDeviceRunner {
           logInfo(
               "Warning: IOException when trying to delete %s.  If you're not on Windows, panic.",
               screenshotDir);
+          FileUtils.forceDeleteOnExit(screenshotDir);
         }
       }
     } catch (Exception e) {
