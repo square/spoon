@@ -5,6 +5,7 @@ Version 1.0.1 *(In Development)*
 --------------------------------
 
  * Improve classpath detection inside Maven plugin.
+ * Screenshot tags are now logged and displayed as tooltips.
  * Fix: Generating output on Windows no longer throws exception.
  * Fix: Screenshots in base test classes no longer throws exception.
  * Fix: Lack of `ANDROID_SDK` environment variable no longer throws inadvertent exception.

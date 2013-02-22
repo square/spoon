@@ -12,8 +12,8 @@ import static org.fest.assertions.api.Assertions.assertThat;
 public class HtmlUtilsTest {
   @Test public void prettifyImageNameExamples() {
     // Simple cases.
-    assertThat(prettifyImageName("012344567_click-the-button")).isEqualTo("Click The Button");
-    assertThat(prettifyImageName("987245978_click_the_button")).isEqualTo("Click The Button");
+    assertThat(prettifyImageName("012344567_click-the-button.png")).isEqualTo("Click The Button");
+    assertThat(prettifyImageName("987245978_click_the_button.png")).isEqualTo("Click The Button");
   }
 
   @Test public void prettifyTestNameExamples() {
