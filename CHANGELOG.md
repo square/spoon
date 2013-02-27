@@ -1,8 +1,8 @@
 Change Log
 ==========
 
-Version 1.0.1 *(In Development)*
---------------------------------
+Version 1.0.1 *(2013-02-26)*
+----------------------------
 
  * Improve classpath detection inside Maven plugin.
  * Screenshot tags are now logged and displayed as tooltips.
