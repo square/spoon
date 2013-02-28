@@ -178,7 +178,7 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
 
     // For fun (and to make the output more interesting), randomly fail!
     if (new Random().nextInt(4) == 0) {
-      throw new AssertionError("Someone set up us the bomb!");
+      throw new AssertionError("Somebody set up us the bomb.");
     }
   }
 }
