@@ -94,7 +94,20 @@ final class HtmlIndex {
     }
 
     @Override public int compareTo(Device other) {
+      if (name == null && other.name == null) {
+        return serial.compareTo(other.serial);
+      }
+      if (name == null) {
+        return 1;
+      }
+      if (other.name == null) {
+        return -1;
+      }
       return name.compareTo(other.name);
+    }
+
+    @Override public String toString() {
+      return name != null ? name : serial;
     }
   }
 
