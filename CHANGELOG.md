@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+Version 1.0.2 *(In Development)*
+--------------------------------
+
+ * Devices without names are properly sorted.
+
+
 Version 1.0.1 *(2013-02-26)*
 ----------------------------
 
