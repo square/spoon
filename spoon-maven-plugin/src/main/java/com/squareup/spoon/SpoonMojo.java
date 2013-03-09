@@ -2,8 +2,12 @@
 package com.squareup.spoon;
 
 import com.google.common.base.Strings;
+
 import java.io.File;
+import java.util.Collection;
 import java.util.List;
+
+import org.apache.commons.io.FileUtils;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -175,18 +179,32 @@ public class SpoonMojo extends AbstractMojo {
     if (!"apk".equals(instrumentationArtifact.getType())) {
       throw new MojoExecutionException("Spoon can only be invoked on a module with type 'apk'.");
     }
-    return instrumentationArtifact.getFile();
+    return getApkFile(instrumentationArtifact, project.getBasedir());
   }
 
   private File getApplicationApk() throws MojoExecutionException {
     for (Artifact dependency : project.getDependencyArtifacts()) {
+        getLog().debug(dependency.toString());
       if ("apk".equals(dependency.getType())) {
-        return dependency.getFile();
+        return getApkFile(dependency, project.getParent().getBasedir());
       }
     }
     throw new MojoExecutionException(
         "Could not find application. Ensure 'apk' dependency on it exists.");
   }
+
+    private File getApkFile(Artifact dependency, File dir) throws MojoExecutionException {
+        Collection<File> match = FileUtils.listFiles(dir, new String[] {"apk"}, true);
+        String apkName = dependency.getArtifactId() + "-" + dependency.getVersion();
+        for (File file : match) {
+            if (file.getAbsolutePath().contains(apkName)) {
+                return file;
+            }
+        }
+        throw new MojoExecutionException(
+                "Could not find any file matching " + apkName
+        );
+    }
 
   private String getSpoonClasspath() throws MojoExecutionException {
     Log log = getLog();
