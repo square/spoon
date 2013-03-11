@@ -177,23 +177,21 @@ public class SpoonMojo extends AbstractMojo {
     if (!"apk".equals(instrumentationArtifact.getType())) {
       throw new MojoExecutionException("Spoon can only be invoked on a module with type 'apk'.");
     }
-      org.sonatype.aether.artifact.Artifact artifact = aetherArtificat(instrumentationArtifact);
-    return artifact.getFile();
+    return aetherArtifact(instrumentationArtifact).getFile();
   }
 
   private File getApplicationApk() throws MojoExecutionException {
     for (Artifact dependency : project.getDependencyArtifacts()) {
       if ("apk".equals(dependency.getType())) {
-          org.sonatype.aether.artifact.Artifact artifact = aetherArtificat(dependency);
-        return artifact.getFile();
+        return aetherArtifact(dependency).getFile();
       }
     }
     throw new MojoExecutionException(
         "Could not find application. Ensure 'apk' dependency on it exists.");
   }
 
-  private org.sonatype.aether.artifact.Artifact aetherArtificat(Artifact dep)
-          throws MojoExecutionException {
+  private org.sonatype.aether.artifact.Artifact aetherArtifact(Artifact dep)
+    throws MojoExecutionException {
       return resolveArtifact(dep.getGroupId(), dep.getArtifactId(), "apk", dep.getVersion());
   }
 
@@ -220,9 +218,8 @@ public class SpoonMojo extends AbstractMojo {
     throw new MojoExecutionException("Could not find reference to Spoon plugin artifact.");
   }
 
-  private org.sonatype.aether.artifact.Artifact
-  resolveArtifact(String groupId, String artifactId, String extension,
-      String version) throws MojoExecutionException {
+  private org.sonatype.aether.artifact.Artifact resolveArtifact
+      (String groupId, String artifactId, String extension, String version) throws MojoExecutionException {
     ArtifactRequest request = new ArtifactRequest();
     request.setArtifact(new DefaultArtifact(groupId, artifactId, extension, version));
     request.setRepositories(remoteRepositories);
