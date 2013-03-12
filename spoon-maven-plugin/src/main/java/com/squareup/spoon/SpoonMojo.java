@@ -191,8 +191,8 @@ public class SpoonMojo extends AbstractMojo {
   }
 
   private org.sonatype.aether.artifact.Artifact aetherArtifact(Artifact dep)
-    throws MojoExecutionException {
-      return resolveArtifact(dep.getGroupId(), dep.getArtifactId(), "apk", dep.getVersion());
+      throws MojoExecutionException {
+    return resolveArtifact(dep.getGroupId(), dep.getArtifactId(), "apk", dep.getVersion());
   }
 
   private String getSpoonClasspath() throws MojoExecutionException {
@@ -218,8 +218,8 @@ public class SpoonMojo extends AbstractMojo {
     throw new MojoExecutionException("Could not find reference to Spoon plugin artifact.");
   }
 
-  private org.sonatype.aether.artifact.Artifact resolveArtifact
-      (String groupId, String artifactId, String extension, String version) throws MojoExecutionException {
+  private org.sonatype.aether.artifact.Artifact resolveArtifact(String groupId, String artifactId,
+      String extension, String version) throws MojoExecutionException {
     ArtifactRequest request = new ArtifactRequest();
     request.setArtifact(new DefaultArtifact(groupId, artifactId, extension, version));
     request.setRepositories(remoteRepositories);
@@ -260,8 +260,9 @@ public class SpoonMojo extends AbstractMojo {
         org.sonatype.aether.artifact.Artifact resolvedArtifact;
         try {
           org.sonatype.aether.artifact.Artifact nodeArtifact = node.getDependency().getArtifact();
-          resolvedArtifact = resolveArtifact(nodeArtifact.getGroupId(),
-              nodeArtifact.getArtifactId(), "jar", nodeArtifact.getVersion());
+          resolvedArtifact =
+              resolveArtifact(nodeArtifact.getGroupId(), nodeArtifact.getArtifactId(), "jar",
+                  nodeArtifact.getVersion());
         } catch (MojoExecutionException e) {
           throw new RuntimeException(e);
         }
