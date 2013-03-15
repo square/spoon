@@ -1,10 +1,11 @@
 Change Log
 ==========
 
-Version 1.0.2 *(In Development)*
---------------------------------
+Version 1.0.2 *(2013-03-14)*
+----------------------------
 
  * Devices without names are properly sorted.
+ * Fix: App and instrumentation APK now resolves using Aether.
 
 
 Version 1.0.1 *(2013-02-26)*
