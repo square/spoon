@@ -119,10 +119,14 @@ public class SpoonMojo extends AbstractMojo {
       return;
     }
 
+    if (androidSdk == null) {
+      throw new MojoExecutionException(
+          "Could not find Android SDK. Ensure ANDROID_HOME environment variable is set.");
+    }
     File sdkFile = new File(androidSdk);
     if (!sdkFile.exists()) {
       throw new MojoExecutionException(
-          "Could not find Android SDK. Ensure ANDROID_HOME environment variable is set.");
+          String.format("Could not find Android SDK at: %s", androidSdk));
     }
     log.debug("Android SDK: " + sdkFile.getAbsolutePath());
 
