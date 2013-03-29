@@ -14,7 +14,7 @@ public final class DeviceDetails {
 
   private DeviceDetails(String name, String manufacturer, String version, int apiLevel,
       String language, String region) {
-    this.name = name;
+    this.name = "sdk".equals(name) ?  name + "-" + apiLevel : name;
     this.manufacturer = manufacturer;
     this.version = version;
     this.apiLevel = apiLevel;
