@@ -36,34 +36,62 @@ final class HtmlDevice {
       exceptions.add(HtmlUtils.processStackTrace(exception));
     }
 
-    StringBuilder subtitle = new StringBuilder();
-    subtitle.append(totalTestsRun).append(" run");
+    StringBuilder subtitle1 = new StringBuilder();
+    subtitle1.append(totalTestsRun).append(" run");
     if (testsPassed > 0) {
-      subtitle.append(" with ")
+      subtitle1.append(" with ")
           .append(testsPassed)
           .append(" passing and ")
           .append(testsFailed)
           .append(" failing in ")
           .append(HtmlUtils.humanReadableDuration(result.getDuration()));
     }
-    subtitle.append(" at ")
+    subtitle1.append(" at ")
         .append(HtmlUtils.dateToString(result.getStarted()));
 
-    return new HtmlDevice(serial, title, subtitle.toString(), testResults, exceptions);
+
+    String subtitle2 = null;
+    if (details != null) {
+      StringBuilder builder = new StringBuilder();
+      builder.append("Running Android ")
+          .append(details.getVersion())
+          .append(" (API ")
+          .append(details.getApiLevel())
+          .append(")");
+
+      if (details.getLanguage() != null || details.getRegion() != null) {
+        builder.append(" with locale ");
+        if (details.getLanguage() != null) {
+          builder.append(details.getLanguage());
+          if (details.getRegion() != null) {
+            builder.append("-");
+          }
+          if (details.getRegion() != null) {
+            builder.append(details.getRegion());
+          }
+        }
+      }
+
+      subtitle2 = builder.toString();
+    }
+
+    return new HtmlDevice(serial, title, subtitle1.toString(), subtitle2, testResults, exceptions);
   }
 
   public final String serial;
   public final String title;
-  public final String subtitle;
+  public final String subtitle1;
+  public final String subtitle2;
   public final List<TestResult> testResults;
   public final boolean hasExceptions;
   public final List<HtmlUtils.ExceptionInfo> exceptions;
 
-  HtmlDevice(String serial, String title, String subtitle, List<TestResult> testResults,
-      List<HtmlUtils.ExceptionInfo> exceptions) {
+  HtmlDevice(String serial, String title, String subtitle1, String subtitle2,
+      List<TestResult> testResults, List<HtmlUtils.ExceptionInfo> exceptions) {
     this.serial = serial;
     this.title = title;
-    this.subtitle = subtitle;
+    this.subtitle1 = subtitle1;
+    this.subtitle2 = subtitle2;
     this.testResults = testResults;
     this.hasExceptions = !exceptions.isEmpty();
     this.exceptions = exceptions;
