@@ -3,18 +3,20 @@ package com.squareup.spoon;
 import com.android.ddmlib.IDevice;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import static com.google.common.base.Strings.emptyToNull;
+
 /** Device configuration and hardware information. */
 public final class DeviceDetails {
-  private final String name;
+  private final String model;
   private final String manufacturer;
   private final String version;
   private final int apiLevel;
   private final String language;
   private final String region;
 
-  private DeviceDetails(String name, String manufacturer, String version, int apiLevel,
+  private DeviceDetails(String model, String manufacturer, String version, int apiLevel,
       String language, String region) {
-    this.name = name;
+    this.model = model;
     this.manufacturer = manufacturer;
     this.version = version;
     this.apiLevel = apiLevel;
@@ -22,9 +24,14 @@ public final class DeviceDetails {
     this.region = region;
   }
 
-  /** Product model. */
+  /** Product manufacturer and model. */
   public String getName() {
-    return name;
+    return manufacturer + " " + model;
+  }
+
+  /** Product model. */
+  public String getModel() {
+    return model;
   }
 
   /** Produce manufacturer. */
@@ -53,15 +60,20 @@ public final class DeviceDetails {
   }
 
   static DeviceDetails createForDevice(IDevice device) {
-    String name = device.getProperty("ro.product.model");
-    String manufacturer = device.getProperty("ro.product.manufacturer");
-    String version = device.getProperty("ro.build.version.release");
-    String api = device.getProperty("ro.build.version.sdk");
-    int apiLevel = api != null ? Integer.parseInt(api) : 0;
-    String language = device.getProperty("ro.product.locale.language");
-    String region = device.getProperty("ro.product.locale.region");
+    String manufacturer = emptyToNull(device.getProperty("ro.product.manufacturer"));
+    String model = emptyToNull(device.getProperty("ro.product.model"));
+    model = DeviceUtils.scrubModel(manufacturer, model);
 
-    return new DeviceDetails(name, manufacturer, version, apiLevel, language, region);
+    String version = emptyToNull(device.getProperty("ro.build.version.release"));
+    String api = emptyToNull(device.getProperty("ro.build.version.sdk"));
+    int apiLevel = api != null ? Integer.parseInt(api) : 0;
+
+    String language = emptyToNull(device.getProperty("ro.product.locale.language"));
+    language = DeviceUtils.scrubLanguage(language);
+
+    String region = emptyToNull(device.getProperty("ro.product.locale.region"));
+
+    return new DeviceDetails(model, manufacturer, version, apiLevel, language, region);
   }
 
   @Override public String toString() {
