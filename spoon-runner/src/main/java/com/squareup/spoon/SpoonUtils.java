@@ -2,6 +2,7 @@ package com.squareup.spoon;
 
 import com.android.ddmlib.AndroidDebugBridge;
 import com.android.ddmlib.IDevice;
+import com.android.ddmlib.IShellOutputReceiver;
 import com.android.ddmlib.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -46,22 +47,34 @@ final class SpoonUtils {
       .create();
 
   static final ISyncProgressMonitor QUIET_MONITOR = new ISyncProgressMonitor() {
-        @Override public void start(int totalWork) {
-        }
+    @Override public void start(int totalWork) {
+    }
 
-        @Override public void stop() {
-        }
+    @Override public void stop() {
+    }
 
-        @Override public boolean isCanceled() {
-          return false;
-        }
+    @Override public boolean isCanceled() {
+      return false;
+    }
 
-        @Override public void startSubTask(String name) {
-        }
+    @Override public void startSubTask(String name) {
+    }
 
-        @Override public void advance(int work) {
-        }
-      };
+    @Override public void advance(int work) {
+    }
+  };
+
+  static final IShellOutputReceiver QUIET_RECEIVER = new IShellOutputReceiver() {
+    @Override public void addOutput(byte[] data, int offset, int length) {
+    }
+
+    @Override public void flush() {
+    }
+
+    @Override public boolean isCancelled() {
+      return false;
+    }
+  };
 
   /** Fetch or create a real device that corresponds to a device model. */
   static IDevice obtainRealDevice(AndroidDebugBridge adb, String serial) {

@@ -2,23 +2,11 @@ package com.squareup.spoon;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.os.Looper;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.concurrent.CountDownLatch;
 import java.util.regex.Pattern;
 
 import static android.content.Context.MODE_WORLD_READABLE;
-import static android.graphics.Bitmap.CompressFormat.PNG;
-import static android.graphics.Bitmap.Config.ARGB_8888;
-import static com.squareup.spoon.Chmod.chmodPlusR;
 import static com.squareup.spoon.Chmod.chmodPlusRWX;
 
 /** Utility class for capturing screenshots for Spoon. */
@@ -27,8 +15,8 @@ public final class Spoon {
   static final String NAME_SEPARATOR = "_";
   static final String TEST_CASE_CLASS = "android.test.InstrumentationTestCase";
   static final String TEST_CASE_METHOD = "runMethod";
+  static final String TAG = "Spoon";
   private static final String EXTENSION = ".png";
-  private static final String TAG = "Spoon";
   private static final Object LOCK = new Object();
   private static final Pattern TAG_VALIDATION = Pattern.compile("[a-zA-Z0-9_-]+");
 
@@ -48,58 +36,11 @@ public final class Spoon {
     try {
       File screenshotDirectory = obtainScreenshotDirectory(activity);
       String screenshotName = System.currentTimeMillis() + NAME_SEPARATOR + tag + EXTENSION;
-      takeScreenshot(new File(screenshotDirectory, screenshotName), activity);
+      Screenshot.capture(new File(screenshotDirectory, screenshotName), activity);
       Log.d(TAG, "Captured screenshot '" + tag + "'.");
     } catch (Exception e) {
       throw new RuntimeException("Unable to capture screenshot.", e);
     }
-  }
-
-  private static void takeScreenshot(File file, final Activity activity) throws IOException {
-    DisplayMetrics dm = activity.getResources().getDisplayMetrics();
-    final Bitmap bitmap = Bitmap.createBitmap(dm.widthPixels, dm.heightPixels, ARGB_8888);
-
-    if (Looper.myLooper() == Looper.getMainLooper()) {
-      // On main thread already, Just Do It™.
-      drawDecorViewToBitmap(activity, bitmap);
-    } else {
-      // On a background thread, post to main.
-      final CountDownLatch latch = new CountDownLatch(1);
-      activity.runOnUiThread(new Runnable() {
-        @Override public void run() {
-          try {
-            drawDecorViewToBitmap(activity, bitmap);
-          } finally {
-            latch.countDown();
-          }
-        }
-      });
-      try {
-        latch.await();
-      } catch (InterruptedException e) {
-        String msg = "Unable to get screenshot " + file.getAbsolutePath();
-        Log.e(TAG, msg, e);
-        throw new RuntimeException(msg, e);
-      }
-    }
-
-    OutputStream fos = null;
-    try {
-      fos = new BufferedOutputStream(new FileOutputStream(file));
-      bitmap.compress(PNG, 100 /* quality */, fos);
-
-      chmodPlusR(file);
-    } finally {
-      bitmap.recycle();
-      if (fos != null) {
-        fos.close();
-      }
-    }
-  }
-
-  private static void drawDecorViewToBitmap(Activity activity, Bitmap bitmap) {
-    Canvas canvas = new Canvas(bitmap);
-    activity.getWindow().getDecorView().draw(canvas);
   }
 
   private static File obtainScreenshotDirectory(Context context) throws IllegalAccessException {

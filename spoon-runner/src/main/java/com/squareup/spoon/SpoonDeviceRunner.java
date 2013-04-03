@@ -9,16 +9,19 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
@@ -28,15 +31,18 @@ import static com.squareup.spoon.SpoonLogger.logError;
 import static com.squareup.spoon.SpoonLogger.logInfo;
 import static com.squareup.spoon.SpoonUtils.GSON;
 import static com.squareup.spoon.SpoonUtils.QUIET_MONITOR;
+import static com.squareup.spoon.SpoonUtils.QUIET_RECEIVER;
 import static com.squareup.spoon.SpoonUtils.createAnimatedGif;
 import static com.squareup.spoon.SpoonUtils.obtainDirectoryFileEntry;
 import static com.squareup.spoon.SpoonUtils.obtainRealDevice;
 
 /** Represents a single device and the test configuration to be executed. */
 public final class SpoonDeviceRunner {
+  static final String TEMP_DIR = "work";
   private static final String FILE_EXECUTION = "execution.json";
   private static final String FILE_RESULT = "result.json";
-  static final String TEMP_DIR = "work";
+  private static final String REMOTE_BINARY = "/data/local/tmp/spoon-screenshot-server";
+  private static final String REMOTE_LOG = "/data/local/tmp/spoon-screenshot-server.log";
 
   private final File sdk;
   private final File apk;
@@ -138,6 +144,13 @@ public final class SpoonDeviceRunner {
     final DeviceDetails deviceDetails = DeviceDetails.createForDevice(device);
     result.setDeviceDetails(deviceDetails);
     logDebug(debug, "[%s] setDeviceDetails %s", serial, deviceDetails);
+
+    try {
+      launchScreenshotServer(device);
+    } catch (Exception e) {
+      result.addException(e);
+      logDebug(debug, "[%s] Unable to install screenshot server.", serial);
+    }
 
     try {
       // First try to uninstall the old apks.  This will avoid "inconsistent certificate" errors.
@@ -260,6 +273,37 @@ public final class SpoonDeviceRunner {
     }
 
     return result.build();
+  }
+
+  private void launchScreenshotServer(IDevice device) throws Exception {
+    // Create temporary place for the binary on the filesystem.
+    File tmp = File.createTempFile("screenshot-server", null);
+    tmp.deleteOnExit();
+
+    // Copy the binary to the filesystem.
+    logDebug(debug, "[%s] Copying screenshot binary to %s", serial, tmp.getAbsoluteFile());
+    URL binary = SpoonDeviceRunner.class.getResource("/screenshot-server");
+    FileOutputStream out = null;
+    try {
+      out = FileUtils.openOutputStream(tmp);
+      IOUtils.copy(binary.openStream(), out);
+    } finally {
+      if (out != null) {
+        try {
+          out.close();
+        } catch (IOException ignored) {
+        }
+      }
+    }
+
+    // Push binary to the device and chmod it for execution.
+    logDebug(debug, "[%s] Pushing screenshot server to the device.", serial);
+    device.pushFile(tmp.getAbsolutePath(), REMOTE_BINARY);
+    device.executeShellCommand("/system/bin/chmod 0777 " + REMOTE_BINARY, QUIET_RECEIVER);
+
+    // Start the screenshot server.
+    logDebug(debug, "[%s] Starting screenshot server on the device.", serial);
+    device.executeShellCommand(REMOTE_BINARY + " " + REMOTE_LOG + " &", QUIET_RECEIVER);
   }
 
   private static void tryToUninstall(IDevice device, String appId) {
