@@ -1,8 +1,8 @@
 Change Log
 ==========
 
-Version 1.0.3 *(In Development)*
---------------------------------
+Version 1.0.3 *(2013-04-04)*
+----------------------------
 
  * Display OS properties on the top of device page.
  * Fix: Prevent exception when `ANDROID_SDK` not set.
