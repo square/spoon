@@ -125,14 +125,14 @@ application.
   <artifactId>example-app</artifactId>
   <version>${project.version}</version>
   <type>jar</type>
-  <scope>provied</scope>
+  <scope>provided</scope>
 </dependency>
 <dependency>
   <groupId>com.example</groupId>
   <artifactId>example-app</artifactId>
   <version>${project.version}</version>
   <type>apk</type>
-  <scope>provied</scope>
+  <scope>provided</scope>
 </dependency>
 ```
 
