@@ -87,7 +87,7 @@ public final class SpoonRunner {
 
   private SpoonSummary runTests(AndroidDebugBridge adb, Set<String> serials) {
     int targetCount = serials.size();
-    logInfo("Executing instrumentation on %d devices.", targetCount);
+    logInfo("Executing instrumentation suite on %d device(s).", targetCount);
 
     try {
       FileUtils.deleteDirectory(output);
@@ -96,8 +96,9 @@ public final class SpoonRunner {
     }
 
     final SpoonInstrumentationInfo testInfo = parseFromFile(instrumentationApk);
-    logDebug(debug, "%s in %s", testInfo.getApplicationPackage(), applicationApk.getAbsolutePath());
-    logDebug(debug, "%s in %s", testInfo.getInstrumentationPackage(),
+    logDebug(debug, "Application: %s from %s", testInfo.getApplicationPackage(),
+        applicationApk.getAbsolutePath());
+    logDebug(debug, "Instrumentation: %s from %s", testInfo.getInstrumentationPackage(),
         instrumentationApk.getAbsolutePath());
 
     final SpoonSummary.Builder summary = new SpoonSummary.Builder().setTitle(title).start();
