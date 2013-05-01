@@ -9,6 +9,8 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.madgag.gif.fmsware.AnimatedGifEncoder;
+import java.awt.Color;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -126,12 +128,24 @@ final class SpoonUtils {
   static void createAnimatedGif(List<File> testScreenshots, File animatedGif) throws IOException {
     AnimatedGifEncoder encoder = new AnimatedGifEncoder();
     encoder.start(animatedGif.getAbsolutePath());
-    encoder.setDelay(1000 /* 1 second */);
+    encoder.setDelay(1500 /* 1 second */);
     encoder.setQuality(1 /* highest */);
     encoder.setRepeat(0 /* infinite */);
+    encoder.setTransparent(Color.WHITE);
+
+    int width = 0;
+    int height = 0;
+    for (File testScreenshot : testScreenshots) {
+      BufferedImage bufferedImage = ImageIO.read(testScreenshot);
+      width = Math.max(bufferedImage.getWidth(), width);
+      height = Math.max(bufferedImage.getHeight(), height);
+    }
+    encoder.setSize(width, height);
+
     for (File testScreenshot : testScreenshots) {
       encoder.addFrame(ImageIO.read(testScreenshot));
     }
+
     encoder.finish();
   }
 
