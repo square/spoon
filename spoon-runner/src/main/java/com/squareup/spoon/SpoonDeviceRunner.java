@@ -81,7 +81,7 @@ public final class SpoonDeviceRunner {
     this.instrumentationInfo = instrumentationInfo;
   }
 
-  /** Serialize ourself to disk and start {@link #main(String...)} in another process. */
+  /** Serialize to disk and start {@link #main(String...)} in another process. */
   public DeviceResult runInNewProcess() throws IOException, InterruptedException {
     logDebug(debug, "[%s]", serial);
 
@@ -99,6 +99,7 @@ public final class SpoonDeviceRunner {
         new ProcessBuilder("java", "-cp", classpath, name, work.getAbsolutePath()).start();
     printStream(process.getInputStream(), "STDOUT");
     printStream(process.getErrorStream(), "STDERR");
+
     final int exitCode = process.waitFor();
     logDebug(debug, "Process.waitFor() finished for [%s] with exitCode %d", serial, exitCode);
 
@@ -216,6 +217,7 @@ public final class SpoonDeviceRunner {
             String className = classNameDir.getName();
             File destDir = new File(imageDir, className);
             FileUtils.copyDirectory(classNameDir, destDir);
+
             for (File screenshot : FileUtils.listFiles(destDir, TrueFileFilter.INSTANCE,
                 TrueFileFilter.INSTANCE)) {
               String methodName = screenshot.getParentFile().getName();
@@ -274,7 +276,7 @@ public final class SpoonDeviceRunner {
   ////  Secondary Per-Device Process  /////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////////////
 
-  /** Deserialize ourselves from disk, run the tests, and serialize the result back to disk. */
+  /** De-serialize from disk, run the tests, and serialize the result back to disk. */
   public static void main(String... args) {
     if (args.length != 1) {
       throw new IllegalArgumentException("Must be started with a device directory.");
