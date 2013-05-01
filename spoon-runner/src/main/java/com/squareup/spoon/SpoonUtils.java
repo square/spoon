@@ -128,7 +128,7 @@ final class SpoonUtils {
   static void createAnimatedGif(List<File> testScreenshots, File animatedGif) throws IOException {
     AnimatedGifEncoder encoder = new AnimatedGifEncoder();
     encoder.start(animatedGif.getAbsolutePath());
-    encoder.setDelay(1500 /* 1 second */);
+    encoder.setDelay(1500 /* 1.5 seconds */);
     encoder.setQuality(1 /* highest */);
     encoder.setRepeat(0 /* infinite */);
     encoder.setTransparent(Color.WHITE);
