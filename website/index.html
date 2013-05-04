@@ -1,33 +1,53 @@
 <!DOCTYPE html>
-
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Spoon &mdash; Distributing instrumentation tests to all your Androids</title>
+    <title>Spoon</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Distributing instrumentation tests to all your Androids.">
-    <link href="http://fonts.googleapis.com/css?family=Roboto:regular,medium,thin,italic,mediumitalic,bold" rel="stylesheet" title="roboto">
-    <link href="static/bootstrap.min.css" rel="stylesheet">
-    <link href="static/bootstrap-responsive.min.css" rel="stylesheet">
-    <link href="static/prettify.css" rel="stylesheet">
+    <meta name="description" content="Distributing instrumentation tests to all your Androids">
+    <link href="static/bootstrap-combined.min.css" rel="stylesheet">
     <link href="static/app.css" rel="stylesheet">
+    <link href="static/app-theme.css" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Roboto:400,300italic,100,100italic,300" rel="stylesheet" type="text/css">
+    <!--[if lt IE 9]><script src="static/html5shiv.min.js"></script><![endif]-->
   </head>
-  <body>
-    <div class="container">
-      <div class="row">
-        <div class="span4 side">
-          <h1>Spoon</h1>
-          <h2>Distributing instrumentation tests<br/>to all your Androids</h2>
-          <p><a href="https://squareup.com/"><img src="static/square.png" alt="by Square, Inc."></a></p>
+  <body data-target=".content-nav">
+    <header>
+      <div class="container">
+        <div class="row">
+          <div class="span5">
+            <h1>Spoon</h1>
+          </div>
+          <div class="span7">
+            <menu>
+              <ul>
+                <li><a href="#download" class="menu download">Download <span class="version-tag">Latest</span></a></li>
+                <li><a href="http://github.com/square/spoon" data-title="View GitHub Project" class="menu github"><img src="static/icon-github.png" alt="GitHub"/></a></li>
+                <li><a href="http://square.github.io/" data-title="Square Open Source Portal" class="menu square"><img src="static/icon-square.png" alt="Square"/></a></li>
+              </ul>
+            </menu>
+          </div>
+      </div>
+    </header>
+    <section id="subtitle">
+      <div class="container">
+        <div class="row">
+          <div class="span12">
+            <h2>Distributing <strong>instrumentation tests</strong> to all your Androids</h2>
+          </div>
         </div>
-        <div class="offset4 span8 main">
-          <div class="main-inner">
+      </div>
+    </section>
+    <section id="body">
+      <div class="container">
+        <div class="row">
+          <div class="span9">
             <h3 id="introduction">Introduction</h3>
             <p>Android's ever-expanding ecosystem of devices creates a unique challenge to testing applications. Spoon aims to simplify this task by distributing instrumentation test execution and displaying the results in a meaningful way.</p>
             <p>Instead of attempting to be a new form of testing, Spoon makes existing instrumentation tests more useful. Using the application APK and instrumentation APK, Spoon runs the tests on multiple devices simultaneously. Once all tests have completed, a static HTML summary is generated with detailed information about each device and test.</p>
             <p><img src="static/example_main.png" alt="Example output"></p>
             <p>With the high-level output you can immediately see whether or not a test failure is specific to a single device or all devices. This view is designed to be displayed on a dedicated monitor or TV.</p>
-            <img src="static/device_cluster.png" class="picture">
+            <img src="static/device_cluster.png" class="pull-right">
             <p>Spoon will run on all targets which are visible to <code>adb devices</code>. Plug in multiple different phones and tablets, start different configurations of emulators, or use some combination of both!</p>
             <p>The greater diversity of the targets in use, the more useful the output will be in visualizing your applications.</p>
 
@@ -51,10 +71,8 @@ Spoon.screenshot(activity, "after_login");</pre>
             <p>You can also view each test's screenshots as an animated GIF to gauge the actual sequence of interaction.</p>
 
             <h3 id="download">Download</h3>
-            <p class="downloads">
-              <a href="http://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&g=com.squareup.spoon&a=spoon-runner&v=LATEST&c=jar-with-dependencies" class="btn btn-large btn-inverse runner-href">Spoon Runner JAR <span class="runner-version"></span></a>
-              <a href="http://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&g=com.squareup.spoon&a=spoon-client&v=LATEST" class="btn btn-large btn-inverse client-href">Spoon Client JAR <span class="client-version"></span></a>
-            </p>
+            <p><a href="http://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&g=com.squareup.spoon&a=spoon-runner&v=LATEST&c=jar-with-dependencies" class="dl runner-version-href">&darr; <span class="version-tag">Latest</span> Runner JAR</a> <a href="http://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&g=com.squareup.spoon&a=spoon-client&v=LATEST" class="dl client-version-href">&darr; <span class="version-tag">Latest</span> Client JAR</a></p>
+
             <p>The source code to the runner, client library, and sample applications as well as this website is <a href="http://github.com/square/spoon">available on GitHub</a>.</p>
 
             <h4>Maven</h4>
@@ -62,7 +80,7 @@ Spoon.screenshot(activity, "after_login");</pre>
             <pre class="prettyprint">&lt;dependency>
   &lt;groupId>com.squareup.spoon&lt;/groupId>
   &lt;artifactId>spoon-client&lt;/artifactId>
-  &lt;version><span class="version"><em>(insert latest version)</em></span>&lt;/version>
+  &lt;version><span class="version pln"><em>(insert latest version)</em></span>&lt;/version>
 &lt;/dependency></pre>
 
             <h4 id="sample">Sample</h4>
@@ -94,7 +112,7 @@ Spoon.screenshot(activity, "after_login");</pre>
             <pre class="prettyprint">&lt;plugin>
   &lt;groupId>com.squareup.spoon&lt;/groupId>
   &lt;artifactId>spoon-maven-plugin&lt;/artifactId>
-  &lt;version><span class="version"><em>(insert latest version)</em></span>&lt;/version>
+  &lt;version><span class="version pln"><em>(insert latest version)</em></span>&lt;/version>
 &lt;/plugin></pre>
             <p>The plugin will look for an <code>apk</code> dependency for the corresponding application. Typically this is specified in parallel with the <code>jar</code> dependency on the application.</p>
             <pre class="prettyprint">&lt;dependency>
@@ -115,12 +133,12 @@ Spoon.screenshot(activity, "after_login");</pre>
             <p>For a working example see the sample application and instrumentation tests in the <code>spoon-sample/</code> folder.</p>
 
             <h3 id="contributing">Contributing</h3>
-            <p>If you would like to contribute code to Spoon you can do so through GitHub by forking the repository and sending a pull request.</p>
-            <p>When submitting code, please make every effort to follow existing conventions and style in order to keep the code as readable as possible. Please also make sure your code compiles by running <code>mvn clean verify</code>.
-            <p>Before your code can be accepted into the project you must also sign the <a href="https://spreadsheets.google.com/spreadsheet/viewform?formkey=dDViT2xzUHAwRkI3X3k5Z0lQM091OGc6MQ&ndplr=1">Individual Contributor License Agreement (CLA)</a>.</p>
+            <p>If you would like to contribute code you can do so through GitHub by forking the repository and sending a pull request.</p>
+            <p>When submitting code, please make every effort to follow existing conventions and style in order to keep the code as readable as possible. Please also make sure your code compiles by running <code>mvn clean verify</code>.</p>
+            <p>Before your code can be accepted into the project you must also sign the <a href="http://squ.re/sign-the-cla">Individual Contributor License Agreement (CLA)</a>.</p>
 
             <h3 id="license">License</h3>
-            <pre class="license">Copyright 2013 Square, Inc.
+            <pre>Copyright 2013 Square, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -133,27 +151,67 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.</pre>
-
-            <a id="ribbon" href="https://github.com/square/spoon"><img src="static/ribbon.png" alt="Fork me on GitHub"></a>
+          </div>
+          <div class="span3">
+            <div class="content-nav" data-spy="affix" data-offset-top="80">
+              <ul class="nav nav-tabs nav-stacked primary">
+                <li><a href="#introduction">Introduction</a></li>
+                <li><a href="#download">Download</a></li>
+                <li><a href="#execution">Execution</a></li>
+                <li><a href="#contributing">Contributing</a></li>
+                <li><a href="#license">License</a></li>
+              </ul>
+              <ul class="nav nav-pills nav-stacked secondary">
+                <li><a href="https://plus.google.com/communities/109244258569782858265/stream/c958038c-58cb-4250-b2ff-676db4028b6b">Google+ Community</a></li>
+                <li><a href="sample/index.html">Sample Output</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="span12 logo">
+            <a href="https://squareup.com"><img src="static/logo-square.png" alt="Square, Inc."/></a>
           </div>
         </div>
       </div>
-    </div>
+    </section>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="static/bootstrap.min.js"></script>
+    <script src="static/jquery.smooth-scroll.min.js"></script>
     <script src="static/jquery-maven-artifact.min.js"></script>
     <script src="static/prettify.js"></script>
-    <script>
-      prettyPrint();
+    <script type="text/javascript">
+      $(function() {
+        // Syntax highlight code blocks.
+        prettyPrint();
 
-      $.fn.artifactVersion('com.squareup.spoon', 'spoon-runner', function(version, url) {
-        $('.runner-version').text('v' + version);
+        // Spy on scroll position for real-time updating of current section.
+        $('body').scrollspy();
+        
+        // Use smooth-scroll for internal links.
+        $('a').smoothScroll();
+
+        // Enable tooltips on the header nav image items.
+        $('.menu').tooltip({
+          placement: 'bottom',
+          trigger: 'hover',
+          container: 'body',
+          delay: {
+            show: 500,
+            hide: 0
+          }
+        });
+
         // TODO support classifiers!
-        //$('.runner-href').attr('href', url);
-      });
-      $.fn.artifactVersion('com.squareup.spoon', 'spoon-client', function(version, url) {
-        $('.version').text(version);
-        $('.client-version').text('v' + version);
-        $('.client-href').attr('href', url);
+        // $.fn.artifactVersion('com.squareup.spoon', 'spoon-runner', function(version, url) {
+        //   $('.runner-version').text('v' + version);
+        //   $('.runner-href').attr('href', url);
+        // });
+        $.fn.artifactVersion('com.squareup.spoon', 'spoon-client', function(version, url) {
+          $('.version').text(version);
+          $('.version-tag').text('v' + version);
+          $('.client-version-href').attr('href', url);
+        });
       });
     </script>
   </body>
