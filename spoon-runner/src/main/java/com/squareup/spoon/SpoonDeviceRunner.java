@@ -95,8 +95,7 @@ public final class SpoonDeviceRunner {
 
     // Kick off a new process to interface with ADB and perform the real execution.
     String name = SpoonDeviceRunner.class.getName();
-    Process process =
-        new ProcessBuilder("java", "-Djava.awt.headless=true", "-cp", classpath, name,
+    Process process = new ProcessBuilder("java", "-Djava.awt.headless=true", "-cp", classpath, name,
         work.getAbsolutePath()).start();
     printStream(process.getInputStream(), "STDOUT");
     printStream(process.getErrorStream(), "STDERR");
