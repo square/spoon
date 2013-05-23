@@ -25,7 +25,6 @@ import org.apache.commons.io.FileUtils;
 import static com.android.ddmlib.FileListingService.FileEntry;
 import static com.android.ddmlib.FileListingService.TYPE_DIRECTORY;
 import static com.android.ddmlib.Log.LogLevel.DEBUG;
-import static com.android.ddmlib.SyncService.ISyncProgressMonitor;
 
 /** Utilities for executing instrumentation tests on devices. */
 final class SpoonUtils {
@@ -46,24 +45,6 @@ final class SpoonUtils {
       .enableComplexMapKeySerialization() //
       .setPrettyPrinting() //
       .create();
-
-  static final ISyncProgressMonitor QUIET_MONITOR = new ISyncProgressMonitor() {
-        @Override public void start(int totalWork) {
-        }
-
-        @Override public void stop() {
-        }
-
-        @Override public boolean isCanceled() {
-          return false;
-        }
-
-        @Override public void startSubTask(String name) {
-        }
-
-        @Override public void advance(int work) {
-        }
-      };
 
   /** Fetch or create a real device that corresponds to a device model. */
   static IDevice obtainRealDevice(AndroidDebugBridge adb, String serial) {
