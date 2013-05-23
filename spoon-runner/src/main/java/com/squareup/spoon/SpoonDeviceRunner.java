@@ -3,6 +3,8 @@ package com.squareup.spoon;
 import com.android.ddmlib.AndroidDebugBridge;
 import com.android.ddmlib.IDevice;
 import com.android.ddmlib.InstallException;
+import com.android.ddmlib.SyncService;
+import com.android.ddmlib.logcat.LogCatMessage;
 import com.android.ddmlib.testrunner.RemoteAndroidTestRunner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
@@ -27,7 +29,6 @@ import static com.squareup.spoon.SpoonLogger.logDebug;
 import static com.squareup.spoon.SpoonLogger.logError;
 import static com.squareup.spoon.SpoonLogger.logInfo;
 import static com.squareup.spoon.SpoonUtils.GSON;
-import static com.squareup.spoon.SpoonUtils.QUIET_MONITOR;
 import static com.squareup.spoon.SpoonUtils.createAnimatedGif;
 import static com.squareup.spoon.SpoonUtils.obtainDirectoryFileEntry;
 import static com.squareup.spoon.SpoonUtils.obtainRealDevice;
@@ -182,8 +183,8 @@ public final class SpoonDeviceRunner {
     }
 
     // Grab all the parsed logs and map them to individual tests.
-    Map<DeviceTest, List<DeviceLogMessage>> logs = deviceLogger.getParsedLogs();
-    for (Map.Entry<DeviceTest, List<DeviceLogMessage>> entry : logs.entrySet()) {
+    Map<DeviceTest, List<LogCatMessage>> logs = deviceLogger.getParsedLogs();
+    for (Map.Entry<DeviceTest, List<LogCatMessage>> entry : logs.entrySet()) {
       DeviceTestResult.Builder builder = result.getMethodResultBuilder(entry.getKey());
       if (builder != null) {
         builder.setLog(entry.getValue());
@@ -202,7 +203,8 @@ public final class SpoonDeviceRunner {
       FileEntry deviceDir = obtainDirectoryFileEntry(devicePath);
       logDebug(debug, "Pulling screenshots from [%s] %s", serial, devicePath);
 
-      device.getSyncService().pull(new FileEntry[] {deviceDir}, localDirName, QUIET_MONITOR);
+      device.getSyncService()
+          .pull(new FileEntry[] {deviceDir}, localDirName, SyncService.getNullProgressMonitor());
 
       File screenshotDir = new File(work, dirName);
       if (screenshotDir.exists()) {
