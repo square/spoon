@@ -32,7 +32,7 @@
       <artifactId>commons-lang3</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.android.ddmlib</groupId>
+      <groupId>com.android.tools.ddms</groupId>
       <artifactId>ddmlib</artifactId>
     </dependency>
     <dependency>

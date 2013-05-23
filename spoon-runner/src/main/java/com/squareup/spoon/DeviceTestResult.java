@@ -1,5 +1,6 @@
 package com.squareup.spoon;
 
+import com.android.ddmlib.logcat.LogCatMessage;
 import com.squareup.spoon.misc.StackTrace;
 import java.io.File;
 import java.util.ArrayList;
@@ -24,16 +25,16 @@ public final class DeviceTestResult {
   private final long duration;
   private final List<File> screenshots;
   private final File animatedGif;
-  private final List<DeviceLogMessage> log;
+  private final List<LogCatMessage> log;
 
   private DeviceTestResult(Status status, StackTrace exception, long duration,
-      List<File> screenshots, File animatedGif, List<DeviceLogMessage> log) {
+      List<File> screenshots, File animatedGif, List<LogCatMessage> log) {
     this.status = status;
     this.exception = exception;
     this.duration = duration;
     this.screenshots = unmodifiableList(new ArrayList<File>(screenshots));
     this.animatedGif = animatedGif;
-    this.log = unmodifiableList(new ArrayList<DeviceLogMessage>(log));
+    this.log = unmodifiableList(new ArrayList<LogCatMessage>(log));
   }
 
   /** Execution status. */
@@ -61,7 +62,7 @@ public final class DeviceTestResult {
     return animatedGif;
   }
 
-  public List<DeviceLogMessage> getLog() {
+  public List<LogCatMessage> getLog() {
     return log;
   }
 
@@ -72,7 +73,7 @@ public final class DeviceTestResult {
     private long start;
     private long duration = -1;
     private File animatedGif;
-    private List<DeviceLogMessage> log;
+    private List<LogCatMessage> log;
 
     public Builder markTestAsFailed(String message) {
       checkNotNull(message);
@@ -90,7 +91,7 @@ public final class DeviceTestResult {
       return this;
     }
 
-    public Builder setLog(List<DeviceLogMessage> log) {
+    public Builder setLog(List<LogCatMessage> log) {
       checkNotNull(log);
       checkArgument(this.log == null, "Log already added.");
       this.log = log;

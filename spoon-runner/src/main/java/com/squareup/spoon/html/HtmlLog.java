@@ -1,6 +1,6 @@
 package com.squareup.spoon.html;
 
-import com.squareup.spoon.DeviceLogMessage;
+import com.android.ddmlib.logcat.LogCatMessage;
 import com.squareup.spoon.DeviceTest;
 import com.squareup.spoon.DeviceTestResult;
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ final class HtmlLog {
         + " on " + name;
 
     List<LogEntry> log = new ArrayList<LogEntry>();
-    for (DeviceLogMessage message : result.getLog()) {
+    for (LogCatMessage message : result.getLog()) {
       log.add(LogEntry.from(message));
     }
 
@@ -48,9 +48,9 @@ final class HtmlLog {
   }
 
   static class LogEntry {
-    static LogEntry from(DeviceLogMessage message) {
+    static LogEntry from(LogCatMessage message) {
       String rowClass;
-      switch (message.getLevel()) {
+      switch (message.getLogLevel()) {
         case ERROR:
           rowClass = "error";
           break;
@@ -65,7 +65,7 @@ final class HtmlLog {
       }
 
       String timestamp = message.getTime();
-      String level = message.getLevel().getStringValue();
+      String level = message.getLogLevel().getStringValue();
       return new LogEntry(rowClass, timestamp, level, message.getTag(), message.getMessage());
     }
 
