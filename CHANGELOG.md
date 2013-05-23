@@ -1,6 +1,14 @@
 Change Log
 ==========
 
+Version 1.0.4 *(2013-05-23)*
+----------------------------
+
+ * Support for GIFs of tests in multiple orientations.
+ * Fix: Prevent Java from showing a window while running tests on some OSs.
+ * Fix: Prevent screenshots from being listed out of order on some OSs.
+
+
 Version 1.0.3 *(2013-04-04)*
 ----------------------------
 
