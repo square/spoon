@@ -86,7 +86,7 @@
       <dependency>
         <groupId>com.android.tools.ddms</groupId>
         <artifactId>ddmlib</artifactId>
-        <version>22.0</version>
+        <version>22.0.2</version>
       </dependency>
       <dependency>
         <groupId>junit</groupId>
@@ -173,7 +173,7 @@
         <plugin>
           <groupId>com.jayway.maven.plugins.android.generation2</groupId>
           <artifactId>android-maven-plugin</artifactId>
-          <version>3.5.1</version>
+          <version>3.6.0</version>
           <configuration>
             <sdk>
               <platform>16</platform>
@@ -184,7 +184,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.0</version>
+          <version>3.1</version>
           <configuration>
             <source>${java.version}</source>
             <target>${java.version}</target>
@@ -206,7 +206,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.9.1</version>
+        <version>2.10</version>
         <configuration>
           <failsOnError>true</failsOnError>
           <configLocation>checkstyle.xml</configLocation>
