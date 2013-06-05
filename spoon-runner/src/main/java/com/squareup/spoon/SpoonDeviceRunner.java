@@ -37,7 +37,7 @@ import static com.squareup.spoon.SpoonUtils.obtainRealDevice;
 public final class SpoonDeviceRunner {
   private static final String FILE_EXECUTION = "execution.json";
   private static final String FILE_RESULT = "result.json";
-  private static final int ADB_TIMEOUT = 60 * 1000;
+  private static final int ADB_TIMEOUT = 10 * 60 * 1000; //10m
   static final String TEMP_DIR = "work";
   static final String JUNIT_DIR = "junit-reports";
 
