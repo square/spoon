@@ -1,13 +1,11 @@
 // Copyright 2012 Square, Inc.
-package com.squareup.spoon;
+package com.squareup.spoon.mojo;
 
 import com.google.common.base.Strings;
-
+import com.squareup.spoon.SpoonRunner;
 import java.io.File;
 import java.util.List;
-
 import org.apache.maven.artifact.Artifact;
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugins.annotations.Component;
@@ -39,7 +37,7 @@ import static org.apache.maven.plugins.annotations.LifecyclePhase.INTEGRATION_TE
  */
 @SuppressWarnings("UnusedDeclaration") // Used reflectively by Maven.
 @Mojo(name = "run", defaultPhase = INTEGRATION_TEST, threadSafe = false)
-public class SpoonMojo extends AbstractMojo {
+public class RunMojo extends AbstractSpoonMojo {
   private static final String SPOON_GROUP_ID = "com.squareup.spoon";
   private static final String SPOON_PLUGIN_ARTIFACT_ID = "spoon-maven-plugin";
   private static final String SPOON_RUNNER_ARTIFACT_ID = "spoon-runner";
@@ -57,10 +55,6 @@ public class SpoonMojo extends AbstractMojo {
   /** Configuration option to skip execution. */
   @Parameter
   private boolean skip;
-
-  /** Location of the output directory. */
-  @Parameter(defaultValue = "${project.build.directory}/spoon-output")
-  private File outputDirectory;
 
   /** A title for the output website. */
   @Parameter(defaultValue = "${project.name}")
@@ -108,7 +102,7 @@ public class SpoonMojo extends AbstractMojo {
   @Parameter(defaultValue = "${project.remoteProjectRepositories}", readonly = true)
   private List<RemoteRepository> remoteRepositories;
 
-  public void execute() throws MojoExecutionException {
+  @Override public void execute() throws MojoExecutionException {
     Log log = getLog();
 
     if (mavenTestSkip || mavenSkipTests || skip) {
