@@ -28,7 +28,7 @@ import static java.util.Collections.unmodifiableSet;
 /** Represents a collection of devices and the test configuration to be executed. */
 public final class SpoonRunner {
   private static final String DEFAULT_TITLE = "Spoon Execution";
-  static final String DEFAULT_OUTPUT_DIRECTORY = "spoon-output";
+  public static final String DEFAULT_OUTPUT_DIRECTORY = "spoon-output";
 
   private final String title;
   private final File androidSdk;

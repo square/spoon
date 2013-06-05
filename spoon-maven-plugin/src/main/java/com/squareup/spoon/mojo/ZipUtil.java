@@ -1,4 +1,4 @@
-package com.squareup.spoon;
+package com.squareup.spoon.mojo;
 
 import java.io.File;
 import java.io.FileInputStream;
