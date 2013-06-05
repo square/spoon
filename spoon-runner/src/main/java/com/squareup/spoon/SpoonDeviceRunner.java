@@ -37,7 +37,9 @@ import static com.squareup.spoon.SpoonUtils.obtainRealDevice;
 public final class SpoonDeviceRunner {
   private static final String FILE_EXECUTION = "execution.json";
   private static final String FILE_RESULT = "result.json";
+  private static final int ADB_TIMEOUT = 60 * 1000;
   static final String TEMP_DIR = "work";
+  static final String JUNIT_DIR = "junit-reports";
 
   private final File sdk;
   private final File apk;
@@ -48,6 +50,7 @@ public final class SpoonDeviceRunner {
   private final String className;
   private final String methodName;
   private final File work;
+  private final File junitReport;
   private final String classpath;
   private final SpoonInstrumentationInfo instrumentationInfo;
 
@@ -78,6 +81,7 @@ public final class SpoonDeviceRunner {
     this.className = className;
     this.methodName = methodName;
     this.work = FileUtils.getFile(output, TEMP_DIR, serial);
+    this.junitReport = FileUtils.getFile(output, JUNIT_DIR, serial + ".xml");
     this.classpath = classpath;
     this.instrumentationInfo = instrumentationInfo;
   }
@@ -163,6 +167,9 @@ public final class SpoonDeviceRunner {
       return result.markInstallAsFailed(e.getMessage()).build();
     }
 
+    // Create the output directory, if it does not already exist.
+    work.mkdirs();
+
     // Initiate device logging.
     SpoonDeviceLogger deviceLogger = new SpoonDeviceLogger(device);
 
@@ -170,6 +177,7 @@ public final class SpoonDeviceRunner {
     try {
       logDebug(debug, "About to actually run tests for [%s]", serial);
       RemoteAndroidTestRunner runner = new RemoteAndroidTestRunner(testPackage, testRunner, device);
+      runner.setMaxtimeToOutputResponse(ADB_TIMEOUT);
       if (!Strings.isNullOrEmpty(className)) {
         if (Strings.isNullOrEmpty(methodName)) {
           runner.setClassName(className);
@@ -177,7 +185,10 @@ public final class SpoonDeviceRunner {
           runner.setMethodName(className, methodName);
         }
       }
-      runner.run(new SpoonTestRunListener(result, debug));
+      runner.run(
+          new SpoonTestRunListener(result, debug),
+          new XmlTestRunListener(junitReport)
+      );
     } catch (Exception e) {
       result.addException(e);
     }
@@ -193,8 +204,6 @@ public final class SpoonDeviceRunner {
 
     try {
       logDebug(debug, "About to grab screenshots and prepare output for [%s]", serial);
-      // Create the output directory, if it does not already exist.
-      work.mkdirs();
 
       // Sync device screenshots, if any, to the local filesystem.
       String dirName = "app_" + SPOON_SCREENSHOTS;
@@ -252,15 +261,7 @@ public final class SpoonDeviceRunner {
             result.getMethodResultBuilder(deviceTest).setAnimatedGif(animatedGif);
           }
         }
-        try {
-          FileUtils.deleteDirectory(screenshotDir);
-        } catch (IOException ignored) {
-          // DDMS r16 bug on Windows. Le sigh.
-          logInfo(
-              "Warning: IOException when trying to delete %s.  If you're not on Windows, panic.",
-              screenshotDir);
-          FileUtils.forceDeleteOnExit(screenshotDir);
-        }
+        FileUtils.deleteDirectory(screenshotDir);
       }
     } catch (Exception e) {
       result.addException(e);
