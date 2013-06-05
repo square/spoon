@@ -27,6 +27,7 @@ import static com.google.common.base.Charsets.UTF_8;
 
 /** Renders a {@link com.squareup.spoon.SpoonSummary} as static HTML to an output directory. */
 public final class HtmlRenderer {
+  public static final String INDEX_FILENAME = "index.html";
   private static final String STATIC_DIRECTORY = "static";
   private static final String[] STATIC_ASSETS = {
     "bootstrap.min.css", "bootstrap-responsive.min.css", "bootstrap.min.js", "jquery.min.js",
@@ -92,7 +93,7 @@ public final class HtmlRenderer {
   private void generateIndexHtml(MustacheFactory mustacheFactory) {
     Mustache mustache = mustacheFactory.compile("page/index.html");
     HtmlIndex scope = HtmlIndex.from(summary);
-    File file = new File(output, "index.html");
+    File file = new File(output, INDEX_FILENAME);
     renderMustacheToFile(mustache, scope, file);
   }
 
