@@ -37,6 +37,7 @@ import static com.squareup.spoon.SpoonUtils.obtainRealDevice;
 public final class SpoonDeviceRunner {
   private static final String FILE_EXECUTION = "execution.json";
   private static final String FILE_RESULT = "result.json";
+  private static final int ADB_TIMEOUT = 60 * 1000;
   static final String TEMP_DIR = "work";
   static final String JUNIT_DIR = "junit-reports";
 
@@ -176,6 +177,7 @@ public final class SpoonDeviceRunner {
     try {
       logDebug(debug, "About to actually run tests for [%s]", serial);
       RemoteAndroidTestRunner runner = new RemoteAndroidTestRunner(testPackage, testRunner, device);
+      runner.setMaxtimeToOutputResponse(ADB_TIMEOUT);
       if (!Strings.isNullOrEmpty(className)) {
         if (Strings.isNullOrEmpty(methodName)) {
           runner.setClassName(className);
