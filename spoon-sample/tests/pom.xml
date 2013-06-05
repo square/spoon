@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.squareup.spoon</groupId>
     <artifactId>spoon-sample</artifactId>
-    <version>1.0.5-SNAPSHOT</version>
+    <version>1.0.5</version>
   </parent>
 
   <artifactId>spoon-sample-tests</artifactId>
