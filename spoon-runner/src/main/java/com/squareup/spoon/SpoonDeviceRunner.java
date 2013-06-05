@@ -40,6 +40,7 @@ public final class SpoonDeviceRunner {
   private static final int ADB_TIMEOUT = 60 * 1000;
   static final String TEMP_DIR = "work";
   static final String JUNIT_DIR = "junit-reports";
+  static final String EMMA_DIR = "emma-reports";
 
   private final File sdk;
   private final File apk;
@@ -51,6 +52,7 @@ public final class SpoonDeviceRunner {
   private final String methodName;
   private final File work;
   private final File junitReport;
+  private final File emmaReport;
   private final String classpath;
   private final SpoonInstrumentationInfo instrumentationInfo;
 
@@ -67,7 +69,7 @@ public final class SpoonDeviceRunner {
    * @param instrumentationInfo Test apk manifest information.
    * @param className Test class name to run or {@code null} to run all tests.
    * @param methodName Test method name to run or {@code null} to run all tests.  Must also pass
-   *        {@code className}.
+   * {@code className}.
    */
   SpoonDeviceRunner(File sdk, File apk, File testApk, File output, String serial, boolean debug,
       String classpath, SpoonInstrumentationInfo instrumentationInfo, String className,
@@ -82,6 +84,7 @@ public final class SpoonDeviceRunner {
     this.methodName = methodName;
     this.work = FileUtils.getFile(output, TEMP_DIR, serial);
     this.junitReport = FileUtils.getFile(output, JUNIT_DIR, serial + ".xml");
+    this.emmaReport = FileUtils.getFile(output, EMMA_DIR, serial + ".ec");
     this.classpath = classpath;
     this.instrumentationInfo = instrumentationInfo;
   }
@@ -178,6 +181,7 @@ public final class SpoonDeviceRunner {
       logDebug(debug, "About to actually run tests for [%s]", serial);
       RemoteAndroidTestRunner runner = new RemoteAndroidTestRunner(testPackage, testRunner, device);
       runner.setMaxtimeToOutputResponse(ADB_TIMEOUT);
+      runner.setCoverage(true);
       if (!Strings.isNullOrEmpty(className)) {
         if (Strings.isNullOrEmpty(methodName)) {
           runner.setClassName(className);
@@ -203,71 +207,98 @@ public final class SpoonDeviceRunner {
     }
 
     try {
-      logDebug(debug, "About to grab screenshots and prepare output for [%s]", serial);
-
-      // Sync device screenshots, if any, to the local filesystem.
-      String dirName = "app_" + SPOON_SCREENSHOTS;
-      String localDirName = work.getAbsolutePath();
-      final String devicePath = "/data/data/" + appPackage + "/" + dirName;
-      FileEntry deviceDir = obtainDirectoryFileEntry(devicePath);
-      logDebug(debug, "Pulling screenshots from [%s] %s", serial, devicePath);
-
-      device.getSyncService()
-          .pull(new FileEntry[] {deviceDir}, localDirName, SyncService.getNullProgressMonitor());
-
-      File screenshotDir = new File(work, dirName);
-      if (screenshotDir.exists()) {
-        File imageDir = FileUtils.getFile(output, "image", serial);
-        imageDir.mkdirs();
-
-        // Move all children of the screenshot directory into the image folder.
-        File[] classNameDirs = screenshotDir.listFiles();
-        if (classNameDirs != null) {
-          Multimap<DeviceTest, File> testScreenshots = ArrayListMultimap.create();
-          for (File classNameDir : classNameDirs) {
-            String className = classNameDir.getName();
-            File destDir = new File(imageDir, className);
-            FileUtils.copyDirectory(classNameDir, destDir);
-
-            // Get a sorted list of all screenshots from the device run.
-            List<File> screenshots = new ArrayList<File>(
-                FileUtils.listFiles(destDir, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE));
-            Collections.sort(screenshots);
-
-            // Iterate over each screenshot and associate it with its corresponding method result.
-            for (File screenshot : screenshots) {
-              String methodName = screenshot.getParentFile().getName();
-
-              DeviceTest testIdentifier = new DeviceTest(className, methodName);
-              DeviceTestResult.Builder builder = result.getMethodResultBuilder(testIdentifier);
-              if (builder != null) {
-                builder.addScreenshot(screenshot);
-                testScreenshots.put(testIdentifier, screenshot);
-              } else {
-                logError("Unable to find test for %s", testIdentifier);
-              }
-            }
-          }
-
-          // Make animated GIFs for all the tests which have screenshots.
-          for (DeviceTest deviceTest : testScreenshots.keySet()) {
-            List<File> screenshots = new ArrayList<File>(testScreenshots.get(deviceTest));
-            if (screenshots.size() == 1) {
-              continue; // Do not make an animated GIF if there is only one screenshot.
-            }
-            File animatedGif = FileUtils.getFile(imageDir, deviceTest.getClassName(),
-                deviceTest.getMethodName() + ".gif");
-            createAnimatedGif(screenshots, animatedGif);
-            result.getMethodResultBuilder(deviceTest).setAnimatedGif(animatedGif);
-          }
-        }
-        FileUtils.deleteDirectory(screenshotDir);
-      }
+      pullAndParseCodeCoverage(device, appPackage);
     } catch (Exception e) {
+      logDebug(debug, e.getMessage());
+      result.addException(e);
+    }
+
+    try {
+      pullAndParseScreenshots(device, result, appPackage);
+    } catch (Exception e) {
+      logDebug(debug, e.getMessage());
       result.addException(e);
     }
 
     return result.build();
+  }
+
+  private void pullAndParseCodeCoverage(IDevice device, String appPackage) throws Exception {
+    String devicePath = "/data/data/" + appPackage + "/files/coverage.ec";
+    logDebug(debug, "Pulling code coverage report from [%s] %s", serial, devicePath);
+
+    // TODO need to chmod 666 the file first
+    File localFile = new File(work, "coverage.ec");
+    device.getSyncService()
+        .pullFile(devicePath, localFile.getAbsolutePath(), SyncService.getNullProgressMonitor());
+
+    emmaReport.getParentFile().mkdirs();
+    FileUtils.copyFile(localFile, emmaReport);
+  }
+
+  private void pullAndParseScreenshots(IDevice device, DeviceResult.Builder result,
+      String appPackage) throws Exception {
+    logDebug(debug, "About to grab screenshots and prepare output for [%s]", serial);
+
+    String localDirName = work.getAbsolutePath();
+
+    String dirName = "app_" + SPOON_SCREENSHOTS;
+    String devicePath = "/data/data/" + appPackage + "/" + dirName;
+    FileEntry deviceDir = obtainDirectoryFileEntry(devicePath);
+    logDebug(debug, "Pulling screenshots from [%s] %s", serial, devicePath);
+
+    // Sync device screenshots, if any, to the local filesystem.
+    device.getSyncService()
+        .pull(new FileEntry[] {deviceDir}, localDirName, SyncService.getNullProgressMonitor());
+
+    File screenshotDir = new File(work, dirName);
+    if (screenshotDir.exists()) {
+      File imageDir = FileUtils.getFile(output, "image", serial);
+      imageDir.mkdirs();
+
+      // Move all children of the screenshot directory into the image folder.
+      File[] classNameDirs = screenshotDir.listFiles();
+      if (classNameDirs != null) {
+        Multimap<DeviceTest, File> testScreenshots = ArrayListMultimap.create();
+        for (File classNameDir : classNameDirs) {
+          String className = classNameDir.getName();
+          File destDir = new File(imageDir, className);
+          FileUtils.copyDirectory(classNameDir, destDir);
+
+          // Get a sorted list of all screenshots from the device run.
+          List<File> screenshots = new ArrayList<File>(
+              FileUtils.listFiles(destDir, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE));
+          Collections.sort(screenshots);
+
+          // Iterate over each screenshot and associate it with its corresponding method result.
+          for (File screenshot : screenshots) {
+            String methodName = screenshot.getParentFile().getName();
+
+            DeviceTest testIdentifier = new DeviceTest(className, methodName);
+            DeviceTestResult.Builder builder = result.getMethodResultBuilder(testIdentifier);
+            if (builder != null) {
+              builder.addScreenshot(screenshot);
+              testScreenshots.put(testIdentifier, screenshot);
+            } else {
+              logError("Unable to find test for %s", testIdentifier);
+            }
+          }
+        }
+
+        // Make animated GIFs for all the tests which have screenshots.
+        for (DeviceTest deviceTest : testScreenshots.keySet()) {
+          List<File> screenshots = new ArrayList<File>(testScreenshots.get(deviceTest));
+          if (screenshots.size() == 1) {
+            continue; // Do not make an animated GIF if there is only one screenshot.
+          }
+          File animatedGif = FileUtils.getFile(imageDir, deviceTest.getClassName(),
+              deviceTest.getMethodName() + ".gif");
+          createAnimatedGif(screenshots, animatedGif);
+          result.getMethodResultBuilder(deviceTest).setAnimatedGif(animatedGif);
+        }
+      }
+      FileUtils.deleteDirectory(screenshotDir);
+    }
   }
 
   private static void tryToUninstall(IDevice device, String appId) {

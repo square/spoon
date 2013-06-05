@@ -89,4 +89,16 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>emma</id>
+      <dependencies>
+        <dependency>
+          <groupId>emma</groupId>
+          <artifactId>emma</artifactId>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
 </project>

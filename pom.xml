@@ -164,6 +164,11 @@
         <artifactId>fest-android</artifactId>
         <version>1.0.4</version>
       </dependency>
+      <dependency>
+        <groupId>emma</groupId>
+        <artifactId>emma</artifactId>
+        <version>2.1.5320</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 

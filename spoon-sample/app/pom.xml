@@ -35,4 +35,27 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>emma</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+            <artifactId>android-maven-plugin</artifactId>
+            <configuration>
+              <emma>
+                <enable>true</enable>
+                <classFolders>${project.basedir}/target/classes/</classFolders>
+              </emma>
+              <dex>
+                <noLocals>true</noLocals>
+              </dex>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>

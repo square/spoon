@@ -23,9 +23,16 @@
   <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="17"/>
   <uses-feature android:name="android.hardware.touchscreen" android:required="false"/>
 
-  <!-- Used by instrumentation tests only. Do not include in production apps unless necessary! -->
+  <!-- INSTRUMENTATION TEST PERMISSIONS - Do not include in production app unless necessary! -->
+
+  <!-- Used to unlock the phone when the tests run. -->
   <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+  <!-- Keeps the phone awake while tests are running. -->
   <uses-permission android:name="android.permission.WAKE_LOCK"/>
+  <!-- Required for Emma code coverage to create a local socket. -->
+  <uses-permission android:name="android.permission.INTERNET"/>
+
+  <!-- END INSTRUMENTATION TEST PERMISSIONS -->
 
   <application
       android:label="@string/app_name"
