@@ -1,6 +1,14 @@
 Change Log
 ==========
 
+Version 1.0.5 *(2013-06-05)*
+----------------------------
+
+ * Generate JUnit-compatible XML reports for each device.
+ * Add timeout for stalled tests and flaky devices.
+ * Add `spoon:open` Maven command to open the output web page.
+
+
 Version 1.0.4 *(2013-05-23)*
 ----------------------------
 
