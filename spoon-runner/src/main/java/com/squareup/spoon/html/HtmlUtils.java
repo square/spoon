@@ -1,5 +1,6 @@
 package com.squareup.spoon.html;
 
+import com.squareup.spoon.DeviceDetails;
 import com.squareup.spoon.DeviceTestResult;
 import com.squareup.spoon.misc.StackTrace;
 import java.io.File;
@@ -22,9 +23,45 @@ final class HtmlUtils {
       return new SimpleDateFormat("yyyy-MM-dd hh:mm a");
     }
   };
+  private static final ThreadLocal<Format> DATE_FORMAT_TV = new ThreadLocal<Format>() {
+    @Override protected Format initialValue() {
+      return new SimpleDateFormat("EEEE, MMMM dd, h:mm a");
+    }
+  };
+
+
+  static String deviceDetailsToString(DeviceDetails details) {
+    if (details == null) return null;
+
+    StringBuilder builder = new StringBuilder();
+    builder.append("Running Android ")
+        .append(details.getVersion())
+        .append(" (API ")
+        .append(details.getApiLevel())
+        .append(")");
+
+    if (details.getLanguage() != null || details.getRegion() != null) {
+      builder.append(" with locale ");
+      if (details.getLanguage() != null) {
+        builder.append(details.getLanguage());
+        if (details.getRegion() != null) {
+          builder.append("-");
+        }
+        if (details.getRegion() != null) {
+          builder.append(details.getRegion());
+        }
+      }
+    }
+
+    return builder.toString();
+  }
 
   static String dateToString(long date) {
     return DATE_FORMAT.get().format(new Date(date));
+  }
+
+  public static String dateToTvString(long date) {
+    return DATE_FORMAT_TV.get().format(new Date(date));
   }
 
   /** Convert a class name and method name to a single HTML ID. */
@@ -198,6 +235,7 @@ final class HtmlUtils {
       this.caption = caption;
     }
   }
+
   static final class ExceptionInfo {
     private static final AtomicLong ID = new AtomicLong(0);
 

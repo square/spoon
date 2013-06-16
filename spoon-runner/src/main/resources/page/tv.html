@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{title}}</title>
+        <link href="http://fonts.googleapis.com/css?family=Roboto:regular,medium,thin,italic,mediumitalic,bold" rel="stylesheet">
+        <link href="static/bootstrap.min.css" rel="stylesheet">
+        <link href="static/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="static/spoon.css" rel="stylesheet">
+        <link href="static/nivo-slider.css" rel="stylesheet">
+        <script src="static/jquery.min.js"></script>
+        <script src="static/bootstrap.min.js"></script>
+        <script src="static/jquery.nivo.slider.pack.js"></script>
+        <meta name="description" content="{{subtitle}}">
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="hero-unit">
+                <h1 id="title"></h1>
+                <p id="subtitle"></p>
+            </div>
+
+            <div class="row">
+                <div id="test-info" class="span6">
+                    <!-- Current test information -->
+                    <div id="current-test-info" class="test-result">
+                        <h1 id="test-name"></h1>
+                        <h3 id="test-class-name"></h3>
+                        <h3 id="caption"></h3>
+                    </div>
+
+                    <!-- Overall test information -->
+                    <div id="overall-test-info">
+                        <p>Displaying test <span id="current-test-number">0</span> of <span id="total-test-size">0</span></p>
+                        <p>Tests executed on <span id="test-date">{{testDate}}</span>, in <span id="duration">{{duration}}</span></p>
+                    </div>
+                </div>
+                <div id="slider-wrapper" class="theme-default span6">
+                    <div id="slider" class="nivoSlider"></div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            var devices = {{{outputJson}}};
+
+            function updateDevice(device) {
+                $('#title').text(device.name);
+                $('#subtitle').text(device.details);
+                $('#total-test-size').text(device.testResults.length)
+
+                testResultIndex = 0
+                updateTest(device.testResults[testResultIndex]);
+            }
+
+            function updateTest(testResult) {
+                $('#current-test-info').removeClass('pass', 'fail', 'error')
+                $('#current-test-info').addClass(testResult.status)
+                $('#test-name').text(testResult.methodPrettyName)
+                $('#test-class-name').text(testResult.classSimpleName)
+
+                $("#slider").empty();
+                $.each(testResult.screenshots, function(index, screenshot) {
+                    tag = '<img alt="' + screenshot.caption + '" src="' + screenshot.path + '" />'
+                    $('#slider').append(tag)
+                });
+
+                $('#current-test-number').text(testResultIndex + 1)
+                screenshotIndex = 0
+
+                // Re-initialize the slider with the new slides
+                $('#slider').nivoSlider({
+                    effect: 'random', // Specify sets like: 'fold,fade,sliceDown'
+                    animSpeed: 500, // Slide transition speed
+                    pauseTime: 3000, // How long each slide will show
+                    directionNav: false, // Next & Prev navigation
+                    controlNavThumbs: false, // Use thumbnails for Control Nav
+                    pauseOnHover: false, // Stop animation while hovering
+                    manualAdvance: false, // Force manual transitions
+                    beforeChange: function(){ // Triggers before a slide transition
+                        screenshotIndex++
+                        if(devices[deviceIndex].testResults[testResultIndex].screenshots[screenshotIndex]) {
+                            $('#caption').text(devices[deviceIndex].testResults[testResultIndex].screenshots[screenshotIndex].caption)
+                        }
+                    },
+                    lastSlide: function(){ // Triggers when last slide is shown
+                        $('#caption').text("")
+                    },
+                    afterLoad: function(){ // Triggers when slider has loaded
+                        $('#caption').text(devices[deviceIndex].testResults[testResultIndex].screenshots[screenshotIndex].caption)
+                    },
+                    slideshowEnd: function() { // Triggers after all slides have been shown
+                        nextTestResult()
+                    }
+                });
+
+                // There's a bug in Nivo where it doesn't know what to do w/ only one screenshot.
+                if(testResult.screenshots.length == 1) {
+                    window.setTimeout(nextTestResult, 3000)
+                }
+            }
+
+            function nextTestResult() {
+                $('#slider').data('nivoslider').stop();
+                $('#slider-wrapper').empty()
+                $('#slider-wrapper').append($('<div id="slider" class="nivoSlider"/>'))
+
+                testResultIndex++
+                tests = devices[deviceIndex].testResults
+                if(testResultIndex < tests.length) {
+                    updateTest(tests[testResultIndex])
+                } else {
+                    nextDevice()
+                }
+            }
+
+            function nextDevice() {
+                if(deviceIndex == devices.length - 1) {
+                    location.reload() // Reload at end to load new spoon results.
+                } else {
+                    deviceIndex++
+                    updateDevice(devices[deviceIndex])
+                }
+            }
+
+            // If we start feeling fancy we could create an actual class. Until then, we're global.
+            var deviceIndex = 0;
+            var testResultIndex = 0;
+            var screenshotIndex = 0;
+
+            // Start it off
+            $(function() {
+                updateDevice(devices[deviceIndex]);
+            });
+        </script>
+    </body>
+</html>

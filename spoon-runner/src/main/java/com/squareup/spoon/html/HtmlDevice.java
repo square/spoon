@@ -49,31 +49,7 @@ final class HtmlDevice {
     subtitle1.append(" at ")
         .append(HtmlUtils.dateToString(result.getStarted()));
 
-
-    String subtitle2 = null;
-    if (details != null) {
-      StringBuilder builder = new StringBuilder();
-      builder.append("Running Android ")
-          .append(details.getVersion())
-          .append(" (API ")
-          .append(details.getApiLevel())
-          .append(")");
-
-      if (details.getLanguage() != null || details.getRegion() != null) {
-        builder.append(" with locale ");
-        if (details.getLanguage() != null) {
-          builder.append(details.getLanguage());
-          if (details.getRegion() != null) {
-            builder.append("-");
-          }
-          if (details.getRegion() != null) {
-            builder.append(details.getRegion());
-          }
-        }
-      }
-
-      subtitle2 = builder.toString();
-    }
+    String subtitle2 = HtmlUtils.deviceDetailsToString(details);
 
     return new HtmlDevice(serial, title, subtitle1.toString(), subtitle2, testResults, exceptions);
   }
