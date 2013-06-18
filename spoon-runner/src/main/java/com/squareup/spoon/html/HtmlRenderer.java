@@ -31,7 +31,8 @@ public final class HtmlRenderer {
   private static final String STATIC_DIRECTORY = "static";
   private static final String[] STATIC_ASSETS = {
     "bootstrap.min.css", "bootstrap-responsive.min.css", "bootstrap.min.js", "jquery.min.js",
-    "icon-animated.png", "icon-devices.png", "icon-log.png", "ceiling_android.png"
+    "jquery.nivo.slider.pack.js", "nivo-slider.css", "icon-animated.png", "icon-devices.png",
+    "icon-log.png", "ceiling_android.png", "arrows.png", "bullets.png", "loading.gif"
   };
 
   private final SpoonSummary summary;
@@ -52,6 +53,7 @@ public final class HtmlRenderer {
     writeResultJson();
 
     MustacheFactory mustacheFactory = new DefaultMustacheFactory();
+    generateTvHtml(mustacheFactory);
     generateIndexHtml(mustacheFactory);
     generateDeviceHtml(mustacheFactory);
     generateTestHtml(mustacheFactory);
@@ -88,6 +90,13 @@ public final class HtmlRenderer {
     } finally {
       IOUtils.closeQuietly(result);
     }
+  }
+
+  private void generateTvHtml(MustacheFactory mustacheFactory) {
+    Mustache mustache = mustacheFactory.compile("page/tv.html");
+    HtmlTv scope = HtmlTv.from(gson, summary, output);
+    File file = new File(output, "tv.html");
+    renderMustacheToFile(mustache, scope, file);
   }
 
   private void generateIndexHtml(MustacheFactory mustacheFactory) {
