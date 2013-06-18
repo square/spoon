@@ -94,7 +94,7 @@ public final class HtmlRenderer {
 
   private void generateTvHtml(MustacheFactory mustacheFactory) {
     Mustache mustache = mustacheFactory.compile("page/tv.html");
-    TvIndex scope = TvIndex.from(summary, output);
+    HtmlTv scope = HtmlTv.from(gson, summary, output);
     File file = new File(output, "tv.html");
     renderMustacheToFile(mustache, scope, file);
   }

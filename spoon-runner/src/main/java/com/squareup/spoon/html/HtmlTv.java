@@ -12,9 +12,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-/** Model for representing the {@code index.html} page. */
-final class TvIndex {
-  static TvIndex from(SpoonSummary summary, File outputPath) {
+/** Model for representing the {@code tv.html} page. */
+final class HtmlTv {
+  static HtmlTv from(Gson gson, SpoonSummary summary, File outputPath) {
     String testDate = HtmlUtils.dateToTvString(summary.getStarted());
     String title = summary.getTitle();
     String duration = HtmlUtils.humanReadableDuration(summary.getDuration());
@@ -25,7 +25,7 @@ final class TvIndex {
     }
     Collections.sort(devices);
 
-    return new TvIndex(title, testDate, duration, devices);
+    return new HtmlTv(gson, title, testDate, duration, devices);
   }
 
   public final String title;
@@ -33,11 +33,11 @@ final class TvIndex {
   public final String duration;
   public final String outputJson;
 
-  TvIndex(String title, String testDate, String duration, List<Device> devices) {
+  HtmlTv(Gson gson, String title, String testDate, String duration, List<Device> devices) {
     this.title = title;
     this.testDate = testDate;
     this.duration = duration;
-    this.outputJson = new Gson().toJson(devices);
+    this.outputJson = gson.toJson(devices);
   }
 
   static final class Device implements Comparable<Device> {
