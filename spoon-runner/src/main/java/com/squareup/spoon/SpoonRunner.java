@@ -52,8 +52,14 @@ public final class SpoonRunner {
     this.debug = debug;
     this.className = className;
     this.methodName = methodName;
-    this.serials = unmodifiableSet(serials);
     this.classpath = classpath;
+
+    // Sanitize the serials for use on the filesystem as a folder name.
+    Set<String> serialsCopy = new LinkedHashSet<String>(serials.size());
+    for (String serial : serials) {
+      serialsCopy.add(SpoonUtils.sanitizeSerial(serial));
+    }
+    this.serials = unmodifiableSet(serialsCopy);
   }
 
   /**
