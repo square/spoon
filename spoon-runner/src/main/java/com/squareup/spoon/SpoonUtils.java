@@ -19,6 +19,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import org.apache.commons.io.FileUtils;
 
@@ -28,6 +29,7 @@ import static com.android.ddmlib.Log.LogLevel.DEBUG;
 
 /** Utilities for executing instrumentation tests on devices. */
 final class SpoonUtils {
+  private static final Pattern SERIAL_VALIDATION = Pattern.compile("[^a-zA-Z0-9_-]");
   static final Gson GSON = new GsonBuilder() //
       .registerTypeAdapter(File.class, new TypeAdapter<File>() {
         @Override public void write(JsonWriter jsonWriter, File file) throws IOException {
@@ -55,6 +57,10 @@ final class SpoonUtils {
       }
     }
     throw new IllegalArgumentException("Unknown device serial: " + serial);
+  }
+
+  static String sanitizeSerial(String serial) {
+    return SERIAL_VALIDATION.matcher(serial).replaceAll("_");
   }
 
   /** Get a {@link FileEntry} for an arbitrary path. */
