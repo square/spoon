@@ -146,10 +146,6 @@ public final class SpoonDeviceRunner {
     logDebug(debug, "[%s] setDeviceDetails %s", serial, deviceDetails);
 
     try {
-      // First try to uninstall the old apks.  This will avoid "inconsistent certificate" errors.
-      tryToUninstall(device, instrumentationInfo.getApplicationPackage());
-      tryToUninstall(device, instrumentationInfo.getInstrumentationPackage());
-
       // Now install the main application and the instrumentation application.
       String installError = device.installPackage(apk.getAbsolutePath(), true);
       if (installError != null) {
@@ -268,14 +264,6 @@ public final class SpoonDeviceRunner {
     }
 
     return result.build();
-  }
-
-  private static void tryToUninstall(IDevice device, String appId) {
-    try {
-      device.uninstallPackage(appId);
-    } catch (InstallException e) {
-      logInfo("[%s] Unable to uninstall %s", device.getSerialNumber(), appId);
-    }
   }
 
   /////////////////////////////////////////////////////////////////////////////
