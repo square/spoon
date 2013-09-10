@@ -53,6 +53,7 @@ public final class SpoonDeviceRunner {
   private final File junitReport;
   private final String classpath;
   private final SpoonInstrumentationInfo instrumentationInfo;
+  private final boolean disableScreenshot;
 
   /**
    * Create a test runner for a single device.
@@ -71,7 +72,7 @@ public final class SpoonDeviceRunner {
    */
   SpoonDeviceRunner(File sdk, File apk, File testApk, File output, String serial, boolean debug,
       String classpath, SpoonInstrumentationInfo instrumentationInfo, String className,
-      String methodName) {
+      String methodName, boolean disableScreenshot) {
     this.sdk = sdk;
     this.apk = apk;
     this.testApk = testApk;
@@ -84,6 +85,7 @@ public final class SpoonDeviceRunner {
     this.junitReport = FileUtils.getFile(output, JUNIT_DIR, serial + ".xml");
     this.classpath = classpath;
     this.instrumentationInfo = instrumentationInfo;
+    this.disableScreenshot = disableScreenshot;
   }
 
   /** Serialize to disk and start {@link #main(String...)} in another process. */
@@ -198,69 +200,74 @@ public final class SpoonDeviceRunner {
       }
     }
 
-    try {
-      logDebug(debug, "About to grab screenshots and prepare output for [%s]", serial);
+    if (!disableScreenshot) {
+       try {
+         logDebug(debug, "About to grab screenshots and prepare output for [%s]", serial);
 
-      // Sync device screenshots, if any, to the local filesystem.
-      String dirName = "app_" + SPOON_SCREENSHOTS;
-      String localDirName = work.getAbsolutePath();
-      final String devicePath = "/data/data/" + appPackage + "/" + dirName;
-      FileEntry deviceDir = obtainDirectoryFileEntry(devicePath);
-      logDebug(debug, "Pulling screenshots from [%s] %s", serial, devicePath);
+         // Sync device screenshots, if any, to the local filesystem.
+         String dirName = "app_" + SPOON_SCREENSHOTS;
+         String localDirName = work.getAbsolutePath();
+         final String devicePath = "/data/data/" + appPackage + "/" + dirName;
+         FileEntry deviceDir = obtainDirectoryFileEntry(devicePath);
+         logDebug(debug, "Pulling screenshots from [%s] %s", serial, devicePath);
 
-      device.getSyncService()
-          .pull(new FileEntry[] {deviceDir}, localDirName, SyncService.getNullProgressMonitor());
+         device.getSyncService()
+             .pull(new FileEntry[] {deviceDir}, localDirName, SyncService.getNullProgressMonitor());
 
-      File screenshotDir = new File(work, dirName);
-      if (screenshotDir.exists()) {
-        File imageDir = FileUtils.getFile(output, "image", serial);
-        imageDir.mkdirs();
+         File screenshotDir = new File(work, dirName);
+         if (screenshotDir.exists()) {
+           File imageDir = FileUtils.getFile(output, "image", serial);
+           imageDir.mkdirs();
 
-        // Move all children of the screenshot directory into the image folder.
-        File[] classNameDirs = screenshotDir.listFiles();
-        if (classNameDirs != null) {
-          Multimap<DeviceTest, File> testScreenshots = ArrayListMultimap.create();
-          for (File classNameDir : classNameDirs) {
-            String className = classNameDir.getName();
-            File destDir = new File(imageDir, className);
-            FileUtils.copyDirectory(classNameDir, destDir);
+           // Move all children of the screenshot directory into the image folder.
+           File[] classNameDirs = screenshotDir.listFiles();
+           if (classNameDirs != null) {
+             Multimap<DeviceTest, File> testScreenshots = ArrayListMultimap.create();
+             for (File classNameDir : classNameDirs) {
+               String className = classNameDir.getName();
+               File destDir = new File(imageDir, className);
+               FileUtils.copyDirectory(classNameDir, destDir);
 
-            // Get a sorted list of all screenshots from the device run.
-            List<File> screenshots = new ArrayList<File>(
-                FileUtils.listFiles(destDir, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE));
-            Collections.sort(screenshots);
+               // Get a sorted list of all screenshots from the device run.
+               List<File> screenshots = new ArrayList<File>(
+                   FileUtils.listFiles(destDir, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE));
+               Collections.sort(screenshots);
 
-            // Iterate over each screenshot and associate it with its corresponding method result.
-            for (File screenshot : screenshots) {
-              String methodName = screenshot.getParentFile().getName();
+               /*
+                * Iterate over each screenshot and associate it with its corresponding
+                * method result.
+                */
+               for (File screenshot : screenshots) {
+                 String methodName = screenshot.getParentFile().getName();
 
-              DeviceTest testIdentifier = new DeviceTest(className, methodName);
-              DeviceTestResult.Builder builder = result.getMethodResultBuilder(testIdentifier);
-              if (builder != null) {
-                builder.addScreenshot(screenshot);
-                testScreenshots.put(testIdentifier, screenshot);
-              } else {
-                logError("Unable to find test for %s", testIdentifier);
-              }
-            }
-          }
+                 DeviceTest testIdentifier = new DeviceTest(className, methodName);
+                 DeviceTestResult.Builder builder = result.getMethodResultBuilder(testIdentifier);
+                 if (builder != null) {
+                   builder.addScreenshot(screenshot);
+                   testScreenshots.put(testIdentifier, screenshot);
+                 } else {
+                   logError("Unable to find test for %s", testIdentifier);
+                 }
+               }
+             }
 
-          // Make animated GIFs for all the tests which have screenshots.
-          for (DeviceTest deviceTest : testScreenshots.keySet()) {
-            List<File> screenshots = new ArrayList<File>(testScreenshots.get(deviceTest));
-            if (screenshots.size() == 1) {
-              continue; // Do not make an animated GIF if there is only one screenshot.
-            }
-            File animatedGif = FileUtils.getFile(imageDir, deviceTest.getClassName(),
-                deviceTest.getMethodName() + ".gif");
-            createAnimatedGif(screenshots, animatedGif);
-            result.getMethodResultBuilder(deviceTest).setAnimatedGif(animatedGif);
-          }
-        }
-        FileUtils.deleteDirectory(screenshotDir);
-      }
-    } catch (Exception e) {
-      result.addException(e);
+             // Make animated GIFs for all the tests which have screenshots.
+             for (DeviceTest deviceTest : testScreenshots.keySet()) {
+               List<File> screenshots = new ArrayList<File>(testScreenshots.get(deviceTest));
+               if (screenshots.size() == 1) {
+                 continue; // Do not make an animated GIF if there is only one screenshot.
+               }
+               File animatedGif = FileUtils.getFile(imageDir, deviceTest.getClassName(),
+                   deviceTest.getMethodName() + ".gif");
+               createAnimatedGif(screenshots, animatedGif);
+               result.getMethodResultBuilder(deviceTest).setAnimatedGif(animatedGif);
+             }
+           }
+           FileUtils.deleteDirectory(screenshotDir);
+         }
+       } catch (Exception e) {
+         result.addException(e);
+       }
     }
 
     return result.build();
