@@ -40,10 +40,12 @@ public final class SpoonRunner {
   private final String methodName;
   private final Set<String> serials;
   private final String classpath;
+  private final boolean disableScreenshot;
+  private final boolean disableHtml;
 
   private SpoonRunner(String title, File androidSdk, File applicationApk, File instrumentationApk,
       File output, boolean debug, Set<String> serials, String classpath, String className,
-      String methodName) {
+      String methodName, boolean disableScreenshot, boolean disableHtml) {
     this.title = title;
     this.androidSdk = androidSdk;
     this.applicationApk = applicationApk;
@@ -53,6 +55,8 @@ public final class SpoonRunner {
     this.className = className;
     this.methodName = methodName;
     this.classpath = classpath;
+    this.disableScreenshot = disableScreenshot;
+    this.disableHtml = disableHtml;
 
     // Sanitize the serials for use on the filesystem as a folder name.
     Set<String> serialsCopy = new LinkedHashSet<String>(serials.size());
@@ -83,7 +87,11 @@ public final class SpoonRunner {
       // Execute all the things...
       SpoonSummary summary = runTests(adb, serials);
       // ...and render to HTML
-      new HtmlRenderer(summary, SpoonUtils.GSON, output).render();
+      HtmlRenderer renderer = new HtmlRenderer(summary, SpoonUtils.GSON, output);
+      renderer.renderResultJson();
+      if (!disableHtml) {
+         renderer.renderHtml();
+      }
 
       return parseOverallSuccess(summary);
     } finally {
@@ -182,7 +190,7 @@ public final class SpoonRunner {
 
   private SpoonDeviceRunner getTestRunner(String serial, SpoonInstrumentationInfo testInfo) {
     return new SpoonDeviceRunner(androidSdk, applicationApk, instrumentationApk, output, serial,
-        debug, classpath, testInfo, className, methodName);
+        debug, classpath, testInfo, className, methodName, disableScreenshot);
   }
 
   /** Build a test suite for the specified devices and configuration. */
@@ -197,6 +205,8 @@ public final class SpoonRunner {
     private String classpath = System.getProperty("java.class.path");
     private String className;
     private String methodName;
+    private boolean disableScreenshot = false;
+    private boolean disableHtml = false;
 
     /** Identifying title for this execution. */
     public Builder setTitle(String title) {
@@ -282,6 +292,16 @@ public final class SpoonRunner {
       return this;
     }
 
+     public Builder setDisableScreenshot(boolean disableScreenshot) {
+        this.disableScreenshot = disableScreenshot;
+        return this;
+     }
+
+     public Builder setDisableHtml(boolean disableHtml) {
+        this.disableHtml = disableHtml;
+        return this;
+     }
+
     public SpoonRunner build() {
       checkNotNull(androidSdk, "SDK is required.");
       checkArgument(androidSdk.exists(), "SDK path does not exist.");
@@ -295,7 +315,7 @@ public final class SpoonRunner {
       }
 
       return new SpoonRunner(title, androidSdk, applicationApk, instrumentationApk, output, debug,
-          serials, classpath, className, methodName);
+          serials, classpath, className, methodName, disableScreenshot, disableHtml);
     }
   }
 
@@ -333,6 +353,12 @@ public final class SpoonRunner {
 
     @Parameter(names = { "-h", "--help" }, description = "Command help", help = true, hidden = true)
     public boolean help;
+
+    @Parameter(names = { "--disable-screenshot" }, description = "Disable screenshots")
+    public boolean disableScreenshot;
+
+    @Parameter(names = { "--disable-html" }, description = "Disable HTML code generation")
+    public boolean disableHtml;
   }
 
   private static File cleanFile(String path) {
@@ -376,6 +402,8 @@ public final class SpoonRunner {
         .setAndroidSdk(parsedArgs.sdk)
         .setClassName(parsedArgs.className)
         .setMethodName(parsedArgs.methodName)
+        .setDisableScreenshot(parsedArgs.disableScreenshot)
+        .setDisableHtml(parsedArgs.disableHtml)
         .useAllAttachedDevices()
         .build();
 
