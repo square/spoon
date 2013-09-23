@@ -1,7 +1,8 @@
 package com.squareup.spoon.misc;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import com.google.common.collect.ImmutableList;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,7 +12,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 /** A representation of {@link Throwable} suitable for serialization. */
 public class StackTrace {
-  private static final Pattern HEADER = Pattern.compile("(?:Caused by: )?([^:]+)(?:: (.*))?");
+  private static final Pattern HEADER = Pattern.compile("(?:Caused by: )?([^:]+)(?::( .*)?)?");
   private static final Pattern MORE = Pattern.compile("\\.\\.\\. \\d+ more");
   private static final Pattern ELEMENT =
       Pattern.compile("\\s*at (.*?)\\.([^.(]+)\\((?:([^:]+):(\\d+)|Native Method)\\)");
@@ -26,7 +27,7 @@ public class StackTrace {
       cause = from(realCause);
     }
 
-    List<Element> elements = new ArrayList<Element>();
+    Deque<Element> elements = new ArrayDeque<Element>();
     for (StackTraceElement element : exception.getStackTrace()) {
       elements.add(Element.from(element));
     }
@@ -41,8 +42,8 @@ public class StackTrace {
     String parts[] = exception.replace("\r\n", "\n").split("\n");
 
     StackTrace last = null;
-    List<String> messageParts = new ArrayList<String>();
-    List<Element> elements = new ArrayList<Element>();
+    Deque<String> messageParts = new ArrayDeque<String>();
+    Deque<Element> elements = new ArrayDeque<Element>();
     boolean matchingElements = true; // Assume we will be matching elements first (bottom, up).
     for (int i = parts.length - 1; i >= 0; i--) {
       String part = parts[i];
@@ -65,30 +66,40 @@ public class StackTrace {
           boolean isNative = fileName == null;
           int line = isNative ? 0 : Integer.parseInt(elementMatch.group(4));
 
-          elements.add(0, new Element(className, fileName, line, methodName, isNative));
+          elements.addFirst(new Element(className, fileName, line, methodName, isNative));
         }
       } else {
         matchingElements = false;
-        messageParts.add(0, part);
+        messageParts.addFirst(part);
       }
     }
 
     return acceptTrace(messageParts, elements, last);
   }
 
-  private static StackTrace acceptTrace(List<String> messageParts, List<Element> elements,
+  private static StackTrace acceptTrace(Deque<String> messageParts, Deque<Element> elements,
       StackTrace last) {
-    String header = messageParts.remove(0);
+    String header = messageParts.removeFirst();
     Matcher headerMatch = HEADER.matcher(header);
     if (!headerMatch.matches()) {
       throw new IllegalStateException("Couldn't match exception header.");
     }
-    messageParts.add(0, headerMatch.group(2));
     String exceptionClass = headerMatch.group(1);
+
+    String messagePart = headerMatch.group(2);
+    // Ensure we don't add empty leading lines.
+    if (!StringUtils.isEmpty(messagePart)) {
+      messageParts.addFirst(messagePart.trim());
+    }
+    // Remove trailing empty lines.
+    if (!messageParts.isEmpty() && StringUtils.isEmpty(messageParts.peekLast())) {
+      messageParts.removeLast();
+    }
     String message = StringUtils.join(messageParts, "\n");
     if (message.equals("")) {
       message = null;
     }
+
     return new StackTrace(exceptionClass, message, elements, last);
   }
 
@@ -97,12 +108,12 @@ public class StackTrace {
   private final List<Element> elements;
   private final StackTrace cause;
 
-  public StackTrace(String className, String message, List<Element> elements, StackTrace cause) {
+  public StackTrace(String className, String message, Deque<Element> elements, StackTrace cause) {
     checkNotNull(elements);
 
     this.className = className;
     this.message = message;
-    this.elements = Collections.unmodifiableList(new ArrayList<Element>(elements));
+    this.elements = ImmutableList.copyOf(elements.iterator());
     this.cause = cause;
   }
 

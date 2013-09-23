@@ -1,7 +1,7 @@
 package com.squareup.spoon.misc;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import org.junit.Test;
 
 import static org.fest.assertions.api.Assertions.assertThat;
@@ -154,8 +154,52 @@ public class StackTraceTest {
     assertThat(inner.getElements()).hasSize(1);
   }
 
+  @Test public void mockitoException() {
+    String exception = "org.mockito.exceptions.misusing.InvalidUseOfMatchersException:\n"
+        + "Invalid use of argument matchers!\n"
+        + "2 matchers expected, 1 recorded:\n"
+        + "-> at com.autoscout24.SomeTest.someTest(SomeTest.java:46)\n"
+        + "\n"
+        + "This exception may occur if matchers are combined with raw values:\n"
+        + "//incorrect:\n"
+        + "someMethod(anyObject(), \"raw String\");\n"
+        + "When using matchers, all arguments have to be provided by matchers.\n"
+        + "For example:\n"
+        + "//correct:\n"
+        + "someMethod(anyObject(), eq(\"String by matcher\"));\n"
+        + "\n"
+        + "For more info see javadoc for Matchers class.\n"
+        + "\n"
+        + "at com.autoscout24.SomeTest.someTest(SomeTest.java:46)\n"
+        + "at java.lang.reflect.Method.invokeNative(Native Method)\n"
+        + "at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)\n"
+        + "at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)\n"
+        + "at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:191)\n"
+        + "at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:176)\n"
+        + "at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:554)\n"
+        + "at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1701)";
+
+    StackTrace actual = StackTrace.from(exception);
+
+    String expected = ""
+        + "Invalid use of argument matchers!\n"
+        + "2 matchers expected, 1 recorded:\n"
+        + "-> at com.autoscout24.SomeTest.someTest(SomeTest.java:46)\n"
+        + "\n"
+        + "This exception may occur if matchers are combined with raw values:\n"
+        + "//incorrect:\n"
+        + "someMethod(anyObject(), \"raw String\");\n"
+        + "When using matchers, all arguments have to be provided by matchers.\n"
+        + "For example:\n"
+        + "//correct:\n"
+        + "someMethod(anyObject(), eq(\"String by matcher\"));\n"
+        + "\n"
+        + "For more info see javadoc for Matchers class.";
+    assertThat(actual.getMessage()).isEqualTo(expected);
+  }
+
   @Test public void toStringFormat() {
-    List<StackTrace.Element> elements = Collections.emptyList();
+    Deque<StackTrace.Element> elements = new ArrayDeque<StackTrace.Element>();
 
     StackTrace onlyClass = new StackTrace("java.lang.NullPointerException", null, elements, null);
     assertThat(onlyClass.toString()).isEqualTo("java.lang.NullPointerException");
