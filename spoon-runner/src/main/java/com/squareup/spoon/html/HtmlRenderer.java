@@ -45,12 +45,11 @@ public final class HtmlRenderer {
     this.output = output;
   }
 
-  public void render() {
+  public void renderHtml() {
     output.mkdirs();
 
     copyStaticAssets();
     generateCssFromLess();
-    writeResultJson();
 
     MustacheFactory mustacheFactory = new DefaultMustacheFactory();
     generateTvHtml(mustacheFactory);
@@ -80,7 +79,8 @@ public final class HtmlRenderer {
     }
   }
 
-  private void writeResultJson() {
+  public void renderResultJson() {
+    output.mkdirs();
     FileWriter result = null;
     try {
       result = new FileWriter(new File(output, "result.json"));
