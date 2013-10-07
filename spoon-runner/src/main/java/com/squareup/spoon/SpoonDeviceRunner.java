@@ -46,6 +46,7 @@ public final class SpoonDeviceRunner {
   private final File testApk;
   private final String serial;
   private final boolean debug;
+  private final boolean noAnimations;
   private final File output;
   private final String className;
   private final String methodName;
@@ -70,13 +71,14 @@ public final class SpoonDeviceRunner {
    *        {@code className}.
    */
   SpoonDeviceRunner(File sdk, File apk, File testApk, File output, String serial, boolean debug,
-      String classpath, SpoonInstrumentationInfo instrumentationInfo, String className,
-      String methodName) {
+      boolean noAnimations, String classpath, SpoonInstrumentationInfo instrumentationInfo,
+      String className, String methodName) {
     this.sdk = sdk;
     this.apk = apk;
     this.testApk = testApk;
     this.serial = serial;
     this.debug = debug;
+    this.noAnimations = noAnimations;
     this.output = output;
     this.className = className;
     this.methodName = methodName;
@@ -245,16 +247,19 @@ public final class SpoonDeviceRunner {
             }
           }
 
-          // Make animated GIFs for all the tests which have screenshots.
-          for (DeviceTest deviceTest : testScreenshots.keySet()) {
-            List<File> screenshots = new ArrayList<File>(testScreenshots.get(deviceTest));
-            if (screenshots.size() == 1) {
-              continue; // Do not make an animated GIF if there is only one screenshot.
+          // Don't generate animations if the switch is present
+          if (!noAnimations) {
+            // Make animated GIFs for all the tests which have screenshots.
+            for (DeviceTest deviceTest : testScreenshots.keySet()) {
+              List<File> screenshots = new ArrayList<File>(testScreenshots.get(deviceTest));
+              if (screenshots.size() == 1) {
+                continue; // Do not make an animated GIF if there is only one screenshot.
+              }
+              File animatedGif = FileUtils.getFile(imageDir, deviceTest.getClassName(),
+                  deviceTest.getMethodName() + ".gif");
+              createAnimatedGif(screenshots, animatedGif);
+              result.getMethodResultBuilder(deviceTest).setAnimatedGif(animatedGif);
             }
-            File animatedGif = FileUtils.getFile(imageDir, deviceTest.getClassName(),
-                deviceTest.getMethodName() + ".gif");
-            createAnimatedGif(screenshots, animatedGif);
-            result.getMethodResultBuilder(deviceTest).setAnimatedGif(animatedGif);
           }
         }
         FileUtils.deleteDirectory(screenshotDir);
