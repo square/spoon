@@ -102,7 +102,7 @@ Options:
     --title             Execution title
     --class-name        Test class name to run (fully-qualified)
     --method-name       Test method name to run (must also use --class-name)
-    --no-animations     Disabled animated gif generation (might be useful for slower machines with lots of screenshots)
+    --no-animations     Disable animated gif generation
 ```
 
 If you are using Maven for compilation, a plugin is provided for easy execution.

@@ -199,7 +199,7 @@ public final class SpoonRunner {
     private String classpath = System.getProperty("java.class.path");
     private String className;
     private String methodName;
-    private boolean noAnimations = false;
+    private boolean noAnimations;
 
     /** Identifying title for this execution. */
     public Builder setTitle(String title) {
