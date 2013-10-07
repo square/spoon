@@ -36,13 +36,14 @@ public final class SpoonRunner {
   private final File instrumentationApk;
   private final File output;
   private final boolean debug;
+  private final boolean noAnimations;
   private final String className;
   private final String methodName;
   private final Set<String> serials;
   private final String classpath;
 
   private SpoonRunner(String title, File androidSdk, File applicationApk, File instrumentationApk,
-      File output, boolean debug, Set<String> serials, String classpath, String className,
+      File output, boolean debug, boolean noAnimations, Set<String> serials, String classpath, String className,
       String methodName) {
     this.title = title;
     this.androidSdk = androidSdk;
@@ -50,6 +51,7 @@ public final class SpoonRunner {
     this.instrumentationApk = instrumentationApk;
     this.output = output;
     this.debug = debug;
+    this.noAnimations = noAnimations;
     this.className = className;
     this.methodName = methodName;
     this.classpath = classpath;
@@ -182,7 +184,7 @@ public final class SpoonRunner {
 
   private SpoonDeviceRunner getTestRunner(String serial, SpoonInstrumentationInfo testInfo) {
     return new SpoonDeviceRunner(androidSdk, applicationApk, instrumentationApk, output, serial,
-        debug, classpath, testInfo, className, methodName);
+        debug, noAnimations, classpath, testInfo, className, methodName);
   }
 
   /** Build a test suite for the specified devices and configuration. */
@@ -197,6 +199,7 @@ public final class SpoonRunner {
     private String classpath = System.getProperty("java.class.path");
     private String className;
     private String methodName;
+    private boolean noAnimations = false;
 
     /** Identifying title for this execution. */
     public Builder setTitle(String title) {
@@ -239,6 +242,12 @@ public final class SpoonRunner {
     /** Whether or not debug logging is enabled. */
     public Builder setDebug(boolean debug) {
       this.debug = debug;
+      return this;
+    }
+
+    /** Whether or not animations are enabled. */
+    public Builder setNoAnimations(boolean noAnimations) {
+      this.noAnimations = noAnimations;
       return this;
     }
 
@@ -295,7 +304,7 @@ public final class SpoonRunner {
       }
 
       return new SpoonRunner(title, androidSdk, applicationApk, instrumentationApk, output, debug,
-          serials, classpath, className, methodName);
+          noAnimations, serials, classpath, className, methodName);
     }
   }
 
@@ -327,6 +336,9 @@ public final class SpoonRunner {
 
     @Parameter(names = { "--fail-on-failure" }, description = "Non-zero exit code on failure")
     public boolean failOnFailure;
+
+    @Parameter(names = { "--no-animations" }, description = "Disable animated gif generation")
+    public boolean noAnimations;
 
     @Parameter(names = { "--debug" }, hidden = true)
     public boolean debug;
@@ -374,6 +386,7 @@ public final class SpoonRunner {
         .setOutputDirectory(parsedArgs.output)
         .setDebug(parsedArgs.debug)
         .setAndroidSdk(parsedArgs.sdk)
+        .setNoAnimations(parsedArgs.noAnimations)
         .setClassName(parsedArgs.className)
         .setMethodName(parsedArgs.methodName)
         .useAllAttachedDevices()
