@@ -1,6 +1,7 @@
 package com.squareup.spoon;
 
 import com.android.ddmlib.AndroidDebugBridge;
+import com.android.ddmlib.testrunner.IRemoteAndroidTestRunner;
 import com.beust.jcommander.IStringConverter;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
@@ -41,10 +42,11 @@ public final class SpoonRunner {
   private final String methodName;
   private final Set<String> serials;
   private final String classpath;
+  private final IRemoteAndroidTestRunner.TestSize testSize;
 
   private SpoonRunner(String title, File androidSdk, File applicationApk, File instrumentationApk,
-      File output, boolean debug, boolean noAnimations, Set<String> serials, String classpath, String className,
-      String methodName) {
+      File output, boolean debug, boolean noAnimations, Set<String> serials, String classpath,
+      String className, String methodName, IRemoteAndroidTestRunner.TestSize testSize) {
     this.title = title;
     this.androidSdk = androidSdk;
     this.applicationApk = applicationApk;
@@ -55,6 +57,7 @@ public final class SpoonRunner {
     this.className = className;
     this.methodName = methodName;
     this.classpath = classpath;
+    this.testSize = testSize;
 
     // Sanitize the serials for use on the filesystem as a folder name.
     Set<String> serialsCopy = new LinkedHashSet<String>(serials.size());
@@ -109,7 +112,10 @@ public final class SpoonRunner {
     logDebug(debug, "Instrumentation: %s from %s", testInfo.getInstrumentationPackage(),
         instrumentationApk.getAbsolutePath());
 
-    final SpoonSummary.Builder summary = new SpoonSummary.Builder().setTitle(title).start();
+    String testSize = this.testSize != null ? this.testSize.name().toLowerCase() : "";
+    final SpoonSummary.Builder summary = new SpoonSummary.Builder().setTitle(title)
+                                                                   .setTestSize(testSize)
+                                                                   .start();
 
     if (targetCount == 1) {
       // Since there is only one device just execute it synchronously in this process.
@@ -184,7 +190,7 @@ public final class SpoonRunner {
 
   private SpoonDeviceRunner getTestRunner(String serial, SpoonInstrumentationInfo testInfo) {
     return new SpoonDeviceRunner(androidSdk, applicationApk, instrumentationApk, output, serial,
-        debug, noAnimations, classpath, testInfo, className, methodName);
+        debug, noAnimations, classpath, testInfo, className, methodName, testSize);
   }
 
   /** Build a test suite for the specified devices and configuration. */
@@ -200,6 +206,7 @@ public final class SpoonRunner {
     private String className;
     private String methodName;
     private boolean noAnimations;
+    private IRemoteAndroidTestRunner.TestSize testSize;
 
     /** Identifying title for this execution. */
     public Builder setTitle(String title) {
@@ -286,6 +293,11 @@ public final class SpoonRunner {
       return this;
     }
 
+    public Builder setTestSize(IRemoteAndroidTestRunner.TestSize testSize) {
+        this.testSize = testSize;
+        return this;
+    }
+
     public Builder setMethodName(String methodName) {
       this.methodName = methodName;
       return this;
@@ -304,7 +316,7 @@ public final class SpoonRunner {
       }
 
       return new SpoonRunner(title, androidSdk, applicationApk, instrumentationApk, output, debug,
-          noAnimations, serials, classpath, className, methodName);
+          noAnimations, serials, classpath, className, methodName, testSize);
     }
   }
 
@@ -326,6 +338,10 @@ public final class SpoonRunner {
     @Parameter(names = { "--method-name" }, description =
         "Test method name to run (must also use --class-name)")
     public String methodName;
+
+    @Parameter(names = { "--size" }, converter = TestSizeConverter.class,
+        description = "Only run test methods annotated by testSize (small, medium, large)")
+    public IRemoteAndroidTestRunner.TestSize size;
 
     @Parameter(names = { "--output" }, description = "Output path",
         converter = FileConverter.class)
@@ -361,6 +377,17 @@ public final class SpoonRunner {
     }
   }
 
+  public static class TestSizeConverter
+        implements IStringConverter<IRemoteAndroidTestRunner.TestSize> {
+      @Override public IRemoteAndroidTestRunner.TestSize convert(String value) {
+          try {
+              return IRemoteAndroidTestRunner.TestSize.getTestSize(value);
+          } catch (IllegalArgumentException e) {
+              throw new ParameterException(e.getMessage());
+          }
+      }
+  }
+
   public static void main(String... args) {
     CommandLineArgs parsedArgs = new CommandLineArgs();
     JCommander jc = new JCommander(parsedArgs);
@@ -387,6 +414,7 @@ public final class SpoonRunner {
         .setDebug(parsedArgs.debug)
         .setAndroidSdk(parsedArgs.sdk)
         .setNoAnimations(parsedArgs.noAnimations)
+        .setTestSize(parsedArgs.size)
         .setClassName(parsedArgs.className)
         .setMethodName(parsedArgs.methodName)
         .useAllAttachedDevices()

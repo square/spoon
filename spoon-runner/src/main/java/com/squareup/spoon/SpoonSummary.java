@@ -12,13 +12,15 @@ import static java.util.Collections.unmodifiableMap;
 /** Result summary of executing instrumentation on multiple devices. */
 public final class SpoonSummary {
   private final String title;
+  private final String testSize;
   private final long started;
   private final long duration;
   private final Map<String, DeviceResult> results;
 
-  private SpoonSummary(String title, long started, long duration,
+  private SpoonSummary(String title, String testSize, long started, long duration,
       Map<String, DeviceResult> results) {
     this.title = title;
+    this.testSize = testSize;
     this.started = started;
     this.duration = duration;
     this.results = unmodifiableMap(new HashMap<String, DeviceResult>(results));
@@ -27,6 +29,11 @@ public final class SpoonSummary {
   /** Execution title. */
   public String getTitle() {
     return title;
+  }
+
+  /** Size of tests. */
+  public String getTestSize() {
+    return testSize;
   }
 
   /** Execution start time. */
@@ -47,6 +54,7 @@ public final class SpoonSummary {
   static class Builder {
     private final Map<String, DeviceResult> results = new HashMap<String, DeviceResult>();
     private String title;
+    private String testSize;
     private long started;
     private long start;
     private long duration = -1;
@@ -55,6 +63,13 @@ public final class SpoonSummary {
       checkNotNull(title);
       checkArgument(title != null, "Title already set.");
       this.title = title;
+      return this;
+    }
+
+    Builder setTestSize(String testSize) {
+      checkNotNull(testSize);
+      checkArgument(testSize != null, "Test size already set.");
+      this.testSize = testSize;
       return this;
     }
 
@@ -87,7 +102,7 @@ public final class SpoonSummary {
       checkNotNull(title, "Title is required.");
       checkNotNull(started, "Never started.");
 
-      return new SpoonSummary(title, started, duration, results);
+      return new SpoonSummary(title, testSize, started, duration, results);
     }
   }
 }
