@@ -6,6 +6,7 @@ import com.android.ddmlib.InstallException;
 import com.android.ddmlib.SyncService;
 import com.android.ddmlib.logcat.LogCatMessage;
 import com.android.ddmlib.testrunner.RemoteAndroidTestRunner;
+import com.android.ddmlib.testrunner.IRemoteAndroidTestRunner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
@@ -50,6 +51,7 @@ public final class SpoonDeviceRunner {
   private final File output;
   private final String className;
   private final String methodName;
+  private final IRemoteAndroidTestRunner.TestSize testSize;
   private final File work;
   private final File junitReport;
   private final String classpath;
@@ -72,7 +74,7 @@ public final class SpoonDeviceRunner {
    */
   SpoonDeviceRunner(File sdk, File apk, File testApk, File output, String serial, boolean debug,
       boolean noAnimations, String classpath, SpoonInstrumentationInfo instrumentationInfo,
-      String className, String methodName) {
+      String className, String methodName, IRemoteAndroidTestRunner.TestSize testSize) {
     this.sdk = sdk;
     this.apk = apk;
     this.testApk = testApk;
@@ -82,6 +84,7 @@ public final class SpoonDeviceRunner {
     this.output = output;
     this.className = className;
     this.methodName = methodName;
+    this.testSize = testSize;
     this.work = FileUtils.getFile(output, TEMP_DIR, serial);
     this.junitReport = FileUtils.getFile(output, JUNIT_DIR, serial + ".xml");
     this.classpath = classpath;
@@ -182,6 +185,9 @@ public final class SpoonDeviceRunner {
         } else {
           runner.setMethodName(className, methodName);
         }
+      }
+      if (testSize != null) {
+        runner.setTestSize(testSize);
       }
       runner.run(
           new SpoonTestRunListener(result, debug),

@@ -103,6 +103,7 @@ Options:
     --class-name        Test class name to run (fully-qualified)
     --method-name       Test method name to run (must also use --class-name)
     --no-animations     Disable animated gif generation
+    --size              Only run test methods annotated by testSize (small, medium, large)
 ```
 
 If you are using Maven for compilation, a plugin is provided for easy execution.
