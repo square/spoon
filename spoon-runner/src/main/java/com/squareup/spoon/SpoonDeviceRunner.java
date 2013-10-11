@@ -187,7 +187,7 @@ public final class SpoonDeviceRunner {
         }
       }
       if (testSize != null) {
-          runner.setTestSize(testSize);
+        runner.setTestSize(testSize);
       }
       runner.run(
           new SpoonTestRunListener(result, debug),

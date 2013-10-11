@@ -1,5 +1,7 @@
 package com.squareup.spoon;
 
+import com.android.ddmlib.testrunner.IRemoteAndroidTestRunner;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,13 +14,13 @@ import static java.util.Collections.unmodifiableMap;
 /** Result summary of executing instrumentation on multiple devices. */
 public final class SpoonSummary {
   private final String title;
-  private final String testSize;
+  private final IRemoteAndroidTestRunner.TestSize testSize;
   private final long started;
   private final long duration;
   private final Map<String, DeviceResult> results;
 
-  private SpoonSummary(String title, String testSize, long started, long duration,
-      Map<String, DeviceResult> results) {
+  private SpoonSummary(String title, IRemoteAndroidTestRunner.TestSize testSize, long started,
+      long duration, Map<String, DeviceResult> results) {
     this.title = title;
     this.testSize = testSize;
     this.started = started;
@@ -32,7 +34,7 @@ public final class SpoonSummary {
   }
 
   /** Size of tests. */
-  public String getTestSize() {
+  public IRemoteAndroidTestRunner.TestSize getTestSize() {
     return testSize;
   }
 
@@ -54,7 +56,7 @@ public final class SpoonSummary {
   static class Builder {
     private final Map<String, DeviceResult> results = new HashMap<String, DeviceResult>();
     private String title;
-    private String testSize;
+    private IRemoteAndroidTestRunner.TestSize testSize;
     private long started;
     private long start;
     private long duration = -1;
@@ -66,7 +68,7 @@ public final class SpoonSummary {
       return this;
     }
 
-    Builder setTestSize(String testSize) {
+    Builder setTestSize(IRemoteAndroidTestRunner.TestSize testSize) {
       checkNotNull(testSize);
       checkArgument(testSize != null, "Test size already set.");
       this.testSize = testSize;

@@ -112,10 +112,11 @@ public final class SpoonRunner {
     logDebug(debug, "Instrumentation: %s from %s", testInfo.getInstrumentationPackage(),
         instrumentationApk.getAbsolutePath());
 
-    String testSize = this.testSize != null ? this.testSize.name().toLowerCase() : "";
-    final SpoonSummary.Builder summary = new SpoonSummary.Builder().setTitle(title)
-                                                                   .setTestSize(testSize)
-                                                                   .start();
+    final SpoonSummary.Builder summary = new SpoonSummary.Builder().setTitle(title).start();
+
+    if (testSize != null) {
+      summary.setTestSize(testSize);
+    }
 
     if (targetCount == 1) {
       // Since there is only one device just execute it synchronously in this process.
@@ -294,8 +295,8 @@ public final class SpoonRunner {
     }
 
     public Builder setTestSize(IRemoteAndroidTestRunner.TestSize testSize) {
-        this.testSize = testSize;
-        return this;
+      this.testSize = testSize;
+      return this;
     }
 
     public Builder setMethodName(String methodName) {
@@ -340,7 +341,7 @@ public final class SpoonRunner {
     public String methodName;
 
     @Parameter(names = { "--size" }, converter = TestSizeConverter.class,
-        description = "Only run test methods annotated by testSize (small, medium, large)")
+        description = "Only run methods with corresponding size annotation (small, medium, large)")
     public IRemoteAndroidTestRunner.TestSize size;
 
     @Parameter(names = { "--output" }, description = "Output path",
@@ -378,14 +379,14 @@ public final class SpoonRunner {
   }
 
   public static class TestSizeConverter
-        implements IStringConverter<IRemoteAndroidTestRunner.TestSize> {
-      @Override public IRemoteAndroidTestRunner.TestSize convert(String value) {
-          try {
-              return IRemoteAndroidTestRunner.TestSize.getTestSize(value);
-          } catch (IllegalArgumentException e) {
-              throw new ParameterException(e.getMessage());
-          }
+      implements IStringConverter<IRemoteAndroidTestRunner.TestSize> {
+    @Override public IRemoteAndroidTestRunner.TestSize convert(String value) {
+      try {
+        return IRemoteAndroidTestRunner.TestSize.getTestSize(value);
+      } catch (IllegalArgumentException e) {
+        throw new ParameterException(e.getMessage());
       }
+    }
   }
 
   public static void main(String... args) {

@@ -1,7 +1,6 @@
 package com.squareup.spoon.html;
 
-import com.google.common.base.Joiner;
-import com.google.common.base.Strings;
+import com.android.ddmlib.testrunner.IRemoteAndroidTestRunner;
 import com.squareup.spoon.DeviceDetails;
 import com.squareup.spoon.DeviceResult;
 import com.squareup.spoon.DeviceTest;
@@ -40,12 +39,10 @@ final class HtmlIndex {
     int totalFailure = testsRun - totalSuccess;
 
     int deviceCount = summary.getResults().size();
+    IRemoteAndroidTestRunner.TestSize testSize = summary.getTestSize();
     String started = HtmlUtils.dateToString(summary.getStarted());
-    String totalTestsRun = Joiner.on(' ')
-                                 .skipNulls()
-                                 .join(testsRun,
-                                       Strings.emptyToNull(summary.getTestSize()),
-                                       " test" + (testsRun != 1 ? "s" : ""));
+    String totalTestsRun = testsRun + (testSize != null ? " " + testSize.name().toLowerCase() : "")
+        + " test" + (testsRun != 1 ? "s" : "");
     String totalDevices = deviceCount + " device" + (deviceCount != 1 ? "s" : "");
 
     StringBuilder subtitle = new StringBuilder();
