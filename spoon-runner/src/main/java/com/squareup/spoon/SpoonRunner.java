@@ -30,6 +30,7 @@ import static java.util.Collections.unmodifiableSet;
 public final class SpoonRunner {
   private static final String DEFAULT_TITLE = "Spoon Execution";
   public static final String DEFAULT_OUTPUT_DIRECTORY = "spoon-output";
+  private static final int DEFAULT_ADB_TIMEOUT = 10 * 60; //10 minutes
 
   private final String title;
   private final File androidSdk;
@@ -38,6 +39,7 @@ public final class SpoonRunner {
   private final File output;
   private final boolean debug;
   private final boolean noAnimations;
+  private final int adbTimeout;
   private final String className;
   private final String methodName;
   private final Set<String> serials;
@@ -45,7 +47,7 @@ public final class SpoonRunner {
   private final IRemoteAndroidTestRunner.TestSize testSize;
 
   private SpoonRunner(String title, File androidSdk, File applicationApk, File instrumentationApk,
-      File output, boolean debug, boolean noAnimations, Set<String> serials, String classpath,
+      File output, boolean debug, boolean noAnimations, int adbTimeout, Set<String> serials, String classpath,
       String className, String methodName, IRemoteAndroidTestRunner.TestSize testSize) {
     this.title = title;
     this.androidSdk = androidSdk;
@@ -54,6 +56,7 @@ public final class SpoonRunner {
     this.output = output;
     this.debug = debug;
     this.noAnimations = noAnimations;
+    this.adbTimeout = adbTimeout;
     this.className = className;
     this.methodName = methodName;
     this.classpath = classpath;
@@ -191,7 +194,7 @@ public final class SpoonRunner {
 
   private SpoonDeviceRunner getTestRunner(String serial, SpoonInstrumentationInfo testInfo) {
     return new SpoonDeviceRunner(androidSdk, applicationApk, instrumentationApk, output, serial,
-        debug, noAnimations, classpath, testInfo, className, methodName, testSize);
+        debug, noAnimations, adbTimeout, classpath, testInfo, className, methodName, testSize);
   }
 
   /** Build a test suite for the specified devices and configuration. */
@@ -208,6 +211,7 @@ public final class SpoonRunner {
     private String methodName;
     private boolean noAnimations;
     private IRemoteAndroidTestRunner.TestSize testSize;
+    private int adbTimeout;
 
     /** Identifying title for this execution. */
     public Builder setTitle(String title) {
@@ -256,6 +260,12 @@ public final class SpoonRunner {
     /** Whether or not animations are enabled. */
     public Builder setNoAnimations(boolean noAnimations) {
       this.noAnimations = noAnimations;
+      return this;
+    }
+
+    /** Set ADB timeout. */
+    public Builder setAdbTimeout(int value) {
+      this.adbTimeout = value;
       return this;
     }
 
@@ -317,7 +327,7 @@ public final class SpoonRunner {
       }
 
       return new SpoonRunner(title, androidSdk, applicationApk, instrumentationApk, output, debug,
-          noAnimations, serials, classpath, className, methodName, testSize);
+          noAnimations, adbTimeout, serials, classpath, className, methodName, testSize);
     }
   }
 
@@ -356,6 +366,9 @@ public final class SpoonRunner {
 
     @Parameter(names = { "--no-animations" }, description = "Disable animated gif generation")
     public boolean noAnimations;
+
+    @Parameter(names = { "--adb-timeout" }, description = "Set maximum execution time per test in seconds (10min default)")
+    public int adbTimeoutSeconds = DEFAULT_ADB_TIMEOUT;
 
     @Parameter(names = { "--debug" }, hidden = true)
     public boolean debug;
@@ -416,6 +429,7 @@ public final class SpoonRunner {
         .setAndroidSdk(parsedArgs.sdk)
         .setNoAnimations(parsedArgs.noAnimations)
         .setTestSize(parsedArgs.size)
+        .setAdbTimeout(parsedArgs.adbTimeoutSeconds * 1000)
         .setClassName(parsedArgs.className)
         .setMethodName(parsedArgs.methodName)
         .useAllAttachedDevices()

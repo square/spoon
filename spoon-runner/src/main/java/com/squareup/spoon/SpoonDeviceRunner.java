@@ -38,7 +38,6 @@ import static com.squareup.spoon.SpoonUtils.obtainRealDevice;
 public final class SpoonDeviceRunner {
   private static final String FILE_EXECUTION = "execution.json";
   private static final String FILE_RESULT = "result.json";
-  private static final int ADB_TIMEOUT = 10 * 60 * 1000; //10m
   static final String TEMP_DIR = "work";
   static final String JUNIT_DIR = "junit-reports";
 
@@ -48,6 +47,7 @@ public final class SpoonDeviceRunner {
   private final String serial;
   private final boolean debug;
   private final boolean noAnimations;
+  private final int adbTimeout;
   private final File output;
   private final String className;
   private final String methodName;
@@ -66,6 +66,7 @@ public final class SpoonDeviceRunner {
    * @param output Path to output directory.
    * @param serial Device to run the test on.
    * @param debug Whether or not debug logging is enabled.
+   * @param adbTimeout time in ms for longest test execution
    * @param classpath Custom JVM classpath or {@code null}.
    * @param instrumentationInfo Test apk manifest information.
    * @param className Test class name to run or {@code null} to run all tests.
@@ -73,7 +74,7 @@ public final class SpoonDeviceRunner {
    *        {@code className}.
    */
   SpoonDeviceRunner(File sdk, File apk, File testApk, File output, String serial, boolean debug,
-      boolean noAnimations, String classpath, SpoonInstrumentationInfo instrumentationInfo,
+      boolean noAnimations, int adbTimeout, String classpath, SpoonInstrumentationInfo instrumentationInfo,
       String className, String methodName, IRemoteAndroidTestRunner.TestSize testSize) {
     this.sdk = sdk;
     this.apk = apk;
@@ -81,6 +82,7 @@ public final class SpoonDeviceRunner {
     this.serial = serial;
     this.debug = debug;
     this.noAnimations = noAnimations;
+    this.adbTimeout = adbTimeout;
     this.output = output;
     this.className = className;
     this.methodName = methodName;
@@ -178,7 +180,7 @@ public final class SpoonDeviceRunner {
     try {
       logDebug(debug, "About to actually run tests for [%s]", serial);
       RemoteAndroidTestRunner runner = new RemoteAndroidTestRunner(testPackage, testRunner, device);
-      runner.setMaxtimeToOutputResponse(ADB_TIMEOUT);
+      runner.setMaxtimeToOutputResponse(adbTimeout);
       if (!Strings.isNullOrEmpty(className)) {
         if (Strings.isNullOrEmpty(methodName)) {
           runner.setClassName(className);
