@@ -82,6 +82,9 @@ public final class SpoonRunner {
       if (serials.isEmpty()) {
         serials = SpoonUtils.findAllDevices(adb);
       }
+      if (serials.isEmpty()) {
+        throw new RuntimeException("No device(s) found.");
+      }
 
       // Execute all the things...
       SpoonSummary summary = runTests(adb, serials);
