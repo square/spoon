@@ -101,8 +101,9 @@ final class HtmlUtils {
   /** Convert a method name from {@code testThisThing_DoesThat} to "This Thing, Does That". */
   static String prettifyMethodName(String methodName) {
     if (!methodName.startsWith("test")) {
-      throw new IllegalArgumentException("Method name does not start with 'test'.");
+      return methodName;
     }
+    
     StringBuilder pretty = new StringBuilder();
     String[] parts = methodName.substring(4).split("_");
     for (String part : parts) {
