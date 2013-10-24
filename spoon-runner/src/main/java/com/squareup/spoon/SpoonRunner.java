@@ -7,6 +7,7 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableSet;
 import com.squareup.spoon.html.HtmlRenderer;
 import java.io.File;
 import java.io.IOException;
@@ -24,7 +25,6 @@ import static com.squareup.spoon.SpoonInstrumentationInfo.parseFromFile;
 import static com.squareup.spoon.SpoonLogger.logDebug;
 import static com.squareup.spoon.SpoonLogger.logInfo;
 import static java.util.Collections.synchronizedSet;
-import static java.util.Collections.unmodifiableSet;
 
 /** Represents a collection of devices and the test configuration to be executed. */
 public final class SpoonRunner {
@@ -47,8 +47,9 @@ public final class SpoonRunner {
   private final IRemoteAndroidTestRunner.TestSize testSize;
 
   private SpoonRunner(String title, File androidSdk, File applicationApk, File instrumentationApk,
-      File output, boolean debug, boolean noAnimations, int adbTimeout, Set<String> serials, String classpath,
-      String className, String methodName, IRemoteAndroidTestRunner.TestSize testSize) {
+      File output, boolean debug, boolean noAnimations, int adbTimeout, Set<String> serials,
+      String classpath, String className, String methodName,
+      IRemoteAndroidTestRunner.TestSize testSize) {
     this.title = title;
     this.androidSdk = androidSdk;
     this.applicationApk = applicationApk;
@@ -61,13 +62,7 @@ public final class SpoonRunner {
     this.methodName = methodName;
     this.classpath = classpath;
     this.testSize = testSize;
-
-    // Sanitize the serials for use on the filesystem as a folder name.
-    Set<String> serialsCopy = new LinkedHashSet<String>(serials.size());
-    for (String serial : serials) {
-      serialsCopy.add(SpoonUtils.sanitizeSerial(serial));
-    }
-    this.serials = unmodifiableSet(serialsCopy);
+    this.serials = ImmutableSet.copyOf(serials);
   }
 
   /**
@@ -124,13 +119,14 @@ public final class SpoonRunner {
     if (targetCount == 1) {
       // Since there is only one device just execute it synchronously in this process.
       String serial = serials.iterator().next();
+      String safeSerial = SpoonUtils.sanitizeSerial(serial);
       try {
         logDebug(debug, "[%s] Starting execution.", serial);
-        summary.addResult(serial, getTestRunner(serial, testInfo).run(adb));
+        summary.addResult(safeSerial, getTestRunner(serial, testInfo).run(adb));
       } catch (Exception e) {
         logDebug(debug, "[%s] Execution exception!", serial);
         e.printStackTrace(System.out);
-        summary.addResult(serial, new DeviceResult.Builder().addException(e).build());
+        summary.addResult(safeSerial, new DeviceResult.Builder().addException(e).build());
       } finally {
         logDebug(debug, "[%s] Execution done.", serial);
       }
@@ -139,13 +135,14 @@ public final class SpoonRunner {
       final CountDownLatch done = new CountDownLatch(targetCount);
       final Set<String> remaining = synchronizedSet(new HashSet<String>(serials));
       for (final String serial : serials) {
+        final String safeSerial = SpoonUtils.sanitizeSerial(serial);
         logDebug(debug, "[%s] Starting execution.", serial);
         new Thread(new Runnable() {
           @Override public void run() {
             try {
-              summary.addResult(serial, getTestRunner(serial, testInfo).runInNewProcess());
+              summary.addResult(safeSerial, getTestRunner(serial, testInfo).runInNewProcess());
             } catch (Exception e) {
-              summary.addResult(serial, new DeviceResult.Builder().addException(e).build());
+              summary.addResult(safeSerial, new DeviceResult.Builder().addException(e).build());
             } finally {
               done.countDown();
               remaining.remove(serial);
@@ -367,7 +364,8 @@ public final class SpoonRunner {
     @Parameter(names = { "--no-animations" }, description = "Disable animated gif generation")
     public boolean noAnimations;
 
-    @Parameter(names = { "--adb-timeout" }, description = "Set maximum execution time per test in seconds (10min default)")
+    @Parameter(names = { "--adb-timeout" },
+        description = "Set maximum execution time per test in seconds (10min default)")
     public int adbTimeoutSeconds = DEFAULT_ADB_TIMEOUT;
 
     @Parameter(names = { "--debug" }, hidden = true)
