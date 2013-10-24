@@ -272,7 +272,7 @@ public final class SpoonRunner {
     /** Add a device serial for test execution. */
     public Builder addDevice(String serial) {
       checkNotNull(serial, "Serial cannot be null.");
-      checkArgument(!serials.isEmpty(), "Already marked as using all devices.");
+      checkArgument(serials == null || !serials.isEmpty(), "Already marked as using all devices.");
       if (serials == null) {
         serials = new LinkedHashSet<String>();
       }
