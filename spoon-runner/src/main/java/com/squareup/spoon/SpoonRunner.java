@@ -65,13 +65,6 @@ public final class SpoonRunner {
     this.testSize = testSize;
     this.serials = ImmutableSet.copyOf(serials);
     this.failIfNoDeviceConnected = failIfNoDeviceConnected;
-
-    // Sanitize the serials for use on the filesystem as a folder name.
-    Set<String> serialsCopy = new LinkedHashSet<String>(serials.size());
-    for (String serial : serials) {
-      serialsCopy.add(SpoonUtils.sanitizeSerial(serial));
-    }
-    this.serials = unmodifiableSet(serialsCopy);
   }
 
   /**
