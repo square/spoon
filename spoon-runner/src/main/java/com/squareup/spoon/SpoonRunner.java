@@ -45,11 +45,12 @@ public final class SpoonRunner {
   private final Set<String> serials;
   private final String classpath;
   private final IRemoteAndroidTestRunner.TestSize testSize;
+  private final boolean failIfNoDeviceConnected;
 
   private SpoonRunner(String title, File androidSdk, File applicationApk, File instrumentationApk,
       File output, boolean debug, boolean noAnimations, int adbTimeout, Set<String> serials,
       String classpath, String className, String methodName,
-      IRemoteAndroidTestRunner.TestSize testSize) {
+      IRemoteAndroidTestRunner.TestSize testSize, boolean failIfNoDeviceConnected) {
     this.title = title;
     this.androidSdk = androidSdk;
     this.applicationApk = applicationApk;
@@ -63,6 +64,14 @@ public final class SpoonRunner {
     this.classpath = classpath;
     this.testSize = testSize;
     this.serials = ImmutableSet.copyOf(serials);
+    this.failIfNoDeviceConnected = failIfNoDeviceConnected;
+
+    // Sanitize the serials for use on the filesystem as a folder name.
+    Set<String> serialsCopy = new LinkedHashSet<String>(serials.size());
+    for (String serial : serials) {
+      serialsCopy.add(SpoonUtils.sanitizeSerial(serial));
+    }
+    this.serials = unmodifiableSet(serialsCopy);
   }
 
   /**
@@ -81,6 +90,9 @@ public final class SpoonRunner {
       Set<String> serials = this.serials;
       if (serials.isEmpty()) {
         serials = SpoonUtils.findAllDevices(adb);
+      }
+      if (failIfNoDeviceConnected && serials.isEmpty()) {
+        throw new RuntimeException("No device(s) found.");
       }
 
       // Execute all the things...
@@ -209,6 +221,7 @@ public final class SpoonRunner {
     private boolean noAnimations;
     private IRemoteAndroidTestRunner.TestSize testSize;
     private int adbTimeout;
+    private boolean failIfNoDeviceConnected;
 
     /** Identifying title for this execution. */
     public Builder setTitle(String title) {
@@ -306,6 +319,11 @@ public final class SpoonRunner {
       return this;
     }
 
+    public Builder setFailIfNoDeviceConnected(boolean failIfNoDeviceConnected) {
+      this.failIfNoDeviceConnected = failIfNoDeviceConnected;
+      return this;
+    }
+
     public Builder setMethodName(String methodName) {
       this.methodName = methodName;
       return this;
@@ -324,7 +342,8 @@ public final class SpoonRunner {
       }
 
       return new SpoonRunner(title, androidSdk, applicationApk, instrumentationApk, output, debug,
-          noAnimations, adbTimeout, serials, classpath, className, methodName, testSize);
+          noAnimations, adbTimeout, serials, classpath, className, methodName, testSize,
+          failIfNoDeviceConnected);
     }
   }
 
@@ -360,6 +379,10 @@ public final class SpoonRunner {
 
     @Parameter(names = { "--fail-on-failure" }, description = "Non-zero exit code on failure")
     public boolean failOnFailure;
+
+    @Parameter(names = { "--fail-if-no-device-connected" },
+         description = "Fail if no device is connected")
+    public boolean failIfNoDeviceConnected;
 
     @Parameter(names = { "--no-animations" }, description = "Disable animated gif generation")
     public boolean noAnimations;
@@ -428,6 +451,7 @@ public final class SpoonRunner {
         .setNoAnimations(parsedArgs.noAnimations)
         .setTestSize(parsedArgs.size)
         .setAdbTimeout(parsedArgs.adbTimeoutSeconds * 1000)
+        .setFailIfNoDeviceConnected(parsedArgs.failIfNoDeviceConnected)
         .setClassName(parsedArgs.className)
         .setMethodName(parsedArgs.methodName)
         .useAllAttachedDevices()
