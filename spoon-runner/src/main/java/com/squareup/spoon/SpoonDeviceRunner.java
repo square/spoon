@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
+import com.squareup.spoon.adapters.TestIdentifierAdapter;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
 import static com.squareup.spoon.Spoon.SPOON_SCREENSHOTS;
@@ -140,6 +141,8 @@ public final class SpoonDeviceRunner {
     String appPackage = instrumentationInfo.getApplicationPackage();
     String testPackage = instrumentationInfo.getInstrumentationPackage();
     String testRunner = instrumentationInfo.getTestRunnerClass();
+    TestIdentifierAdapter testIdentifierAdapter = TestIdentifierAdapter.fromTestRunner(testRunner);
+    
     logDebug(debug, "InstrumentationInfo: [%s]", instrumentationInfo);
 
     if (debug) {
@@ -196,7 +199,7 @@ public final class SpoonDeviceRunner {
         runner.setTestSize(testSize);
       }
       runner.run(
-          new SpoonTestRunListener(result, debug),
+          new SpoonTestRunListener(result, debug, testIdentifierAdapter),
           new XmlTestRunListener(junitReport)
       );
     } catch (Exception e) {

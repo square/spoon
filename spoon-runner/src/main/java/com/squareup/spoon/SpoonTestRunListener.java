@@ -2,6 +2,8 @@ package com.squareup.spoon;
 
 import com.android.ddmlib.testrunner.ITestRunListener;
 import com.android.ddmlib.testrunner.TestIdentifier;
+import com.squareup.spoon.adapters.TestIdentifierAdapter;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,11 +16,13 @@ final class SpoonTestRunListener implements ITestRunListener {
   private final Map<TestIdentifier, DeviceTestResult.Builder> methodResults =
       new HashMap<TestIdentifier, DeviceTestResult.Builder>();
   private final boolean debug;
+  private TestIdentifierAdapter testIdentifierAdapter;
 
-  SpoonTestRunListener(DeviceResult.Builder result, boolean debug) {
+  SpoonTestRunListener(DeviceResult.Builder result, boolean debug, TestIdentifierAdapter testIdentifierAdapter) {
     checkNotNull(result);
     this.result = result;
     this.debug = debug;
+    this.testIdentifierAdapter = testIdentifierAdapter;
   }
 
   @Override public void testRunStarted(String runName, int testCount) {
@@ -29,11 +33,11 @@ final class SpoonTestRunListener implements ITestRunListener {
   @Override public void testStarted(TestIdentifier test) {
     logDebug(debug, "test=%s", test);
     DeviceTestResult.Builder methodResult = new DeviceTestResult.Builder().startTest();
-    methodResults.put(test, methodResult);
+    methodResults.put(testIdentifierAdapter.adapt(test), methodResult);
   }
 
   @Override public void testFailed(TestFailure status, TestIdentifier test, String trace) {
-    DeviceTestResult.Builder methodResult = methodResults.get(test);
+    DeviceTestResult.Builder methodResult = methodResults.get(testIdentifierAdapter.adapt(test));
     switch (status) {
       case FAILURE:
         logDebug(debug, "failed %s", trace);
@@ -50,8 +54,9 @@ final class SpoonTestRunListener implements ITestRunListener {
 
   @Override public void testEnded(TestIdentifier test, Map<String, String> testMetrics) {
     logDebug(debug, "test=%s", test);
-    DeviceTestResult.Builder methodResultBuilder = methodResults.get(test).endTest();
-    result.addTestResultBuilder(DeviceTest.from(test), methodResultBuilder);
+    TestIdentifier testAdapted = testIdentifierAdapter.adapt(test);
+    DeviceTestResult.Builder methodResultBuilder = methodResults.get(testAdapted).endTest();
+    result.addTestResultBuilder(DeviceTest.from(testAdapted), methodResultBuilder);
   }
 
   @Override public void testRunFailed(String errorMessage) {
