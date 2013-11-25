@@ -1,6 +1,20 @@
 Change Log
 ==========
 
+Version 1.1.0 *(2013-11-24)*
+----------------------------
+
+ * Add preliminary TV display output which cycles through tests and screenshots.
+ * Old APKs are no longer uninstalled.
+ * All strings are sanitized for use on the filesystem.
+ * Support exceptions whose header has no message.
+ * `--no-animations` argument disables GIF generation.
+ * `--size` argument allows specifying which test size to run. Default is to run all tests.
+ * `--adb-timeout` argument controls maximum time per test. Default is 10 minutes.
+ * `--fail-if-no-device-connected` argument causes failure indication when no devices are found.
+   Default is to succeed.
+
+
 Version 1.0.5 *(2013-06-05)*
 ----------------------------
 
