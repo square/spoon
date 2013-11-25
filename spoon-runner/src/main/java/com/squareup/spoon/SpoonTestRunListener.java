@@ -18,7 +18,8 @@ final class SpoonTestRunListener implements ITestRunListener {
   private final boolean debug;
   private TestIdentifierAdapter testIdentifierAdapter;
 
-  SpoonTestRunListener(DeviceResult.Builder result, boolean debug, TestIdentifierAdapter testIdentifierAdapter) {
+  SpoonTestRunListener(DeviceResult.Builder result, boolean debug,
+      TestIdentifierAdapter testIdentifierAdapter) {
     checkNotNull(result);
     this.result = result;
     this.debug = debug;

@@ -142,7 +142,7 @@ public final class SpoonDeviceRunner {
     String testPackage = instrumentationInfo.getInstrumentationPackage();
     String testRunner = instrumentationInfo.getTestRunnerClass();
     TestIdentifierAdapter testIdentifierAdapter = TestIdentifierAdapter.fromTestRunner(testRunner);
-    
+
     logDebug(debug, "InstrumentationInfo: [%s]", instrumentationInfo);
 
     if (debug) {
