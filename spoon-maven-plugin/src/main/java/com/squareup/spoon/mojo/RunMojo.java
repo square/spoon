@@ -13,20 +13,20 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
-import org.sonatype.aether.RepositorySystem;
-import org.sonatype.aether.RepositorySystemSession;
-import org.sonatype.aether.collection.CollectRequest;
-import org.sonatype.aether.collection.CollectResult;
-import org.sonatype.aether.collection.DependencyCollectionException;
-import org.sonatype.aether.graph.Dependency;
-import org.sonatype.aether.graph.DependencyNode;
-import org.sonatype.aether.graph.DependencyVisitor;
-import org.sonatype.aether.repository.RemoteRepository;
-import org.sonatype.aether.resolution.ArtifactRequest;
-import org.sonatype.aether.resolution.ArtifactResolutionException;
-import org.sonatype.aether.resolution.ArtifactResult;
-import org.sonatype.aether.resolution.DependencyRequest;
-import org.sonatype.aether.util.artifact.DefaultArtifact;
+import org.eclipse.aether.RepositorySystem;
+import org.eclipse.aether.RepositorySystemSession;
+import org.eclipse.aether.collection.CollectRequest;
+import org.eclipse.aether.collection.CollectResult;
+import org.eclipse.aether.collection.DependencyCollectionException;
+import org.eclipse.aether.graph.Dependency;
+import org.eclipse.aether.graph.DependencyNode;
+import org.eclipse.aether.graph.DependencyVisitor;
+import org.eclipse.aether.repository.RemoteRepository;
+import org.eclipse.aether.resolution.ArtifactRequest;
+import org.eclipse.aether.resolution.ArtifactResolutionException;
+import org.eclipse.aether.resolution.ArtifactResult;
+import org.eclipse.aether.resolution.DependencyRequest;
+import org.eclipse.aether.artifact.DefaultArtifact;
 
 import static com.squareup.spoon.SpoonRunner.DEFAULT_OUTPUT_DIRECTORY;
 import static org.apache.maven.plugins.annotations.LifecyclePhase.INTEGRATION_TEST;
@@ -188,7 +188,7 @@ public class RunMojo extends AbstractSpoonMojo {
         "Could not find application. Ensure 'apk' dependency on it exists.");
   }
 
-  private org.sonatype.aether.artifact.Artifact aetherArtifact(Artifact dep)
+  private org.eclipse.aether.artifact.Artifact aetherArtifact(Artifact dep)
       throws MojoExecutionException {
     return resolveArtifact(dep.getGroupId(), dep.getArtifactId(), "apk", dep.getVersion());
   }
@@ -199,7 +199,7 @@ public class RunMojo extends AbstractSpoonMojo {
     String spoonVersion = findMyVersion();
     log.debug("[getSpoonClasspath] Plugin version: " + spoonVersion);
 
-    org.sonatype.aether.artifact.Artifact spoonRunner =
+    org.eclipse.aether.artifact.Artifact spoonRunner =
         resolveArtifact(SPOON_GROUP_ID, SPOON_RUNNER_ARTIFACT_ID, "jar", spoonVersion);
     log.debug("[getSpoonClasspath] Runner artifact: " + spoonRunner);
 
@@ -216,7 +216,7 @@ public class RunMojo extends AbstractSpoonMojo {
     throw new MojoExecutionException("Could not find reference to Spoon plugin artifact.");
   }
 
-  private org.sonatype.aether.artifact.Artifact resolveArtifact(String groupId, String artifactId,
+  private org.eclipse.aether.artifact.Artifact resolveArtifact(String groupId, String artifactId,
       String extension, String version) throws MojoExecutionException {
     ArtifactRequest request = new ArtifactRequest();
     request.setArtifact(new DefaultArtifact(groupId, artifactId, extension, version));
@@ -230,7 +230,7 @@ public class RunMojo extends AbstractSpoonMojo {
     }
   }
 
-  private String createClasspath(org.sonatype.aether.artifact.Artifact artifact)
+  private String createClasspath(org.eclipse.aether.artifact.Artifact artifact)
       throws MojoExecutionException {
     // Request a collection of all dependencies for the artifact.
     DependencyRequest dependencyRequest = new DependencyRequest();
@@ -255,9 +255,9 @@ public class RunMojo extends AbstractSpoonMojo {
         log.debug("Visiting: " + node);
 
         // Resolve the dependency node artifact into a real, local artifact.
-        org.sonatype.aether.artifact.Artifact resolvedArtifact;
+        org.eclipse.aether.artifact.Artifact resolvedArtifact;
         try {
-          org.sonatype.aether.artifact.Artifact nodeArtifact = node.getDependency().getArtifact();
+          org.eclipse.aether.artifact.Artifact nodeArtifact = node.getDependency().getArtifact();
           resolvedArtifact =
               resolveArtifact(nodeArtifact.getGroupId(), nodeArtifact.getArtifactId(), "jar",
                   nodeArtifact.getVersion());
