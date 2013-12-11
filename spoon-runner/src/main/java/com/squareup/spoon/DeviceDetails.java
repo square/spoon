@@ -15,10 +15,9 @@ public final class DeviceDetails {
   private final String region;
   private final boolean isEmulator;
   private final String avdName;
-  private final String serialNumber;
 
   private DeviceDetails(String model, String manufacturer, String version, int apiLevel,
-      String language, String region, boolean emulator, String avdName, String serialNumber) {
+      String language, String region, boolean emulator, String avdName) {
     this.model = model;
     this.manufacturer = manufacturer;
     this.version = version;
@@ -27,13 +26,12 @@ public final class DeviceDetails {
     this.region = region;
     this.isEmulator = emulator;
     this.avdName = avdName;
-    this.serialNumber = serialNumber;
   }
 
-  /** Product manufacturer and model, or AVD name and serial number if an emulator. */
+  /** Product manufacturer and model, or AVD name if an emulator. */
   public String getName() {
     if (isEmulator) {
-      return avdName + " " + serialNumber;
+      return avdName;
     } else {
       return manufacturer + " " + model;
     }
@@ -79,11 +77,6 @@ public final class DeviceDetails {
     return avdName;
   }
 
-  /** Serial number. */
-  public String getSerialNumber() {
-    return serialNumber;
-  }
-
   static DeviceDetails createForDevice(IDevice device) {
     String manufacturer = emptyToNull(device.getProperty("ro.product.manufacturer"));
     String model = emptyToNull(device.getProperty("ro.product.model"));
@@ -100,10 +93,9 @@ public final class DeviceDetails {
 
     boolean emulator = device.isEmulator();
     String avdName = emptyToNull(device.getAvdName());
-    String serialNumber = emptyToNull(device.getSerialNumber());
 
     return new DeviceDetails(model, manufacturer, version, apiLevel, language, region, emulator,
-        avdName, serialNumber);
+        avdName);
   }
 
   @Override public String toString() {
