@@ -1,8 +1,8 @@
 package com.squareup.spoon;
 
 import com.android.ddmlib.AndroidDebugBridge;
+import com.android.ddmlib.DdmPreferences;
 import com.android.ddmlib.IDevice;
-import com.android.ddmlib.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
@@ -14,7 +14,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -25,7 +24,6 @@ import org.apache.commons.io.FileUtils;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
 import static com.android.ddmlib.FileListingService.TYPE_DIRECTORY;
-import static com.android.ddmlib.Log.LogLevel.DEBUG;
 
 /** Utilities for executing instrumentation tests on devices. */
 final class SpoonUtils {
@@ -85,13 +83,7 @@ final class SpoonUtils {
 
   /** Turn on debug logging in ddmlib classes. */
   static void setDdmlibInternalLoggingLevel() {
-    try {
-      Field level = Log.class.getDeclaredField("mLevel");
-      level.setAccessible(true);
-      level.set(Log.class, DEBUG);
-    } catch (NoSuchFieldException ignored) {
-    } catch (IllegalAccessException ignored) {
-    }
+    DdmPreferences.setLogLevel("debug");
   }
 
   /** Find all device serials that are plugged in through ADB. */
