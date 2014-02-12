@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+Version 1.1.1 *(2014-02-11)*
+----------------------------
+
+ * Use emulator name instead of serial number in output HTML.
+ * Update to latest Maven Android plugin.
+
+
 Version 1.1.0 *(2013-11-24)*
 ----------------------------
 
