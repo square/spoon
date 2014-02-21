@@ -93,7 +93,7 @@ Spoon.screenshot(activity, "after_login");</pre>
 
             <h4 id="cli">Command Line</h4>
             <p>You can run Spoon as a standalone tool with your application and instrumentation APKs.</p>
-            <pre>java -jar spoon-runner-<span class="version pln"><em>(insert latest version)</em></span>-jar-with-dependencies.jar \
+            <pre>java -jar spoon-runner-<span class="version"><em>(insert latest version)</em></span>-jar-with-dependencies.jar \
     --apk example-app.apk \
     --test-apk example-tests.apk</pre>
             <p>By default the output will be placed in a <code>spoon-output/</code> folder of the current directory. You can control additional parameters of the execution using other flags.</p>
@@ -106,7 +106,9 @@ Spoon.screenshot(activity, "after_login");</pre>
     --title             Execution title
     --class-name        Test class name to run (fully-qualified)
     --method-name       Test method name to run (must also use --class-name)</pre>
-
+    --no-animations     Disable animated gif generation
+    --size              Only run test methods annotated by testSize (small, medium, large)
+    --adb-timeout       Set maximum execution time per test in seconds (10min default)
             <h4 id="maven">Maven</h4>
             <p>If you are using Maven for compilation, a plugin is provided for easy execution. Declare the plugin in the <code>pom.xml</code> for the instrumentation test module.</p>
             <pre class="prettyprint">&lt;plugin>
@@ -162,7 +164,7 @@ limitations under the License.</pre>
                 <li><a href="#license">License</a></li>
               </ul>
               <ul class="nav nav-pills nav-stacked secondary">
-                <li><a href="https://plus.google.com/communities/109244258569782858265/stream/c958038c-58cb-4250-b2ff-676db4028b6b">Google+ Community</a></li>
+                <li><a href="http://stackoverflow.com/questions/tagged/spoon?sort=active">StackOverflow</a></li>
                 <li><a href="sample/index.html">Sample Output</a></li>
               </ul>
             </div>
@@ -187,7 +189,7 @@ limitations under the License.</pre>
 
         // Spy on scroll position for real-time updating of current section.
         $('body').scrollspy();
-        
+
         // Use smooth-scroll for internal links.
         $('a').smoothScroll();
 
