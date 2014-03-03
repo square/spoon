@@ -13,6 +13,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 
 import static android.content.Context.MODE_WORLD_READABLE;
@@ -48,11 +49,43 @@ public final class Spoon {
     try {
       File screenshotDirectory = obtainScreenshotDirectory(activity);
       String screenshotName = System.currentTimeMillis() + NAME_SEPARATOR + tag + EXTENSION;
-      takeScreenshot(new File(screenshotDirectory, screenshotName), activity);
+      File screenshotFilename = new File(screenshotDirectory, screenshotName);
+      if (!screencapScreenshot(screenshotFilename, activity)) {
+        takeScreenshot(screenshotFilename, activity);
+      }
       Log.d(TAG, "Captured screenshot '" + tag + "'.");
     } catch (Exception e) {
       throw new RuntimeException("Unable to capture screenshot.", e);
     }
+  }
+
+  private static boolean screencapScreenshot(final File file, final Activity activity) {
+    final AtomicBoolean screenshotTaken = new AtomicBoolean();
+    final CountDownLatch latch = new CountDownLatch(1);
+
+    activity.runOnUiThread(new Runnable() {
+      @Override public void run() {
+        try {
+          String[] cmd = new String[]{"screencap", "-p", file.getAbsolutePath()};
+          Process process = Runtime.getRuntime().exec(cmd);
+          if (process.waitFor() != 0) {
+              return;
+          }
+          chmodPlusR(file);
+          screenshotTaken.set(true);
+        } catch (IOException e) {
+          Log.d(TAG, "Failed to capture screenshot with screencap");
+          e.printStackTrace();
+        } catch (InterruptedException e) {
+            Log.d(TAG, "Failed to capture screenshot with screencap");
+            e.printStackTrace();
+        } finally {
+          latch.countDown();
+        }
+      }
+    });
+
+    return screenshotTaken.get();
   }
 
   private static void takeScreenshot(File file, final Activity activity) throws IOException {
