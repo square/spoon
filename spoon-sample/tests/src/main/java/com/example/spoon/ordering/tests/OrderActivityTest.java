@@ -3,7 +3,7 @@ package com.example.spoon.ordering.tests;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.Button;
 import android.widget.CheckedTextView;
-import com.jayway.android.robotium.solo.Solo;
+import com.robotium.solo.Solo;
 import com.squareup.spoon.Spoon;
 import com.example.spoon.ordering.OrderActivity;
 

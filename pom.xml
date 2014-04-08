@@ -61,7 +61,7 @@
       <dependency>
         <groupId>com.beust</groupId>
         <artifactId>jcommander</artifactId>
-        <version>1.32</version>
+        <version>1.35</version>
       </dependency>
       <dependency>
         <groupId>com.google.code.gson</groupId>
@@ -71,7 +71,7 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
-        <version>3.1</version>
+        <version>3.3.1</version>
       </dependency>
       <dependency>
         <groupId>com.google.android</groupId>
@@ -86,12 +86,12 @@
       <dependency>
         <groupId>com.android.tools.ddms</groupId>
         <artifactId>ddmlib</artifactId>
-        <version>22.4.0</version>
+        <version>22.7.2</version>
       </dependency>
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
-        <version>4.10</version>
+        <version>4.11</version>
       </dependency>
       <dependency>
         <groupId>org.easytesting</groupId>
@@ -101,7 +101,7 @@
       <dependency>
         <groupId>com.github.spullara.mustache.java</groupId>
         <artifactId>compiler</artifactId>
-        <version>0.8.13</version>
+        <version>0.8.14</version>
       </dependency>
       <dependency>
         <groupId>commons-io</groupId>
@@ -111,12 +111,12 @@
       <dependency>
         <groupId>org.apache.maven</groupId>
         <artifactId>maven-plugin-api</artifactId>
-        <version>3.1.1</version>
+        <version>3.2.1</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven</groupId>
         <artifactId>maven-core</artifactId>
-        <version>3.1.1</version>
+        <version>3.2.1</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven.plugin-tools</groupId>
@@ -126,7 +126,7 @@
       <dependency>
         <groupId>com.madgag</groupId>
         <artifactId>animated-gif-lib</artifactId>
-        <version>1.1</version>
+        <version>1.2</version>
       </dependency>
       <dependency>
         <groupId>com.intellij</groupId>
@@ -147,7 +147,7 @@
       <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
-        <version>15.0</version>
+        <version>16.0.1</version>
       </dependency>
       <dependency>
         <groupId>org.lesscss</groupId>
@@ -157,7 +157,7 @@
       <dependency>
         <groupId>com.jayway.android.robotium</groupId>
         <artifactId>robotium-solo</artifactId>
-        <version>4.1</version>
+        <version>5.1</version>
       </dependency>
       <dependency>
         <groupId>com.squareup</groupId>
