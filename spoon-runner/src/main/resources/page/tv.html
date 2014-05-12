@@ -56,7 +56,7 @@
             }
 
             function updateTest(testResult) {
-                $('#current-test-info').removeClass('pass', 'fail', 'error')
+                $('#current-test-info').removeClass('pass fail error')
                 $('#current-test-info').addClass(testResult.status)
                 $('#test-name').text(testResult.methodPrettyName)
                 $('#test-class-name').text(testResult.classSimpleName)
