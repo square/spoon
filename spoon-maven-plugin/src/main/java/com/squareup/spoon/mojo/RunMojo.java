@@ -3,8 +3,6 @@ package com.squareup.spoon.mojo;
 
 import com.google.common.base.Strings;
 import com.squareup.spoon.SpoonRunner;
-import java.io.File;
-import java.util.List;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
@@ -15,6 +13,7 @@ import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
 import org.eclipse.aether.RepositorySystem;
 import org.eclipse.aether.RepositorySystemSession;
+import org.eclipse.aether.artifact.DefaultArtifact;
 import org.eclipse.aether.collection.CollectRequest;
 import org.eclipse.aether.collection.CollectResult;
 import org.eclipse.aether.collection.DependencyCollectionException;
@@ -26,7 +25,9 @@ import org.eclipse.aether.resolution.ArtifactRequest;
 import org.eclipse.aether.resolution.ArtifactResolutionException;
 import org.eclipse.aether.resolution.ArtifactResult;
 import org.eclipse.aether.resolution.DependencyRequest;
-import org.eclipse.aether.artifact.DefaultArtifact;
+
+import java.io.File;
+import java.util.List;
 
 import static com.squareup.spoon.SpoonRunner.DEFAULT_OUTPUT_DIRECTORY;
 import static org.apache.maven.plugins.annotations.LifecyclePhase.INTEGRATION_TEST;
@@ -71,6 +72,10 @@ public class RunMojo extends AbstractSpoonMojo {
   /** If true then any test failures will cause the plugin to error. */
   @Parameter
   private boolean failOnFailure;
+
+  /** If true then build will fail when no device to test on is attached. */
+  @Parameter
+  private boolean failIfNoDeviceConnected;
 
   /** Whether debug logging is enabled. */
   @Parameter
@@ -156,6 +161,7 @@ public class RunMojo extends AbstractSpoonMojo {
         .setClassName(className)
         .setMethodName(methodName)
         .useAllAttachedDevices()
+        .setFailIfNoDeviceConnected(failIfNoDeviceConnected)
         .build()
         .run();
 
