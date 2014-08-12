@@ -40,16 +40,19 @@ public final class Spoon {
    *
    * @param activity Activity with which to capture a screenshot.
    * @param tag Unique tag to further identify the screenshot. Must match [a-zA-Z0-9_-]+.
+   * @return the image file that was created
    */
-  public static void screenshot(Activity activity, String tag) {
+  public static File screenshot(Activity activity, String tag) {
     if (!TAG_VALIDATION.matcher(tag).matches()) {
       throw new IllegalArgumentException("Tag must match " + TAG_VALIDATION.pattern() + ".");
     }
     try {
       File screenshotDirectory = obtainScreenshotDirectory(activity);
       String screenshotName = System.currentTimeMillis() + NAME_SEPARATOR + tag + EXTENSION;
-      takeScreenshot(new File(screenshotDirectory, screenshotName), activity);
+      File screenshotFile = new File(screenshotDirectory, screenshotName);
+      takeScreenshot(screenshotFile, activity);
       Log.d(TAG, "Captured screenshot '" + tag + "'.");
+      return screenshotFile;
     } catch (Exception e) {
       throw new RuntimeException("Unable to capture screenshot.", e);
     }
