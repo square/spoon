@@ -9,6 +9,9 @@ import com.beust.jcommander.ParameterException;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.squareup.spoon.html.HtmlRenderer;
+
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
@@ -16,7 +19,8 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
-import org.apache.commons.io.FileUtils;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -26,11 +30,14 @@ import static com.squareup.spoon.SpoonLogger.logDebug;
 import static com.squareup.spoon.SpoonLogger.logInfo;
 import static java.util.Collections.synchronizedSet;
 
-/** Represents a collection of devices and the test configuration to be executed. */
+/**
+ * Represents a collection of devices and the test configuration to be executed.
+ */
 public final class SpoonRunner {
   private static final String DEFAULT_TITLE = "Spoon Execution";
   public static final String DEFAULT_OUTPUT_DIRECTORY = "spoon-output";
   private static final int DEFAULT_ADB_TIMEOUT = 10 * 60; //10 minutes
+  private final ExecutorService singleThreadExecutor;
 
   private final String title;
   private final File androidSdk;
@@ -46,11 +53,13 @@ public final class SpoonRunner {
   private final String classpath;
   private final IRemoteAndroidTestRunner.TestSize testSize;
   private final boolean failIfNoDeviceConnected;
+  private final boolean synchronousPool;
 
   private SpoonRunner(String title, File androidSdk, File applicationApk, File instrumentationApk,
       File output, boolean debug, boolean noAnimations, int adbTimeout, Set<String> serials,
       String classpath, String className, String methodName,
-      IRemoteAndroidTestRunner.TestSize testSize, boolean failIfNoDeviceConnected) {
+      IRemoteAndroidTestRunner.TestSize testSize, boolean failIfNoDeviceConnected,
+      boolean synchronousPool) {
     this.title = title;
     this.androidSdk = androidSdk;
     this.applicationApk = applicationApk;
@@ -65,6 +74,8 @@ public final class SpoonRunner {
     this.testSize = testSize;
     this.serials = ImmutableSet.copyOf(serials);
     this.failIfNoDeviceConnected = failIfNoDeviceConnected;
+    this.synchronousPool = synchronousPool;
+    this.singleThreadExecutor = Executors.newSingleThreadExecutor();
   }
 
   /**
@@ -141,9 +152,9 @@ public final class SpoonRunner {
       final Set<String> remaining = synchronizedSet(new HashSet<String>(serials));
       for (final String serial : serials) {
         final String safeSerial = SpoonUtils.sanitizeSerial(serial);
-        logDebug(debug, "[%s] Starting execution.", serial);
-        new Thread(new Runnable() {
-          @Override public void run() {
+        Runnable runnable = new Runnable() {
+          @Override
+          public void run() {
             try {
               summary.addResult(safeSerial, getTestRunner(serial, testInfo).runInNewProcess());
             } catch (Exception e) {
@@ -155,11 +166,20 @@ public final class SpoonRunner {
                   remaining);
             }
           }
-        }).start();
+        };
+
+        if (synchronousPool) {
+          logDebug(debug, "[%s] Starting execution synchronously.", serial);
+          singleThreadExecutor.execute(runnable);
+        } else {
+          logDebug(debug, "[%s] Starting execution asynchronously.", serial);
+          new Thread(runnable).start();
+        }
       }
 
       try {
         done.await();
+        singleThreadExecutor.shutdown();
       } catch (InterruptedException e) {
         throw new RuntimeException(e);
       }
@@ -176,7 +196,9 @@ public final class SpoonRunner {
     return summary.end().build();
   }
 
-  /** Returns {@code false} if a test failed on any device. */
+  /**
+   * Returns {@code false} if a test failed on any device.
+   */
   static boolean parseOverallSuccess(SpoonSummary summary) {
     for (DeviceResult result : summary.getResults().values()) {
       if (result.getInstallFailed()) {
@@ -199,7 +221,9 @@ public final class SpoonRunner {
         debug, noAnimations, adbTimeout, classpath, testInfo, className, methodName, testSize);
   }
 
-  /** Build a test suite for the specified devices and configuration. */
+  /**
+   * Build a test suite for the specified devices and configuration.
+   */
   public static class Builder {
     private String title = DEFAULT_TITLE;
     private File androidSdk;
@@ -215,15 +239,20 @@ public final class SpoonRunner {
     private IRemoteAndroidTestRunner.TestSize testSize;
     private int adbTimeout;
     private boolean failIfNoDeviceConnected;
+    private boolean synchronousPool;
 
-    /** Identifying title for this execution. */
+    /**
+     * Identifying title for this execution.
+     */
     public Builder setTitle(String title) {
       checkNotNull(title, "Title cannot be null.");
       this.title = title;
       return this;
     }
 
-    /** Path to the local Android SDK directory. */
+    /**
+     * Path to the local Android SDK directory.
+     */
     public Builder setAndroidSdk(File androidSdk) {
       checkNotNull(androidSdk, "SDK path not specified.");
       checkArgument(androidSdk.exists(), "SDK path does not exist.");
@@ -231,7 +260,9 @@ public final class SpoonRunner {
       return this;
     }
 
-    /** Path to application APK. */
+    /**
+     * Path to application APK.
+     */
     public Builder setApplicationApk(File apk) {
       checkNotNull(apk, "APK path not specified.");
       checkArgument(apk.exists(), "APK path does not exist.");
@@ -239,7 +270,9 @@ public final class SpoonRunner {
       return this;
     }
 
-    /** Path to instrumentation APK. */
+    /**
+     * Path to instrumentation APK.
+     */
     public Builder setInstrumentationApk(File apk) {
       checkNotNull(apk, "Instrumentation APK path not specified.");
       checkArgument(apk.exists(), "Instrumentation APK path does not exist.");
@@ -247,32 +280,42 @@ public final class SpoonRunner {
       return this;
     }
 
-    /** Path to output directory. */
+    /**
+     * Path to output directory.
+     */
     public Builder setOutputDirectory(File output) {
       checkNotNull(output, "Output directory not specified.");
       this.output = output;
       return this;
     }
 
-    /** Whether or not debug logging is enabled. */
+    /**
+     * Whether or not debug logging is enabled.
+     */
     public Builder setDebug(boolean debug) {
       this.debug = debug;
       return this;
     }
 
-    /** Whether or not animations are enabled. */
+    /**
+     * Whether or not animations are enabled.
+     */
     public Builder setNoAnimations(boolean noAnimations) {
       this.noAnimations = noAnimations;
       return this;
     }
 
-    /** Set ADB timeout. */
+    /**
+     * Set ADB timeout.
+     */
     public Builder setAdbTimeout(int value) {
       this.adbTimeout = value;
       return this;
     }
 
-    /** Add a device serial for test execution. */
+    /**
+     * Add a device serial for test execution.
+     */
     public Builder addDevice(String serial) {
       checkNotNull(serial, "Serial cannot be null.");
       checkArgument(serials == null || !serials.isEmpty(), "Already marked as using all devices.");
@@ -283,7 +326,9 @@ public final class SpoonRunner {
       return this;
     }
 
-    /** Use all currently attached device serials when executed. */
+    /**
+     * Use all currently attached device serials when executed.
+     */
     public Builder useAllAttachedDevices() {
       if (this.serials != null) {
         throw new IllegalStateException("Serial list already contains entries.");
@@ -295,7 +340,9 @@ public final class SpoonRunner {
       return this;
     }
 
-    /** Classpath to use for new JVM processes. */
+    /**
+     * Classpath to use for new JVM processes.
+     */
     public Builder setClasspath(String classpath) {
       checkNotNull(classpath, "Classpath cannot be null.");
       this.classpath = classpath;
@@ -314,6 +361,11 @@ public final class SpoonRunner {
 
     public Builder setFailIfNoDeviceConnected(boolean failIfNoDeviceConnected) {
       this.failIfNoDeviceConnected = failIfNoDeviceConnected;
+      return this;
+    }
+
+    public Builder setSynchronousPool(boolean synchronousPool) {
+      this.synchronousPool = synchronousPool;
       return this;
     }
 
@@ -336,7 +388,7 @@ public final class SpoonRunner {
 
       return new SpoonRunner(title, androidSdk, applicationApk, instrumentationApk, output, debug,
           noAnimations, adbTimeout, serials, classpath, className, methodName, testSize,
-          failIfNoDeviceConnected);
+          failIfNoDeviceConnected, synchronousPool);
     }
   }
 
@@ -355,8 +407,8 @@ public final class SpoonRunner {
     @Parameter(names = { "--class-name" }, description = "Test class name to run (fully-qualified)")
     public String className;
 
-    @Parameter(names = { "--method-name" }, description =
-        "Test method name to run (must also use --class-name)")
+    @Parameter(names = { "--method-name" },
+        description = "Test method name to run (must also use --class-name)")
     public String methodName;
 
     @Parameter(names = { "--size" }, converter = TestSizeConverter.class,
@@ -374,8 +426,12 @@ public final class SpoonRunner {
     public boolean failOnFailure;
 
     @Parameter(names = { "--fail-if-no-device-connected" },
-         description = "Fail if no device is connected")
+        description = "Fail if no device is connected")
     public boolean failIfNoDeviceConnected;
+
+    @Parameter(names = { "--synchronous-pool" },
+        description = "Execute tests on a synchronous pool (on device at a time)")
+    public boolean synchronousPool;
 
     @Parameter(names = { "--no-animations" }, description = "Disable animated gif generation")
     public boolean noAnimations;
@@ -400,14 +456,16 @@ public final class SpoonRunner {
 
   /* JCommander deems it necessary that this class be public. Lame. */
   public static class FileConverter implements IStringConverter<File> {
-    @Override public File convert(String s) {
+    @Override
+    public File convert(String s) {
       return cleanFile(s);
     }
   }
 
   public static class TestSizeConverter
       implements IStringConverter<IRemoteAndroidTestRunner.TestSize> {
-    @Override public IRemoteAndroidTestRunner.TestSize convert(String value) {
+    @Override
+    public IRemoteAndroidTestRunner.TestSize convert(String value) {
       try {
         return IRemoteAndroidTestRunner.TestSize.getTestSize(value);
       } catch (IllegalArgumentException e) {
@@ -434,7 +492,7 @@ public final class SpoonRunner {
       return;
     }
 
-    SpoonRunner spoonRunner = new SpoonRunner.Builder() //
+    SpoonRunner spoonRunner = new Builder() //
         .setTitle(parsedArgs.title)
         .setApplicationApk(parsedArgs.apk)
         .setInstrumentationApk(parsedArgs.testApk)
@@ -445,6 +503,7 @@ public final class SpoonRunner {
         .setTestSize(parsedArgs.size)
         .setAdbTimeout(parsedArgs.adbTimeoutSeconds * 1000)
         .setFailIfNoDeviceConnected(parsedArgs.failIfNoDeviceConnected)
+        .setSynchronousPool(parsedArgs.synchronousPool)
         .setClassName(parsedArgs.className)
         .setMethodName(parsedArgs.methodName)
         .useAllAttachedDevices()
