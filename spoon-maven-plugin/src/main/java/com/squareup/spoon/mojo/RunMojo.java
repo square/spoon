@@ -3,6 +3,7 @@ package com.squareup.spoon.mojo;
 
 import com.google.common.base.Strings;
 import com.squareup.spoon.SpoonRunner;
+
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
@@ -45,39 +46,63 @@ public class RunMojo extends AbstractSpoonMojo {
   private static final String ARTIFACT_TYPE = "zip";
   private static final String ARTIFACT_CLASSIFIER = "spoon-output";
 
-  /** {@code -Dmaven.test.skip} is commonly used with Maven to skip tests. We honor it too. */
+  /**
+   * {@code -Dmaven.test.skip} is commonly used with Maven to skip tests. We honor it too.
+   */
   @Parameter(property = "maven.test.skip", defaultValue = "false", readonly = true)
   private boolean mavenTestSkip;
 
-  /** {@code -DskipTests} is commonly used with Maven to skip tests. We honor it too. */
+  /**
+   * {@code -DskipTests} is commonly used with Maven to skip tests. We honor it too.
+   */
   @Parameter(property = "skipTests", defaultValue = "false", readonly = true)
   private boolean mavenSkipTests;
 
-  /** Configuration option to skip execution. */
+  /**
+   * Configuration option to skip execution.
+   */
   @Parameter
   private boolean skip;
 
-  /** A title for the output website. */
+  /**
+   * A title for the output website.
+   */
   @Parameter(defaultValue = "${project.name}")
   private String title;
 
-  /** The location of the Android SDK. */
+  /**
+   * The location of the Android SDK.
+   */
   @Parameter(defaultValue = "${env.ANDROID_HOME}")
   private String androidSdk;
 
-  /** Attaches output artifact as zip when {@code true}. */
+  /**
+   * Attaches output artifact as zip when {@code true}.
+   */
   @Parameter
   private boolean attachArtifact;
 
-  /** If true then any test failures will cause the plugin to error. */
+  /**
+   * If true then any test failures will cause the plugin to error.
+   */
   @Parameter
   private boolean failOnFailure;
 
-  /** If true then build will fail when no device to test on is attached. */
+  /**
+   * If true then build will fail when no device to test on is attached.
+   */
   @Parameter
   private boolean failIfNoDeviceConnected;
 
-  /** Whether debug logging is enabled. */
+  /**
+   * If true then build will fail when no device to test on is attached.
+   */
+  @Parameter
+  private boolean synchronousPool;
+
+  /**
+   * Whether debug logging is enabled.
+   */
   @Parameter
   private boolean debug;
 
@@ -87,11 +112,15 @@ public class RunMojo extends AbstractSpoonMojo {
   @Parameter(property = "project", required = true, readonly = true)
   private MavenProject project;
 
-  /** Run only a specific test. */
+  /**
+   * Run only a specific test.
+   */
   @Parameter(defaultValue = "${spoon.test.class}")
   private String className;
 
-  /** Run only a specific test method.  Must be specified with {@link #className}. */
+  /**
+   * Run only a specific test method.  Must be specified with {@link #className}.
+   */
   @Parameter(defaultValue = "${spoon.test.method}")
   private String methodName;
 
@@ -107,7 +136,8 @@ public class RunMojo extends AbstractSpoonMojo {
   @Parameter(defaultValue = "${project.remoteProjectRepositories}", readonly = true)
   private List<RemoteRepository> remoteRepositories;
 
-  @Override public void execute() throws MojoExecutionException {
+  @Override
+  public void execute() throws MojoExecutionException {
     Log log = getLog();
 
     if (mavenTestSkip || mavenSkipTests || skip) {
@@ -162,6 +192,7 @@ public class RunMojo extends AbstractSpoonMojo {
         .setMethodName(methodName)
         .useAllAttachedDevices()
         .setFailIfNoDeviceConnected(failIfNoDeviceConnected)
+        .setSynchronousPool(synchronousPool)
         .build()
         .run();
 
@@ -257,7 +288,8 @@ public class RunMojo extends AbstractSpoonMojo {
 
     // Walk the tree of all dependencies to add to the classpath.
     result.getRoot().accept(new DependencyVisitor() {
-      @Override public boolean visitEnter(DependencyNode node) {
+      @Override
+      public boolean visitEnter(DependencyNode node) {
         log.debug("Visiting: " + node);
 
         // Resolve the dependency node artifact into a real, local artifact.
@@ -280,7 +312,8 @@ public class RunMojo extends AbstractSpoonMojo {
         return true;
       }
 
-      @Override public boolean visitLeave(DependencyNode node) {
+      @Override
+      public boolean visitLeave(DependencyNode node) {
         return true;
       }
     });
