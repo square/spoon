@@ -33,7 +33,7 @@ public final class SpoonRunner {
   private static final String DEFAULT_TITLE = "Spoon Execution";
   public static final String DEFAULT_OUTPUT_DIRECTORY = "spoon-output";
   private static final int DEFAULT_ADB_TIMEOUT = 10 * 60; //10 minutes
-  private final ExecutorService singleThreadExecutor;
+  private final ExecutorService threadExecutor;
 
   private final String title;
   private final File androidSdk;
@@ -71,7 +71,12 @@ public final class SpoonRunner {
     this.serials = ImmutableSet.copyOf(serials);
     this.failIfNoDeviceConnected = failIfNoDeviceConnected;
     this.sequential = sequential;
-    this.singleThreadExecutor = Executors.newSingleThreadExecutor();
+
+    if (sequential) {
+      this.threadExecutor = Executors.newSingleThreadExecutor();
+    } else {
+      this.threadExecutor = Executors.newCachedThreadPool();
+    }
   }
 
   /**
@@ -164,18 +169,12 @@ public final class SpoonRunner {
           }
         };
 
-        if (sequential) {
-          logDebug(debug, "[%s] Starting execution synchronously.", serial);
-          singleThreadExecutor.execute(runnable);
-        } else {
-          logDebug(debug, "[%s] Starting execution asynchronously.", serial);
-          new Thread(runnable).start();
-        }
+        threadExecutor.execute(runnable);
       }
 
       try {
         done.await();
-        singleThreadExecutor.shutdown();
+        threadExecutor.shutdown();
       } catch (InterruptedException e) {
         throw new RuntimeException(e);
       }
