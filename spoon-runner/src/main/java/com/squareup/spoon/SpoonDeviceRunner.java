@@ -58,6 +58,7 @@ public final class SpoonDeviceRunner {
   private final File imageDir;
   private final String classpath;
   private final SpoonInstrumentationInfo instrumentationInfo;
+  private final boolean showAllProcessesLog;
 
   /**
    * Create a test runner for a single device.
@@ -78,7 +79,8 @@ public final class SpoonDeviceRunner {
   SpoonDeviceRunner(File sdk, File apk, File testApk, File output, String serial, boolean debug,
       boolean noAnimations, int adbTimeout, String classpath,
       SpoonInstrumentationInfo instrumentationInfo, String className, String methodName,
-      IRemoteAndroidTestRunner.TestSize testSize) {
+      IRemoteAndroidTestRunner.TestSize testSize,
+      boolean showAllProcessesLog) {
     this.sdk = sdk;
     this.apk = apk;
     this.testApk = testApk;
@@ -91,6 +93,7 @@ public final class SpoonDeviceRunner {
     this.testSize = testSize;
     this.classpath = classpath;
     this.instrumentationInfo = instrumentationInfo;
+    this.showAllProcessesLog = showAllProcessesLog;
 
     serial = SpoonUtils.sanitizeSerial(serial);
     this.work = FileUtils.getFile(output, TEMP_DIR, serial);
@@ -181,7 +184,7 @@ public final class SpoonDeviceRunner {
     work.mkdirs();
 
     // Initiate device logging.
-    SpoonDeviceLogger deviceLogger = new SpoonDeviceLogger(device);
+    SpoonDeviceLogger deviceLogger = new SpoonDeviceLogger(device, showAllProcessesLog);
 
     // Run all the tests! o/
     try {
