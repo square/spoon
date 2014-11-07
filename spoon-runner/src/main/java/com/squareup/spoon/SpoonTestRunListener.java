@@ -38,7 +38,7 @@ final class SpoonTestRunListener implements ITestRunListener {
     methodResults.put(testIdentifierAdapter.adapt(test), methodResult);
   }
 
-  @Override public void testFailed(TestFailure status, TestIdentifier test, String trace) {
+  @Override public void testFailed(TestIdentifier test, String trace) {
     logDebug(debug, "test=%s", test);
     test = testIdentifierAdapter.adapt(test);
     DeviceTestResult.Builder methodResult = methodResults.get(test);
@@ -47,18 +47,19 @@ final class SpoonTestRunListener implements ITestRunListener {
       methodResult = new DeviceTestResult.Builder();
       methodResults.put(test, methodResult);
     }
-    switch (status) {
-      case FAILURE:
-        logDebug(debug, "failed %s", trace);
-        methodResult.markTestAsFailed(trace);
-        break;
-      case ERROR:
-        logDebug(debug, "error %s", trace);
-        methodResult.markTestAsError(trace);
-        break;
-      default:
-        throw new IllegalArgumentException("Unknown test failure status: " + status);
-    }
+    logDebug(debug, "failed %s", trace);
+    methodResult.markTestAsFailed(trace);
+  }
+
+  @Override public void testAssumptionFailure(TestIdentifier test, String trace) {
+    // TODO Add assumption failures to the report.
+    logDebug(debug, "test=%s", test);
+    logDebug(debug, "assumption failure %s", trace);
+  }
+
+  @Override public void testIgnored(TestIdentifier test) {
+    // TODO Add ignored tests to the report.
+    logDebug(debug, "ignored test %s", test);
   }
 
   @Override public void testEnded(TestIdentifier test, Map<String, String> testMetrics) {
@@ -87,4 +88,5 @@ final class SpoonTestRunListener implements ITestRunListener {
     logDebug(debug, "elapsedTime=%d", elapsedTime);
     result.endTests();
   }
+
 }
