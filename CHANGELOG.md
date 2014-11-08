@@ -1,6 +1,16 @@
 Change Log
 ==========
 
+Version 1.1.2 *(2014-11-07)*
+----------------------------
+
+ * Return file path from screenshot method.
+ * Expose 'failIfNoDeviceConnected' parameter in Maven plugin.
+ * Fix: Correct occasional CSS problems on the TV output.
+ * Fix: Force Google fonts to load over HTTPS.
+ * Fix: Update to latest 'ddmlib' to resolve conflicts with the Android Gradle plugin.
+
+
 Version 1.1.1 *(2014-02-11)*
 ----------------------------
 

@@ -67,7 +67,7 @@ via Maven:
 <dependency>
   <groupId>com.squareup.spoon</groupId>
   <artifactId>spoon-client</artifactId>
-  <version>(insert latest version)</version>
+  <version>1.1.1</version>
 </dependency>
 ```
 
@@ -83,7 +83,7 @@ You can run Spoon as a standalone tool with your application and instrumentation
 APKs.
 
 ```
-java -jar spoon-runner-1.0.0-jar-with-dependencies.jar \
+java -jar spoon-runner-1.1.1-jar-with-dependencies.jar \
     --apk example-app.apk \
     --test-apk example-tests.apk
 ```
@@ -114,7 +114,7 @@ Declare the plugin in the `pom.xml` for the instrumentation test module.
 <plugin>
   <groupId>com.squareup.spoon</groupId>
   <artifactId>spoon-maven-plugin</artifactId>
-  <version>(insert latest version)</version>
+  <version>1.1.1</version>
 </plugin>
 ```
 
