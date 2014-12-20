@@ -71,6 +71,8 @@ via Maven:
 </dependency>
 ```
 
+Snapshots of the development version are available in [Sonatype's `snapshots` repository][snap].
+
 
 
 Execution
@@ -171,3 +173,5 @@ License
 
  [1]: https://search.maven.org/remote_content?g=com.squareup.spoon&a=spoon-runner&v=LATEST&c=jar-with-dependencies
  [2]: https://search.maven.org/remote_content?g=com.squareup.spoon&a=spoon-client&v=LATEST
+ [snap]: https://oss.sonatype.org/content/repositories/snapshots/
+
