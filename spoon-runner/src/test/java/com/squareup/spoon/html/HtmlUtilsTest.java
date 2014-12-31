@@ -36,9 +36,9 @@ public class HtmlUtilsTest {
     assertThat(prettifyMethodName("testOneATwo")).isEqualTo("One A Two");
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void prettyTestNameFailsWhenNotPrefixedWithTest() {
-    prettifyMethodName("doingTheThings");
+  @Test public void prettifyMethodNameWorksRegardlessOfTestPrefix() {
+    assertThat(prettifyMethodName("oneTwoThree_Four")).isEqualTo(prettifyMethodName("testOneTwoThree_Four"));
+    assertThat(prettifyMethodName("aHardCase")).isEqualTo(prettifyMethodName("testAHardCase"));
   }
 
   @Test public void relativeUriCreation() {

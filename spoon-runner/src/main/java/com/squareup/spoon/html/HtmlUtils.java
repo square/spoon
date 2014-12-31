@@ -100,12 +100,13 @@ final class HtmlUtils {
 
   /** Convert a method name from {@code testThisThing_DoesThat} to "This Thing, Does That". */
   static String prettifyMethodName(String methodName) {
-    if (!methodName.startsWith("test")) {
-      throw new IllegalArgumentException(
-          "Method name '" + methodName + "' does not start with 'test'.");
+    if (methodName.startsWith("test")) {
+      methodName = methodName.substring(4);
+    } else if (Character.isLowerCase(methodName.charAt(0))) {
+      methodName = Character.toUpperCase(methodName.charAt(0)) + methodName.substring(1);
     }
     StringBuilder pretty = new StringBuilder();
-    String[] parts = methodName.substring(4).split("_");
+    String[] parts = methodName.split("_");
     for (String part : parts) {
       if ("".equals(part.trim())) {
         continue; // Skip empty parts.
