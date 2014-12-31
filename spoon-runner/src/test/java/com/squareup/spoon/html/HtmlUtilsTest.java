@@ -37,8 +37,8 @@ public class HtmlUtilsTest {
   }
 
   @Test public void prettifyMethodNameWorksRegardlessOfTestPrefix() {
-    assertThat(prettifyMethodName("oneTwoThree_Four")).isEqualTo(prettifyMethodName("testOneTwoThree_Four"));
-    assertThat(prettifyMethodName("aHardCase")).isEqualTo(prettifyMethodName("testAHardCase"));
+    assertThat(prettifyMethodName("oneTwoThree_Four")).isEqualTo("One Two Three, Four");
+    assertThat(prettifyMethodName("aHardCase")).isEqualTo("A Hard Case");
   }
 
   @Test public void relativeUriCreation() {
