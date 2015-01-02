@@ -24,6 +24,8 @@
                         <thead>
                             <tr>
                                 <th>Timestamp</th>
+                                <th>PID</th>
+                                <th>TID</th>
                                 <th>Level</th>
                                 <th>Tag</th>
                                 <th>Message</th>
@@ -33,6 +35,8 @@
                             {{#log}}
                             <tr class="level-{{level}} {{rowClass}}">
                                 <td>{{timestamp}}</td>
+                                <td>{{pid}}</td>
+                                <td>{{tid}}</td>
                                 <td>{{level}}</td>
                                 <td>{{tag}}</td>
                                 <td>{{message}}</td>

@@ -66,7 +66,8 @@ final class HtmlLog {
 
       String timestamp = message.getTime();
       String level = message.getLogLevel().getStringValue();
-      return new LogEntry(rowClass, timestamp, level, message.getTag(), message.getMessage());
+      return new LogEntry(rowClass, timestamp, level, message.getTag(), message.getMessage(),
+        message.getPid(), message.getTid());
     }
 
     public final String rowClass;
@@ -74,13 +75,18 @@ final class HtmlLog {
     public final String level;
     public final String tag;
     public final String message;
+    public final String pid;
+    public final String tid;
 
-    LogEntry(String rowClass, String timestamp, String level, String tag, String message) {
+    LogEntry(String rowClass, String timestamp, String level, String tag, String message,
+        String pid, String tid) {
       this.rowClass = rowClass;
       this.timestamp = timestamp;
       this.level = level;
       this.tag = tag;
       this.message = message;
+      this.pid = pid;
+      this.tid = tid;
     }
   }
 }

@@ -18,11 +18,13 @@ final class SpoonDeviceLogger implements LogCatListener {
 
   private final List<LogCatMessage> messages;
   private final LogCatReceiverTask logCatReceiverTask;
+  private final boolean showAllProcessesLog;
 
-  public SpoonDeviceLogger(IDevice device) {
+  public SpoonDeviceLogger(IDevice device, boolean showAllProcessesLog) {
     messages = new ArrayList<LogCatMessage>();
     logCatReceiverTask = new LogCatReceiverTask(device);
     logCatReceiverTask.addLogCatListener(this);
+    this.showAllProcessesLog = showAllProcessesLog;
 
     // Start a background thread to monitor the device logs. This will exit when we call stop below.
     new Thread(logCatReceiverTask).start();
@@ -53,8 +55,8 @@ final class SpoonDeviceLogger implements LogCatListener {
             logs.put(current, deviceLogMessages);
           }
         } else {
-          // Only log messages from the same PID.
-          if (pid.equals(message.getPid())) {
+          if (showAllProcessesLog || pid.equals(message.getPid())) {
+            // Only log messages from the same PID.
             logs.get(current).add(message);
           }
 

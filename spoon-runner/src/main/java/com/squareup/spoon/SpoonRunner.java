@@ -46,11 +46,13 @@ public final class SpoonRunner {
   private final String classpath;
   private final IRemoteAndroidTestRunner.TestSize testSize;
   private final boolean failIfNoDeviceConnected;
+  private final boolean showAllProcessesLog;
 
   private SpoonRunner(String title, File androidSdk, File applicationApk, File instrumentationApk,
       File output, boolean debug, boolean noAnimations, int adbTimeout, Set<String> serials,
       String classpath, String className, String methodName,
-      IRemoteAndroidTestRunner.TestSize testSize, boolean failIfNoDeviceConnected) {
+      IRemoteAndroidTestRunner.TestSize testSize, boolean failIfNoDeviceConnected,
+      boolean showAllProcessesLog) {
     this.title = title;
     this.androidSdk = androidSdk;
     this.applicationApk = applicationApk;
@@ -65,6 +67,7 @@ public final class SpoonRunner {
     this.testSize = testSize;
     this.serials = ImmutableSet.copyOf(serials);
     this.failIfNoDeviceConnected = failIfNoDeviceConnected;
+    this.showAllProcessesLog = showAllProcessesLog;
   }
 
   /**
@@ -196,7 +199,8 @@ public final class SpoonRunner {
 
   private SpoonDeviceRunner getTestRunner(String serial, SpoonInstrumentationInfo testInfo) {
     return new SpoonDeviceRunner(androidSdk, applicationApk, instrumentationApk, output, serial,
-        debug, noAnimations, adbTimeout, classpath, testInfo, className, methodName, testSize);
+        debug, noAnimations, adbTimeout, classpath, testInfo, className, methodName, testSize,
+        showAllProcessesLog);
   }
 
   /** Build a test suite for the specified devices and configuration. */
@@ -215,6 +219,7 @@ public final class SpoonRunner {
     private IRemoteAndroidTestRunner.TestSize testSize;
     private int adbTimeout;
     private boolean failIfNoDeviceConnected;
+    private boolean showAllProcessesLog;
 
     /** Identifying title for this execution. */
     public Builder setTitle(String title) {
@@ -322,6 +327,11 @@ public final class SpoonRunner {
       return this;
     }
 
+    public Builder setShowAllProcessesLog(boolean showAllProcessesLog) {
+        this.showAllProcessesLog = showAllProcessesLog;
+        return this;
+    }
+
     public SpoonRunner build() {
       checkNotNull(androidSdk, "SDK is required.");
       checkArgument(androidSdk.exists(), "SDK path does not exist.");
@@ -336,7 +346,7 @@ public final class SpoonRunner {
 
       return new SpoonRunner(title, androidSdk, applicationApk, instrumentationApk, output, debug,
           noAnimations, adbTimeout, serials, classpath, className, methodName, testSize,
-          failIfNoDeviceConnected);
+          failIfNoDeviceConnected, showAllProcessesLog);
     }
   }
 
@@ -383,6 +393,10 @@ public final class SpoonRunner {
     @Parameter(names = { "--adb-timeout" },
         description = "Set maximum execution time per test in seconds (10min default)")
     public int adbTimeoutSeconds = DEFAULT_ADB_TIMEOUT;
+
+    @Parameter(names = { "--show-all-processes-log" },
+        description = "Show logcat data for all processes")
+    public boolean showAllProcessesLog;
 
     @Parameter(names = { "--debug" }, hidden = true)
     public boolean debug;
@@ -447,6 +461,7 @@ public final class SpoonRunner {
         .setFailIfNoDeviceConnected(parsedArgs.failIfNoDeviceConnected)
         .setClassName(parsedArgs.className)
         .setMethodName(parsedArgs.methodName)
+        .setShowAllProcessesLog(parsedArgs.showAllProcessesLog)
         .useAllAttachedDevices()
         .build();
 
