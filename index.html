@@ -105,10 +105,12 @@ Spoon.screenshot(activity, "after_login");</pre>
     --test-apk          Test application APK
     --title             Execution title
     --class-name        Test class name to run (fully-qualified)
-    --method-name       Test method name to run (must also use --class-name)</pre>
+    --method-name       Test method name to run (must also use --class-name)
     --no-animations     Disable animated gif generation
     --size              Only run test methods annotated by testSize (small, medium, large)
     --adb-timeout       Set maximum execution time per test in seconds (10min default)
+    </pre>
+    
             <h4 id="maven">Maven</h4>
             <p>If you are using Maven for compilation, a plugin is provided for easy execution. Declare the plugin in the <code>pom.xml</code> for the instrumentation test module.</p>
             <pre class="prettyprint">&lt;plugin>
