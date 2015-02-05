@@ -5,6 +5,7 @@ import com.android.ddmlib.IDevice;
 import com.android.ddmlib.InstallException;
 import com.android.ddmlib.SyncService;
 import com.android.ddmlib.logcat.LogCatMessage;
+import com.android.ddmlib.testrunner.ITestRunListener;
 import com.android.ddmlib.testrunner.RemoteAndroidTestRunner;
 import com.android.ddmlib.testrunner.IRemoteAndroidTestRunner;
 import com.google.common.base.Strings;
@@ -58,6 +59,7 @@ public final class SpoonDeviceRunner {
   private final File imageDir;
   private final String classpath;
   private final SpoonInstrumentationInfo instrumentationInfo;
+  private final List<ITestRunListener> testRunListeners;
 
   /**
    * Create a test runner for a single device.
@@ -74,11 +76,12 @@ public final class SpoonDeviceRunner {
    * @param className Test class name to run or {@code null} to run all tests.
    * @param methodName Test method name to run or {@code null} to run all tests.  Must also pass
    *        {@code className}.
+   * @param testRunListeners Additional TestRunListener or {@code null}.
    */
   SpoonDeviceRunner(File sdk, File apk, File testApk, File output, String serial, boolean debug,
       boolean noAnimations, int adbTimeout, String classpath,
       SpoonInstrumentationInfo instrumentationInfo, String className, String methodName,
-      IRemoteAndroidTestRunner.TestSize testSize) {
+      IRemoteAndroidTestRunner.TestSize testSize, List<ITestRunListener> testRunListeners) {
     this.sdk = sdk;
     this.apk = apk;
     this.testApk = testApk;
@@ -96,6 +99,7 @@ public final class SpoonDeviceRunner {
     this.work = FileUtils.getFile(output, TEMP_DIR, serial);
     this.junitReport = FileUtils.getFile(output, JUNIT_DIR, serial + ".xml");
     this.imageDir = FileUtils.getFile(output, IMAGE_DIR, serial);
+    this.testRunListeners = testRunListeners;
   }
 
   /** Serialize to disk and start {@link #main(String...)} in another process. */
@@ -198,10 +202,11 @@ public final class SpoonDeviceRunner {
       if (testSize != null) {
         runner.setTestSize(testSize);
       }
-      runner.run(
-          new SpoonTestRunListener(result, debug, testIdentifierAdapter),
-          new XmlTestRunListener(junitReport)
-      );
+      List<ITestRunListener> listeners = new ArrayList<ITestRunListener>();
+      listeners.add(new SpoonTestRunListener(result, debug, testIdentifierAdapter));
+      listeners.add(new XmlTestRunListener(junitReport));
+      listeners.addAll(testRunListeners);
+      runner.run(listeners);
     } catch (Exception e) {
       result.addException(e);
     }
