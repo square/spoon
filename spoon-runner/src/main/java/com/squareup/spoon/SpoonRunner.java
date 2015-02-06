@@ -12,6 +12,7 @@ import com.google.common.collect.ImmutableSet;
 import com.squareup.spoon.html.HtmlRenderer;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.HashSet;
@@ -329,8 +330,12 @@ public final class SpoonRunner {
       return this;
     }
 
-    public Builder setTestRunListeners(List<ITestRunListener> testRunListeners) {
-      this.testRunListeners = testRunListeners;
+    public Builder addTestRunListener(ITestRunListener testRunListener) {
+      checkNotNull(testRunListener, "TestRunListener cannot be null.");
+      if (testRunListeners == null) {
+          testRunListeners = new ArrayList<ITestRunListener>();
+      }
+      testRunListeners.add(testRunListener);
       return this;
     }
 
@@ -344,6 +349,9 @@ public final class SpoonRunner {
       if (!Strings.isNullOrEmpty(methodName)) {
         checkArgument(!Strings.isNullOrEmpty(className),
             "Must specify class name if you're specifying a method name.");
+      }
+      if (testRunListeners == null) {
+          testRunListeners = new ArrayList<ITestRunListener>();
       }
 
       return new SpoonRunner(title, androidSdk, applicationApk, instrumentationApk, output, debug,

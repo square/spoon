@@ -76,7 +76,7 @@ public final class SpoonDeviceRunner {
    * @param className Test class name to run or {@code null} to run all tests.
    * @param methodName Test method name to run or {@code null} to run all tests.  Must also pass
    *        {@code className}.
-   * @param testRunListeners Additional TestRunListener or {@code null}.
+   * @param testRunListeners Additional TestRunListener or empty list.
    */
   SpoonDeviceRunner(File sdk, File apk, File testApk, File output, String serial, boolean debug,
       boolean noAnimations, int adbTimeout, String classpath,
