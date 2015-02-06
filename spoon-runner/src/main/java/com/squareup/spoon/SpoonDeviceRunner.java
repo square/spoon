@@ -1,15 +1,20 @@
 package com.squareup.spoon;
 
+import com.android.ddmlib.AdbCommandRejectedException;
 import com.android.ddmlib.AndroidDebugBridge;
+import com.android.ddmlib.CollectingOutputReceiver;
 import com.android.ddmlib.IDevice;
 import com.android.ddmlib.InstallException;
+import com.android.ddmlib.ShellCommandUnresponsiveException;
 import com.android.ddmlib.SyncService;
+import com.android.ddmlib.TimeoutException;
 import com.android.ddmlib.logcat.LogCatMessage;
 import com.android.ddmlib.testrunner.RemoteAndroidTestRunner;
 import com.android.ddmlib.testrunner.IRemoteAndroidTestRunner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -21,8 +26,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
+
 import com.squareup.spoon.adapters.TestIdentifierAdapter;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
@@ -218,10 +225,13 @@ public final class SpoonDeviceRunner {
     try {
       logDebug(debug, "About to grab screenshots and prepare output for [%s]", serial);
 
-      // Sync device screenshots, if any, to the local filesystem.
-      String dirName = "app_" + SPOON_SCREENSHOTS;
+   // Sync device screenshots, if any, to the local filesystem.
+      String dirName = SPOON_SCREENSHOTS;
       String localDirName = work.getAbsolutePath();
-      final String devicePath = "/data/data/" + appPackage + "/" + dirName;
+
+      //Get external storage directory
+      String externalStorageDirectory = getExternalStorageDir(device);
+      final String devicePath = externalStorageDirectory + "/" + dirName;
       FileEntry deviceDir = obtainDirectoryFileEntry(devicePath);
       logDebug(debug, "Pulling screenshots from [%s] %s", serial, devicePath);
 
@@ -283,6 +293,29 @@ public final class SpoonDeviceRunner {
     }
 
     return result.build();
+  }
+
+  private String getExternalStorageDir(IDevice device) {
+    //Get external storage directory
+    CollectingOutputReceiver pathNameOutputReciever = new CollectingOutputReceiver();
+    String dir = "";
+    try {
+      device.executeShellCommand("echo $EXTERNAL_STORAGE", pathNameOutputReciever);
+      dir = pathNameOutputReciever.getOutput().trim();
+    } catch (TimeoutException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (AdbCommandRejectedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (ShellCommandUnresponsiveException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    return dir;
   }
 
   /////////////////////////////////////////////////////////////////////////////
