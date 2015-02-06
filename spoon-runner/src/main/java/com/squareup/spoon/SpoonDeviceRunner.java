@@ -205,7 +205,9 @@ public final class SpoonDeviceRunner {
       List<ITestRunListener> listeners = new ArrayList<ITestRunListener>();
       listeners.add(new SpoonTestRunListener(result, debug, testIdentifierAdapter));
       listeners.add(new XmlTestRunListener(junitReport));
-      listeners.addAll(testRunListeners);
+      if (testRunListeners != null) {
+        listeners.addAll(testRunListeners);
+      }
       runner.run(listeners);
     } catch (Exception e) {
       result.addException(e);
