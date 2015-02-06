@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Looper;
+import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import java.io.BufferedOutputStream;
@@ -105,7 +106,7 @@ public final class Spoon {
   }
 
   private static File obtainScreenshotDirectory(Context context) throws IllegalAccessException {
-    File screenshotsDir = new File(getExternalStorageDirectory(), SPOON_SCREENSHOTS);
+    File screenshotsDir = new File(Environment.getExternalStorageDirectory(), SPOON_SCREENSHOTS);
     Log.i("PICS", screenshotsDir.getAbsolutePath());
 
     synchronized (LOCK) {
