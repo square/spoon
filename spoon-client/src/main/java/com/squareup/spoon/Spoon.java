@@ -50,12 +50,13 @@ public final class Spoon {
    * Take a screenshot with the specified tag.
    *
    * @param activity Activity with which to capture a screenshot.
-   * @param className The name of the test class  
+   * @param className The name of the test class
    * @param methodName The name of the test method
    * @param tag Unique tag to further identify the screenshot. Must match [a-zA-Z0-9_-]+.
    * @return the image file that was created
    */
-  public static File screenshot(Activity activity, String className, String methodName, String tag) {
+  public static File screenshot(Activity activity, String className, String methodName,
+                                String tag) {
     if (!TAG_VALIDATION.matcher(tag).matches()) {
       throw new IllegalArgumentException("Tag must match " + TAG_VALIDATION.pattern() + ".");
     }
@@ -118,7 +119,9 @@ public final class Spoon {
     activity.getWindow().getDecorView().draw(canvas);
   }
 
-  private static File obtainScreenshotDirectory(Context context, String className, String methodName) throws IllegalAccessException {
+  private static File obtainScreenshotDirectory(Context context, String className,
+                                                String methodName)
+          throws IllegalAccessException {
     File screenshotsDir = context.getDir(SPOON_SCREENSHOTS, MODE_WORLD_READABLE);
 
     synchronized (LOCK) {
@@ -127,10 +130,10 @@ public final class Spoon {
         outputNeedsClear = false;
       }
     }
-    
-    if(className == null || methodName == null){
+    if (className == null || methodName == null) {
       // No information provided by user, try to find it in the stack trace
-      StackTraceElement testClass = findTestClassTraceElement(Thread.currentThread().getStackTrace());
+      StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+      StackTraceElement testClass = findTestClassTraceElement(stackTrace);
       className = testClass.getClassName();
       methodName = testClass.getMethodName();
     }
