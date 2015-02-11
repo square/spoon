@@ -222,7 +222,7 @@ public final class SpoonRunner {
     private IRemoteAndroidTestRunner.TestSize testSize;
     private int adbTimeout;
     private boolean failIfNoDeviceConnected;
-    private List<ITestRunListener> testRunListeners;
+    private List<ITestRunListener> testRunListeners = new ArrayList<ITestRunListener>();
 
     /** Identifying title for this execution. */
     public Builder setTitle(String title) {
@@ -332,9 +332,6 @@ public final class SpoonRunner {
 
     public Builder addTestRunListener(ITestRunListener testRunListener) {
       checkNotNull(testRunListener, "TestRunListener cannot be null.");
-      if (testRunListeners == null) {
-          testRunListeners = new ArrayList<ITestRunListener>();
-      }
       testRunListeners.add(testRunListener);
       return this;
     }
@@ -349,9 +346,6 @@ public final class SpoonRunner {
       if (!Strings.isNullOrEmpty(methodName)) {
         checkArgument(!Strings.isNullOrEmpty(className),
             "Must specify class name if you're specifying a method name.");
-      }
-      if (testRunListeners == null) {
-          testRunListeners = new ArrayList<ITestRunListener>();
       }
 
       return new SpoonRunner(title, androidSdk, applicationApk, instrumentationApk, output, debug,
