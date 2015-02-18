@@ -1,6 +1,7 @@
 package com.squareup.spoon;
 
 import com.android.ddmlib.AndroidDebugBridge;
+import com.android.ddmlib.CollectingOutputReceiver;
 import com.android.ddmlib.IDevice;
 import com.android.ddmlib.InstallException;
 import com.android.ddmlib.SyncService;
@@ -11,6 +12,9 @@ import com.android.ddmlib.testrunner.IRemoteAndroidTestRunner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import com.squareup.spoon.adapters.TestIdentifierAdapter;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.TrueFileFilter;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -22,9 +26,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.TrueFileFilter;
-import com.squareup.spoon.adapters.TestIdentifierAdapter;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
 import static com.squareup.spoon.Spoon.SPOON_SCREENSHOTS;
@@ -40,6 +41,7 @@ import static com.squareup.spoon.SpoonUtils.obtainRealDevice;
 public final class SpoonDeviceRunner {
   private static final String FILE_EXECUTION = "execution.json";
   private static final String FILE_RESULT = "result.json";
+  private static final String SCREENSHOT_DIR = "app_" + SPOON_SCREENSHOTS;
   static final String TEMP_DIR = "work";
   static final String JUNIT_DIR = "junit-reports";
   static final String IMAGE_DIR = "image";
@@ -142,7 +144,6 @@ public final class SpoonDeviceRunner {
 
   /** Execute instrumentation on the target device and return a result summary. */
   public DeviceResult run(AndroidDebugBridge adb) {
-    String appPackage = instrumentationInfo.getApplicationPackage();
     String testPackage = instrumentationInfo.getInstrumentationPackage();
     String testRunner = instrumentationInfo.getTestRunnerClass();
     TestIdentifierAdapter testIdentifierAdapter = TestIdentifierAdapter.fromTestRunner(testRunner);
@@ -184,9 +185,6 @@ public final class SpoonDeviceRunner {
     // Create the output directory, if it does not already exist.
     work.mkdirs();
 
-    // Initiate device logging.
-    SpoonDeviceLogger deviceLogger = new SpoonDeviceLogger(device);
-
     // Run all the tests! o/
     try {
       logDebug(debug, "About to actually run tests for [%s]", serial);
@@ -213,29 +211,13 @@ public final class SpoonDeviceRunner {
       result.addException(e);
     }
 
-    // Grab all the parsed logs and map them to individual tests.
-    Map<DeviceTest, List<LogCatMessage>> logs = deviceLogger.getParsedLogs();
-    for (Map.Entry<DeviceTest, List<LogCatMessage>> entry : logs.entrySet()) {
-      DeviceTestResult.Builder builder = result.getMethodResultBuilder(entry.getKey());
-      if (builder != null) {
-        builder.setLog(entry.getValue());
-      }
-    }
+    mapLogsToTests(device, result);
 
     try {
       logDebug(debug, "About to grab screenshots and prepare output for [%s]", serial);
+      pullScreenshotsFromDevice(device);
 
-      // Sync device screenshots, if any, to the local filesystem.
-      String dirName = "app_" + SPOON_SCREENSHOTS;
-      String localDirName = work.getAbsolutePath();
-      final String devicePath = "/data/data/" + appPackage + "/" + dirName;
-      FileEntry deviceDir = obtainDirectoryFileEntry(devicePath);
-      logDebug(debug, "Pulling screenshots from [%s] %s", serial, devicePath);
-
-      device.getSyncService()
-          .pull(new FileEntry[] {deviceDir}, localDirName, SyncService.getNullProgressMonitor());
-
-      File screenshotDir = new File(work, dirName);
+      File screenshotDir = new File(work, SCREENSHOT_DIR);
       if (screenshotDir.exists()) {
         imageDir.mkdirs();
 
@@ -290,6 +272,59 @@ public final class SpoonDeviceRunner {
     }
 
     return result.build();
+  }
+
+  /** Download all screenshots from a single device to the local machine. */
+  private void pullScreenshotsFromDevice(IDevice device) throws Exception {
+    // Screenshot path on private internal storage, for KitKat and below.
+    FileEntry internalDir = getScreenshotDirOnInternalStorage();
+    logDebug(debug, "Internal path is " + internalDir.getFullPath());
+
+    // Screenshot path on public external storage, for Lollipop and above.
+    FileEntry externalDir = getScreenshotDirOnExternalStorage(device);
+    logDebug(debug, "External path is " + externalDir.getFullPath());
+
+    // Sync device screenshots to the local filesystem.
+    logDebug(debug, "Pulling screenshots from [%s]", serial);
+    String localDirName = work.getAbsolutePath();
+    try {
+      device.getSyncService()
+          .pull(new FileEntry[] {internalDir, externalDir}, localDirName,
+              SyncService.getNullProgressMonitor());
+    } catch (Exception e) {
+      logDebug(debug, e.getMessage(), e);
+    }
+  }
+
+  private FileEntry getScreenshotDirOnInternalStorage() {
+    String appPackage = instrumentationInfo.getApplicationPackage();
+    String internalPath = "/data/data/" + appPackage + "/" + SCREENSHOT_DIR;
+    return obtainDirectoryFileEntry(internalPath);
+  }
+
+  private static FileEntry getScreenshotDirOnExternalStorage(IDevice device) throws Exception {
+    String externalPath = getExternalStoragePath(device) + "/" + SCREENSHOT_DIR;
+    return obtainDirectoryFileEntry(externalPath);
+  }
+
+  private static String getExternalStoragePath(IDevice device) throws Exception {
+    CollectingOutputReceiver pathNameOutputReceiver = new CollectingOutputReceiver();
+    device.executeShellCommand("echo $EXTERNAL_STORAGE", pathNameOutputReceiver);
+    return pathNameOutputReceiver.getOutput().trim();
+  }
+
+  /** Grab all the parsed logs and map them to individual tests. */
+  private static void mapLogsToTests(IDevice device, DeviceResult.Builder result) {
+    // Initiate device logging.
+    SpoonDeviceLogger deviceLogger = new SpoonDeviceLogger(device);
+
+    Map<DeviceTest, List<LogCatMessage>> logs = deviceLogger.getParsedLogs();
+    for (Map.Entry<DeviceTest, List<LogCatMessage>> entry : logs.entrySet()) {
+      DeviceTestResult.Builder builder = result.getMethodResultBuilder(entry.getKey());
+      if (builder != null) {
+        builder.setLog(entry.getValue());
+      }
+    }
   }
 
   /////////////////////////////////////////////////////////////////////////////
