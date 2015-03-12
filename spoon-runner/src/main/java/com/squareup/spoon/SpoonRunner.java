@@ -20,6 +20,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.tuple.Pair;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -50,12 +51,13 @@ public final class SpoonRunner {
   private final IRemoteAndroidTestRunner.TestSize testSize;
   private final boolean failIfNoDeviceConnected;
   private final List<ITestRunListener> testRunListeners;
+  private final Pair<String, String> runnerArg;
 
   private SpoonRunner(String title, File androidSdk, File applicationApk, File instrumentationApk,
       File output, boolean debug, boolean noAnimations, int adbTimeout, Set<String> serials,
       String classpath, String className, String methodName,
       IRemoteAndroidTestRunner.TestSize testSize, boolean failIfNoDeviceConnected,
-      List<ITestRunListener> testRunListeners) {
+      List<ITestRunListener> testRunListeners, Pair<String, String> runnerArgs) {
     this.title = title;
     this.androidSdk = androidSdk;
     this.applicationApk = applicationApk;
@@ -71,6 +73,7 @@ public final class SpoonRunner {
     this.serials = ImmutableSet.copyOf(serials);
     this.failIfNoDeviceConnected = failIfNoDeviceConnected;
     this.testRunListeners = testRunListeners;
+    this.runnerArg = runnerArgs;
   }
 
   /**
@@ -203,7 +206,7 @@ public final class SpoonRunner {
   private SpoonDeviceRunner getTestRunner(String serial, SpoonInstrumentationInfo testInfo) {
     return new SpoonDeviceRunner(androidSdk, applicationApk, instrumentationApk, output, serial,
         debug, noAnimations, adbTimeout, classpath, testInfo, className, methodName, testSize,
-        testRunListeners);
+        testRunListeners, runnerArg);
   }
 
   /** Build a test suite for the specified devices and configuration. */
@@ -223,6 +226,7 @@ public final class SpoonRunner {
     private int adbTimeout;
     private boolean failIfNoDeviceConnected;
     private List<ITestRunListener> testRunListeners = new ArrayList<ITestRunListener>();
+    private Pair<String, String> runnerArg;
 
     /** Identifying title for this execution. */
     public Builder setTitle(String title) {
@@ -336,6 +340,13 @@ public final class SpoonRunner {
       return this;
     }
 
+    public Builder setRunnerArg(String name, String value) {
+        checkNotNull(name, "Runner arg name cannot be null");
+        checkNotNull(value, "Runnet arg value cannot be null");
+        runnerArg = Pair.of(name, value);
+        return this;
+    }
+
     public SpoonRunner build() {
       checkNotNull(androidSdk, "SDK is required.");
       checkArgument(androidSdk.exists(), "SDK path does not exist.");
@@ -350,7 +361,7 @@ public final class SpoonRunner {
 
       return new SpoonRunner(title, androidSdk, applicationApk, instrumentationApk, output, debug,
           noAnimations, adbTimeout, serials, classpath, className, methodName, testSize,
-          failIfNoDeviceConnected, testRunListeners);
+          failIfNoDeviceConnected, testRunListeners, runnerArg);
     }
   }
 
@@ -403,6 +414,11 @@ public final class SpoonRunner {
 
     @Parameter(names = { "-h", "--help" }, description = "Command help", help = true, hidden = true)
     public boolean help;
+
+    @Parameter(names = {"-e" }, arity = 2,
+            description = "-e <NAME> <VALUE>: Set instrument runner argument <NAME> to <VALUE>")
+    public List<String> runnerArg;
+
   }
 
   private static File cleanFile(String path) {
@@ -448,7 +464,7 @@ public final class SpoonRunner {
       return;
     }
 
-    SpoonRunner spoonRunner = new SpoonRunner.Builder() //
+    Builder spoonRunnerBuilder = new Builder()
         .setTitle(parsedArgs.title)
         .setApplicationApk(parsedArgs.apk)
         .setInstrumentationApk(parsedArgs.testApk)
@@ -461,10 +477,16 @@ public final class SpoonRunner {
         .setFailIfNoDeviceConnected(parsedArgs.failIfNoDeviceConnected)
         .setClassName(parsedArgs.className)
         .setMethodName(parsedArgs.methodName)
-        .useAllAttachedDevices()
-        .build();
+        .useAllAttachedDevices();
+      if (parsedArgs.runnerArg != null) {
+        String key = parsedArgs.runnerArg.get(0);
+        String value = parsedArgs.runnerArg.get(1);
+        spoonRunnerBuilder.setRunnerArg(key, value);
+      }
+      SpoonRunner spoonRunner = spoonRunnerBuilder.build();
 
-    if (!spoonRunner.run() && parsedArgs.failOnFailure) {
+
+      if (!spoonRunner.run() && parsedArgs.failOnFailure) {
       System.exit(1);
     }
   }

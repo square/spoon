@@ -15,6 +15,8 @@ import com.google.common.collect.Multimap;
 import com.squareup.spoon.adapters.TestIdentifierAdapter;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
+import org.apache.commons.lang3.tuple.Pair;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -62,6 +64,7 @@ public final class SpoonDeviceRunner {
   private final String classpath;
   private final SpoonInstrumentationInfo instrumentationInfo;
   private final List<ITestRunListener> testRunListeners;
+  private final Pair<String, String> runnerArg;
 
   /**
    * Create a test runner for a single device.
@@ -79,11 +82,13 @@ public final class SpoonDeviceRunner {
    * @param methodName Test method name to run or {@code null} to run all tests.  Must also pass
    *        {@code className}.
    * @param testRunListeners Additional TestRunListener or empty list.
+   * @param runnerArg Argument of test runner or {@code null} if extra argument is not needed.
    */
   SpoonDeviceRunner(File sdk, File apk, File testApk, File output, String serial, boolean debug,
       boolean noAnimations, int adbTimeout, String classpath,
       SpoonInstrumentationInfo instrumentationInfo, String className, String methodName,
-      IRemoteAndroidTestRunner.TestSize testSize, List<ITestRunListener> testRunListeners) {
+      IRemoteAndroidTestRunner.TestSize testSize, List<ITestRunListener> testRunListeners,
+      Pair<String, String> runnerArg) {
     this.sdk = sdk;
     this.apk = apk;
     this.testApk = testApk;
@@ -102,6 +107,7 @@ public final class SpoonDeviceRunner {
     this.junitReport = FileUtils.getFile(output, JUNIT_DIR, serial + ".xml");
     this.imageDir = FileUtils.getFile(output, IMAGE_DIR, serial);
     this.testRunListeners = testRunListeners;
+    this.runnerArg = runnerArg;
   }
 
   /** Serialize to disk and start {@link #main(String...)} in another process. */
@@ -199,6 +205,9 @@ public final class SpoonDeviceRunner {
       }
       if (testSize != null) {
         runner.setTestSize(testSize);
+      }
+      if (runnerArg != null) {
+        runner.addInstrumentationArg(runnerArg.getKey(), runnerArg.getValue());
       }
       List<ITestRunListener> listeners = new ArrayList<ITestRunListener>();
       listeners.add(new SpoonTestRunListener(result, debug, testIdentifierAdapter));
