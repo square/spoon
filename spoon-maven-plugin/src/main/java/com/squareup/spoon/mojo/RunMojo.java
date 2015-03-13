@@ -77,6 +77,10 @@ public class RunMojo extends AbstractSpoonMojo {
   @Parameter
   private boolean failIfNoDeviceConnected;
 
+  /** Execute tests sequentially (one device at a time) */
+  @Parameter
+  private boolean sequential;
+
   /** Whether debug logging is enabled. */
   @Parameter
   private boolean debug;
@@ -162,6 +166,7 @@ public class RunMojo extends AbstractSpoonMojo {
         .setMethodName(methodName)
         .useAllAttachedDevices()
         .setFailIfNoDeviceConnected(failIfNoDeviceConnected)
+        .setSequential(sequential)
         .build()
         .run();
 

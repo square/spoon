@@ -10,16 +10,20 @@ import com.beust.jcommander.ParameterException;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.squareup.spoon.html.HtmlRenderer;
+
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
-import org.apache.commons.io.FileUtils;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -34,6 +38,7 @@ public final class SpoonRunner {
   private static final String DEFAULT_TITLE = "Spoon Execution";
   public static final String DEFAULT_OUTPUT_DIRECTORY = "spoon-output";
   private static final int DEFAULT_ADB_TIMEOUT = 10 * 60; //10 minutes
+  private final ExecutorService threadExecutor;
 
   private final String title;
   private final File androidSdk;
@@ -50,12 +55,13 @@ public final class SpoonRunner {
   private final IRemoteAndroidTestRunner.TestSize testSize;
   private final boolean failIfNoDeviceConnected;
   private final List<ITestRunListener> testRunListeners;
+  private final boolean sequential;
 
   private SpoonRunner(String title, File androidSdk, File applicationApk, File instrumentationApk,
       File output, boolean debug, boolean noAnimations, int adbTimeout, Set<String> serials,
       String classpath, String className, String methodName,
       IRemoteAndroidTestRunner.TestSize testSize, boolean failIfNoDeviceConnected,
-      List<ITestRunListener> testRunListeners) {
+      List<ITestRunListener> testRunListeners, boolean sequential) {
     this.title = title;
     this.androidSdk = androidSdk;
     this.applicationApk = applicationApk;
@@ -71,6 +77,13 @@ public final class SpoonRunner {
     this.serials = ImmutableSet.copyOf(serials);
     this.failIfNoDeviceConnected = failIfNoDeviceConnected;
     this.testRunListeners = testRunListeners;
+    this.sequential = sequential;
+
+    if (sequential) {
+      this.threadExecutor = Executors.newSingleThreadExecutor();
+    } else {
+      this.threadExecutor = Executors.newCachedThreadPool();
+    }
   }
 
   /**
@@ -148,8 +161,9 @@ public final class SpoonRunner {
       for (final String serial : serials) {
         final String safeSerial = SpoonUtils.sanitizeSerial(serial);
         logDebug(debug, "[%s] Starting execution.", serial);
-        new Thread(new Runnable() {
-          @Override public void run() {
+        Runnable runnable = new Runnable() {
+          @Override
+          public void run() {
             try {
               summary.addResult(safeSerial, getTestRunner(serial, testInfo).runInNewProcess());
             } catch (Exception e) {
@@ -161,11 +175,14 @@ public final class SpoonRunner {
                   remaining);
             }
           }
-        }).start();
+        };
+
+        threadExecutor.execute(runnable);
       }
 
       try {
         done.await();
+        threadExecutor.shutdown();
       } catch (InterruptedException e) {
         throw new RuntimeException(e);
       }
@@ -223,6 +240,7 @@ public final class SpoonRunner {
     private int adbTimeout;
     private boolean failIfNoDeviceConnected;
     private List<ITestRunListener> testRunListeners = new ArrayList<ITestRunListener>();
+    private boolean sequential;
 
     /** Identifying title for this execution. */
     public Builder setTitle(String title) {
@@ -325,6 +343,11 @@ public final class SpoonRunner {
       return this;
     }
 
+    public Builder setSequential(boolean sequential) {
+      this.sequential = sequential;
+      return this;
+    }
+
     public Builder setMethodName(String methodName) {
       this.methodName = methodName;
       return this;
@@ -350,7 +373,7 @@ public final class SpoonRunner {
 
       return new SpoonRunner(title, androidSdk, applicationApk, instrumentationApk, output, debug,
           noAnimations, adbTimeout, serials, classpath, className, methodName, testSize,
-          failIfNoDeviceConnected, testRunListeners);
+          failIfNoDeviceConnected, testRunListeners, sequential);
     }
   }
 
@@ -369,8 +392,8 @@ public final class SpoonRunner {
     @Parameter(names = { "--class-name" }, description = "Test class name to run (fully-qualified)")
     public String className;
 
-    @Parameter(names = { "--method-name" }, description =
-        "Test method name to run (must also use --class-name)")
+    @Parameter(names = { "--method-name" },
+        description = "Test method name to run (must also use --class-name)")
     public String methodName;
 
     @Parameter(names = { "--size" }, converter = TestSizeConverter.class,
@@ -388,8 +411,12 @@ public final class SpoonRunner {
     public boolean failOnFailure;
 
     @Parameter(names = { "--fail-if-no-device-connected" },
-         description = "Fail if no device is connected")
+        description = "Fail if no device is connected")
     public boolean failIfNoDeviceConnected;
+
+    @Parameter(names = { "--sequential" },
+        description = "Execute tests sequentially (one device at a time)")
+    public boolean sequential;
 
     @Parameter(names = { "--no-animations" }, description = "Disable animated gif generation")
     public boolean noAnimations;
@@ -459,6 +486,7 @@ public final class SpoonRunner {
         .setTestSize(parsedArgs.size)
         .setAdbTimeout(parsedArgs.adbTimeoutSeconds * 1000)
         .setFailIfNoDeviceConnected(parsedArgs.failIfNoDeviceConnected)
+        .setSequential(parsedArgs.sequential)
         .setClassName(parsedArgs.className)
         .setMethodName(parsedArgs.methodName)
         .useAllAttachedDevices()
