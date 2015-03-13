@@ -4,9 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.os.Build;
 import android.os.Looper;
-import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -18,6 +19,7 @@ import java.util.regex.Pattern;
 import static android.content.Context.MODE_WORLD_READABLE;
 import static android.graphics.Bitmap.CompressFormat.PNG;
 import static android.graphics.Bitmap.Config.ARGB_8888;
+import static android.os.Environment.getExternalStorageDirectory;
 import static com.squareup.spoon.Chmod.chmodPlusR;
 import static com.squareup.spoon.Chmod.chmodPlusRWX;
 
@@ -47,7 +49,7 @@ public final class Spoon {
       throw new IllegalArgumentException("Tag must match " + TAG_VALIDATION.pattern() + ".");
     }
     try {
-      File screenshotDirectory = obtainScreenshotDirectory(activity);
+      File screenshotDirectory = obtainScreenshotDirectory(activity.getApplicationContext());
       String screenshotName = System.currentTimeMillis() + NAME_SEPARATOR + tag + EXTENSION;
       File screenshotFile = new File(screenshotDirectory, screenshotName);
       takeScreenshot(screenshotFile, activity);
@@ -59,8 +61,8 @@ public final class Spoon {
   }
 
   private static void takeScreenshot(File file, final Activity activity) throws IOException {
-    DisplayMetrics dm = activity.getResources().getDisplayMetrics();
-    final Bitmap bitmap = Bitmap.createBitmap(dm.widthPixels, dm.heightPixels, ARGB_8888);
+    View view = activity.getWindow().getDecorView();
+    final Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), ARGB_8888);
 
     if (Looper.myLooper() == Looper.getMainLooper()) {
       // On main thread already, Just Do It™.
@@ -106,7 +108,14 @@ public final class Spoon {
   }
 
   private static File obtainScreenshotDirectory(Context context) throws IllegalAccessException {
-    File screenshotsDir = context.getDir(SPOON_SCREENSHOTS, MODE_WORLD_READABLE);
+    File screenshotsDir;
+    if (Build.VERSION.SDK_INT >= 21) {
+      // Use external storage.
+      screenshotsDir = new File(getExternalStorageDirectory(), "app_" + SPOON_SCREENSHOTS);
+    } else {
+      // Use internal storage.
+      screenshotsDir = context.getDir(SPOON_SCREENSHOTS, MODE_WORLD_READABLE);
+    }
 
     synchronized (LOCK) {
       if (outputNeedsClear) {

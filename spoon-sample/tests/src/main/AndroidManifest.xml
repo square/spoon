@@ -5,6 +5,8 @@
     android:versionName="1.0.0"
     package="com.example.spoon.ordering.tests">
 
+  <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="17"/>
+
   <application android:label="Spoon Sample Tests">
     <uses-library android:name="android.test.runner"/>
   </application>
