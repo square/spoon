@@ -23,4 +23,5 @@
   <color name="review_green">#ff669900</color>
 
   <color name="text_light">#66000000</color>
+  <color name="divider">#222222</color>
 </resources>
