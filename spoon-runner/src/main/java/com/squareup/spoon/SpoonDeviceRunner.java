@@ -6,15 +6,13 @@ import com.android.ddmlib.IDevice;
 import com.android.ddmlib.InstallException;
 import com.android.ddmlib.SyncService;
 import com.android.ddmlib.logcat.LogCatMessage;
+import com.android.ddmlib.testrunner.IRemoteAndroidTestRunner;
 import com.android.ddmlib.testrunner.ITestRunListener;
 import com.android.ddmlib.testrunner.RemoteAndroidTestRunner;
-import com.android.ddmlib.testrunner.IRemoteAndroidTestRunner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.squareup.spoon.adapters.TestIdentifierAdapter;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.TrueFileFilter;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -26,6 +24,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.TrueFileFilter;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
 import static com.squareup.spoon.Spoon.SPOON_SCREENSHOTS;
@@ -287,9 +287,14 @@ public final class SpoonDeviceRunner {
     // Sync device screenshots to the local filesystem.
     logDebug(debug, "Pulling screenshots from [%s]", serial);
     String localDirName = work.getAbsolutePath();
+    adbPull(device, externalDir, localDirName);
+    adbPull(device, internalDir, localDirName);
+  }
+
+  private void adbPull(IDevice device, FileEntry remoteDirName, String localDirName) {
     try {
       device.getSyncService()
-          .pull(new FileEntry[] {internalDir, externalDir}, localDirName,
+          .pull(new FileEntry[] {remoteDirName}, localDirName,
               SyncService.getNullProgressMonitor());
     } catch (Exception e) {
       logDebug(debug, e.getMessage(), e);
