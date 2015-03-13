@@ -7,6 +7,7 @@ Version 1.1.3 *(2015-03-13)*
 * Fix screenshots on Lollipop.
 * Allow additional testRunListener.
 * Support junit4 test methods that do not start with "test".
+* Support sequential running of tests.
 
 Version 1.1.2 *(2014-11-07)*
 ----------------------------
