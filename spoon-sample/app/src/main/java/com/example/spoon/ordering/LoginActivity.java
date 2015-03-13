@@ -1,5 +1,6 @@
 package com.example.spoon.ordering;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -9,12 +10,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import com.actionbarsherlock.app.SherlockActivity;
 
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 import static android.view.View.OnClickListener;
 
-public class LoginActivity extends SherlockActivity {
+public class LoginActivity extends Activity {
   private static final String TAG = "LoginActivity";
 
   @Override protected void onCreate(Bundle savedInstanceState) {

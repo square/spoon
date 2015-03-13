@@ -15,7 +15,7 @@
   -->
 
 <resources>
-  <style name="AppTheme" parent="Theme.Sherlock.Light.DarkActionBar">
+  <style name="AppTheme" parent="android:Theme.NoTitleBar">
     <item name="textAppearanceFinish">@style/TextAppearanceFinish</item>
   </style>
 

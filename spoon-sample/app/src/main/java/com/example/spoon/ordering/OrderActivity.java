@@ -21,6 +21,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -28,7 +29,6 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.example.spoon.ordering.wizard.model.AbstractWizardModel;
 import com.example.spoon.ordering.wizard.model.ModelCallbacks;
 import com.example.spoon.ordering.wizard.model.Page;
@@ -37,7 +37,7 @@ import com.example.spoon.ordering.wizard.ui.ReviewFragment;
 import com.example.spoon.ordering.wizard.ui.StepPagerStrip;
 import java.util.List;
 
-public class OrderActivity extends SherlockFragmentActivity
+public class OrderActivity extends FragmentActivity
     implements PageFragmentCallbacks, ReviewFragment.Callbacks, ModelCallbacks {
   private ViewPager mPager;
   private MyPagerAdapter mPagerAdapter;
