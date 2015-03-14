@@ -1,14 +1,20 @@
 package com.squareup.spoon;
 
-import static com.squareup.spoon.Spoon.SPOON_SCREENSHOTS;
-import static com.squareup.spoon.SpoonLogger.logDebug;
-import static com.squareup.spoon.SpoonLogger.logError;
-import static com.squareup.spoon.SpoonLogger.logInfo;
-import static com.squareup.spoon.SpoonUtils.GSON;
-import static com.squareup.spoon.SpoonUtils.createAnimatedGif;
-import static com.squareup.spoon.SpoonUtils.obtainDirectoryFileEntry;
-import static com.squareup.spoon.SpoonUtils.obtainRealDevice;
-
+import com.android.ddmlib.AndroidDebugBridge;
+import com.android.ddmlib.CollectingOutputReceiver;
+import com.android.ddmlib.IDevice;
+import com.android.ddmlib.InstallException;
+import com.android.ddmlib.SyncService;
+import com.android.ddmlib.logcat.LogCatMessage;
+import com.android.ddmlib.testrunner.ITestRunListener;
+import com.android.ddmlib.testrunner.RemoteAndroidTestRunner;
+import com.android.ddmlib.testrunner.IRemoteAndroidTestRunner;
+import com.google.common.base.Strings;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
+import com.squareup.spoon.adapters.TestIdentifierAdapter;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.TrueFileFilter;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -20,25 +26,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.TrueFileFilter;
-
-import com.android.ddmlib.AndroidDebugBridge;
-import com.android.ddmlib.CollectingOutputReceiver;
-import com.android.ddmlib.DdmPreferences;
-import com.android.ddmlib.FileListingService.FileEntry;
-import com.android.ddmlib.IDevice;
-import com.android.ddmlib.InstallException;
-import com.android.ddmlib.SyncService;
-import com.android.ddmlib.logcat.LogCatMessage;
-import com.android.ddmlib.testrunner.IRemoteAndroidTestRunner;
-import com.android.ddmlib.testrunner.ITestRunListener;
-import com.android.ddmlib.testrunner.RemoteAndroidTestRunner;
-import com.google.common.base.Strings;
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
-import com.squareup.spoon.adapters.TestIdentifierAdapter;
+import static com.android.ddmlib.FileListingService.FileEntry;
+import static com.squareup.spoon.Spoon.SPOON_SCREENSHOTS;
+import static com.squareup.spoon.SpoonLogger.logDebug;
+import static com.squareup.spoon.SpoonLogger.logError;
+import static com.squareup.spoon.SpoonLogger.logInfo;
+import static com.squareup.spoon.SpoonUtils.GSON;
+import static com.squareup.spoon.SpoonUtils.createAnimatedGif;
+import static com.squareup.spoon.SpoonUtils.obtainDirectoryFileEntry;
+import static com.squareup.spoon.SpoonUtils.obtainRealDevice;
 
 /** Represents a single device and the test configuration to be executed. */
 public final class SpoonDeviceRunner {
@@ -167,7 +163,6 @@ public final class SpoonDeviceRunner {
     result.setDeviceDetails(deviceDetails);
     logDebug(debug, "[%s] setDeviceDetails %s", serial, deviceDetails);
     
-    // Set timeout 
     DdmPreferences.setTimeOut(adbTimeout);
 
     try {
