@@ -27,8 +27,10 @@ import static com.squareup.spoon.Chmod.chmodPlusRWX;
 public final class Spoon {
   static final String SPOON_SCREENSHOTS = "spoon-screenshots";
   static final String NAME_SEPARATOR = "_";
-  static final String TEST_CASE_CLASS = "android.test.InstrumentationTestCase";
-  static final String TEST_CASE_METHOD = "runMethod";
+  static final String TEST_CASE_CLASS_JUNIT_3 = "android.test.InstrumentationTestCase";
+  static final String TEST_CASE_METHOD_JUNIT_3 = "runMethod";
+  static final String TEST_CASE_CLASS_JUNIT_4 = "org.junit.runners.model.FrameworkMethod$1";
+  static final String TEST_CASE_METHOD_JUNIT_4 = "runReflectiveCall";
   private static final String EXTENSION = ".png";
   private static final String TAG = "Spoon";
   private static final Object LOCK = new Object();
@@ -136,8 +138,14 @@ public final class Spoon {
   static StackTraceElement findTestClassTraceElement(StackTraceElement[] trace) {
     for (int i = trace.length - 1; i >= 0; i--) {
       StackTraceElement element = trace[i];
-      if (TEST_CASE_CLASS.equals(element.getClassName()) //
-          && TEST_CASE_METHOD.equals(element.getMethodName())) {
+
+      if (TEST_CASE_CLASS_JUNIT_3.equals(element.getClassName()) //
+          && TEST_CASE_METHOD_JUNIT_3.equals(element.getMethodName())) {
+        return trace[i - 3];
+      }
+
+      if (TEST_CASE_CLASS_JUNIT_4.equals(element.getClassName()) //
+              && TEST_CASE_METHOD_JUNIT_4.equals(element.getMethodName())) {
         return trace[i - 3];
       }
     }
