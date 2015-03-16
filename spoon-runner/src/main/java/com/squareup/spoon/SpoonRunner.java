@@ -167,6 +167,7 @@ public final class SpoonRunner {
             try {
               summary.addResult(safeSerial, getTestRunner(serial, testInfo).runInNewProcess());
             } catch (Exception e) {
+              e.printStackTrace(System.out);
               summary.addResult(safeSerial, new DeviceResult.Builder().addException(e).build());
             } finally {
               done.countDown();
