@@ -47,11 +47,30 @@ public final class Spoon {
    * @return the image file that was created
    */
   public static File screenshot(Activity activity, String tag) {
+    StackTraceElement testClass = findTestClassTraceElement(Thread.currentThread().getStackTrace());
+    String className = testClass.getClassName().replaceAll("[^A-Za-z0-9._-]", "_");
+    String methodName = testClass.getMethodName();
+    return screenshot(activity, tag, className, methodName);
+  }
+
+  /**
+   * Take a screenshot with the specified tag.  This version allows the caller to manually specify
+   * the test class name and method name.  This is necessary when the screenshot is not called in
+   * the traditional manner.
+   *
+   * @param activity Activity with which to capture a screenshot.
+   * @param tag Unique tag to further identify the screenshot. Must match [a-zA-Z0-9_-]+.
+   * @return the image file that was created
+   */
+  public static File screenshot(Activity activity, String tag, String testClassName,
+      String testMethodName) {
     if (!TAG_VALIDATION.matcher(tag).matches()) {
       throw new IllegalArgumentException("Tag must match " + TAG_VALIDATION.pattern() + ".");
     }
     try {
-      File screenshotDirectory = obtainScreenshotDirectory(activity.getApplicationContext());
+      File screenshotDirectory =
+          obtainScreenshotDirectory(activity.getApplicationContext(), testClassName,
+              testMethodName);
       String screenshotName = System.currentTimeMillis() + NAME_SEPARATOR + tag + EXTENSION;
       File screenshotFile = new File(screenshotDirectory, screenshotName);
       takeScreenshot(screenshotFile, activity);
@@ -109,7 +128,8 @@ public final class Spoon {
     activity.getWindow().getDecorView().draw(canvas);
   }
 
-  private static File obtainScreenshotDirectory(Context context) throws IllegalAccessException {
+  private static File obtainScreenshotDirectory(Context context, String testClassName,
+      String testMethodName) throws IllegalAccessException {
     File screenshotsDir;
     if (Build.VERSION.SDK_INT >= 21) {
       // Use external storage.
@@ -126,10 +146,8 @@ public final class Spoon {
       }
     }
 
-    StackTraceElement testClass = findTestClassTraceElement(Thread.currentThread().getStackTrace());
-    String className = testClass.getClassName().replaceAll("[^A-Za-z0-9._-]", "_");
-    File dirClass = new File(screenshotsDir, className);
-    File dirMethod = new File(dirClass, testClass.getMethodName());
+    File dirClass = new File(screenshotsDir, testClassName);
+    File dirMethod = new File(dirClass, testMethodName);
     createDir(dirMethod);
     return dirMethod;
   }
@@ -145,7 +163,7 @@ public final class Spoon {
       }
 
       if (TEST_CASE_CLASS_JUNIT_4.equals(element.getClassName()) //
-              && TEST_CASE_METHOD_JUNIT_4.equals(element.getMethodName())) {
+          && TEST_CASE_METHOD_JUNIT_4.equals(element.getMethodName())) {
         return trace[i - 3];
       }
     }
