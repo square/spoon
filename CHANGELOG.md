@@ -1,6 +1,17 @@
 Change Log
 ==========
 
+Version 1.1.5 *(2015-03-16)*
+----------------------------
+
+* Fix: stacktrace in stdout when running on multiple devices.
+* Fix: disconnect from adb after running tests.
+
+Version 1.1.4 *(2015-03-16)*
+----------------------------
+
+* Allow specifying test class/method names in Spoon.screenshot call.
+
 Version 1.1.3 *(2015-03-13)*
 ----------------------------
 
