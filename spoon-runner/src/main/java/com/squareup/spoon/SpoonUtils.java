@@ -97,7 +97,7 @@ final class SpoonUtils {
 
   /** Get an {@link com.android.ddmlib.AndroidDebugBridge} instance given an SDK path. */
   static AndroidDebugBridge initAdb(File sdk) {
-    AndroidDebugBridge.init(false);
+    AndroidDebugBridge.initIfNeeded(false);
     File adbPath = FileUtils.getFile(sdk, "platform-tools", "adb");
     AndroidDebugBridge adb = AndroidDebugBridge.createBridge(adbPath.getAbsolutePath(), true);
     waitForAdb(adb);
