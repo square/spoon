@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 1.1.6 *(2015-03-16)*
+----------------------------
+
+* Fix: a different approach to fixing the adb connection issues.
+
 Version 1.1.5 *(2015-03-16)*
 ----------------------------
 
