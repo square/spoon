@@ -114,6 +114,7 @@ public final class SpoonRunner {
 
       return parseOverallSuccess(summary);
     } finally {
+      AndroidDebugBridge.disconnectBridge();
       AndroidDebugBridge.terminate();
     }
   }
@@ -162,8 +163,7 @@ public final class SpoonRunner {
         final String safeSerial = SpoonUtils.sanitizeSerial(serial);
         logDebug(debug, "[%s] Starting execution.", serial);
         Runnable runnable = new Runnable() {
-          @Override
-          public void run() {
+          @Override public void run() {
             try {
               summary.addResult(safeSerial, getTestRunner(serial, testInfo).runInNewProcess());
             } catch (Exception e) {
@@ -379,22 +379,22 @@ public final class SpoonRunner {
   }
 
   static class CommandLineArgs {
-    @Parameter(names = { "--title" }, description = "Execution title")
+    @Parameter(names = { "--title" }, description = "Execution title") //
     public String title = DEFAULT_TITLE;
 
     @Parameter(names = { "--apk" }, description = "Application APK",
-        converter = FileConverter.class, required = true)
+        converter = FileConverter.class, required = true) //
     public File apk;
 
     @Parameter(names = { "--test-apk" }, description = "Test application APK",
-        converter = FileConverter.class, required = true)
+        converter = FileConverter.class, required = true) //
     public File testApk;
 
     @Parameter(names = { "--class-name" }, description = "Test class name to run (fully-qualified)")
     public String className;
 
     @Parameter(names = { "--method-name" },
-        description = "Test method name to run (must also use --class-name)")
+        description = "Test method name to run (must also use --class-name)") //
     public String methodName;
 
     @Parameter(names = { "--size" }, converter = TestSizeConverter.class,
@@ -402,31 +402,31 @@ public final class SpoonRunner {
     public IRemoteAndroidTestRunner.TestSize size;
 
     @Parameter(names = { "--output" }, description = "Output path",
-        converter = FileConverter.class)
+        converter = FileConverter.class) //
     public File output = cleanFile(SpoonRunner.DEFAULT_OUTPUT_DIRECTORY);
 
-    @Parameter(names = { "--sdk" }, description = "Path to Android SDK")
+    @Parameter(names = { "--sdk" }, description = "Path to Android SDK") //
     public File sdk = cleanFile(System.getenv("ANDROID_HOME"));
 
     @Parameter(names = { "--fail-on-failure" }, description = "Non-zero exit code on failure")
     public boolean failOnFailure;
 
     @Parameter(names = { "--fail-if-no-device-connected" },
-        description = "Fail if no device is connected")
+        description = "Fail if no device is connected") //
     public boolean failIfNoDeviceConnected;
 
     @Parameter(names = { "--sequential" },
-        description = "Execute tests sequentially (one device at a time)")
+        description = "Execute tests sequentially (one device at a time)") //
     public boolean sequential;
 
     @Parameter(names = { "--no-animations" }, description = "Disable animated gif generation")
     public boolean noAnimations;
 
     @Parameter(names = { "--adb-timeout" },
-        description = "Set maximum execution time per test in seconds (10min default)")
+        description = "Set maximum execution time per test in seconds (10min default)") //
     public int adbTimeoutSeconds = DEFAULT_ADB_TIMEOUT;
 
-    @Parameter(names = { "--debug" }, hidden = true)
+    @Parameter(names = { "--debug" }, hidden = true) //
     public boolean debug;
 
     @Parameter(names = { "-h", "--help" }, description = "Command help", help = true, hidden = true)
