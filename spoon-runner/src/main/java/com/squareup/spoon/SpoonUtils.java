@@ -18,6 +18,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import org.apache.commons.io.FileUtils;
@@ -99,7 +100,7 @@ final class SpoonUtils {
   static AndroidDebugBridge initAdb(File sdk) {
     AndroidDebugBridge.initIfNeeded(false);
     File adbPath = FileUtils.getFile(sdk, "platform-tools", "adb");
-    AndroidDebugBridge adb = AndroidDebugBridge.createBridge(adbPath.getAbsolutePath(), true);
+    AndroidDebugBridge adb = AndroidDebugBridge.createBridge(adbPath.getAbsolutePath(), false);
     waitForAdb(adb);
     return adb;
   }
@@ -129,17 +130,19 @@ final class SpoonUtils {
   }
 
   private static void waitForAdb(AndroidDebugBridge adb) {
-    for (int i = 1; i < 10; i++) {
+    long timeOutMs = TimeUnit.SECONDS.toMillis(30);
+    long sleepTimeMs = TimeUnit.SECONDS.toMillis(1);
+    while (!adb.hasInitialDeviceList() && timeOutMs > 0) {
       try {
-        Thread.sleep(i * 100);
+        Thread.sleep(sleepTimeMs);
       } catch (InterruptedException e) {
         throw new RuntimeException(e);
       }
-      if (adb.isConnected()) {
-        return;
-      }
+      timeOutMs -= sleepTimeMs;
     }
-    throw new RuntimeException("Unable to connect to adb.");
+    if (timeOutMs <= 0 && !adb.hasInitialDeviceList()) {
+      throw new RuntimeException("Timeout getting device list.", null);
+    }
   }
 
   private SpoonUtils() {
