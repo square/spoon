@@ -60,19 +60,21 @@ sequence of interaction.
 Download
 --------
 
-Download the [latest runner JAR][1] or the [latest client JAR][2], or grab
-via Maven:
+Download the [latest runner JAR][1] or the [latest client JAR][2], or just add to your dependencies:
 
+Maven:
 ```xml
 <dependency>
   <groupId>com.squareup.spoon</groupId>
   <artifactId>spoon-client</artifactId>
-  <version>1.1.1</version>
+  <version>1.1.7</version>
 </dependency>
 ```
 
-Snapshots of the development version are available in [Sonatype's `snapshots` repository][snap].
+Gradle:
+We recommend using the [gradle plugin][3] (currently maintained as a separate project).
 
+Snapshots of the development version are available in [Sonatype's `snapshots` repository][snap].
 
 
 Execution
@@ -174,5 +176,6 @@ License
 
  [1]: https://search.maven.org/remote_content?g=com.squareup.spoon&a=spoon-runner&v=LATEST&c=jar-with-dependencies
  [2]: https://search.maven.org/remote_content?g=com.squareup.spoon&a=spoon-client&v=LATEST
+ [3]: https://github.com/stanfy/spoon-gradle-plugin
  [snap]: https://oss.sonatype.org/content/repositories/snapshots/
 
