@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 1.1.8 *(2015-03-21)*
+----------------------------
+
+* Fix: timeout while deploying apk to the device
+
 Version 1.1.7 *(2015-03-18)*
 ----------------------------
 
