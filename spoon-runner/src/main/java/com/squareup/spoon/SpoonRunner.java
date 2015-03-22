@@ -421,6 +421,10 @@ public final class SpoonRunner {
         description = "Set maximum execution time per test in seconds (10min default)") //
     public int adbTimeoutSeconds = DEFAULT_ADB_TIMEOUT;
 
+    @Parameter(names = "-serial",
+        description = "Serial of the device to use (May be used multiple times)")
+    private List<String> serials = new ArrayList<String>();
+
     @Parameter(names = { "--debug" }, hidden = true) //
     public boolean debug;
 
@@ -471,7 +475,7 @@ public final class SpoonRunner {
       return;
     }
 
-    SpoonRunner spoonRunner = new SpoonRunner.Builder() //
+    Builder builder = new SpoonRunner.Builder()
         .setTitle(parsedArgs.title)
         .setApplicationApk(parsedArgs.apk)
         .setInstrumentationApk(parsedArgs.testApk)
@@ -484,9 +488,17 @@ public final class SpoonRunner {
         .setFailIfNoDeviceConnected(parsedArgs.failIfNoDeviceConnected)
         .setSequential(parsedArgs.sequential)
         .setClassName(parsedArgs.className)
-        .setMethodName(parsedArgs.methodName)
-        .useAllAttachedDevices()
-        .build();
+        .setMethodName(parsedArgs.methodName);
+
+    if (parsedArgs.serials == null || parsedArgs.serials.isEmpty()) {
+      builder.useAllAttachedDevices();
+    } else {
+      for (String serial : parsedArgs.serials) {
+        builder.addDevice(serial);
+      }
+    }
+
+    SpoonRunner spoonRunner = builder.build();
 
     if (!spoonRunner.run() && parsedArgs.failOnFailure) {
       System.exit(1);
