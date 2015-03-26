@@ -188,6 +188,9 @@ public final class SpoonDeviceRunner {
     // Create the output directory, if it does not already exist.
     work.mkdirs();
 
+    // Initiate device logging.
+    SpoonDeviceLogger deviceLogger = new SpoonDeviceLogger(device);
+
     // Run all the tests! o/
     try {
       logDebug(debug, "About to actually run tests for [%s]", serial);
@@ -214,7 +217,7 @@ public final class SpoonDeviceRunner {
       result.addException(e);
     }
 
-    mapLogsToTests(device, result);
+    mapLogsToTests(deviceLogger, result);
 
     try {
       logDebug(debug, "About to grab screenshots and prepare output for [%s]", serial);
@@ -224,6 +227,7 @@ public final class SpoonDeviceRunner {
       if (screenshotDir.exists()) {
         imageDir.mkdirs();
 
+        logDebug(debug, "Moving screenshots to the image folder on [%s]", serial);
         // Move all children of the screenshot directory into the image folder.
         File[] classNameDirs = screenshotDir.listFiles();
         if (classNameDirs != null) {
@@ -253,6 +257,7 @@ public final class SpoonDeviceRunner {
             }
           }
 
+          logDebug(debug, "Generating animated gifs for [%s]", serial);
           // Don't generate animations if the switch is present
           if (!noAnimations) {
             // Make animated GIFs for all the tests which have screenshots.
@@ -273,6 +278,7 @@ public final class SpoonDeviceRunner {
     } catch (Exception e) {
       result.addException(e);
     }
+    logDebug(debug, "Done running for [%s]", serial);
 
     return result.build();
   }
@@ -288,10 +294,13 @@ public final class SpoonDeviceRunner {
     logDebug(debug, "External path is " + externalDir.getFullPath());
 
     // Sync device screenshots to the local filesystem.
-    logDebug(debug, "Pulling screenshots from [%s]", serial);
+    // TODO only pull from one location, based on android version of device
+    logDebug(debug, "Pulling screenshots from external dir on [%s]", serial);
     String localDirName = work.getAbsolutePath();
     adbPull(device, externalDir, localDirName);
+    logDebug(debug, "Pulling screenshots from internal dir on [%s]", serial);
     adbPull(device, internalDir, localDirName);
+    logDebug(debug, "Done pulling screenshots from [%s]", serial);
   }
 
   private void adbPull(IDevice device, FileEntry remoteDirName, String localDirName) {
@@ -322,10 +331,7 @@ public final class SpoonDeviceRunner {
   }
 
   /** Grab all the parsed logs and map them to individual tests. */
-  private static void mapLogsToTests(IDevice device, DeviceResult.Builder result) {
-    // Initiate device logging.
-    SpoonDeviceLogger deviceLogger = new SpoonDeviceLogger(device);
-
+  private static void mapLogsToTests(SpoonDeviceLogger deviceLogger, DeviceResult.Builder result) {
     Map<DeviceTest, List<LogCatMessage>> logs = deviceLogger.getParsedLogs();
     for (Map.Entry<DeviceTest, List<LogCatMessage>> entry : logs.entrySet()) {
       DeviceTestResult.Builder builder = result.getMethodResultBuilder(entry.getKey());

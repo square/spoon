@@ -55,7 +55,6 @@ public final class SpoonRunner {
   private final IRemoteAndroidTestRunner.TestSize testSize;
   private final boolean failIfNoDeviceConnected;
   private final List<ITestRunListener> testRunListeners;
-  private final boolean sequential;
 
   private SpoonRunner(String title, File androidSdk, File applicationApk, File instrumentationApk,
       File output, boolean debug, boolean noAnimations, int adbTimeout, Set<String> serials,
@@ -77,7 +76,6 @@ public final class SpoonRunner {
     this.serials = ImmutableSet.copyOf(serials);
     this.failIfNoDeviceConnected = failIfNoDeviceConnected;
     this.testRunListeners = testRunListeners;
-    this.sequential = sequential;
 
     if (sequential) {
       this.threadExecutor = Executors.newSingleThreadExecutor();
@@ -421,6 +419,7 @@ public final class SpoonRunner {
         description = "Set maximum execution time per test in seconds (10min default)") //
     public int adbTimeoutSeconds = DEFAULT_ADB_TIMEOUT;
 
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection") //
     @Parameter(names = "-serial",
         description = "Serial of the device to use (May be used multiple times)")
     private List<String> serials = new ArrayList<String>();
@@ -475,7 +474,7 @@ public final class SpoonRunner {
       return;
     }
 
-    Builder builder = new SpoonRunner.Builder()
+    Builder builder = new SpoonRunner.Builder() //
         .setTitle(parsedArgs.title)
         .setApplicationApk(parsedArgs.apk)
         .setInstrumentationApk(parsedArgs.testApk)
