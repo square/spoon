@@ -56,12 +56,13 @@ public final class SpoonRunner {
   private final IRemoteAndroidTestRunner.TestSize testSize;
   private final boolean failIfNoDeviceConnected;
   private final List<ITestRunListener> testRunListeners;
+  private final boolean terminateAdb;
 
   private SpoonRunner(String title, File androidSdk, File applicationApk, File instrumentationApk,
       File output, boolean debug, boolean noAnimations, int adbTimeout, Set<String> serials,
       String classpath, List<String> instrumentationArgs, String className, String methodName,
       IRemoteAndroidTestRunner.TestSize testSize, boolean failIfNoDeviceConnected,
-      List<ITestRunListener> testRunListeners, boolean sequential) {
+      List<ITestRunListener> testRunListeners, boolean sequential, boolean terminateAdb) {
     this.title = title;
     this.androidSdk = androidSdk;
     this.applicationApk = applicationApk;
@@ -78,6 +79,7 @@ public final class SpoonRunner {
     this.serials = ImmutableSet.copyOf(serials);
     this.failIfNoDeviceConnected = failIfNoDeviceConnected;
     this.testRunListeners = testRunListeners;
+    this.terminateAdb = terminateAdb;
 
     if (sequential) {
       this.threadExecutor = Executors.newSingleThreadExecutor();
@@ -97,21 +99,27 @@ public final class SpoonRunner {
 
     AndroidDebugBridge adb = SpoonUtils.initAdb(androidSdk);
 
-    // If we were given an empty serial set, load all available devices.
-    Set<String> serials = this.serials;
-    if (serials.isEmpty()) {
-      serials = SpoonUtils.findAllDevices(adb);
-    }
-    if (failIfNoDeviceConnected && serials.isEmpty()) {
-      throw new RuntimeException("No device(s) found.");
-    }
+    try {
+      // If we were given an empty serial set, load all available devices.
+      Set<String> serials = this.serials;
+      if (serials.isEmpty()) {
+        serials = SpoonUtils.findAllDevices(adb);
+      }
+      if (failIfNoDeviceConnected && serials.isEmpty()) {
+        throw new RuntimeException("No device(s) found.");
+      }
 
-    // Execute all the things...
-    SpoonSummary summary = runTests(adb, serials);
-    // ...and render to HTML
-    new HtmlRenderer(summary, SpoonUtils.GSON, output).render();
+      // Execute all the things...
+      SpoonSummary summary = runTests(adb, serials);
+      // ...and render to HTML
+      new HtmlRenderer(summary, SpoonUtils.GSON, output).render();
 
-    return parseOverallSuccess(summary);
+      return parseOverallSuccess(summary);
+    } finally {
+      if (terminateAdb) {
+        AndroidDebugBridge.terminate();
+      }
+    }
   }
 
   private SpoonSummary runTests(AndroidDebugBridge adb, Set<String> serials) {
@@ -238,6 +246,7 @@ public final class SpoonRunner {
     private boolean failIfNoDeviceConnected;
     private List<ITestRunListener> testRunListeners = new ArrayList<ITestRunListener>();
     private boolean sequential;
+    private boolean terminateAdb = true;
 
     /** Identifying title for this execution. */
     public Builder setTitle(String title) {
@@ -361,6 +370,11 @@ public final class SpoonRunner {
       return this;
     }
 
+    public Builder setTerminateAdb(boolean terminateAdb) {
+      this.terminateAdb = terminateAdb;
+      return this;
+    }
+
     public SpoonRunner build() {
       checkNotNull(androidSdk, "SDK is required.");
       checkArgument(androidSdk.exists(), "SDK path does not exist.");
@@ -375,7 +389,7 @@ public final class SpoonRunner {
 
       return new SpoonRunner(title, androidSdk, applicationApk, instrumentationApk, output, debug,
           noAnimations, adbTimeout, serials, classpath, instrumentationArgs, className, methodName,
-          testSize, failIfNoDeviceConnected, testRunListeners, sequential);
+          testSize, failIfNoDeviceConnected, testRunListeners, sequential, terminateAdb);
     }
   }
 
