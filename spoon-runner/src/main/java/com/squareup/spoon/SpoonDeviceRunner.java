@@ -201,7 +201,7 @@ public final class SpoonDeviceRunner {
 
       if(instrumentationArgs != null && instrumentationArgs.size() > 0){
         for(String pair : instrumentationArgs){
-          String[] kvp = pair.split(" ");
+          String[] kvp = pair.split("=");
           if(kvp.length != 2 || Strings.isNullOrEmpty(kvp[0]) || Strings.isNullOrEmpty(kvp[1])) {
             continue;
           }

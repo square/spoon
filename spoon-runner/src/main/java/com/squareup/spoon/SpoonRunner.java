@@ -393,7 +393,7 @@ public final class SpoonRunner {
 
     @Parameter(names = { "--e" },
         description = "Arguments to pass to the Instrumentation Runner. This can be used multiple times for multiple entries." +
-            " Usage: --e \"<NAME> <VALUE>\". Quotes are required." )
+            " Usage: --e <NAME>=<VALUE>." )
     public List<String> instrumentationArgs;
 
     @Parameter(names = { "--class-name" }, description = "Test class name to run (fully-qualified)")
