@@ -10,7 +10,6 @@ import com.android.ddmlib.logcat.LogCatMessage;
 import com.android.ddmlib.testrunner.IRemoteAndroidTestRunner;
 import com.android.ddmlib.testrunner.ITestRunListener;
 import com.android.ddmlib.testrunner.RemoteAndroidTestRunner;
-import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.squareup.spoon.adapters.TestIdentifierAdapter;
@@ -29,6 +28,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
+import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.squareup.spoon.Spoon.SPOON_SCREENSHOTS;
 import static com.squareup.spoon.SpoonLogger.logDebug;
 import static com.squareup.spoon.SpoonLogger.logError;
@@ -84,8 +84,9 @@ public final class SpoonDeviceRunner {
    */
   SpoonDeviceRunner(File sdk, File apk, File testApk, File output, String serial, boolean debug,
       boolean noAnimations, int adbTimeout, String classpath,
-      SpoonInstrumentationInfo instrumentationInfo, List<String> instrumentationArgs, String className, String methodName,
-      IRemoteAndroidTestRunner.TestSize testSize, List<ITestRunListener> testRunListeners) {
+      SpoonInstrumentationInfo instrumentationInfo, List<String> instrumentationArgs,
+                    String className, String methodName, IRemoteAndroidTestRunner.TestSize testSize,
+                    List<ITestRunListener> testRunListeners) {
     this.sdk = sdk;
     this.apk = apk;
     this.testApk = testApk;
@@ -199,18 +200,18 @@ public final class SpoonDeviceRunner {
       RemoteAndroidTestRunner runner = new RemoteAndroidTestRunner(testPackage, testRunner, device);
       runner.setMaxtimeToOutputResponse(adbTimeout);
 
-      if(instrumentationArgs != null && instrumentationArgs.size() > 0){
-        for(String pair : instrumentationArgs){
+      if (instrumentationArgs != null && instrumentationArgs.size() > 0) {
+        for (String pair : instrumentationArgs) {
           String[] kvp = pair.split("=");
-          if(kvp.length != 2 || Strings.isNullOrEmpty(kvp[0]) || Strings.isNullOrEmpty(kvp[1])) {
+          if (kvp.length != 2 || isNullOrEmpty(kvp[0]) || isNullOrEmpty(kvp[1])) {
             continue;
           }
           runner.addInstrumentationArg(kvp[0], kvp[1]);
         }
       }
 
-      if (!Strings.isNullOrEmpty(className)) {
-        if (Strings.isNullOrEmpty(methodName)) {
+      if (!isNullOrEmpty(className)) {
+        if (isNullOrEmpty(methodName)) {
           runner.setClassName(className);
         } else {
           runner.setMethodName(className, methodName);

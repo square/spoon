@@ -27,6 +27,7 @@ import java.util.concurrent.Executors;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.squareup.spoon.DeviceTestResult.Status;
 import static com.squareup.spoon.SpoonInstrumentationInfo.parseFromFile;
 import static com.squareup.spoon.SpoonLogger.logDebug;
@@ -215,8 +216,8 @@ public final class SpoonRunner {
 
   private SpoonDeviceRunner getTestRunner(String serial, SpoonInstrumentationInfo testInfo) {
     return new SpoonDeviceRunner(androidSdk, applicationApk, instrumentationApk, output, serial,
-        debug, noAnimations, adbTimeout, classpath, testInfo, instrumentationArgs, className, methodName, testSize,
-        testRunListeners);
+        debug, noAnimations, adbTimeout, classpath, testInfo, instrumentationArgs, className,
+        methodName, testSize, testRunListeners);
   }
 
   /** Build a test suite for the specified devices and configuration. */
@@ -325,7 +326,7 @@ public final class SpoonRunner {
       return this;
     }
 
-    public Builder setInstrumentationArgs(List<String> instrumentationArgs){
+    public Builder setInstrumentationArgs(List<String> instrumentationArgs) {
       this.instrumentationArgs = instrumentationArgs;
       return this;
     }
@@ -368,14 +369,14 @@ public final class SpoonRunner {
       checkNotNull(instrumentationApk, "Instrumentation APK is required.");
       checkNotNull(output, "Output path is required.");
       checkNotNull(serials, "Device serials are required.");
-      if (!Strings.isNullOrEmpty(methodName)) {
-        checkArgument(!Strings.isNullOrEmpty(className),
+      if (!isNullOrEmpty(methodName)) {
+        checkArgument(!isNullOrEmpty(className),
             "Must specify class name if you're specifying a method name.");
       }
 
       return new SpoonRunner(title, androidSdk, applicationApk, instrumentationApk, output, debug,
-          noAnimations, adbTimeout, serials, classpath, instrumentationArgs, className, methodName, testSize,
-          failIfNoDeviceConnected, testRunListeners, sequential);
+          noAnimations, adbTimeout, serials, classpath, instrumentationArgs, className, methodName,
+          testSize, failIfNoDeviceConnected, testRunListeners, sequential);
     }
   }
 
