@@ -7,7 +7,6 @@ import com.beust.jcommander.IStringConverter;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
-import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.squareup.spoon.html.HtmlRenderer;
 
@@ -393,8 +392,8 @@ public final class SpoonRunner {
     public File testApk;
 
     @Parameter(names = { "--e" },
-        description = "Arguments to pass to the Instrumentation Runner. This can be used multiple times for multiple entries." +
-            " Usage: --e <NAME>=<VALUE>." )
+        description = "Arguments to pass to the Instrumentation Runner. This can be used multiple"
+            + " times for multiple entries. Usage: --e <NAME>=<VALUE>.")
     public List<String> instrumentationArgs;
 
     @Parameter(names = { "--class-name" }, description = "Test class name to run (fully-qualified)")
