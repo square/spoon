@@ -48,7 +48,7 @@ public final class SpoonRunner {
   private final boolean debug;
   private final boolean noAnimations;
   private final int adbTimeout;
-  private final String packageName;
+  private final List<String> instrumentationArgs;
   private final String className;
   private final String methodName;
   private final Set<String> serials;
@@ -59,7 +59,7 @@ public final class SpoonRunner {
 
   private SpoonRunner(String title, File androidSdk, File applicationApk, File instrumentationApk,
       File output, boolean debug, boolean noAnimations, int adbTimeout, Set<String> serials,
-      String classpath, String packageName, String className, String methodName,
+      String classpath, List<String> instrumentationArgs, String className, String methodName,
       IRemoteAndroidTestRunner.TestSize testSize, boolean failIfNoDeviceConnected,
       List<ITestRunListener> testRunListeners, boolean sequential) {
     this.title = title;
@@ -70,7 +70,7 @@ public final class SpoonRunner {
     this.debug = debug;
     this.noAnimations = noAnimations;
     this.adbTimeout = adbTimeout;
-    this.packageName = packageName;
+    this.instrumentationArgs = instrumentationArgs;
     this.className = className;
     this.methodName = methodName;
     this.classpath = classpath;
@@ -215,7 +215,7 @@ public final class SpoonRunner {
 
   private SpoonDeviceRunner getTestRunner(String serial, SpoonInstrumentationInfo testInfo) {
     return new SpoonDeviceRunner(androidSdk, applicationApk, instrumentationApk, output, serial,
-        debug, noAnimations, adbTimeout, classpath, testInfo, packageName, className, methodName, testSize,
+        debug, noAnimations, adbTimeout, classpath, testInfo, instrumentationArgs, className, methodName, testSize,
         testRunListeners);
   }
 
@@ -229,7 +229,7 @@ public final class SpoonRunner {
     private boolean debug = false;
     private Set<String> serials;
     private String classpath = System.getProperty("java.class.path");
-    private String packageName;
+    private List<String> instrumentationArgs;
     private String className;
     private String methodName;
     private boolean noAnimations;
@@ -325,8 +325,8 @@ public final class SpoonRunner {
       return this;
     }
 
-    public Builder setPackageName(String packageName){
-      this.packageName = packageName;
+    public Builder setInstrumentationArgs(List<String> instrumentationArgs){
+      this.instrumentationArgs = instrumentationArgs;
       return this;
     }
 
@@ -374,7 +374,7 @@ public final class SpoonRunner {
       }
 
       return new SpoonRunner(title, androidSdk, applicationApk, instrumentationApk, output, debug,
-          noAnimations, adbTimeout, serials, classpath, packageName, className, methodName, testSize,
+          noAnimations, adbTimeout, serials, classpath, instrumentationArgs, className, methodName, testSize,
           failIfNoDeviceConnected, testRunListeners, sequential);
     }
   }
@@ -391,8 +391,10 @@ public final class SpoonRunner {
         converter = FileConverter.class, required = true) //
     public File testApk;
 
-    @Parameter(names = { "--package" }, description = "Package name to run (fully-qualified)")
-    public String packageName;
+    @Parameter(names = { "--e" },
+        description = "-e Arguments to pass to the Instrumentation Runner. This can be used multiple times for multiple entries. \n" +
+            "Example --e \"<NAME> <VALUE>\". Quotes are required." )
+    public List<String> instrumentationArgs;
 
     @Parameter(names = { "--class-name" }, description = "Test class name to run (fully-qualified)")
     public String className;
@@ -497,7 +499,7 @@ public final class SpoonRunner {
         .setAdbTimeout(parsedArgs.adbTimeoutSeconds * 1000)
         .setFailIfNoDeviceConnected(parsedArgs.failIfNoDeviceConnected)
         .setSequential(parsedArgs.sequential)
-        .setPackageName(parsedArgs.packageName)
+        .setInstrumentationArgs(parsedArgs.instrumentationArgs)
         .setClassName(parsedArgs.className)
         .setMethodName(parsedArgs.methodName);
 

@@ -54,7 +54,7 @@ public final class SpoonDeviceRunner {
   private final boolean debug;
   private final boolean noAnimations;
   private final int adbTimeout;
-  private final String packageName;
+  private final List<String> instrumentationArgs;
   private final String className;
   private final String methodName;
   private final IRemoteAndroidTestRunner.TestSize testSize;
@@ -84,7 +84,7 @@ public final class SpoonDeviceRunner {
    */
   SpoonDeviceRunner(File sdk, File apk, File testApk, File output, String serial, boolean debug,
       boolean noAnimations, int adbTimeout, String classpath,
-      SpoonInstrumentationInfo instrumentationInfo, String packageName, String className, String methodName,
+      SpoonInstrumentationInfo instrumentationInfo, List<String> instrumentationArgs, String className, String methodName,
       IRemoteAndroidTestRunner.TestSize testSize, List<ITestRunListener> testRunListeners) {
     this.sdk = sdk;
     this.apk = apk;
@@ -93,7 +93,7 @@ public final class SpoonDeviceRunner {
     this.debug = debug;
     this.noAnimations = noAnimations;
     this.adbTimeout = adbTimeout;
-    this.packageName = packageName;
+    this.instrumentationArgs = instrumentationArgs;
     this.className = className;
     this.methodName = methodName;
     this.testSize = testSize;
@@ -199,8 +199,14 @@ public final class SpoonDeviceRunner {
       RemoteAndroidTestRunner runner = new RemoteAndroidTestRunner(testPackage, testRunner, device);
       runner.setMaxtimeToOutputResponse(adbTimeout);
 
-      if(!Strings.isNullOrEmpty(packageName)){
-        runner.addInstrumentationArg("package", packageName);
+      if(instrumentationArgs != null && instrumentationArgs.size() > 0){
+        for(String pair : instrumentationArgs){
+          String[] kvp = pair.split(" ");
+          if(kvp.length != 2 || Strings.isNullOrEmpty(kvp[0]) || Strings.isNullOrEmpty(kvp[1])) {
+            continue;
+          }
+          runner.addInstrumentationArg(kvp[0], kvp[1]);
+        }
       }
 
       if (!Strings.isNullOrEmpty(className)) {
