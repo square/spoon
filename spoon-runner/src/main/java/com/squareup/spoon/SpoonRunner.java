@@ -392,7 +392,7 @@ public final class SpoonRunner {
     public File testApk;
 
     @Parameter(names = { "--e" },
-        description = "-e Arguments to pass to the Instrumentation Runner. This can be used multiple times for multiple entries. \n" +
+        description = "-e Arguments to pass to the Instrumentation Runner. This can be used multiple times for multiple entries." +
             "Example --e \"<NAME> <VALUE>\". Quotes are required." )
     public List<String> instrumentationArgs;
 
