@@ -67,7 +67,7 @@ Maven:
 <dependency>
   <groupId>com.squareup.spoon</groupId>
   <artifactId>spoon-client</artifactId>
-  <version>1.1.7</version>
+  <version>1.1.9</version>
 </dependency>
 ```
 
@@ -124,7 +124,7 @@ Declare the plugin in the `pom.xml` for the instrumentation test module.
 <plugin>
   <groupId>com.squareup.spoon</groupId>
   <artifactId>spoon-maven-plugin</artifactId>
-  <version>1.1.1</version>
+  <version>1.1.9</version>
 </plugin>
 ```
 
@@ -172,13 +172,13 @@ java -jar spoon-runner-1.1.9-jar-with-dependencies.jar \
 ```
 If you use Jenkins, a good way to set up sharding is inside a "Multi-configuration project".
 
-1. Add a "User-defined Axis".  Choose a name for the shard index variable, and define the index values you want (starting at zero).
+ - Add a "User-defined Axis".  Choose a name for the shard index variable, and define the index values you want (starting at zero).
 
-![User-defined Axis](website/static/jenkins_matrix_user_axis.png)
+   ![User-defined Axis](website/static/jenkins_matrix_user_axis.png)
 
-2. In your "Execute shell" step, use the same execution command as above, but inject the shard index for each slave node using the variable you defined above, e.g. `--e shardIndex=${shard_index}`.  Make sure you're passing in the correct total number of shards too, e.g. `--e numShards=4`.
+ - In your "Execute shell" step, use the same execution command as above, but inject the shard index for each slave node using the variable you defined above, e.g. `--e shardIndex=${shard_index}`.  Make sure you're passing in the correct total number of shards too, e.g. `--e numShards=4`.
 
-![Execute shell](website/static/jenkins_matrix_execute_shell.png)
+   ![Execute shell](website/static/jenkins_matrix_execute_shell.png)
 
 
 Running Specific Tests
