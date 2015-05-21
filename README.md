@@ -67,7 +67,7 @@ Maven:
 <dependency>
   <groupId>com.squareup.spoon</groupId>
   <artifactId>spoon-client</artifactId>
-  <version>1.1.7</version>
+  <version>1.1.9</version>
 </dependency>
 ```
 
@@ -87,9 +87,9 @@ You can run Spoon as a standalone tool with your application and instrumentation
 APKs.
 
 ```
-java -jar spoon-runner-1.1.1-jar-with-dependencies.jar \
-    --apk example-app.apk \
-    --test-apk example-tests.apk
+java -jar spoon-runner-1.1.9-jar-with-dependencies.jar \
+    --apk ExampleApp-debug.apk \
+    --test-apk ExampleApp-debug-androidTest-unaligned.apk
 ```
 
 By default the output will be placed in a spoon-output/ folder of the current
@@ -99,7 +99,6 @@ flags.
 ```
 Options:
     --apk               Application APK
-    --fail-on-failure   Non-zero exit code on failure
     --output            Output path
     --sdk               Path to Android SDK
     --test-apk          Test application APK
@@ -109,7 +108,13 @@ Options:
     --no-animations     Disable animated gif generation
     --size              Only run test methods annotated by testSize (small, medium, large)
     --adb-timeout       Set maximum execution time per test in seconds (10min default)
+    --fail-on-failure   Non-zero exit code on failure
+    --fail-if-no-device-connected Fail if no device is connected
     --sequential        Execute the tests device by device
+    --e                 Arguments to pass to the Instrumentation Runner. This can be used
+                        multiple times for multiple entries. Usage: --e <NAME>=<VALUE>.
+                        The supported arguments varies depending on which test runner 
+                        you are using, e.g. see the API docs for AndroidJUnitRunner.
 ```
 
 If you are using Maven for compilation, a plugin is provided for easy execution.
@@ -119,7 +124,7 @@ Declare the plugin in the `pom.xml` for the instrumentation test module.
 <plugin>
   <groupId>com.squareup.spoon</groupId>
   <artifactId>spoon-maven-plugin</artifactId>
-  <version>1.1.1</version>
+  <version>1.1.9</version>
 </plugin>
 ```
 
@@ -152,6 +157,39 @@ want to run a single test in that class, add `-Dspoon.test.method=testAllTheThin
 For a working example see the sample application and instrumentation tests in
 the `spoon-sample/` folder.
 
+Test Sharding
+-------------
+
+The Android Instrumention runner supports test sharding using the `numShards` and `shardIndex` arguments ([documentation](https://developer.android.com/tools/testing-support-library/index.html#ajur-sharding)).  
+
+You can use the `--e` option with Spoon to pass those arguments through to the instrumentation runner, e.g.
+```
+java -jar spoon-runner-1.1.9-jar-with-dependencies.jar \
+    --apk ExampleApp-debug.apk \
+    --test-apk ExampleApp-debug-androidTest-unaligned.apk \
+    --e numShards=4 \
+    --e shardIndex=0
+```
+If you use Jenkins, a good way to set up sharding is inside a "Multi-configuration project".
+
+ - Add a "User-defined Axis".  Choose a name for the shard index variable, and define the index values you want (starting at zero).
+
+   ![User-defined Axis](website/static/jenkins_matrix_user_axis.png)
+
+ - In your "Execute shell" step, use the same execution command as above, but inject the shard index for each slave node using the variable you defined above, e.g. `--e shardIndex=${shard_index}`.  Make sure you're passing in the correct total number of shards too, e.g. `--e numShards=4`.
+
+   ![Execute shell](website/static/jenkins_matrix_execute_shell.png)
+
+
+Running Specific Tests
+----------------------
+
+There are numerous ways to run a specific test, or set of tests.  You can use the Spoon `--size`, `--class-name` or `--method-name` options, or you can use the `--e` option to pass arguments to the instrumentation runner, e.g.
+
+```
+    --e package=com.mypackage.unit_tests
+```
+See the documentation for your instrumentation runner to find the full list of supported options (e.g. [AndroidJUnitRunner](http://developer.android.com/reference/android/support/test/runner/AndroidJUnitRunner.html)).
 
 
 License
