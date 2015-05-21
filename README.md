@@ -88,7 +88,7 @@ APKs.
 
 ```
 java -jar spoon-runner-1.1.9-jar-with-dependencies.jar \
-    --apk ExampleApp-debug-app.apk \
+    --apk ExampleApp-debug.apk \
     --test-apk ExampleApp-debug-androidTest-unaligned.apk
 ```
 
@@ -165,18 +165,20 @@ The Android Instrumention runner supports test sharding using the `numShards` an
 You can use the `--e` option with Spoon to pass those arguments through to the instrumentation runner, e.g.
 ```
 java -jar spoon-runner-1.1.9-jar-with-dependencies.jar \
-    --apk ExampleApp-debug-app.apk \
+    --apk ExampleApp-debug.apk \
     --test-apk ExampleApp-debug-androidTest-unaligned.apk \
     --e numShards=4 \
     --e shardIndex=0
 ```
-If you use Jenkins, a good way to set up sharding is inside a "Multi-configuration project", with configuration like this:  
+If you use Jenkins, a good way to set up sharding is inside a "Multi-configuration project".
 
- 1. "User-defined Axis" 
-   - Name: shard_index
-   - Values: 0 1 2 3
- 2. "Execute shell"
-   - Use the same execution command as above, but set `--e shardIndex=${shard_index}
+1. Add a "User-defined Axis".  Choose a name for the shard index variable, and define the index values you want (starting at zero).
+
+![User-defined Axis](website/static/jenkins_matrix_user_axis.png)
+
+2. In your "Execute shell" step, use the same execution command as above, but inject the shard index for each slave node using the variable you defined above, e.g. `--e shardIndex=${shard_index}`.  Make sure you're passing in the correct total number of shards too, e.g. `--e numShards=4`.
+
+![Execute shell](website/static/jenkins_matrix_execute_shell.png)
 
 
 Running Specific Tests
