@@ -23,10 +23,11 @@ public final class DeviceResult {
   private final long started;
   private final long duration;
   private final List<StackTrace> exceptions;
+  private final boolean wakeUpFailed;
 
   private DeviceResult(boolean installFailed, String installMessage, DeviceDetails deviceDetails,
       Map<DeviceTest, DeviceTestResult> testResults, long started, long duration,
-      List<StackTrace> exceptions) {
+      List<StackTrace> exceptions, boolean wakeUpFailed) {
     this.installFailed = installFailed;
     this.installMessage = installMessage;
     this.deviceDetails = deviceDetails;
@@ -34,6 +35,7 @@ public final class DeviceResult {
     this.testResults = unmodifiableMap(new TreeMap<DeviceTest, DeviceTestResult>(testResults));
     this.duration = duration;
     this.exceptions = unmodifiableList(new ArrayList<StackTrace>(exceptions));
+    this.wakeUpFailed = wakeUpFailed;
   }
 
   /**
@@ -80,6 +82,13 @@ public final class DeviceResult {
     return exceptions;
   }
 
+  /**
+   * {@code true} if device failed to wake up.
+   */
+  public boolean getWakeUpFailed() {
+    return wakeUpFailed;
+  }
+
   static class Builder {
     private boolean installFailed = false;
     private String installMessage = null;
@@ -90,6 +99,7 @@ public final class DeviceResult {
     private long start;
     private long duration = -1;
     private final List<StackTrace> exceptions = new ArrayList<StackTrace>();
+    private boolean wakeUpFailed = false;
 
     public Builder addTestResultBuilder(DeviceTest test,
         DeviceTestResult.Builder methodResultBuilder) {
@@ -114,6 +124,11 @@ public final class DeviceResult {
       checkArgument(!installFailed, "Install already marked as failed.");
       installFailed = true;
       installMessage = message;
+      return this;
+    }
+
+    public Builder markWakeUpFailed() {
+      wakeUpFailed = true;
       return this;
     }
 
@@ -151,7 +166,7 @@ public final class DeviceResult {
       }
 
       return new DeviceResult(installFailed, installMessage, deviceDetails, testResults, started,
-          duration, exceptions);
+          duration, exceptions, wakeUpFailed);
     }
   }
 }

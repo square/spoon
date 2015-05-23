@@ -64,6 +64,7 @@ public final class SpoonDeviceRunner {
   private final String classpath;
   private final SpoonInstrumentationInfo instrumentationInfo;
   private final List<ITestRunListener> testRunListeners;
+  private final boolean wakeDevices;
 
   /**
    * Create a test runner for a single device.
@@ -86,7 +87,7 @@ public final class SpoonDeviceRunner {
       boolean noAnimations, int adbTimeout, String classpath,
       SpoonInstrumentationInfo instrumentationInfo, List<String> instrumentationArgs,
       String className, String methodName, IRemoteAndroidTestRunner.TestSize testSize,
-      List<ITestRunListener> testRunListeners) {
+      List<ITestRunListener> testRunListeners, boolean wakeDevices) {
     this.sdk = sdk;
     this.apk = apk;
     this.testApk = testApk;
@@ -100,6 +101,7 @@ public final class SpoonDeviceRunner {
     this.testSize = testSize;
     this.classpath = classpath;
     this.instrumentationInfo = instrumentationInfo;
+    this.wakeDevices = wakeDevices;
 
     serial = SpoonUtils.sanitizeSerial(serial);
     this.work = FileUtils.getFile(output, TEMP_DIR, serial);
@@ -167,6 +169,26 @@ public final class SpoonDeviceRunner {
     final DeviceDetails deviceDetails = DeviceDetails.createForDevice(device);
     result.setDeviceDetails(deviceDetails);
     logDebug(debug, "[%s] setDeviceDetails %s", serial, deviceDetails);
+
+    if (wakeDevices) {
+      SpoonDeviceWakeUp deviceWakeUp = new SpoonDeviceWakeUp(device, deviceDetails, serial, adbTimeout, debug);
+      deviceWakeUp.start();
+
+      synchronized (deviceWakeUp) {
+        try {
+          deviceWakeUp.wait();
+        } catch (InterruptedException e) {
+          logError("[%s] interrupted while waiting for device to wake up: %s", serial, e.toString());
+        }
+
+        if (!deviceWakeUp.isDeviceAwake()) {
+          logError("[%s] failed to wake up device", serial);
+          return result.markWakeUpFailed().build();
+        } else {
+          logDebug(debug, "[%s] successfully woke up device", serial);
+        }
+      }
+    }
 
     DdmPreferences.setTimeOut(adbTimeout);
 
