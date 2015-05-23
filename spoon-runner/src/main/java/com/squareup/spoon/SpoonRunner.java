@@ -56,12 +56,13 @@ public final class SpoonRunner {
   private final IRemoteAndroidTestRunner.TestSize testSize;
   private final boolean failIfNoDeviceConnected;
   private final List<ITestRunListener> testRunListeners;
+  private final boolean wakeDevices;
 
   private SpoonRunner(String title, File androidSdk, File applicationApk, File instrumentationApk,
       File output, boolean debug, boolean noAnimations, int adbTimeout, Set<String> serials,
       String classpath, List<String> instrumentationArgs, String className, String methodName,
       IRemoteAndroidTestRunner.TestSize testSize, boolean failIfNoDeviceConnected,
-      List<ITestRunListener> testRunListeners, boolean sequential) {
+      List<ITestRunListener> testRunListeners, boolean sequential, boolean wakeDevices) {
     this.title = title;
     this.androidSdk = androidSdk;
     this.applicationApk = applicationApk;
@@ -78,6 +79,7 @@ public final class SpoonRunner {
     this.serials = ImmutableSet.copyOf(serials);
     this.failIfNoDeviceConnected = failIfNoDeviceConnected;
     this.testRunListeners = testRunListeners;
+    this.wakeDevices = wakeDevices;
 
     if (sequential) {
       this.threadExecutor = Executors.newSingleThreadExecutor();
@@ -198,6 +200,9 @@ public final class SpoonRunner {
   /** Returns {@code false} if a test failed on any device. */
   static boolean parseOverallSuccess(SpoonSummary summary) {
     for (DeviceResult result : summary.getResults().values()) {
+      if (result.getWakeUpFailed()) {
+        return false; // device never woke up
+      }
       if (result.getInstallFailed()) {
         return false; // App and/or test installation failed.
       }
@@ -216,7 +221,7 @@ public final class SpoonRunner {
   private SpoonDeviceRunner getTestRunner(String serial, SpoonInstrumentationInfo testInfo) {
     return new SpoonDeviceRunner(androidSdk, applicationApk, instrumentationApk, output, serial,
         debug, noAnimations, adbTimeout, classpath, testInfo, instrumentationArgs, className,
-        methodName, testSize, testRunListeners);
+        methodName, testSize, testRunListeners, wakeDevices);
   }
 
   /** Build a test suite for the specified devices and configuration. */
@@ -238,6 +243,7 @@ public final class SpoonRunner {
     private boolean failIfNoDeviceConnected;
     private List<ITestRunListener> testRunListeners = new ArrayList<ITestRunListener>();
     private boolean sequential;
+    private boolean wakeDevices;
 
     /** Identifying title for this execution. */
     public Builder setTitle(String title) {
@@ -355,6 +361,11 @@ public final class SpoonRunner {
       return this;
     }
 
+    public Builder setWakeDevices(boolean wakeDevices) {
+      this.wakeDevices = wakeDevices;
+      return this;
+    }
+
     public Builder addTestRunListener(ITestRunListener testRunListener) {
       checkNotNull(testRunListener, "TestRunListener cannot be null.");
       testRunListeners.add(testRunListener);
@@ -375,7 +386,7 @@ public final class SpoonRunner {
 
       return new SpoonRunner(title, androidSdk, applicationApk, instrumentationApk, output, debug,
           noAnimations, adbTimeout, serials, classpath, instrumentationArgs, className, methodName,
-          testSize, failIfNoDeviceConnected, testRunListeners, sequential);
+          testSize, failIfNoDeviceConnected, testRunListeners, sequential, wakeDevices);
     }
   }
 
@@ -442,6 +453,9 @@ public final class SpoonRunner {
 
     @Parameter(names = { "-h", "--help" }, description = "Command help", help = true, hidden = true)
     public boolean help;
+
+    @Parameter(names = { "--wake-devices" }, description = "Automatically wake devices if they are sleeping")
+    public boolean wakeDevices = false;
   }
 
   private static File cleanFile(String path) {
@@ -501,7 +515,8 @@ public final class SpoonRunner {
         .setSequential(parsedArgs.sequential)
         .setInstrumentationArgs(parsedArgs.instrumentationArgs)
         .setClassName(parsedArgs.className)
-        .setMethodName(parsedArgs.methodName);
+        .setMethodName(parsedArgs.methodName)
+        .setWakeDevices(parsedArgs.wakeDevices);
 
     if (parsedArgs.serials == null || parsedArgs.serials.isEmpty()) {
       builder.useAllAttachedDevices();
