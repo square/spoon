@@ -39,6 +39,11 @@ public final class Spoon {
   /** Whether or not the screenshot output directory needs cleared. */
   private static boolean outputNeedsClear = true;
 
+  public interface ScreenGrabber {
+    Context getApplicationContext();
+    void takeScreenshot(File outputFile) throws Exception;
+  }
+
   /**
    * Take a screenshot with the specified tag.
    *
@@ -47,10 +52,14 @@ public final class Spoon {
    * @return the image file that was created
    */
   public static File screenshot(Activity activity, String tag) {
+    return screenshot(new ActivityScreenGrabber(activity), tag);
+  }
+
+  public static File screenshot(ScreenGrabber screenGrabber, String tag) {
     StackTraceElement testClass = findTestClassTraceElement(Thread.currentThread().getStackTrace());
     String className = testClass.getClassName().replaceAll("[^A-Za-z0-9._-]", "_");
     String methodName = testClass.getMethodName();
-    return screenshot(activity, tag, className, methodName);
+    return screenshot(screenGrabber, tag, className, methodName);
   }
 
   /**
@@ -62,18 +71,24 @@ public final class Spoon {
    * @param tag Unique tag to further identify the screenshot. Must match [a-zA-Z0-9_-]+.
    * @return the image file that was created
    */
-  public static File screenshot(Activity activity, String tag, String testClassName,
+  public static File screenshot(final Activity activity, String tag, String testClassName,
+      String testMethodName) {
+    return screenshot(new ActivityScreenGrabber(activity), tag, testClassName, testMethodName);
+  }
+
+  public static File screenshot(ScreenGrabber screenGrabber, String tag, String testClassName,
       String testMethodName) {
     if (!TAG_VALIDATION.matcher(tag).matches()) {
       throw new IllegalArgumentException("Tag must match " + TAG_VALIDATION.pattern() + ".");
     }
     try {
       File screenshotDirectory =
-          obtainScreenshotDirectory(activity.getApplicationContext(), testClassName,
+          obtainScreenshotDirectory(screenGrabber.getApplicationContext(), testClassName,
               testMethodName);
       String screenshotName = System.currentTimeMillis() + NAME_SEPARATOR + tag + EXTENSION;
       File screenshotFile = new File(screenshotDirectory, screenshotName);
-      takeScreenshot(screenshotFile, activity);
+      screenGrabber.takeScreenshot(screenshotFile);
+      chmodPlusR(screenshotFile);
       Log.d(TAG, "Captured screenshot '" + tag + "'.");
       return screenshotFile;
     } catch (Exception e) {
@@ -113,8 +128,6 @@ public final class Spoon {
     try {
       fos = new BufferedOutputStream(new FileOutputStream(file));
       bitmap.compress(PNG, 100 /* quality */, fos);
-
-      chmodPlusR(file);
     } finally {
       bitmap.recycle();
       if (fos != null) {
@@ -198,5 +211,23 @@ public final class Spoon {
 
   private Spoon() {
     // No instances.
+  }
+
+  private static class ActivityScreenGrabber implements ScreenGrabber {
+    private final Activity activity;
+
+    public ActivityScreenGrabber(Activity activity) {
+      this.activity = activity;
+    }
+
+    @Override
+    public Context getApplicationContext() {
+      return activity.getApplicationContext();
+    }
+
+    @Override
+    public void takeScreenshot(File outputFile) throws IOException {
+      Spoon.takeScreenshot(outputFile, activity);
+    }
   }
 }
