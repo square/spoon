@@ -40,6 +40,97 @@ public final class Spoon {
   private static boolean outputNeedsClear = true;
 
   /**
+   * Take a viewshot with the specified tag.
+   * This uses the root view of the passed in view to capture an image, so to capture the image
+   * of a dialog, pass it any of the child views in the dialog.
+   *
+   * @param view View for which to capture a shot.
+   * @param tag Unique tag to further identify the screenshot. Must match [a-zA-Z0-9_-]+.
+   * @return the image file that was created
+   */
+  public static File viewshot(View view, String tag) {
+    StackTraceElement testClass = findTestClassTraceElement(Thread.currentThread().getStackTrace());
+    String className = testClass.getClassName().replaceAll("[^A-Za-z0-9._-]", "_");
+    String methodName = testClass.getMethodName();
+    return viewshot(view, tag, className, methodName);
+  }
+
+  /**
+   * Take a viewshot with the specified tag.  This version allows the caller to manually specify
+   * the test class name and method name.  This is necessary when the screenshot is not called in
+   * the traditional manner.
+   *
+   * @param view View for which to capture a shot.
+   * @param tag Unique tag to further identify the screenshot. Must match [a-zA-Z0-9_-]+.
+   * @return the image file that was created
+   */
+  public static File viewshot(View view, String tag, String testClassName,
+      String testMethodName) {
+    if (!TAG_VALIDATION.matcher(tag).matches()) {
+      throw new IllegalArgumentException("Tag must match " + TAG_VALIDATION.pattern() + ".");
+    }
+    try {
+      File screenshotDirectory =
+          obtainScreenshotDirectory(view.getContext().getApplicationContext(), testClassName,
+              testMethodName);
+      String screenshotName = System.currentTimeMillis() + NAME_SEPARATOR + tag + EXTENSION;
+      File screenshotFile = new File(screenshotDirectory, screenshotName);
+      takeViewshot(screenshotFile, view);
+      Log.d(TAG, "Captured screenshot '" + tag + "'.");
+      return screenshotFile;
+    } catch (Exception e) {
+      throw new RuntimeException("Unable to capture screenshot.", e);
+    }
+  }
+
+  private static void takeViewshot(File file, final View view) throws IOException {
+    View rootView = view.getRootView();
+    final Bitmap bitmap = Bitmap.createBitmap(rootView.getWidth(), rootView.getHeight(), ARGB_8888);
+
+    if (Looper.myLooper() == Looper.getMainLooper()) {
+      // On main thread already, Just Do It™.
+      drawViewToBitmap(view, bitmap);
+    } else {
+      // On a background thread, post to main.
+      final CountDownLatch latch = new CountDownLatch(1);
+      view.post(new Runnable() {
+        @Override public void run() {
+          try {
+            drawViewToBitmap(view, bitmap);
+          } finally {
+            latch.countDown();
+          }
+        }
+      });
+      try {
+        latch.await();
+      } catch (InterruptedException e) {
+        String msg = "Unable to get screenshot " + file.getAbsolutePath();
+        Log.e(TAG, msg, e);
+        throw new RuntimeException(msg, e);
+      }
+    }
+
+    OutputStream fos = null;
+    try {
+      fos = new BufferedOutputStream(new FileOutputStream(file));
+      bitmap.compress(PNG, 100 /* quality */, fos);
+
+      chmodPlusR(file);
+    } finally {
+      bitmap.recycle();
+      if (fos != null) {
+        fos.close();
+      }
+    }
+  }
+
+  private static void drawViewToBitmap(View view, Bitmap bitmap) {
+    Canvas canvas = new Canvas(bitmap);
+    view.getRootView().draw(canvas);
+  }
+
+  /**
    * Take a screenshot with the specified tag.
    *
    * @param activity Activity with which to capture a screenshot.
