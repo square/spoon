@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+Version 1.1.10 *(2015-07-05)*
+----------------------------
+
+* Fix: hang after executing tests.
+* New: ability to set arbitrary -e test runner args.
+
 Version 1.1.9 *(2015-04-02)*
 ----------------------------
 
