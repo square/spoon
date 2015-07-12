@@ -38,8 +38,9 @@ output. This allows for visual inspection of test executions across different
 devices.
 
 Taking screenshots requires that you include the `spoon-client` JAR in your
-instrumentation app. In your tests call the `screenshot` method with a
-human-readable tag.
+instrumentation app. For Spoon to save screenshots your app must have the
+`WRITE_EXTERNAL_STORAGE` permission. In your tests call the `screenshot`
+method with a human-readable tag.
 
 ```java
 Spoon.screenshot(activity, "initial_state");
