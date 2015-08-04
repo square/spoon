@@ -85,10 +85,14 @@ final class HtmlDevice {
       for (File screenshot : result.getScreenshots()) {
         screenshots.add(HtmlUtils.getScreenshot(screenshot, output));
       }
+      List<HtmlUtils.SavedFile> files = new ArrayList<HtmlUtils.SavedFile>();
+      for (File file : result.getFiles()) {
+        files.add(HtmlUtils.getFile(file, output));
+      }
       String animatedGif = HtmlUtils.createRelativeUri(result.getAnimatedGif(), output);
       HtmlUtils.ExceptionInfo exception = HtmlUtils.processStackTrace(result.getException());
       return new TestResult(serial, className, methodName, classSimpleName, prettyMethodName,
-          testId, status, screenshots, animatedGif, exception);
+          testId, status, screenshots, animatedGif, exception, files);
     }
 
     public final String serial;
@@ -100,13 +104,15 @@ final class HtmlDevice {
     public final String status;
     public final boolean hasScreenshots;
     public final List<HtmlUtils.Screenshot> screenshots;
+    public final List<HtmlUtils.SavedFile> files;
+    public final boolean hasFiles;
     public final String animatedGif;
     public final HtmlUtils.ExceptionInfo exception;
 
     TestResult(String serial, String className, String methodName, String classSimpleName,
         String prettyMethodName, String testId, String status,
         List<HtmlUtils.Screenshot> screenshots, String animatedGif,
-        HtmlUtils.ExceptionInfo exception) {
+        HtmlUtils.ExceptionInfo exception, List<HtmlUtils.SavedFile> files) {
       this.serial = serial;
       this.className = className;
       this.methodName = methodName;
@@ -118,6 +124,8 @@ final class HtmlDevice {
       this.screenshots = screenshots;
       this.animatedGif = animatedGif;
       this.exception = exception;
+      this.files = files;
+      this.hasFiles = !files.isEmpty();
     }
 
     @Override public int compareTo(TestResult other) {

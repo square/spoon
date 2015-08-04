@@ -24,15 +24,17 @@ public final class DeviceTestResult {
   private final StackTrace exception;
   private final long duration;
   private final List<File> screenshots;
+  private final List<File> files;
   private final File animatedGif;
   private final List<LogCatMessage> log;
 
   private DeviceTestResult(Status status, StackTrace exception, long duration,
-      List<File> screenshots, File animatedGif, List<LogCatMessage> log) {
+      List<File> screenshots, File animatedGif, List<LogCatMessage> log, List<File> files) {
     this.status = status;
     this.exception = exception;
     this.duration = duration;
     this.screenshots = unmodifiableList(new ArrayList<File>(screenshots));
+    this.files = unmodifiableList(new ArrayList<File>(files));
     this.animatedGif = animatedGif;
     this.log = unmodifiableList(new ArrayList<LogCatMessage>(log));
   }
@@ -62,12 +64,18 @@ public final class DeviceTestResult {
     return animatedGif;
   }
 
+  /** Arbitrary files saved from the test */
+  public List<File> getFiles() {
+    return files;
+  }
+
   public List<LogCatMessage> getLog() {
     return log;
   }
 
   public static class Builder {
     private final List<File> screenshots = new ArrayList<File>();
+    private final List<File> files = new ArrayList<File>();
     private Status status = Status.PASS;
     private StackTrace exception;
     private long start;
@@ -117,6 +125,12 @@ public final class DeviceTestResult {
       return this;
     }
 
+    public Builder addFile(File file) {
+      checkNotNull(file);
+      files.add(file);
+      return this;
+    }
+
     public Builder setAnimatedGif(File animatedGif) {
       checkNotNull(animatedGif);
       checkArgument(this.animatedGif == null, "Animated GIF already set.");
@@ -128,7 +142,8 @@ public final class DeviceTestResult {
       if (log == null) {
         log = Collections.emptyList();
       }
-      return new DeviceTestResult(status, exception, duration, screenshots, animatedGif, log);
+      return new DeviceTestResult(status, exception, duration,
+              screenshots, animatedGif, log, files);
     }
   }
 }

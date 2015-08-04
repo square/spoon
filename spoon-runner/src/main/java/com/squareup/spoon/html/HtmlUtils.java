@@ -185,6 +185,10 @@ final class HtmlUtils {
     return new Screenshot(relativePath, caption);
   }
 
+  public static HtmlUtils.SavedFile getFile(File file, File output) {
+    return new SavedFile(createRelativeUri(file, output), file.getName());
+  }
+
   /** Parse the string representation of an exception to a {@link ExceptionInfo} instance. */
   static ExceptionInfo processStackTrace(StackTrace exception) {
     if (exception == null) {
@@ -235,6 +239,19 @@ final class HtmlUtils {
       this.id = ID.getAndIncrement();
       this.path = path;
       this.caption = caption;
+    }
+  }
+
+  static final class SavedFile {
+    private static final AtomicLong ID = new AtomicLong(0);
+    private final long id;
+    public final String path;
+    public final String name;
+
+    SavedFile(String path, String name) {
+      this.id = ID.incrementAndGet();
+      this.path = path;
+      this.name = name;
     }
   }
 
