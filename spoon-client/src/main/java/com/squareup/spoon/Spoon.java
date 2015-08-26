@@ -8,11 +8,15 @@ import android.os.Build;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.regex.Pattern;
 
@@ -26,6 +30,7 @@ import static com.squareup.spoon.Chmod.chmodPlusRWX;
 /** Utility class for capturing screenshots for Spoon. */
 public final class Spoon {
   static final String SPOON_SCREENSHOTS = "spoon-screenshots";
+  static final String SPOON_FILES = "spoon-files";
   static final String NAME_SEPARATOR = "_";
   static final String TEST_CASE_CLASS_JUNIT_3 = "android.test.InstrumentationTestCase";
   static final String TEST_CASE_METHOD_JUNIT_3 = "runMethod";
@@ -36,8 +41,8 @@ public final class Spoon {
   private static final Object LOCK = new Object();
   private static final Pattern TAG_VALIDATION = Pattern.compile("[a-zA-Z0-9_-]+");
 
-  /** Whether or not the screenshot output directory needs cleared. */
-  private static boolean outputNeedsClear = true;
+  /** Holds a set of directories that have been cleared for this test */
+  private static Set<String> clearedOutputDirectories = new HashSet<String>();
 
   /**
    * Take a screenshot with the specified tag.
@@ -130,23 +135,89 @@ public final class Spoon {
 
   private static File obtainScreenshotDirectory(Context context, String testClassName,
       String testMethodName) throws IllegalAccessException {
-    File screenshotsDir;
+    return filesDirectory(context, SPOON_SCREENSHOTS, testClassName, testMethodName);
+  }
+
+  /**
+   * Alternative to {@link #save(Context, File)}
+   * @param context Context used to access files.
+   * @param path Path to the file you want to save.
+   * @return the copy that was created.
+   */
+  public static File save(final Context context, final String path) {
+    return save(context, new File(path));
+  }
+
+  /**
+   * Save a file from this test run. The file will be saved under the current class & method.
+   * The file will be copied to, so make sure all the data you want have been
+   * written to the file before calling save.
+   *
+   * @param context Context used to access files.
+   * @param file The file to save.
+   * @return the copy that was created.
+   */
+  public static File save(final Context context, final File file) {
+    StackTraceElement testClass = findTestClassTraceElement(Thread.currentThread().getStackTrace());
+    String className = testClass.getClassName().replaceAll("[^A-Za-z0-9._-]", "_");
+    String methodName = testClass.getMethodName();
+    return save(context, className, methodName, file);
+  }
+
+  private static File save(Context context, String className, String methodName, File file) {
+    File filesDirectory = null;
+    try {
+      filesDirectory = filesDirectory(context, SPOON_FILES, className, methodName);
+      if (!file.exists()) {
+        throw new RuntimeException("Can't find any file at: " + file);
+      }
+
+      File target = new File(filesDirectory, file.getName());
+      copy(file, target);
+      Log.d(TAG, "Saved " + file);
+      return target;
+    } catch (IllegalAccessException e) {
+      throw new RuntimeException(("Unable to save file: " + file));
+    } catch (IOException e) {
+      throw new RuntimeException("Couldn't copy file " + file + " to " + filesDirectory);
+    }
+  }
+
+  private static void copy(File source, File target) throws IOException {
+    Log.d(TAG, "Will copy " + source + " to " + target);
+
+    target.createNewFile();
+    chmodPlusR(target);
+
+    final BufferedInputStream is = new BufferedInputStream(new FileInputStream(source));
+    final BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(target));
+    byte [] buffer = new byte[4096];
+    while (is.read(buffer) > 0) {
+      os.write(buffer);
+    }
+    is.close();
+    os.close();
+  }
+
+  private static File filesDirectory(Context context, String directoryType, String testClassName,
+      String testMethodName) throws IllegalAccessException {
+    File directory;
     if (Build.VERSION.SDK_INT >= 21) {
       // Use external storage.
-      screenshotsDir = new File(getExternalStorageDirectory(), "app_" + SPOON_SCREENSHOTS);
+      directory = new File(getExternalStorageDirectory(), "app_" + directoryType);
     } else {
       // Use internal storage.
-      screenshotsDir = context.getDir(SPOON_SCREENSHOTS, MODE_WORLD_READABLE);
+      directory = context.getDir(directoryType, MODE_WORLD_READABLE);
     }
 
     synchronized (LOCK) {
-      if (outputNeedsClear) {
-        deletePath(screenshotsDir, false);
-        outputNeedsClear = false;
+      if (!clearedOutputDirectories.contains(directoryType)) {
+        deletePath(directory, false);
+        clearedOutputDirectories.add(directoryType);
       }
     }
 
-    File dirClass = new File(screenshotsDir, testClassName);
+    File dirClass = new File(directory, testClassName);
     File dirMethod = new File(dirClass, testMethodName);
     createDir(dirMethod);
     return dirMethod;

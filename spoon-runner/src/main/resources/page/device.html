@@ -74,6 +74,15 @@
                         {{/screenshots}}
                     </ul>
                     {{/hasScreenshots}}
+                    {{#hasFiles}}
+                    <ul class="files">
+                        {{#files}}
+                        <li class="span2">
+                            <a href="../{{path}}" class="file">{{name}}</a>
+                        </li>
+                        {{/files}}
+                    </ul>
+                    {{/hasFiles}}
                 </div>
             </div>
             {{/testResults}}

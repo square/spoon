@@ -58,6 +58,26 @@ sequence of interaction.
 
 
 
+Files
+-----
+If you have files that will help you in debugging or auditing a test run, for example a log file or a SQLite database
+you can save these files easily and have them attached to your test report.
+This will let you easily drill down any issues that occurred in your test run.
+
+Attaching files to your report requires that you include the `spoon-client` jar and that you have `WRITE_EXTERNAL_STORAGE`
+permission.
+
+```java
+// by absolute path string
+Spoon.save(context, "/data/data/com.yourapp/your.file");
+// or with File
+Spoon.save(context, new File(context.getCacheDir(), "my-database.db"));
+```
+
+![Device Results with files](website/static/example_files.png)
+
+You download the files by clicking on the filename in the device report.
+
 Download
 --------
 
