@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 1.2.0 *(2015-08-26)*
+----------------------------
+
+* New: attach arbitrary files to your test output
+
 Version 1.1.10 *(2015-07-05)*
 ----------------------------
 
