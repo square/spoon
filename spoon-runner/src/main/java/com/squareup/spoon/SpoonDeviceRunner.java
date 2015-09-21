@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 
@@ -433,7 +434,7 @@ public final class SpoonDeviceRunner {
       SpoonDeviceRunner target = GSON.fromJson(reader, SpoonDeviceRunner.class);
       reader.close();
 
-      AndroidDebugBridge adb = SpoonUtils.initAdb(target.sdk);
+      AndroidDebugBridge adb = SpoonUtils.initAdb(target.sdk, TimeUnit.SECONDS.toMillis(30));
       DeviceResult result = target.run(adb);
       AndroidDebugBridge.terminate();
 
