@@ -97,11 +97,11 @@ final class SpoonUtils {
   }
 
   /** Get an {@link com.android.ddmlib.AndroidDebugBridge} instance given an SDK path. */
-  static AndroidDebugBridge initAdb(File sdk) {
+  static AndroidDebugBridge initAdb(File sdk, long timeOutMs) {
     AndroidDebugBridge.initIfNeeded(false);
     File adbPath = FileUtils.getFile(sdk, "platform-tools", "adb");
     AndroidDebugBridge adb = AndroidDebugBridge.createBridge(adbPath.getAbsolutePath(), false);
-    waitForAdb(adb);
+    waitForAdb(adb, timeOutMs);
     return adb;
   }
 
@@ -129,8 +129,8 @@ final class SpoonUtils {
     encoder.finish();
   }
 
-  private static void waitForAdb(AndroidDebugBridge adb) {
-    long timeOutMs = TimeUnit.SECONDS.toMillis(30);
+  private static void waitForAdb(AndroidDebugBridge adb, long timeOutMs) {
+    // long timeOutMs = TimeUnit.SECONDS.toMillis(30);
     long sleepTimeMs = TimeUnit.SECONDS.toMillis(1);
     while (!adb.hasInitialDeviceList() && timeOutMs > 0) {
       try {
