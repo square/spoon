@@ -433,7 +433,7 @@ public final class SpoonDeviceRunner {
       SpoonDeviceRunner target = GSON.fromJson(reader, SpoonDeviceRunner.class);
       reader.close();
 
-      AndroidDebugBridge adb = SpoonUtils.initAdb(target.sdk);
+      AndroidDebugBridge adb = SpoonUtils.initAdb(target.sdk, target.adbTimeout);
       DeviceResult result = target.run(adb);
       AndroidDebugBridge.terminate();
 
