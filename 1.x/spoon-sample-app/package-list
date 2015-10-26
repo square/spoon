@@ -1,0 +1,17 @@
+android.support.v4.app
+com.actionbarsherlock
+com.actionbarsherlock.app
+com.actionbarsherlock.internal
+com.actionbarsherlock.internal.app
+com.actionbarsherlock.internal.nineoldandroids.animation
+com.actionbarsherlock.internal.nineoldandroids.view
+com.actionbarsherlock.internal.nineoldandroids.view.animation
+com.actionbarsherlock.internal.nineoldandroids.widget
+com.actionbarsherlock.internal.view
+com.actionbarsherlock.internal.view.menu
+com.actionbarsherlock.internal.widget
+com.actionbarsherlock.view
+com.actionbarsherlock.widget
+com.example.spoon.ordering
+com.example.spoon.ordering.wizard.model
+com.example.spoon.ordering.wizard.ui
