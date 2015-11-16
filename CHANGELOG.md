@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+Version 1.2.1 *(2015-11-16)*
+----------------------------
+
+* Fix: no more hardcoded 30s timeout
+* New: api to load list of attached devices
+
 Version 1.2.0 *(2015-08-26)*
 ----------------------------
 
