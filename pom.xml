@@ -90,7 +90,7 @@
       <dependency>
         <groupId>com.android.tools.ddms</groupId>
         <artifactId>ddmlib</artifactId>
-        <version>24.1.3</version>
+        <version>24.5.0</version>
       </dependency>
       <dependency>
         <groupId>junit</groupId>
