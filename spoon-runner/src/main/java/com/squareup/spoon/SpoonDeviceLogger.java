@@ -39,7 +39,7 @@ final class SpoonDeviceLogger implements LogCatListener {
 
     Map<DeviceTest, List<LogCatMessage>> logs = new HashMap<DeviceTest, List<LogCatMessage>>();
     DeviceTest current = null;
-    String pid = null;
+    int pid = -1;
     synchronized (messages) {
       for (LogCatMessage message : messages) {
         if (current == null) {
@@ -54,14 +54,14 @@ final class SpoonDeviceLogger implements LogCatListener {
           }
         } else {
           // Only log messages from the same PID.
-          if (pid.equals(message.getPid())) {
+          if (pid == message.getPid()) {
             logs.get(current).add(message);
           }
 
           Matcher match = MESSAGE_END.matcher(message.getMessage());
           if (match.matches() && TEST_RUNNER.equals(message.getTag())) {
             current = null;
-            pid = null;
+            pid = -1;
           }
         }
       }
