@@ -36,6 +36,8 @@ public final class Spoon {
   static final String TEST_CASE_METHOD_JUNIT_3 = "runMethod";
   static final String TEST_CASE_CLASS_JUNIT_4 = "org.junit.runners.model.FrameworkMethod$1";
   static final String TEST_CASE_METHOD_JUNIT_4 = "runReflectiveCall";
+  static final String TEST_CASE_CLASS_CUCUMBER_JVM = "cucumber.runtime.model.CucumberFeature";
+  static final String TEST_CASE_METHOD_CUCUMBER_JVM = "run";
   private static final String EXTENSION = ".png";
   private static final String TAG = "Spoon";
   private static final Object LOCK = new Object();
@@ -236,6 +238,10 @@ public final class Spoon {
       if (TEST_CASE_CLASS_JUNIT_4.equals(element.getClassName()) //
           && TEST_CASE_METHOD_JUNIT_4.equals(element.getMethodName())) {
         return trace[i - 3];
+      }
+      if (TEST_CASE_CLASS_CUCUMBER_JVM.equals(element.getClassName()) //
+              && TEST_CASE_METHOD_CUCUMBER_JVM.equals(element.getMethodName())) {
+            return trace[i - 3];
       }
     }
 
