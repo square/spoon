@@ -229,19 +229,34 @@ public final class Spoon {
   static StackTraceElement findTestClassTraceElement(StackTraceElement[] trace) {
     for (int i = trace.length - 1; i >= 0; i--) {
       StackTraceElement element = trace[i];
-
+      int apiVersion = Build.VERSION.SDK_INT;
       if (TEST_CASE_CLASS_JUNIT_3.equals(element.getClassName()) //
           && TEST_CASE_METHOD_JUNIT_3.equals(element.getMethodName())) {
-        return trace[i - 3];
+          //Stacktrace length changed in M
+          if (apiVersion >= 23) {
+              return trace[i - 2];
+          } else {
+              return trace[i - 3];
+          }
       }
 
       if (TEST_CASE_CLASS_JUNIT_4.equals(element.getClassName()) //
           && TEST_CASE_METHOD_JUNIT_4.equals(element.getMethodName())) {
-        return trace[i - 3];
+          //Stacktrace length changed in M
+          if (apiVersion >= 23) {
+              return trace[i - 2];
+          } else {
+              return trace[i - 3];
+          }
       }
       if (TEST_CASE_CLASS_CUCUMBER_JVM.equals(element.getClassName()) //
               && TEST_CASE_METHOD_CUCUMBER_JVM.equals(element.getMethodName())) {
-            return trace[i - 3];
+          //Stacktrace length changed in M
+          if (apiVersion >= 23) {
+              return trace[i - 2];
+          } else {
+              return trace[i - 3];
+          }
       }
     }
 
