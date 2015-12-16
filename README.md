@@ -132,6 +132,7 @@ Options:
     --fail-on-failure   Non-zero exit code on failure
     --fail-if-no-device-connected Fail if no device is connected
     --sequential        Execute the tests device by device
+    --init-script       Path to a script that you want to run before each device
     --e                 Arguments to pass to the Instrumentation Runner. This can be used
                         multiple times for multiple entries. Usage: --e <NAME>=<VALUE>.
                         The supported arguments varies depending on which test runner 
