@@ -1,6 +1,23 @@
 Change Log
 ==========
 
+Version 1.2.1 *(2015-11-16)*
+----------------------------
+
+* Fix: no more hardcoded 30s timeout
+* New: api to load list of attached devices
+
+Version 1.2.0 *(2015-08-26)*
+----------------------------
+
+* New: attach arbitrary files to your test output
+
+Version 1.1.10 *(2015-07-05)*
+----------------------------
+
+* Fix: hang after executing tests.
+* New: ability to set arbitrary -e test runner args.
+
 Version 1.1.9 *(2015-04-02)*
 ----------------------------
 

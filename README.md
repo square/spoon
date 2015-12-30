@@ -38,8 +38,9 @@ output. This allows for visual inspection of test executions across different
 devices.
 
 Taking screenshots requires that you include the `spoon-client` JAR in your
-instrumentation app. In your tests call the `screenshot` method with a
-human-readable tag.
+instrumentation app. For Spoon to save screenshots your app must have the
+`WRITE_EXTERNAL_STORAGE` permission. In your tests call the `screenshot`
+method with a human-readable tag.
 
 ```java
 Spoon.screenshot(activity, "initial_state");
@@ -57,6 +58,26 @@ sequence of interaction.
 
 
 
+Files
+-----
+If you have files that will help you in debugging or auditing a test run, for example a log file or a SQLite database
+you can save these files easily and have them attached to your test report.
+This will let you easily drill down any issues that occurred in your test run.
+
+Attaching files to your report requires that you include the `spoon-client` jar and that you have `WRITE_EXTERNAL_STORAGE`
+permission.
+
+```java
+// by absolute path string
+Spoon.save(context, "/data/data/com.yourapp/your.file");
+// or with File
+Spoon.save(context, new File(context.getCacheDir(), "my-database.db"));
+```
+
+![Device Results with files](website/static/example_files.png)
+
+You download the files by clicking on the filename in the device report.
+
 Download
 --------
 
@@ -67,7 +88,7 @@ Maven:
 <dependency>
   <groupId>com.squareup.spoon</groupId>
   <artifactId>spoon-client</artifactId>
-  <version>1.1.9</version>
+  <version>1.2.1</version>
 </dependency>
 ```
 
@@ -87,7 +108,7 @@ You can run Spoon as a standalone tool with your application and instrumentation
 APKs.
 
 ```
-java -jar spoon-runner-1.1.9-jar-with-dependencies.jar \
+java -jar spoon-runner-1.2.1-jar-with-dependencies.jar \
     --apk ExampleApp-debug.apk \
     --test-apk ExampleApp-debug-androidTest-unaligned.apk
 ```
@@ -111,6 +132,7 @@ Options:
     --fail-on-failure   Non-zero exit code on failure
     --fail-if-no-device-connected Fail if no device is connected
     --sequential        Execute the tests device by device
+    --init-script       Path to a script that you want to run before each device
     --e                 Arguments to pass to the Instrumentation Runner. This can be used
                         multiple times for multiple entries. Usage: --e <NAME>=<VALUE>.
                         The supported arguments varies depending on which test runner 
@@ -124,7 +146,7 @@ Declare the plugin in the `pom.xml` for the instrumentation test module.
 <plugin>
   <groupId>com.squareup.spoon</groupId>
   <artifactId>spoon-maven-plugin</artifactId>
-  <version>1.1.9</version>
+  <version>1.2.1</version>
 </plugin>
 ```
 
@@ -164,7 +186,7 @@ The Android Instrumention runner supports test sharding using the `numShards` an
 
 You can use the `--e` option with Spoon to pass those arguments through to the instrumentation runner, e.g.
 ```
-java -jar spoon-runner-1.1.9-jar-with-dependencies.jar \
+java -jar spoon-runner-1.2.1-jar-with-dependencies.jar \
     --apk ExampleApp-debug.apk \
     --test-apk ExampleApp-debug-androidTest-unaligned.apk \
     --e numShards=4 \

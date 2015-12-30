@@ -64,7 +64,7 @@ final class HtmlLog {
           rowClass = "";
       }
 
-      String timestamp = message.getTime();
+      String timestamp = message.getTimestamp().toString();
       String level = message.getLogLevel().getStringValue();
       return new LogEntry(rowClass, timestamp, level, message.getTag(), message.getMessage());
     }

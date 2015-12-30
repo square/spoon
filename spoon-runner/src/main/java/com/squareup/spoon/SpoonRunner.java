@@ -12,8 +12,10 @@ import com.squareup.spoon.html.HtmlRenderer;
 
 import org.apache.commons.io.FileUtils;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -56,12 +58,15 @@ public final class SpoonRunner {
   private final IRemoteAndroidTestRunner.TestSize testSize;
   private final boolean failIfNoDeviceConnected;
   private final List<ITestRunListener> testRunListeners;
+  private final boolean terminateAdb;
+  private File initScript;
 
   private SpoonRunner(String title, File androidSdk, File applicationApk, File instrumentationApk,
       File output, boolean debug, boolean noAnimations, int adbTimeout, Set<String> serials,
       String classpath, List<String> instrumentationArgs, String className, String methodName,
       IRemoteAndroidTestRunner.TestSize testSize, boolean failIfNoDeviceConnected,
-      List<ITestRunListener> testRunListeners, boolean sequential) {
+      List<ITestRunListener> testRunListeners, boolean sequential, File initScript,
+      boolean terminateAdb) {
     this.title = title;
     this.androidSdk = androidSdk;
     this.applicationApk = applicationApk;
@@ -78,6 +83,8 @@ public final class SpoonRunner {
     this.serials = ImmutableSet.copyOf(serials);
     this.failIfNoDeviceConnected = failIfNoDeviceConnected;
     this.testRunListeners = testRunListeners;
+    this.terminateAdb = terminateAdb;
+    this.initScript = initScript;
 
     if (sequential) {
       this.threadExecutor = Executors.newSingleThreadExecutor();
@@ -95,23 +102,29 @@ public final class SpoonRunner {
     checkArgument(applicationApk.exists(), "Could not find application APK.");
     checkArgument(instrumentationApk.exists(), "Could not find instrumentation APK.");
 
-    AndroidDebugBridge adb = SpoonUtils.initAdb(androidSdk);
+    AndroidDebugBridge adb = SpoonUtils.initAdb(androidSdk, adbTimeout);
 
-    // If we were given an empty serial set, load all available devices.
-    Set<String> serials = this.serials;
-    if (serials.isEmpty()) {
-      serials = SpoonUtils.findAllDevices(adb);
+    try {
+      // If we were given an empty serial set, load all available devices.
+      Set<String> serials = this.serials;
+      if (serials.isEmpty()) {
+        serials = SpoonUtils.findAllDevices(adb);
+      }
+      if (failIfNoDeviceConnected && serials.isEmpty()) {
+        throw new RuntimeException("No device(s) found.");
+      }
+
+      // Execute all the things...
+      SpoonSummary summary = runTests(adb, serials);
+      // ...and render to HTML
+      new HtmlRenderer(summary, SpoonUtils.GSON, output).render();
+
+      return parseOverallSuccess(summary);
+    } finally {
+      if (terminateAdb) {
+        AndroidDebugBridge.terminate();
+      }
     }
-    if (failIfNoDeviceConnected && serials.isEmpty()) {
-      throw new RuntimeException("No device(s) found.");
-    }
-
-    // Execute all the things...
-    SpoonSummary summary = runTests(adb, serials);
-    // ...and render to HTML
-    new HtmlRenderer(summary, SpoonUtils.GSON, output).render();
-
-    return parseOverallSuccess(summary);
   }
 
   private SpoonSummary runTests(AndroidDebugBridge adb, Set<String> serials) {
@@ -138,6 +151,7 @@ public final class SpoonRunner {
 
     if (targetCount == 1) {
       // Since there is only one device just execute it synchronously in this process.
+      executeInitScript();
       String serial = serials.iterator().next();
       String safeSerial = SpoonUtils.sanitizeSerial(serial);
       try {
@@ -151,6 +165,9 @@ public final class SpoonRunner {
         logDebug(debug, "[%s] Execution done.", serial);
       }
     } else {
+      // Execute a script before the first test on the thread executor if sequential mode on
+      threadExecutor.execute(getRunnableScript());
+
       // Spawn a new thread for each device and wait for them all to finish.
       final CountDownLatch done = new CountDownLatch(targetCount);
       final Set<String> remaining = synchronizedSet(new HashSet<String>(serials));
@@ -193,6 +210,43 @@ public final class SpoonRunner {
     }
 
     return summary.end().build();
+  }
+
+  /** Returns a {@link Runnable} to launch the script before/between devices in sequential mode. */
+  private Runnable getRunnableScript() {
+    return new Runnable() {
+      @Override
+      public void run() {
+        executeInitScript();
+      }
+    };
+  }
+
+  /** Execute the script file specified in param --init-script */
+  private void executeInitScript() {
+    if (initScript != null && initScript.exists()) {
+      try {
+        Runtime run = Runtime.getRuntime();
+        Process proc = run.exec(new String[] {
+                "/bin/bash", "-c", initScript.getAbsolutePath()
+        });
+        BufferedReader br = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+        String line;
+
+        logInfo("Output of running script is");
+        while ((line = br.readLine()) != null) {
+          logInfo(line);
+        }
+        proc.waitFor(); // Wait for the process to finish.
+        logInfo("Script executed successfully %s", initScript.getAbsolutePath());
+      } catch (IOException e) {
+        logDebug(debug, "Error executing script for path: %s", initScript.getAbsolutePath());
+        e.printStackTrace(System.out);
+      } catch (InterruptedException e) {
+        logDebug(debug, "Script execution interrupted for path: %s", initScript.getAbsolutePath());
+        e.printStackTrace(System.out);
+      }
+    }
   }
 
   /** Returns {@code false} if a test failed on any device. */
@@ -238,6 +292,8 @@ public final class SpoonRunner {
     private boolean failIfNoDeviceConnected;
     private List<ITestRunListener> testRunListeners = new ArrayList<ITestRunListener>();
     private boolean sequential;
+    private File initScript;
+    private boolean terminateAdb = true;
 
     /** Identifying title for this execution. */
     public Builder setTitle(String title) {
@@ -350,6 +406,14 @@ public final class SpoonRunner {
       return this;
     }
 
+    public Builder setInitScript(File initScript) {
+      checkNotNull(initScript, "Script path not specified.");
+      checkArgument(initScript.exists(), "Script path does not exist "
+              + initScript.getAbsolutePath());
+      this.initScript = initScript;
+      return this;
+    }
+
     public Builder setMethodName(String methodName) {
       this.methodName = methodName;
       return this;
@@ -358,6 +422,11 @@ public final class SpoonRunner {
     public Builder addTestRunListener(ITestRunListener testRunListener) {
       checkNotNull(testRunListener, "TestRunListener cannot be null.");
       testRunListeners.add(testRunListener);
+      return this;
+    }
+
+    public Builder setTerminateAdb(boolean terminateAdb) {
+      this.terminateAdb = terminateAdb;
       return this;
     }
 
@@ -375,7 +444,8 @@ public final class SpoonRunner {
 
       return new SpoonRunner(title, androidSdk, applicationApk, instrumentationApk, output, debug,
           noAnimations, adbTimeout, serials, classpath, instrumentationArgs, className, methodName,
-          testSize, failIfNoDeviceConnected, testRunListeners, sequential);
+          testSize, failIfNoDeviceConnected, testRunListeners, sequential, initScript,
+          terminateAdb);
     }
   }
 
@@ -424,6 +494,11 @@ public final class SpoonRunner {
     @Parameter(names = { "--sequential" },
         description = "Execute tests sequentially (one device at a time)") //
     public boolean sequential;
+
+    @Parameter(names = { "--init-script" },
+            description = "Script file executed between each devices",
+            converter = FileConverter.class)
+    public File initScript;
 
     @Parameter(names = { "--no-animations" }, description = "Disable animated gif generation")
     public boolean noAnimations;
@@ -499,6 +574,7 @@ public final class SpoonRunner {
         .setAdbTimeout(parsedArgs.adbTimeoutSeconds * 1000)
         .setFailIfNoDeviceConnected(parsedArgs.failIfNoDeviceConnected)
         .setSequential(parsedArgs.sequential)
+        .setInitScript(parsedArgs.initScript)
         .setInstrumentationArgs(parsedArgs.instrumentationArgs)
         .setClassName(parsedArgs.className)
         .setMethodName(parsedArgs.methodName);
