@@ -26,8 +26,8 @@ import static android.os.Environment.getExternalStorageDirectory;
 import static com.squareup.spoon.Chmod.chmodPlusR;
 import static com.squareup.spoon.Chmod.chmodPlusRWX;
 
-/** Utility class for capturing screenshots for Fork. */
-public final class Fork {
+/** Utility class for capturing screenshots for Spoon. */
+public final class Spoon {
   static final String SPOON_SCREENSHOTS = "spoon-screenshots";
   static final String NAME_SEPARATOR = "_";
   static final String TEST_CASE_CLASS_JUNIT_3 = "android.test.InstrumentationTestCase";
@@ -35,7 +35,7 @@ public final class Fork {
   static final String TEST_CASE_CLASS_JUNIT_4 = "org.junit.runners.model.FrameworkMethod$1";
   static final String TEST_CASE_METHOD_JUNIT_4 = "runReflectiveCall";
   private static final String EXTENSION = ".png";
-  private static final String TAG = "Fork";
+  private static final String TAG = "Spoon";
   private static final Object LOCK = new Object();
   private static final Pattern TAG_VALIDATION = Pattern.compile("[a-zA-Z0-9_-]+");
 
@@ -82,6 +82,7 @@ public final class Fork {
    * @param testMethodName the name of the method in the test class.
    * @return the image file that was created
    */
+  @SuppressWarnings("unused")
   public static File screenshot(Activity activity, String tag, String testClassName,
       String testMethodName) {
     return screenshot(activity, null, tag, testClassName,testMethodName);
@@ -119,7 +120,8 @@ public final class Fork {
     }
   }
 
-  private static void takeScreenshot(File file, final Activity activity, final Instrumentation instrumentation) throws IOException {
+  private static void takeScreenshot(File file, final Activity activity,
+      final Instrumentation instrumentation) throws IOException {
     Bitmap bitmap = null;
 
     // use instrumentation/uiautomator
@@ -158,7 +160,7 @@ public final class Fork {
 
             }
             catch (Exception e) {
-
+              Log.e(TAG, "Failed to get bitmap from uiAutomation.");
             }
             finally {
               latch.countDown();
@@ -182,33 +184,38 @@ public final class Fork {
       try {
         View rootView = activity.getWindow().getDecorView();
         final Bitmap outBitmap = Bitmap.createBitmap(rootView.getWidth(), rootView.getHeight(), ARGB_8888);
-        View[] views = getWindowDecorViews();
-        for (final View view : views) {
-          if (Looper.myLooper() == Looper.getMainLooper()) {
-            // On main thread already, Just Do It™.
-            drawViewToBitmap(view, outBitmap);
-          } else {
-            // On a background thread, post to main.
-            final CountDownLatch latch = new CountDownLatch(1);
-            activity.runOnUiThread(new Runnable() {
-              @Override public void run() {
-                try {
-                  drawViewToBitmap(view, outBitmap);
-                } finally {
-                  latch.countDown();
+        final View[] views = getWindowDecorViews();
+        if (views != null) {
+          for (final View view : views) {
+            if (Looper.myLooper() == Looper.getMainLooper()) {
+              // On main thread already, Just Do It™.
+              drawViewToBitmap(view, outBitmap);
+            } else {
+              // On a background thread, post to main.
+              final CountDownLatch latch = new CountDownLatch(1);
+              activity.runOnUiThread(new Runnable() {
+                @Override public void run() {
+                  try {
+                    drawViewToBitmap(view, outBitmap);
+                  } finally {
+                    latch.countDown();
+                  }
                 }
+              });
+              try {
+                latch.await();
+              } catch (InterruptedException e) {
+                String msg = "Unable to get screenshot " + file.getAbsolutePath();
+                Log.e(TAG, msg, e);
+                throw new RuntimeException(msg, e);
               }
-            });
-            try {
-              latch.await();
-            } catch (InterruptedException e) {
-              String msg = "Unable to get screenshot " + file.getAbsolutePath();
-              Log.e(TAG, msg, e);
-              throw new RuntimeException(msg, e);
             }
           }
+          bitmap = outBitmap;
         }
-        bitmap = outBitmap;
+        else {
+          Log.e(TAG,"No views?");
+        }
       }
       catch (Exception e) {
         Log.e(TAG,"Walking Windows Failed.",e);
@@ -337,7 +344,8 @@ public final class Fork {
       }
     }
     if (inclusive) {
-      path.delete();
+      @SuppressWarnings("unused")
+      boolean deleted = path.delete();
     }
   }
 
@@ -408,7 +416,7 @@ public final class Fork {
     }
   }
 
-  private Fork() {
+  private Spoon() {
     // No instances.
   }
 }
