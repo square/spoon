@@ -192,6 +192,24 @@ public final class SpoonDeviceRunner {
       return result.markInstallAsFailed("Unable to install instrumentation APK.").build();
     }
 
+    // If this is Android Marshmallow or above grant WRITE_EXTERNAL_STORAGE
+    if (Integer.parseInt(device.getProperty(IDevice.PROP_BUILD_API_LEVEL)) >= 23) {
+      String appPackage = instrumentationInfo.getApplicationPackage();
+      try {
+        CollectingOutputReceiver grantOutputReceiver = new CollectingOutputReceiver();
+        device.executeShellCommand("pm grant " + appPackage
+            + " android.permission.READ_EXTERNAL_STORAGE", grantOutputReceiver);
+        device.executeShellCommand("pm grant " + appPackage
+            + " android.permission.WRITE_EXTERNAL_STORAGE", grantOutputReceiver);
+      } catch (Exception e) {
+        logInfo("Exception while granting external storage access to application apk"
+            + "on device [%s]", serial);
+        e.printStackTrace(System.out);
+        return result.markInstallAsFailed("Unable to grant external storage access to"
+            + " application APK.").build();
+      }
+    }
+
     // Create the output directory, if it does not already exist.
     work.mkdirs();
 
