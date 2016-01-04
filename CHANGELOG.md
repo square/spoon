@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+Version 1.3.0 *(2016-01-03)*
+----------------------------
+
+* Fix: Android M (Marshmallow) support
+* New: ability to run a script before each device runs tests
+* New: support for Cucumber tests
+
 Version 1.2.1 *(2015-11-16)*
 ----------------------------
 
