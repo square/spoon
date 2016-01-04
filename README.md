@@ -88,7 +88,7 @@ Maven:
 <dependency>
   <groupId>com.squareup.spoon</groupId>
   <artifactId>spoon-client</artifactId>
-  <version>1.2.1</version>
+  <version>1.3.0</version>
 </dependency>
 ```
 
@@ -108,7 +108,7 @@ You can run Spoon as a standalone tool with your application and instrumentation
 APKs.
 
 ```
-java -jar spoon-runner-1.2.1-jar-with-dependencies.jar \
+java -jar spoon-runner-1.3.0-jar-with-dependencies.jar \
     --apk ExampleApp-debug.apk \
     --test-apk ExampleApp-debug-androidTest-unaligned.apk
 ```
@@ -146,7 +146,7 @@ Declare the plugin in the `pom.xml` for the instrumentation test module.
 <plugin>
   <groupId>com.squareup.spoon</groupId>
   <artifactId>spoon-maven-plugin</artifactId>
-  <version>1.2.1</version>
+  <version>1.3.0</version>
 </plugin>
 ```
 
@@ -186,7 +186,7 @@ The Android Instrumention runner supports test sharding using the `numShards` an
 
 You can use the `--e` option with Spoon to pass those arguments through to the instrumentation runner, e.g.
 ```
-java -jar spoon-runner-1.2.1-jar-with-dependencies.jar \
+java -jar spoon-runner-1.3.0-jar-with-dependencies.jar \
     --apk ExampleApp-debug.apk \
     --test-apk ExampleApp-debug-androidTest-unaligned.apk \
     --e numShards=4 \
