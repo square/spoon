@@ -407,9 +407,10 @@ public final class SpoonRunner {
     }
 
     public Builder setInitScript(File initScript) {
-      checkNotNull(initScript, "Script path not specified.");
-      checkArgument(initScript.exists(), "Script path does not exist "
-              + initScript.getAbsolutePath());
+      if (initScript != null) {
+        checkArgument(initScript.exists(),
+            "Script path does not exist " + initScript.getAbsolutePath());
+      }
       this.initScript = initScript;
       return this;
     }
