@@ -23,7 +23,6 @@ import java.util.regex.Pattern;
 import static android.content.Context.MODE_WORLD_READABLE;
 import static android.graphics.Bitmap.CompressFormat.PNG;
 import static android.graphics.Bitmap.Config.ARGB_8888;
-import static android.os.Environment.getExternalStorageDirectory;
 import static com.squareup.spoon.Chmod.chmodPlusR;
 import static com.squareup.spoon.Chmod.chmodPlusRWX;
 
