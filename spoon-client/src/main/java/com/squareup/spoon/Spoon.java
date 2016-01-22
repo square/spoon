@@ -206,7 +206,7 @@ public final class Spoon {
     File directory;
     if (Build.VERSION.SDK_INT >= 21) {
       // Use external storage.
-      directory = new File(getExternalStorageDirectory(), "app_" + directoryType);
+      directory = new File(context.getExternalFilesDir(null), "app_" + directoryType);
     } else {
       // Use internal storage.
       directory = context.getDir(directoryType, MODE_WORLD_READABLE);
