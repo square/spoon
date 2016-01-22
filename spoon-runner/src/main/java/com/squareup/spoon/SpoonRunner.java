@@ -288,7 +288,7 @@ public final class SpoonRunner {
     private String methodName;
     private boolean noAnimations;
     private IRemoteAndroidTestRunner.TestSize testSize;
-    private int adbTimeout;
+    private int adbTimeout = DEFAULT_ADB_TIMEOUT;
     private boolean failIfNoDeviceConnected;
     private List<ITestRunListener> testRunListeners = new ArrayList<ITestRunListener>();
     private boolean sequential;
