@@ -58,7 +58,8 @@ public final class Spoon {
      * @return the image file that was created
      */
     public static File screenshot(Activity activity, String tag) {
-        StackTraceElement testClass = findTestClassTraceElement(Thread.currentThread().getStackTrace());
+        StackTraceElement testClass = findTestClassTraceElement(Thread.currentThread()
+                .getStackTrace());
         String className = testClass.getClassName().replaceAll("[^A-Za-z0-9._-]", "_");
         String methodName = testClass.getMethodName();
         return screenshot(activity, tag, className, methodName);
@@ -141,7 +142,8 @@ public final class Spoon {
     }
 
     private static File obtainScreenshotDirectory(Context context, String testClassName,
-                                                  String testMethodName) throws IllegalAccessException {
+                                                  String testMethodName) throws
+            IllegalAccessException {
         return filesDirectory(context, SPOON_SCREENSHOTS, testClassName, testMethodName);
     }
 
@@ -166,7 +168,8 @@ public final class Spoon {
      * @return the copy that was created.
      */
     public static File save(final Context context, final File file) {
-        StackTraceElement testClass = findTestClassTraceElement(Thread.currentThread().getStackTrace());
+        StackTraceElement testClass = findTestClassTraceElement(Thread.currentThread()
+                .getStackTrace());
         String className = testClass.getClassName().replaceAll("[^A-Za-z0-9._-]", "_");
         String methodName = testClass.getMethodName();
         return save(context, className, methodName, file);
@@ -267,7 +270,8 @@ public final class Spoon {
             createDir(parent);
         }
         if (!dir.exists() && !dir.mkdirs()) {
-            throw new IllegalAccessException("Unable to create output dir: " + dir.getAbsolutePath());
+            throw new IllegalAccessException("Unable to create output dir: " + dir
+                    .getAbsolutePath());
         }
         chmodPlusRWX(dir);
     }
