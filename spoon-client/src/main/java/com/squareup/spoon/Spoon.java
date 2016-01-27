@@ -203,7 +203,7 @@ public final class Spoon {
   private static File filesDirectory(Context context, String directoryType, String testClassName,
       String testMethodName) throws IllegalAccessException {
     File directory;
-    if (Build.VERSION.SDK_INT >= 21) {
+    if (Build.VERSION.SDK_INT >=19) {
       // Use external storage.
       directory = new File(context.getExternalFilesDir(null), "app_" + directoryType);
     } else {
