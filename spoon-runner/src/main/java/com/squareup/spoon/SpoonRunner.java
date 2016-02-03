@@ -39,7 +39,7 @@ import static java.util.Collections.synchronizedSet;
 public final class SpoonRunner {
   private static final String DEFAULT_TITLE = "Spoon Execution";
   public static final String DEFAULT_OUTPUT_DIRECTORY = "spoon-output";
-  private static final int DEFAULT_ADB_TIMEOUT = 10 * 60; //10 minutes
+  private static final int DEFAULT_ADB_TIMEOUT_SEC = 10 * 60; //10 minutes
   private final ExecutorService threadExecutor;
 
   private final String title;
@@ -49,7 +49,7 @@ public final class SpoonRunner {
   private final File output;
   private final boolean debug;
   private final boolean noAnimations;
-  private final int adbTimeout;
+  private final int adbTimeoutMillis;
   private final List<String> instrumentationArgs;
   private final String className;
   private final String methodName;
@@ -62,7 +62,7 @@ public final class SpoonRunner {
   private File initScript;
 
   private SpoonRunner(String title, File androidSdk, File applicationApk, File instrumentationApk,
-      File output, boolean debug, boolean noAnimations, int adbTimeout, Set<String> serials,
+      File output, boolean debug, boolean noAnimations, int adbTimeoutMillis, Set<String> serials,
       String classpath, List<String> instrumentationArgs, String className, String methodName,
       IRemoteAndroidTestRunner.TestSize testSize, boolean failIfNoDeviceConnected,
       List<ITestRunListener> testRunListeners, boolean sequential, File initScript,
@@ -74,7 +74,7 @@ public final class SpoonRunner {
     this.output = output;
     this.debug = debug;
     this.noAnimations = noAnimations;
-    this.adbTimeout = adbTimeout;
+    this.adbTimeoutMillis = adbTimeoutMillis;
     this.instrumentationArgs = instrumentationArgs;
     this.className = className;
     this.methodName = methodName;
@@ -102,7 +102,7 @@ public final class SpoonRunner {
     checkArgument(applicationApk.exists(), "Could not find application APK.");
     checkArgument(instrumentationApk.exists(), "Could not find instrumentation APK.");
 
-    AndroidDebugBridge adb = SpoonUtils.initAdb(androidSdk, adbTimeout);
+    AndroidDebugBridge adb = SpoonUtils.initAdb(androidSdk, adbTimeoutMillis);
 
     try {
       // If we were given an empty serial set, load all available devices.
@@ -269,7 +269,7 @@ public final class SpoonRunner {
 
   private SpoonDeviceRunner getTestRunner(String serial, SpoonInstrumentationInfo testInfo) {
     return new SpoonDeviceRunner(androidSdk, applicationApk, instrumentationApk, output, serial,
-        debug, noAnimations, adbTimeout, classpath, testInfo, instrumentationArgs, className,
+        debug, noAnimations, adbTimeoutMillis, classpath, testInfo, instrumentationArgs, className,
         methodName, testSize, testRunListeners);
   }
 
@@ -288,7 +288,7 @@ public final class SpoonRunner {
     private String methodName;
     private boolean noAnimations;
     private IRemoteAndroidTestRunner.TestSize testSize;
-    private int adbTimeout = DEFAULT_ADB_TIMEOUT;
+    private int adbTimeoutMillis = DEFAULT_ADB_TIMEOUT_SEC * 1000;
     private boolean failIfNoDeviceConnected;
     private List<ITestRunListener> testRunListeners = new ArrayList<ITestRunListener>();
     private boolean sequential;
@@ -347,7 +347,7 @@ public final class SpoonRunner {
 
     /** Set ADB timeout. */
     public Builder setAdbTimeout(int value) {
-      this.adbTimeout = value;
+      this.adbTimeoutMillis = value;
       return this;
     }
 
@@ -444,8 +444,8 @@ public final class SpoonRunner {
       }
 
       return new SpoonRunner(title, androidSdk, applicationApk, instrumentationApk, output, debug,
-          noAnimations, adbTimeout, serials, classpath, instrumentationArgs, className, methodName,
-          testSize, failIfNoDeviceConnected, testRunListeners, sequential, initScript,
+          noAnimations, adbTimeoutMillis, serials, classpath, instrumentationArgs, className,
+          methodName, testSize, failIfNoDeviceConnected, testRunListeners, sequential, initScript,
           terminateAdb);
     }
   }
@@ -506,7 +506,7 @@ public final class SpoonRunner {
 
     @Parameter(names = { "--adb-timeout" },
         description = "Set maximum execution time per test in seconds (10min default)") //
-    public int adbTimeoutSeconds = DEFAULT_ADB_TIMEOUT;
+    public int adbTimeoutSeconds = DEFAULT_ADB_TIMEOUT_SEC;
 
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection") //
     @Parameter(names = "-serial",
