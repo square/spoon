@@ -182,7 +182,7 @@ the `spoon-sample/` folder.
 Test Sharding
 -------------
 
-The Android Instrumention runner supports test sharding using the `numShards` and `shardIndex` arguments ([documentation](https://developer.android.com/tools/testing-support-library/index.html#ajur-sharding)).  
+The Android Instrumentation runner supports test sharding using the `numShards` and `shardIndex` arguments ([documentation](https://developer.android.com/tools/testing-support-library/index.html#ajur-sharding)).  
 
 You can use the `--e` option with Spoon to pass those arguments through to the instrumentation runner, e.g.
 ```
