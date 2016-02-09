@@ -7,6 +7,7 @@ import com.beust.jcommander.IStringConverter;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
+import com.beust.jcommander.converters.IParameterSplitter;
 import com.google.common.collect.ImmutableSet;
 import com.squareup.spoon.html.HtmlRenderer;
 
@@ -450,6 +451,18 @@ public final class SpoonRunner {
     }
   }
 
+  /**
+   * Instances where string input should not be split there needs to
+   * be a way override the default splitting behavior.
+   * This class provides that options
+   */
+  public static class NoSplitter implements IParameterSplitter {
+    @Override
+    public List<String> split(String value) {
+      return Collections.singletonList(value);
+    }
+  }
+
   static class CommandLineArgs {
     @Parameter(names = { "--title" }, description = "Execution title") //
     public String title = DEFAULT_TITLE;
@@ -462,7 +475,7 @@ public final class SpoonRunner {
         converter = FileConverter.class, required = true) //
     public File testApk;
 
-    @Parameter(names = { "--e" },
+    @Parameter(names = { "--e" }, variableArity = true, splitter = NoSplitter.class,
         description = "Arguments to pass to the Instrumentation Runner. This can be used multiple"
             + " times for multiple entries. Usage: --e <NAME>=<VALUE>.")
     public List<String> instrumentationArgs;
