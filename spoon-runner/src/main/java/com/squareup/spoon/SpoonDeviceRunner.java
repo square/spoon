@@ -105,7 +105,6 @@ public final class SpoonDeviceRunner {
     this.testSize = testSize;
     this.classpath = classpath;
     this.instrumentationInfo = instrumentationInfo;
-
     serial = SpoonUtils.sanitizeSerial(serial);
     this.work = FileUtils.getFile(output, TEMP_DIR, serial);
     this.junitReport = FileUtils.getFile(output, JUNIT_DIR, serial + ".xml");
@@ -224,11 +223,18 @@ public final class SpoonDeviceRunner {
 
       if (instrumentationArgs != null && instrumentationArgs.size() > 0) {
         for (String pair : instrumentationArgs) {
-          String[] kvp = pair.split("=");
-          if (kvp.length != 2 || isNullOrEmpty(kvp[0]) || isNullOrEmpty(kvp[1])) {
+          int firstEqualSignIndex = pair.indexOf("=");
+          if (firstEqualSignIndex <= -1) {
+            //No Equal Sign, can't process
             continue;
           }
-          runner.addInstrumentationArg(kvp[0], kvp[1]);
+          String key = pair.substring(0, firstEqualSignIndex);
+          String value = pair.substring(firstEqualSignIndex + 1);
+          if (isNullOrEmpty(key) || isNullOrEmpty(value)) {
+            //invalid values, skipping
+            continue;
+          }
+          runner.addInstrumentationArg(key, value);
         }
       }
 
