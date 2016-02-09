@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+Version 1.3.2 *(2016-02-09)*
+----------------------------
+
+* Fix: --e options are now split correctly
+* Fix: default timeout is now set
+
 Version 1.3.1 *(2016-01-05)*
 ----------------------------
 
