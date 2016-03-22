@@ -54,6 +54,7 @@ public final class SpoonRunner {
   private final List<String> instrumentationArgs;
   private final String className;
   private final String methodName;
+  private final String packageName;
   private final Set<String> serials;
   private final String classpath;
   private final IRemoteAndroidTestRunner.TestSize testSize;
@@ -64,7 +65,7 @@ public final class SpoonRunner {
 
   private SpoonRunner(String title, File androidSdk, File applicationApk, File instrumentationApk,
       File output, boolean debug, boolean noAnimations, int adbTimeoutMillis, Set<String> serials,
-      String classpath, List<String> instrumentationArgs, String className, String methodName,
+      String classpath, List<String> instrumentationArgs, String className, String methodName, String packageName,
       IRemoteAndroidTestRunner.TestSize testSize, boolean failIfNoDeviceConnected,
       List<ITestRunListener> testRunListeners, boolean sequential, File initScript,
       boolean terminateAdb) {
@@ -79,6 +80,7 @@ public final class SpoonRunner {
     this.instrumentationArgs = instrumentationArgs;
     this.className = className;
     this.methodName = methodName;
+    this.packageName = packageName;
     this.classpath = classpath;
     this.testSize = testSize;
     this.serials = ImmutableSet.copyOf(serials);
@@ -270,7 +272,7 @@ public final class SpoonRunner {
 
   private SpoonDeviceRunner getTestRunner(String serial, SpoonInstrumentationInfo testInfo) {
     return new SpoonDeviceRunner(androidSdk, applicationApk, instrumentationApk, output, serial,
-        debug, noAnimations, adbTimeoutMillis, classpath, testInfo, instrumentationArgs, className,
+        debug, noAnimations, adbTimeoutMillis, classpath, testInfo, instrumentationArgs, className, packageName,
         methodName, testSize, testRunListeners);
   }
 
@@ -287,6 +289,7 @@ public final class SpoonRunner {
     private List<String> instrumentationArgs;
     private String className;
     private String methodName;
+    private String packageName;
     private boolean noAnimations;
     private IRemoteAndroidTestRunner.TestSize testSize;
     private int adbTimeoutMillis = DEFAULT_ADB_TIMEOUT_SEC * 1000;
@@ -421,6 +424,11 @@ public final class SpoonRunner {
       return this;
     }
 
+    public Builder setPackageName(String packageName) {
+      this.packageName = packageName;
+      return this;
+    }
+
     public Builder addTestRunListener(ITestRunListener testRunListener) {
       checkNotNull(testRunListener, "TestRunListener cannot be null.");
       testRunListeners.add(testRunListener);
@@ -445,7 +453,7 @@ public final class SpoonRunner {
       }
 
       return new SpoonRunner(title, androidSdk, applicationApk, instrumentationApk, output, debug,
-          noAnimations, adbTimeoutMillis, serials, classpath, instrumentationArgs, className,
+          noAnimations, adbTimeoutMillis, serials, classpath, instrumentationArgs, className, packageName,
           methodName, testSize, failIfNoDeviceConnected, testRunListeners, sequential, initScript,
           terminateAdb);
     }
@@ -486,6 +494,10 @@ public final class SpoonRunner {
     @Parameter(names = { "--method-name" },
         description = "Test method name to run (must also use --class-name)") //
     public String methodName;
+
+    @Parameter(names = {"--package-name"},
+            description = "Test package to run (--class-name and --method-name will be ignored)")
+    public String packageName;
 
     @Parameter(names = { "--size" }, converter = TestSizeConverter.class,
         description = "Only run methods with corresponding size annotation (small, medium, large)")
@@ -591,7 +603,8 @@ public final class SpoonRunner {
         .setInitScript(parsedArgs.initScript)
         .setInstrumentationArgs(parsedArgs.instrumentationArgs)
         .setClassName(parsedArgs.className)
-        .setMethodName(parsedArgs.methodName);
+        .setMethodName(parsedArgs.methodName)
+        .setPackageName(parsedArgs.packageName);
 
     if (parsedArgs.serials == null || parsedArgs.serials.isEmpty()) {
       builder.useAllAttachedDevices();
