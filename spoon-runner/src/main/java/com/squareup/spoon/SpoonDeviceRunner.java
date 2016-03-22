@@ -61,6 +61,7 @@ public final class SpoonDeviceRunner {
   private final List<String> instrumentationArgs;
   private final String className;
   private final String methodName;
+  private final String packageName;
   private final IRemoteAndroidTestRunner.TestSize testSize;
   private final File work;
   private final File junitReport;
@@ -90,8 +91,8 @@ public final class SpoonDeviceRunner {
   SpoonDeviceRunner(File sdk, File apk, File testApk, File output, String serial, boolean debug,
       boolean noAnimations, int adbTimeout, String classpath,
       SpoonInstrumentationInfo instrumentationInfo, List<String> instrumentationArgs,
-      String className, String methodName, IRemoteAndroidTestRunner.TestSize testSize,
-      List<ITestRunListener> testRunListeners) {
+      String className, String methodName, String packageName,
+      IRemoteAndroidTestRunner.TestSize testSize, List<ITestRunListener> testRunListeners) {
     this.sdk = sdk;
     this.apk = apk;
     this.testApk = testApk;
@@ -102,6 +103,7 @@ public final class SpoonDeviceRunner {
     this.instrumentationArgs = instrumentationArgs;
     this.className = className;
     this.methodName = methodName;
+    this.packageName = packageName;
     this.testSize = testSize;
     this.classpath = classpath;
     this.instrumentationInfo = instrumentationInfo;
@@ -238,13 +240,16 @@ public final class SpoonDeviceRunner {
         }
       }
 
-      if (!isNullOrEmpty(className)) {
+      if (!isNullOrEmpty(packageName)) {
+        runner.setTestPackageName(packageName);
+      } else if (!isNullOrEmpty(className)) {
         if (isNullOrEmpty(methodName)) {
           runner.setClassName(className);
         } else {
           runner.setMethodName(className, methodName);
         }
       }
+
       if (testSize != null) {
         runner.setTestSize(testSize);
       }
