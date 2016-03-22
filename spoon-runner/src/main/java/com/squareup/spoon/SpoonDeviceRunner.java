@@ -91,8 +91,8 @@ public final class SpoonDeviceRunner {
   SpoonDeviceRunner(File sdk, File apk, File testApk, File output, String serial, boolean debug,
       boolean noAnimations, int adbTimeout, String classpath,
       SpoonInstrumentationInfo instrumentationInfo, List<String> instrumentationArgs,
-      String className, String methodName, String packageName, IRemoteAndroidTestRunner.TestSize testSize,
-      List<ITestRunListener> testRunListeners) {
+      String className, String methodName, String packageName,
+      IRemoteAndroidTestRunner.TestSize testSize, List<ITestRunListener> testRunListeners) {
     this.sdk = sdk;
     this.apk = apk;
     this.testApk = testApk;
