@@ -55,6 +55,8 @@ public final class SpoonDeviceRunner {
   private final File apk;
   private final File testApk;
   private final String serial;
+  private final int shardIndex;
+  private final int numShards;
   private final boolean debug;
   private final boolean noAnimations;
   private final int adbTimeout;
@@ -87,8 +89,8 @@ public final class SpoonDeviceRunner {
    *        {@code className}.
    * @param testRunListeners Additional TestRunListener or empty list.
    */
-  SpoonDeviceRunner(File sdk, File apk, File testApk, File output, String serial, boolean debug,
-      boolean noAnimations, int adbTimeout, String classpath,
+  SpoonDeviceRunner(File sdk, File apk, File testApk, File output, String serial, int shardIndex,
+      int numShards, boolean debug, boolean noAnimations, int adbTimeout, String classpath,
       SpoonInstrumentationInfo instrumentationInfo, List<String> instrumentationArgs,
       String className, String methodName, IRemoteAndroidTestRunner.TestSize testSize,
       List<ITestRunListener> testRunListeners) {
@@ -96,6 +98,8 @@ public final class SpoonDeviceRunner {
     this.apk = apk;
     this.testApk = testApk;
     this.serial = serial;
+    this.shardIndex = shardIndex;
+    this.numShards = numShards;
     this.debug = debug;
     this.noAnimations = noAnimations;
     this.adbTimeout = adbTimeout;
@@ -237,6 +241,12 @@ public final class SpoonDeviceRunner {
           runner.addInstrumentationArg(key, value);
         }
       }
+      // Add the sharding instrumentation arguments if necessary
+      if (numShards != 0 && shardIndex != 0) {
+        runner.addInstrumentationArg("numShards", Integer.toString(numShards));
+        runner.addInstrumentationArg("shardIndex", Integer.toString(numShards));
+      }
+
 
       if (!isNullOrEmpty(className)) {
         if (isNullOrEmpty(methodName)) {
