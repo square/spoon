@@ -64,11 +64,11 @@ public final class SpoonRunner {
   private File initScript;
 
   private SpoonRunner(String title, File androidSdk, File applicationApk, File instrumentationApk,
-      File output, boolean debug, boolean noAnimations, int adbTimeoutMillis, Set<String> serials, boolean shard,
-      String classpath, List<String> instrumentationArgs, String className, String methodName,
-      IRemoteAndroidTestRunner.TestSize testSize, boolean failIfNoDeviceConnected,
-      List<ITestRunListener> testRunListeners, boolean sequential, File initScript,
-      boolean terminateAdb) {
+      File output, boolean debug, boolean noAnimations, int adbTimeoutMillis, Set<String> serials,
+      boolean shard, String classpath, List<String> instrumentationArgs, String className,
+      String methodName, IRemoteAndroidTestRunner.TestSize testSize,
+      boolean failIfNoDeviceConnected, List<ITestRunListener> testRunListeners, boolean sequential,
+      File initScript, boolean terminateAdb) {
     this.title = title;
     this.androidSdk = androidSdk;
     this.applicationApk = applicationApk;
@@ -182,13 +182,14 @@ public final class SpoonRunner {
         logDebug(debug, "[%s] Starting execution.", serial);
         if (shard) {
           shardIndex++;
-          logDebug(debug, "shardIndex [%i]", shardIndex);
+          logDebug(debug, "shardIndex [%d]", shardIndex);
         }
         final int safeShardIndex = shardIndex;
         Runnable runnable = new Runnable() {
           @Override public void run() {
             try {
-              summary.addResult(safeSerial, getTestRunner(serial, safeShardIndex, numShards, testInfo).runInNewProcess());
+              summary.addResult(safeSerial,
+                  getTestRunner(serial, safeShardIndex, numShards, testInfo).runInNewProcess());
             } catch (Exception e) {
               e.printStackTrace(System.out);
               summary.addResult(safeSerial, new DeviceResult.Builder().addException(e).build());
@@ -278,7 +279,8 @@ public final class SpoonRunner {
     return true;
   }
 
-  private SpoonDeviceRunner getTestRunner(String serial, int shardIndex, int numShards, SpoonInstrumentationInfo testInfo) {
+  private SpoonDeviceRunner getTestRunner(String serial, int shardIndex, int numShards,
+      SpoonInstrumentationInfo testInfo) {
     return new SpoonDeviceRunner(androidSdk, applicationApk, instrumentationApk, output, serial,
             shardIndex, numShards, debug, noAnimations, adbTimeoutMillis, classpath, testInfo,
             instrumentationArgs, className, methodName, testSize, testRunListeners);
@@ -542,7 +544,8 @@ public final class SpoonRunner {
         description = "Serial of the device to use (May be used multiple times)")
     private List<String> serials = new ArrayList<String>();
 
-    @Parameter(names = { "--shard"} )
+    @Parameter(names = { "--shard" },
+        description = "Automatically shard across all specified serials") //
     public boolean shard;
 
     @Parameter(names = { "--debug" }, hidden = true) //

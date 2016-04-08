@@ -184,7 +184,21 @@ Test Sharding
 
 The Android Instrumentation runner supports test sharding using the `numShards` and `shardIndex` arguments ([documentation](https://developer.android.com/tools/testing-support-library/index.html#ajur-sharding)).  
 
-You can use the `--e` option with Spoon to pass those arguments through to the instrumentation runner, e.g.
+If you are specifying serials for multiple devices, you may use spoon's built in auto-sharding by specifying --shard:
+
+```
+java -jar spoon-runner-1.3.1-jar-with-dependencies.jar \
+    --apk ExampleApp-debug.apk \
+    --test-apk ExampleApp-debug-androidTest-unaligned.apk \
+    -serial emulator-1 \
+    -serial emulator-2 \
+    --shard
+```
+
+This will automatically shard across all specified serials, and merge the results.
+
+If you'd like to use a different sharding strategy, you can use the `--e` option with Spoon to pass those arguments through to the instrumentation runner, e.g.
+
 ```
 java -jar spoon-runner-1.3.1-jar-with-dependencies.jar \
     --apk ExampleApp-debug.apk \
@@ -192,6 +206,9 @@ java -jar spoon-runner-1.3.1-jar-with-dependencies.jar \
     --e numShards=4 \
     --e shardIndex=0
 ```
+However, it will be up to you to merge the output from the shards.
+
+
 If you use Jenkins, a good way to set up sharding is inside a "Multi-configuration project".
 
  - Add a "User-defined Axis".  Choose a name for the shard index variable, and define the index values you want (starting at zero).
