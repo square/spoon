@@ -55,6 +55,7 @@ public final class SpoonRunner {
   private final String className;
   private final String methodName;
   private final Set<String> serials;
+  private final boolean shard;
   private final String classpath;
   private final IRemoteAndroidTestRunner.TestSize testSize;
   private final boolean failIfNoDeviceConnected;
@@ -64,10 +65,10 @@ public final class SpoonRunner {
 
   private SpoonRunner(String title, File androidSdk, File applicationApk, File instrumentationApk,
       File output, boolean debug, boolean noAnimations, int adbTimeoutMillis, Set<String> serials,
-      String classpath, List<String> instrumentationArgs, String className, String methodName,
-      IRemoteAndroidTestRunner.TestSize testSize, boolean failIfNoDeviceConnected,
-      List<ITestRunListener> testRunListeners, boolean sequential, File initScript,
-      boolean terminateAdb) {
+      boolean shard, String classpath, List<String> instrumentationArgs, String className,
+      String methodName, IRemoteAndroidTestRunner.TestSize testSize,
+      boolean failIfNoDeviceConnected, List<ITestRunListener> testRunListeners, boolean sequential,
+      File initScript, boolean terminateAdb) {
     this.title = title;
     this.androidSdk = androidSdk;
     this.applicationApk = applicationApk;
@@ -82,6 +83,7 @@ public final class SpoonRunner {
     this.classpath = classpath;
     this.testSize = testSize;
     this.serials = ImmutableSet.copyOf(serials);
+    this.shard = shard;
     this.failIfNoDeviceConnected = failIfNoDeviceConnected;
     this.testRunListeners = testRunListeners;
     this.terminateAdb = terminateAdb;
@@ -157,7 +159,7 @@ public final class SpoonRunner {
       String safeSerial = SpoonUtils.sanitizeSerial(serial);
       try {
         logDebug(debug, "[%s] Starting execution.", serial);
-        summary.addResult(safeSerial, getTestRunner(serial, testInfo).run(adb));
+        summary.addResult(safeSerial, getTestRunner(serial, 0, 0, testInfo).run(adb));
       } catch (Exception e) {
         logDebug(debug, "[%s] Execution exception!", serial);
         e.printStackTrace(System.out);
@@ -172,13 +174,22 @@ public final class SpoonRunner {
       // Spawn a new thread for each device and wait for them all to finish.
       final CountDownLatch done = new CountDownLatch(targetCount);
       final Set<String> remaining = synchronizedSet(new HashSet<String>(serials));
+
+      int shardIndex = 0;
+      final int numShards = shard ? serials.size() : 0;
       for (final String serial : serials) {
         final String safeSerial = SpoonUtils.sanitizeSerial(serial);
         logDebug(debug, "[%s] Starting execution.", serial);
+        if (shard) {
+          shardIndex++;
+          logDebug(debug, "shardIndex [%d]", shardIndex);
+        }
+        final int safeShardIndex = shardIndex;
         Runnable runnable = new Runnable() {
           @Override public void run() {
             try {
-              summary.addResult(safeSerial, getTestRunner(serial, testInfo).runInNewProcess());
+              summary.addResult(safeSerial,
+                  getTestRunner(serial, safeShardIndex, numShards, testInfo).runInNewProcess());
             } catch (Exception e) {
               e.printStackTrace(System.out);
               summary.addResult(safeSerial, new DeviceResult.Builder().addException(e).build());
@@ -268,10 +279,11 @@ public final class SpoonRunner {
     return true;
   }
 
-  private SpoonDeviceRunner getTestRunner(String serial, SpoonInstrumentationInfo testInfo) {
+  private SpoonDeviceRunner getTestRunner(String serial, int shardIndex, int numShards,
+      SpoonInstrumentationInfo testInfo) {
     return new SpoonDeviceRunner(androidSdk, applicationApk, instrumentationApk, output, serial,
-        debug, noAnimations, adbTimeoutMillis, classpath, testInfo, instrumentationArgs, className,
-        methodName, testSize, testRunListeners);
+            shardIndex, numShards, debug, noAnimations, adbTimeoutMillis, classpath, testInfo,
+            instrumentationArgs, className, methodName, testSize, testRunListeners);
   }
 
   /** Build a test suite for the specified devices and configuration. */
@@ -295,6 +307,7 @@ public final class SpoonRunner {
     private boolean sequential;
     private File initScript;
     private boolean terminateAdb = true;
+    private boolean shard = false;
 
     /** Identifying title for this execution. */
     public Builder setTitle(String title) {
@@ -421,6 +434,11 @@ public final class SpoonRunner {
       return this;
     }
 
+    public Builder setShard(boolean shard) {
+      this.shard = shard;
+      return this;
+    }
+
     public Builder addTestRunListener(ITestRunListener testRunListener) {
       checkNotNull(testRunListener, "TestRunListener cannot be null.");
       testRunListeners.add(testRunListener);
@@ -445,7 +463,7 @@ public final class SpoonRunner {
       }
 
       return new SpoonRunner(title, androidSdk, applicationApk, instrumentationApk, output, debug,
-          noAnimations, adbTimeoutMillis, serials, classpath, instrumentationArgs, className,
+          noAnimations, adbTimeoutMillis, serials, shard, classpath, instrumentationArgs, className,
           methodName, testSize, failIfNoDeviceConnected, testRunListeners, sequential, initScript,
           terminateAdb);
     }
@@ -526,6 +544,10 @@ public final class SpoonRunner {
         description = "Serial of the device to use (May be used multiple times)")
     private List<String> serials = new ArrayList<String>();
 
+    @Parameter(names = { "--shard" },
+        description = "Automatically shard across all specified serials") //
+    public boolean shard;
+
     @Parameter(names = { "--debug" }, hidden = true) //
     public boolean debug;
 
@@ -591,7 +613,8 @@ public final class SpoonRunner {
         .setInitScript(parsedArgs.initScript)
         .setInstrumentationArgs(parsedArgs.instrumentationArgs)
         .setClassName(parsedArgs.className)
-        .setMethodName(parsedArgs.methodName);
+        .setMethodName(parsedArgs.methodName)
+        .setShard(parsedArgs.shard);
 
     if (parsedArgs.serials == null || parsedArgs.serials.isEmpty()) {
       builder.useAllAttachedDevices();
