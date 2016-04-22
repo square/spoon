@@ -227,8 +227,7 @@ public final class SpoonRunner {
   /** Returns a {@link Runnable} to launch the script before/between devices in sequential mode. */
   private Runnable getRunnableScript() {
     return new Runnable() {
-      @Override
-      public void run() {
+      @Override public void run() {
         executeInitScript();
       }
     };
@@ -240,7 +239,7 @@ public final class SpoonRunner {
       try {
         Runtime run = Runtime.getRuntime();
         Process proc = run.exec(new String[] {
-                "/bin/bash", "-c", initScript.getAbsolutePath()
+            "/bin/bash", "-c", initScript.getAbsolutePath()
         });
         BufferedReader br = new BufferedReader(new InputStreamReader(proc.getInputStream()));
         String line;
@@ -282,8 +281,8 @@ public final class SpoonRunner {
   private SpoonDeviceRunner getTestRunner(String serial, int shardIndex, int numShards,
       SpoonInstrumentationInfo testInfo) {
     return new SpoonDeviceRunner(androidSdk, applicationApk, instrumentationApk, output, serial,
-            shardIndex, numShards, debug, noAnimations, adbTimeoutMillis, classpath, testInfo,
-            instrumentationArgs, className, methodName, testSize, testRunListeners);
+        shardIndex, numShards, debug, noAnimations, adbTimeoutMillis, classpath, testInfo,
+        instrumentationArgs, className, methodName, testSize, testRunListeners);
   }
 
   /** Build a test suite for the specified devices and configuration. */
@@ -475,8 +474,7 @@ public final class SpoonRunner {
    * This class provides that options
    */
   public static class NoSplitter implements IParameterSplitter {
-    @Override
-    public List<String> split(String value) {
+    @Override public List<String> split(String value) {
       return Collections.singletonList(value);
     }
   }
@@ -495,7 +493,7 @@ public final class SpoonRunner {
 
     @Parameter(names = { "--e" }, variableArity = true, splitter = NoSplitter.class,
         description = "Arguments to pass to the Instrumentation Runner. This can be used multiple"
-            + " times for multiple entries. Usage: --e <NAME>=<VALUE>.")
+            + " times for multiple entries. Usage: --e <NAME>=<VALUE>.") //
     public List<String> instrumentationArgs;
 
     @Parameter(names = { "--class-name" }, description = "Test class name to run (fully-qualified)")
@@ -528,8 +526,8 @@ public final class SpoonRunner {
     public boolean sequential;
 
     @Parameter(names = { "--init-script" },
-            description = "Script file executed between each devices",
-            converter = FileConverter.class)
+        description = "Script file executed between each devices",
+        converter = FileConverter.class) //
     public File initScript;
 
     @Parameter(names = { "--no-animations" }, description = "Disable animated gif generation")

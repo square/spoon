@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -29,8 +30,8 @@ import org.apache.commons.io.filefilter.TrueFileFilter;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
 import static com.google.common.base.Strings.isNullOrEmpty;
-import static com.squareup.spoon.Spoon.SPOON_SCREENSHOTS;
 import static com.squareup.spoon.Spoon.SPOON_FILES;
+import static com.squareup.spoon.Spoon.SPOON_SCREENSHOTS;
 import static com.squareup.spoon.SpoonLogger.logDebug;
 import static com.squareup.spoon.SpoonLogger.logError;
 import static com.squareup.spoon.SpoonLogger.logInfo;
@@ -45,7 +46,7 @@ public final class SpoonDeviceRunner {
   private static final String FILE_RESULT = "result.json";
   private static final String DEVICE_SCREENSHOT_DIR = "app_" + SPOON_SCREENSHOTS;
   private static final String DEVICE_FILE_DIR = "app_" + SPOON_FILES;
-  private static final String [] DEVICE_DIRS = {DEVICE_SCREENSHOT_DIR, DEVICE_FILE_DIR};
+  private static final String[] DEVICE_DIRS = {DEVICE_SCREENSHOT_DIR, DEVICE_FILE_DIR};
   static final String TEMP_DIR = "work";
   static final String JUNIT_DIR = "junit-reports";
   static final String IMAGE_DIR = "image";
@@ -86,7 +87,7 @@ public final class SpoonDeviceRunner {
    * @param instrumentationInfo Test apk manifest information.
    * @param className Test class name to run or {@code null} to run all tests.
    * @param methodName Test method name to run or {@code null} to run all tests.  Must also pass
-   *        {@code className}.
+   * {@code className}.
    * @param testRunListeners Additional TestRunListener or empty list.
    */
   SpoonDeviceRunner(File sdk, File apk, File testApk, File output, String serial, int shardIndex,
@@ -200,16 +201,18 @@ public final class SpoonDeviceRunner {
       String appPackage = instrumentationInfo.getApplicationPackage();
       try {
         CollectingOutputReceiver grantOutputReceiver = new CollectingOutputReceiver();
-        device.executeShellCommand("pm grant " + appPackage
-            + " android.permission.READ_EXTERNAL_STORAGE", grantOutputReceiver);
-        device.executeShellCommand("pm grant " + appPackage
-            + " android.permission.WRITE_EXTERNAL_STORAGE", grantOutputReceiver);
+        device.executeShellCommand(
+            "pm grant " + appPackage + " android.permission.READ_EXTERNAL_STORAGE",
+            grantOutputReceiver);
+        device.executeShellCommand(
+            "pm grant " + appPackage + " android.permission.WRITE_EXTERNAL_STORAGE",
+            grantOutputReceiver);
       } catch (Exception e) {
         logInfo("Exception while granting external storage access to application apk"
             + "on device [%s]", serial);
         e.printStackTrace(System.out);
-        return result.markInstallAsFailed("Unable to grant external storage access to"
-            + " application APK.").build();
+        return result.markInstallAsFailed(
+            "Unable to grant external storage access to application APK.").build();
       }
     }
 
@@ -246,7 +249,6 @@ public final class SpoonDeviceRunner {
         runner.addInstrumentationArg("numShards", Integer.toString(numShards));
         runner.addInstrumentationArg("shardIndex", Integer.toString(numShards));
       }
-
 
       if (!isNullOrEmpty(className)) {
         if (isNullOrEmpty(methodName)) {
@@ -348,8 +350,7 @@ public final class SpoonDeviceRunner {
   private void handleFiles(DeviceResult.Builder result, File testFileDir) throws IOException {
     File[] classNameDirs = testFileDir.listFiles();
     if (classNameDirs != null) {
-      logInfo("Found class name dirs: " + classNameDirs);
-      Multimap<DeviceTest, File> testFiles = ArrayListMultimap.create();
+      logInfo("Found class name dirs: " + Arrays.toString(classNameDirs));
       for (File classNameDir : classNameDirs) {
         String className = classNameDir.getName();
         File destDir = new File(fileDir, className);
@@ -358,7 +359,7 @@ public final class SpoonDeviceRunner {
 
         // Get a sorted list of all files from the device run.
         List<File> files = new ArrayList<File>(
-                FileUtils.listFiles(destDir, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE));
+            FileUtils.listFiles(destDir, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE));
         Collections.sort(files);
 
         // Iterate over each file and associate it with its
@@ -366,8 +367,8 @@ public final class SpoonDeviceRunner {
         for (File file : files) {
           String methodName = file.getParentFile().getName();
           DeviceTest testIdentifier = new DeviceTest(className, methodName);
-          final DeviceTestResult.Builder resultBuilder
-                  = result.getMethodResultBuilder(testIdentifier);
+          final DeviceTestResult.Builder resultBuilder =
+              result.getMethodResultBuilder(testIdentifier);
           if (resultBuilder != null) {
             resultBuilder.addFile(file);
             logInfo("Added file as result: " + file + " for " + testIdentifier);
@@ -406,8 +407,7 @@ public final class SpoonDeviceRunner {
 
   private void adbPull(IDevice device, FileEntry remoteDirName, String localDirName) {
     try {
-      device.getSyncService()
-          .pull(new FileEntry[] {remoteDirName}, localDirName,
+      device.getSyncService().pull(new FileEntry[] {remoteDirName}, localDirName,
               SyncService.getNullProgressMonitor());
     } catch (Exception e) {
       logDebug(debug, e.getMessage(), e);
@@ -421,7 +421,7 @@ public final class SpoonDeviceRunner {
   }
 
   private static FileEntry getScreenshotDirOnExternalStorage(IDevice device, final String dir)
-          throws Exception {
+      throws Exception {
     String externalPath = getExternalStoragePath(device) + "/" + dir;
     return obtainDirectoryFileEntry(externalPath);
   }
