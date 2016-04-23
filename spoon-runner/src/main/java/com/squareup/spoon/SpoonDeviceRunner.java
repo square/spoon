@@ -13,6 +13,10 @@ import com.android.ddmlib.testrunner.RemoteAndroidTestRunner;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.squareup.spoon.adapters.TestIdentifierAdapter;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.TrueFileFilter;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -24,13 +28,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.TrueFileFilter;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
 import static com.google.common.base.Strings.isNullOrEmpty;
-import static com.squareup.spoon.Spoon.SPOON_SCREENSHOTS;
 import static com.squareup.spoon.Spoon.SPOON_FILES;
+import static com.squareup.spoon.Spoon.SPOON_SCREENSHOTS;
 import static com.squareup.spoon.SpoonLogger.logDebug;
 import static com.squareup.spoon.SpoonLogger.logError;
 import static com.squareup.spoon.SpoonLogger.logInfo;
@@ -38,6 +40,7 @@ import static com.squareup.spoon.SpoonUtils.GSON;
 import static com.squareup.spoon.SpoonUtils.createAnimatedGif;
 import static com.squareup.spoon.SpoonUtils.obtainDirectoryFileEntry;
 import static com.squareup.spoon.SpoonUtils.obtainRealDevice;
+import static java.lang.String.format;
 
 /** Represents a single device and the test configuration to be executed. */
 public final class SpoonDeviceRunner {
@@ -68,6 +71,7 @@ public final class SpoonDeviceRunner {
   private final File fileDir;
   private final String classpath;
   private final SpoonInstrumentationInfo instrumentationInfo;
+  private boolean codeCoverage;
   private final List<ITestRunListener> testRunListeners;
 
   /**
@@ -88,10 +92,10 @@ public final class SpoonDeviceRunner {
    * @param testRunListeners Additional TestRunListener or empty list.
    */
   SpoonDeviceRunner(File sdk, File apk, File testApk, File output, String serial, boolean debug,
-      boolean noAnimations, int adbTimeout, String classpath,
-      SpoonInstrumentationInfo instrumentationInfo, List<String> instrumentationArgs,
-      String className, String methodName, IRemoteAndroidTestRunner.TestSize testSize,
-      List<ITestRunListener> testRunListeners) {
+                    boolean noAnimations, int adbTimeout, String classpath,
+                    SpoonInstrumentationInfo instrumentationInfo, List<String> instrumentationArgs,
+                    String className, String methodName, IRemoteAndroidTestRunner.TestSize testSize,
+                    List<ITestRunListener> testRunListeners, boolean codeCoverage) {
     this.sdk = sdk;
     this.apk = apk;
     this.testApk = testApk;
@@ -105,6 +109,7 @@ public final class SpoonDeviceRunner {
     this.testSize = testSize;
     this.classpath = classpath;
     this.instrumentationInfo = instrumentationInfo;
+    this.codeCoverage = codeCoverage;
     serial = SpoonUtils.sanitizeSerial(serial);
     this.work = FileUtils.getFile(output, TEMP_DIR, serial);
     this.junitReport = FileUtils.getFile(output, JUNIT_DIR, serial + ".xml");
@@ -236,6 +241,12 @@ public final class SpoonDeviceRunner {
           }
           runner.addInstrumentationArg(key, value);
         }
+      }
+      if (codeCoverage) {
+        String applicationPackage = instrumentationInfo.getApplicationPackage();
+        String coveragePath = format("/data/data/%s/coverage.ec", applicationPackage);
+        runner.addInstrumentationArg("coverage", "true");
+        runner.addInstrumentationArg("coverageFile", coveragePath);
       }
 
       if (!isNullOrEmpty(className)) {
