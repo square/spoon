@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 1.4.0 *(2016-04-11)*
+----------------------------
+
+* New: sharding tests across multiple devices
+
 Version 1.3.2 *(2016-02-09)*
 ----------------------------
 
