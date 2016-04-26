@@ -5,7 +5,6 @@ import com.android.ddmlib.CollectingOutputReceiver;
 import com.android.ddmlib.DdmPreferences;
 import com.android.ddmlib.IDevice;
 import com.android.ddmlib.InstallException;
-import com.android.ddmlib.SyncService;
 import com.android.ddmlib.logcat.LogCatMessage;
 import com.android.ddmlib.testrunner.IRemoteAndroidTestRunner;
 import com.android.ddmlib.testrunner.ITestRunListener;
@@ -29,6 +28,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
+import static com.android.ddmlib.SyncService.getNullProgressMonitor;
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.squareup.spoon.Spoon.SPOON_FILES;
 import static com.squareup.spoon.Spoon.SPOON_SCREENSHOTS;
@@ -44,6 +44,7 @@ import static com.squareup.spoon.SpoonUtils.obtainRealDevice;
 public final class SpoonDeviceRunner {
   private static final String FILE_EXECUTION = "execution.json";
   private static final String FILE_RESULT = "result.json";
+  private static final String COVERAGE_FILE = "coverage.ec";
   private static final String DEVICE_SCREENSHOT_DIR = "app_" + SPOON_SCREENSHOTS;
   private static final String DEVICE_FILE_DIR = "app_" + SPOON_FILES;
   private static final String[] DEVICE_DIRS = {DEVICE_SCREENSHOT_DIR, DEVICE_FILE_DIR};
@@ -51,6 +52,7 @@ public final class SpoonDeviceRunner {
   static final String JUNIT_DIR = "junit-reports";
   static final String IMAGE_DIR = "image";
   static final String FILE_DIR = "file";
+  static final String COVERAGE_DIR = "coverage";
 
   private final File sdk;
   private final File apk;
@@ -68,9 +70,11 @@ public final class SpoonDeviceRunner {
   private final File work;
   private final File junitReport;
   private final File imageDir;
+  private final File coverageDir;
   private final File fileDir;
   private final String classpath;
   private final SpoonInstrumentationInfo instrumentationInfo;
+  private boolean codeCoverage;
   private final List<ITestRunListener> testRunListeners;
 
   /**
@@ -94,7 +98,7 @@ public final class SpoonDeviceRunner {
       int numShards, boolean debug, boolean noAnimations, int adbTimeout, String classpath,
       SpoonInstrumentationInfo instrumentationInfo, List<String> instrumentationArgs,
       String className, String methodName, IRemoteAndroidTestRunner.TestSize testSize,
-      List<ITestRunListener> testRunListeners) {
+      List<ITestRunListener> testRunListeners, boolean codeCoverage) {
     this.sdk = sdk;
     this.apk = apk;
     this.testApk = testApk;
@@ -110,11 +114,13 @@ public final class SpoonDeviceRunner {
     this.testSize = testSize;
     this.classpath = classpath;
     this.instrumentationInfo = instrumentationInfo;
+    this.codeCoverage = codeCoverage;
     serial = SpoonUtils.sanitizeSerial(serial);
     this.work = FileUtils.getFile(output, TEMP_DIR, serial);
     this.junitReport = FileUtils.getFile(output, JUNIT_DIR, serial + ".xml");
     this.imageDir = FileUtils.getFile(output, IMAGE_DIR, serial);
     this.fileDir = FileUtils.getFile(output, FILE_DIR, serial);
+    this.coverageDir = FileUtils.getFile(output, COVERAGE_DIR, serial);
     this.testRunListeners = testRunListeners;
   }
 
@@ -244,6 +250,11 @@ public final class SpoonDeviceRunner {
           runner.addInstrumentationArg(key, value);
         }
       }
+      if (codeCoverage) {
+        String coveragePath = getInternalPath(COVERAGE_FILE);
+        runner.addInstrumentationArg("coverage", "true");
+        runner.addInstrumentationArg("coverageFile", coveragePath);
+      }
       // Add the sharding instrumentation arguments if necessary
       if (numShards != 0 && shardIndex != 0) {
         runner.addInstrumentationArg("numShards", Integer.toString(numShards));
@@ -276,6 +287,9 @@ public final class SpoonDeviceRunner {
     try {
       logDebug(debug, "About to grab screenshots and prepare output for [%s]", serial);
       pullDeviceFiles(device);
+      if (codeCoverage) {
+        pullCoverageFile(device);
+      }
 
       File screenshotDir = new File(work, DEVICE_SCREENSHOT_DIR);
       File testFilesDir = new File(work, DEVICE_FILE_DIR);
@@ -296,6 +310,13 @@ public final class SpoonDeviceRunner {
     logDebug(debug, "Done running for [%s]", serial);
 
     return result.build();
+  }
+
+  private void pullCoverageFile(IDevice device) {
+    coverageDir.mkdirs();
+    File coverageFile = new File(coverageDir, COVERAGE_FILE);
+    String remotePath = getInternalPath(COVERAGE_FILE);
+    adbPullFile(device, remotePath, coverageFile.getAbsolutePath());
   }
 
   private void handleImages(DeviceResult.Builder result, File screenshotDir) throws IOException {
@@ -407,17 +428,30 @@ public final class SpoonDeviceRunner {
 
   private void adbPull(IDevice device, FileEntry remoteDirName, String localDirName) {
     try {
-      device.getSyncService().pull(new FileEntry[] {remoteDirName}, localDirName,
-              SyncService.getNullProgressMonitor());
+      device.getSyncService().pull(new FileEntry[]{remoteDirName}, localDirName,
+          getNullProgressMonitor());
+    } catch (Exception e) {
+      logDebug(debug, e.getMessage(), e);
+    }
+  }
+
+  private void adbPullFile(IDevice device, String remoteFile, String localDir) {
+    try {
+      device.getSyncService()
+          .pullFile(remoteFile, localDir, getNullProgressMonitor());
     } catch (Exception e) {
       logDebug(debug, e.getMessage(), e);
     }
   }
 
   private FileEntry getScreenshotDirOnInternalStorage(final String dir) {
-    String appPackage = instrumentationInfo.getApplicationPackage();
-    String internalPath = "/data/data/" + appPackage + "/" + dir;
+    String internalPath = getInternalPath(dir);
     return obtainDirectoryFileEntry(internalPath);
+  }
+
+  private String getInternalPath(String path) {
+    String appPackage = instrumentationInfo.getApplicationPackage();
+    return "/data/data/" + appPackage + "/" + path;
   }
 
   private static FileEntry getScreenshotDirOnExternalStorage(IDevice device, final String dir)
