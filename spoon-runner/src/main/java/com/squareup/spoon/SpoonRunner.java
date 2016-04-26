@@ -58,6 +58,7 @@ public final class SpoonRunner {
   private final boolean shard;
   private final String classpath;
   private final IRemoteAndroidTestRunner.TestSize testSize;
+  private boolean codeCoverage;
   private final boolean failIfNoDeviceConnected;
   private final List<ITestRunListener> testRunListeners;
   private final boolean terminateAdb;
@@ -68,7 +69,7 @@ public final class SpoonRunner {
       boolean shard, String classpath, List<String> instrumentationArgs, String className,
       String methodName, IRemoteAndroidTestRunner.TestSize testSize,
       boolean failIfNoDeviceConnected, List<ITestRunListener> testRunListeners, boolean sequential,
-      File initScript, boolean terminateAdb) {
+      File initScript, boolean terminateAdb, boolean codeCoverage) {
     this.title = title;
     this.androidSdk = androidSdk;
     this.applicationApk = applicationApk;
@@ -82,6 +83,7 @@ public final class SpoonRunner {
     this.methodName = methodName;
     this.classpath = classpath;
     this.testSize = testSize;
+    this.codeCoverage = codeCoverage;
     this.serials = ImmutableSet.copyOf(serials);
     this.shard = shard;
     this.failIfNoDeviceConnected = failIfNoDeviceConnected;
@@ -282,7 +284,7 @@ public final class SpoonRunner {
       SpoonInstrumentationInfo testInfo) {
     return new SpoonDeviceRunner(androidSdk, applicationApk, instrumentationApk, output, serial,
         shardIndex, numShards, debug, noAnimations, adbTimeoutMillis, classpath, testInfo,
-        instrumentationArgs, className, methodName, testSize, testRunListeners);
+        instrumentationArgs, className, methodName, testSize, testRunListeners, codeCoverage);
   }
 
   /** Build a test suite for the specified devices and configuration. */
@@ -306,6 +308,7 @@ public final class SpoonRunner {
     private boolean sequential;
     private File initScript;
     private boolean terminateAdb = true;
+    private boolean codeCoverage;
     private boolean shard = false;
 
     /** Identifying title for this execution. */
@@ -433,6 +436,11 @@ public final class SpoonRunner {
       return this;
     }
 
+    public Builder setCodeCoverage(boolean codeCoverage) {
+      this.codeCoverage = codeCoverage;
+      return this;
+    }
+
     public Builder setShard(boolean shard) {
       this.shard = shard;
       return this;
@@ -464,7 +472,7 @@ public final class SpoonRunner {
       return new SpoonRunner(title, androidSdk, applicationApk, instrumentationApk, output, debug,
           noAnimations, adbTimeoutMillis, serials, shard, classpath, instrumentationArgs, className,
           methodName, testSize, failIfNoDeviceConnected, testRunListeners, sequential, initScript,
-          terminateAdb);
+          terminateAdb, codeCoverage);
     }
   }
 
@@ -549,6 +557,9 @@ public final class SpoonRunner {
     @Parameter(names = { "--debug" }, hidden = true) //
     public boolean debug;
 
+    @Parameter(names = { "--coverage" }, description = "Code coverage flag", arity = 1)
+    public Boolean codeCoverage = false;
+
     @Parameter(names = { "-h", "--help" }, description = "Command help", help = true, hidden = true)
     public boolean help;
   }
@@ -610,6 +621,7 @@ public final class SpoonRunner {
         .setSequential(parsedArgs.sequential)
         .setInitScript(parsedArgs.initScript)
         .setInstrumentationArgs(parsedArgs.instrumentationArgs)
+        .setCodeCoverage(parsedArgs.codeCoverage)
         .setClassName(parsedArgs.className)
         .setMethodName(parsedArgs.methodName)
         .setShard(parsedArgs.shard);
