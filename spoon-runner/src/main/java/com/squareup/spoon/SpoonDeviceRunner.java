@@ -244,7 +244,7 @@ public final class SpoonDeviceRunner {
       // Add the sharding instrumentation arguments if necessary
       if (numShards != 0 && shardIndex != 0) {
         runner.addInstrumentationArg("numShards", Integer.toString(numShards));
-        runner.addInstrumentationArg("shardIndex", Integer.toString(numShards));
+        runner.addInstrumentationArg("shardIndex", Integer.toString(shardIndex));
       }
 
 
