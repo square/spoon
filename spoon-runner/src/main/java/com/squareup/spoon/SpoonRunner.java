@@ -180,10 +180,6 @@ public final class SpoonRunner {
       for (final String serial : serials) {
         final String safeSerial = SpoonUtils.sanitizeSerial(serial);
         logDebug(debug, "[%s] Starting execution.", serial);
-        if (shard) {
-          shardIndex++;
-          logDebug(debug, "shardIndex [%d]", shardIndex);
-        }
         final int safeShardIndex = shardIndex;
         Runnable runnable = new Runnable() {
           @Override public void run() {
@@ -201,7 +197,10 @@ public final class SpoonRunner {
             }
           }
         };
-
+        if (shard) {
+          shardIndex++;
+          logDebug(debug, "shardIndex [%d]", shardIndex);
+        }
         threadExecutor.execute(runnable);
       }
 
