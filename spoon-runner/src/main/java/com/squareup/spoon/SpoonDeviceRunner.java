@@ -256,9 +256,9 @@ public final class SpoonDeviceRunner {
         runner.addInstrumentationArg("coverageFile", coveragePath);
       }
       // Add the sharding instrumentation arguments if necessary
-      if (numShards != 0 && shardIndex != 0) {
+      if (numShards != 0) {
         runner.addInstrumentationArg("numShards", Integer.toString(numShards));
-        runner.addInstrumentationArg("shardIndex", Integer.toString(numShards));
+        runner.addInstrumentationArg("shardIndex", Integer.toString(shardIndex));
       }
 
       if (!isNullOrEmpty(className)) {
