@@ -57,18 +57,16 @@ final class HtmlIndex {
     }
     subtitle.append(" at ").append(started);
 
-    return new HtmlIndex(summary.getTitle(), subtitle.toString(), tests.size(), devices);
+    return new HtmlIndex(summary.getTitle(), subtitle.toString(),  devices);
   }
 
   public final String title;
   public final String subtitle;
-  public final int testCount;
   public final List<Device> devices;
 
-  HtmlIndex(String title, String subtitle, int testCount, List<Device> devices) {
+  HtmlIndex(String title, String subtitle, List<Device> devices) {
     this.title = title;
     this.subtitle = subtitle;
-    this.testCount = testCount;
     this.devices = devices;
   }
 
@@ -88,11 +86,13 @@ final class HtmlIndex {
     public final String name;
     public final List<TestResult> testResults;
     public final boolean executionFailed;
+    public final int testCount;
 
     Device(String serial, String name, List<TestResult> testResults, boolean executionFailed) {
       this.serial = serial;
       this.name = name;
       this.testResults = testResults;
+      this.testCount = testResults.size();
       this.executionFailed = executionFailed;
     }
 
