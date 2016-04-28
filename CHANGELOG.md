@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 1.5.2 *(2016-04-28)*
+----------------------------
+
+* Fix: sharded test output consolidation
+
 Version 1.5.1 *(2016-04-27)*
 ----------------------------
 
