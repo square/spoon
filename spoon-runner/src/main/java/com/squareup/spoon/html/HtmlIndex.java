@@ -80,7 +80,6 @@ final class HtmlIndex {
       String name = (details != null) ? details.getName() : serial;
       boolean executionFailed = testResults.isEmpty() && !result.getExceptions().isEmpty();
       return new Device(serial, name, testResults, executionFailed);
-
     }
 
     public final String serial;
