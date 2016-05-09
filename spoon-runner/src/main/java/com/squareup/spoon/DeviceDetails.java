@@ -7,6 +7,8 @@ import static com.google.common.base.Strings.emptyToNull;
 
 /** Device configuration and hardware information. */
 public final class DeviceDetails {
+  public static final int UNKNOWN_API_LEVEL = 0;
+
   private final String model;
   private final String manufacturer;
   private final String version;
@@ -84,7 +86,7 @@ public final class DeviceDetails {
 
     String version = emptyToNull(device.getProperty("ro.build.version.release"));
     String api = emptyToNull(device.getProperty("ro.build.version.sdk"));
-    int apiLevel = api != null ? Integer.parseInt(api) : 0;
+    int apiLevel = api != null ? Integer.parseInt(api) : UNKNOWN_API_LEVEL;
 
     String language = emptyToNull(device.getProperty("ro.product.locale.language"));
     language = DeviceUtils.scrubLanguage(language);

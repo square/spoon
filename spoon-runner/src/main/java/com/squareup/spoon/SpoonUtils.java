@@ -87,11 +87,25 @@ public final class SpoonUtils {
     DdmPreferences.setLogLevel("debug");
   }
 
-  /** Find all device serials that are plugged in through ADB. */
-  public static Set<String> findAllDevices(AndroidDebugBridge adb) {
+  /**
+   * Find all device serials that are plugged in through ADB.
+   *
+   * @param minApiLevel If <code>null</code>, all devices will be returned. Otherwise, only
+   *                      those device serials that are greater than or equal to the provided
+   *                      version will be returned.
+   */
+  public static Set<String> findAllDevices(AndroidDebugBridge adb, Integer minApiLevel) {
     Set<String> devices = new LinkedHashSet<String>();
     for (IDevice realDevice : adb.getDevices()) {
-      devices.add(realDevice.getSerialNumber());
+      if (minApiLevel == null) {
+        devices.add(realDevice.getSerialNumber());
+      } else {
+        DeviceDetails deviceDetails = DeviceDetails.createForDevice(realDevice);
+        int apiLevel = deviceDetails.getApiLevel();
+        if (apiLevel == DeviceDetails.UNKNOWN_API_LEVEL || apiLevel >= minApiLevel) {
+          devices.add(realDevice.getSerialNumber());
+        }
+      }
     }
     return devices;
   }

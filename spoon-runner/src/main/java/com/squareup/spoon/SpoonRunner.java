@@ -110,10 +110,12 @@ public final class SpoonRunner {
     AndroidDebugBridge adb = SpoonUtils.initAdb(androidSdk, adbTimeoutMillis);
 
     try {
+      final SpoonInstrumentationInfo testInfo = parseFromFile(instrumentationApk);
+
       // If we were given an empty serial set, load all available devices.
       Set<String> serials = this.serials;
       if (serials.isEmpty()) {
-        serials = SpoonUtils.findAllDevices(adb);
+        serials = SpoonUtils.findAllDevices(adb, testInfo.getMinSdkVersion());
       }
       if (failIfNoDeviceConnected && serials.isEmpty()) {
         throw new RuntimeException("No device(s) found.");
