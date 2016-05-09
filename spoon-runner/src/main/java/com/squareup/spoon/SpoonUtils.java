@@ -87,6 +87,11 @@ public final class SpoonUtils {
     DdmPreferences.setLogLevel("debug");
   }
 
+  /** Find all device serials that are plugged in through ADB. */
+  public static Set<String> findAllDevices(AndroidDebugBridge adb) {
+    return findAllDevices(adb, null);
+  }
+
   /**
    * Find all device serials that are plugged in through ADB.
    *
