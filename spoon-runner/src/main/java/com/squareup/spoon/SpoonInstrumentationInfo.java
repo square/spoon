@@ -14,18 +14,24 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /** Detailed instrumentation information. */
 final class SpoonInstrumentationInfo {
   private final String applicationPackage;
+  private final Integer minSdkVersion;
   private final String instrumentationPackage;
   private final String testRunnerClass;
 
-  SpoonInstrumentationInfo(String applicationPackage, String instrumentationPackage,
-      String testRunnerClass) {
+  SpoonInstrumentationInfo(String applicationPackage, Integer minSdkVersion,
+      String instrumentationPackage, String testRunnerClass) {
     this.applicationPackage = applicationPackage;
+    this.minSdkVersion = minSdkVersion;
     this.instrumentationPackage = instrumentationPackage;
     this.testRunnerClass = testRunnerClass;
   }
 
   String getApplicationPackage() {
     return applicationPackage;
+  }
+
+  Integer getMinSdkVersion() {
+    return minSdkVersion;
   }
 
   String getInstrumentationPackage() {
@@ -52,18 +58,22 @@ final class SpoonInstrumentationInfo {
       int eventType = parser.getType();
 
       String appPackage = null;
+      Integer minSdkVersion = null;
       String testPackage = null;
       String testRunnerClass = null;
       while (eventType != AXMLParser.END_DOCUMENT) {
         if (eventType == AXMLParser.START_TAG) {
           String parserName = parser.getName();
           boolean isManifest = "manifest".equals(parserName);
+          boolean isUsesSdk = "uses-sdk".equals(parserName);
           boolean isInstrumentation = "instrumentation".equals(parserName);
-          if (isManifest || isInstrumentation) {
+          if (isManifest || isInstrumentation || isUsesSdk) {
             for (int i = 0; i < parser.getAttributeCount(); i++) {
               String parserAttributeName = parser.getAttributeName(i);
               if (isManifest && "package".equals(parserAttributeName)) {
                 testPackage = parser.getAttributeValueString(i);
+              } else if (isUsesSdk && "minSdkVersion".equals(parserAttributeName)) {
+                minSdkVersion = parser.getAttributeValue(i);
               } else if (isInstrumentation && "targetPackage".equals(parserAttributeName)) {
                 appPackage = parser.getAttributeValueString(i);
               } else if (isInstrumentation && "name".equals(parserAttributeName)) {
@@ -85,7 +95,7 @@ final class SpoonInstrumentationInfo {
         testRunnerClass = testPackage + "." + testRunnerClass;
       }
 
-      return new SpoonInstrumentationInfo(appPackage, testPackage, testRunnerClass);
+      return new SpoonInstrumentationInfo(appPackage, minSdkVersion, testPackage, testRunnerClass);
     } catch (IOException e) {
       throw new RuntimeException("Unable to parse test app AndroidManifest.xml.", e);
     } finally {
