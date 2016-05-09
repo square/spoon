@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 1.5.3 *(2016-05-09)*
+----------------------------
+
+* Fix: only run on devices >= minSdkVersion
+
 Version 1.5.2 *(2016-04-28)*
 ----------------------------
 
