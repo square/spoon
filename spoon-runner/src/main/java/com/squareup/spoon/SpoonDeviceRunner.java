@@ -239,12 +239,14 @@ public final class SpoonDeviceRunner {
           int firstEqualSignIndex = pair.indexOf("=");
           if (firstEqualSignIndex <= -1) {
             //No Equal Sign, can't process
+            logDebug(debug, "Can't process instrumentationArg [%s] (no equal sign)", pair);
             continue;
           }
           String key = pair.substring(0, firstEqualSignIndex);
           String value = pair.substring(firstEqualSignIndex + 1);
           if (isNullOrEmpty(key) || isNullOrEmpty(value)) {
             //invalid values, skipping
+            logDebug(debug, "Can't process instrumentationArg [%s] (empty key or value)", pair);
             continue;
           }
           runner.addInstrumentationArg(key, value);
