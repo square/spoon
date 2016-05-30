@@ -1,5 +1,6 @@
 package com.squareup.spoon;
 
+import com.google.common.collect.ImmutableSet;
 import org.hamcrest.CustomTypeSafeMatcher;
 import org.jacoco.core.tools.ExecFileLoader;
 import org.junit.Test;
@@ -7,6 +8,7 @@ import org.mockito.ArgumentCaptor;
 
 import java.io.File;
 import java.util.HashSet;
+import java.util.Set;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
@@ -22,7 +24,7 @@ public class SpoonCoverageMergerTest {
   @Test
   public void shouldMergeCoverageFiles() throws Exception {
     ExecFileLoader execFileLoader = mock(ExecFileLoader.class);
-    HashSet<String> serials = new HashSet<String>(asList("10.0.0.1:1234", "10.0.0.2:1234"));
+    Set<String> serials = ImmutableSet.of("10.0.0.1:1234", "10.0.0.2:1234");
     File spoonOutputDirectory = new File("/output");
 
     SpoonCoverageMerger spoonCoverageMerger = new SpoonCoverageMerger(execFileLoader);
