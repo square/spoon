@@ -222,8 +222,8 @@ public final class SpoonRunner {
       try {
         coverageMerger.mergeCoverageFiles(serials, output);
         logDebug(debug, "Merging of coverage files done.");
-      } catch (IOException e) {
-        throw new RuntimeException("error while merging coverage files");
+      } catch (IOException exception) {
+        throw new RuntimeException("error while merging coverage files", exception);
       }
     }
     if (!debug) {

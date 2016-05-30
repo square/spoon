@@ -7,10 +7,8 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
 import java.io.File;
-import java.util.HashSet;
 import java.util.Set;
 
-import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.argThat;

@@ -13,7 +13,7 @@ import static com.squareup.spoon.SpoonDeviceRunner.COVERAGE_DIR;
 import static com.squareup.spoon.SpoonDeviceRunner.COVERAGE_FILE;
 import static com.squareup.spoon.SpoonUtils.sanitizeSerial;
 
-public class SpoonCoverageMerger {
+final class SpoonCoverageMerger {
   private static final String MERGED_COVERAGE_FILE = "merged-coverage.ec";
   private ExecFileLoader execFileLoader;
 
