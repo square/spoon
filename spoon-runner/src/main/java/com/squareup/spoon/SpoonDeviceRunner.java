@@ -44,7 +44,6 @@ import static com.squareup.spoon.SpoonUtils.obtainRealDevice;
 public final class SpoonDeviceRunner {
   private static final String FILE_EXECUTION = "execution.json";
   private static final String FILE_RESULT = "result.json";
-  private static final String COVERAGE_FILE = "coverage.ec";
   private static final String DEVICE_SCREENSHOT_DIR = "app_" + SPOON_SCREENSHOTS;
   private static final String DEVICE_FILE_DIR = "app_" + SPOON_FILES;
   private static final String[] DEVICE_DIRS = {DEVICE_SCREENSHOT_DIR, DEVICE_FILE_DIR};
@@ -52,6 +51,7 @@ public final class SpoonDeviceRunner {
   static final String JUNIT_DIR = "junit-reports";
   static final String IMAGE_DIR = "image";
   static final String FILE_DIR = "file";
+  static final String COVERAGE_FILE = "coverage.ec";
   static final String COVERAGE_DIR = "coverage";
 
   private final File sdk;

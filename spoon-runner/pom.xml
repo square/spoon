@@ -55,6 +55,11 @@
       <groupId>org.lesscss</groupId>
       <artifactId>lesscss</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.jacoco</groupId>
+      <artifactId>jacoco-maven-plugin</artifactId>
+      <version>0.7.4.201502262128</version>
+    </dependency>
 
     <dependency>
       <groupId>junit</groupId>
