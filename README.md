@@ -130,7 +130,7 @@ Options:
     --size              Only run test methods annotated by testSize (small, medium, large)
     --adb-timeout       Set maximum execution time per test in seconds (10min default)
     --fail-on-failure   Non-zero exit code on failure
-    --coverage          Code coverage flag
+    --coverage          Code coverage flag (This option pulls the coverage file from all devices and merge them into a single file `merged-coverage.ec`.)
     --fail-if-no-device-connected Fail if no device is connected
     --sequential        Execute the tests device by device
     --init-script       Path to a script that you want to run before each device
@@ -196,7 +196,7 @@ java -jar spoon-runner-1.3.1-jar-with-dependencies.jar \
     --shard
 ```
 
-This will automatically shard across all specified serials, and merge the results.
+This will automatically shard across all specified serials, and merge the results. When this option is running with `--coverage` flag. It will merge all the coverage files generated from all devices into a single file called `merged-coverage.ec`.
 
 If you'd like to use a different sharding strategy, you can use the `--e` option with Spoon to pass those arguments through to the instrumentation runner, e.g.
 

@@ -10,7 +10,6 @@ import com.beust.jcommander.ParameterException;
 import com.beust.jcommander.converters.IParameterSplitter;
 import com.google.common.collect.ImmutableSet;
 import com.squareup.spoon.html.HtmlRenderer;
-
 import org.apache.commons.io.FileUtils;
 
 import java.io.BufferedReader;
@@ -216,6 +215,15 @@ public final class SpoonRunner {
       }
     }
 
+    if (codeCoverage) {
+      SpoonCoverageMerger coverageMerger = new SpoonCoverageMerger();
+      try {
+        coverageMerger.mergeCoverageFiles(serials, output);
+        logDebug(debug, "Merging of coverage files done.");
+      } catch (IOException exception) {
+        throw new RuntimeException("error while merging coverage files", exception);
+      }
+    }
     if (!debug) {
       // Clean up anything in the work directory.
       try {
