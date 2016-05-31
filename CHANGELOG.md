@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 1.5.4 *(2016-05-31)*
+----------------------------
+
+* New: code coverage is merged across all sharded devices
+
 Version 1.5.3 *(2016-05-09)*
 ----------------------------
 
