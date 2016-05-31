@@ -3,56 +3,44 @@ package com.squareup.spoon;
 import com.google.common.collect.ImmutableSet;
 import org.hamcrest.CustomTypeSafeMatcher;
 import org.jacoco.core.tools.ExecFileLoader;
+import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
+import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Set;
 
+import static com.squareup.spoon.SpoonUtils.sanitizeSerial;
+import static java.lang.String.format;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Matchers.argThat;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.junit.Assert.assertTrue;
 
 public class SpoonCoverageMergerTest {
 
+  @Rule
+  public TemporaryFolder testFolder = new TemporaryFolder();
+
   @Test
   public void shouldMergeCoverageFiles() throws Exception {
-    ExecFileLoader execFileLoader = mock(ExecFileLoader.class);
-    Set<String> serials = ImmutableSet.of("10.0.0.1:1234", "10.0.0.2:1234");
-    File spoonOutputDirectory = new File("/output");
-
-    SpoonCoverageMerger spoonCoverageMerger = new SpoonCoverageMerger(execFileLoader);
+    String serialId1 = "10.0.0.1:1234";
+    String serialId2 = "10.0.0.2:1234";
+    File spoonOutputDirectory = testFolder.newFolder("output");
+    createTemporaryCoverageFiles(serialId1, serialId2);
+    Set<String> serials = ImmutableSet.of(serialId1, serialId2);
+    SpoonCoverageMerger spoonCoverageMerger = new SpoonCoverageMerger();
 
     spoonCoverageMerger.mergeCoverageFiles(serials, spoonOutputDirectory);
 
-    ArgumentCaptor<File> captor = ArgumentCaptor.forClass(File.class);
-    verify(execFileLoader, times(2)).load(captor.capture());
-    assertThat(captor.getAllValues().get(0), coverageFileOf("10.0.0.1:1234"));
-    assertThat(captor.getAllValues().get(1), coverageFileOf("10.0.0.2:1234"));
-
-    verify(execFileLoader, times(1)).save(argThat(hasPath("/output/coverage/merged-coverage.ec")), eq(false));
+    File mergedCoverageFile = new File(spoonOutputDirectory, "/coverage/merged-coverage.ec");
+    assertTrue(mergedCoverageFile.exists());
   }
 
-  private CustomTypeSafeMatcher<File> hasPath(final String path) {
-    return new CustomTypeSafeMatcher<File>("") {
-      @Override
-      protected boolean matchesSafely(File file) {
-        return file.getPath().equals(path);
-      }
-    };
-  }
-
-  private CustomTypeSafeMatcher<File> coverageFileOf(final String serial) {
-    return new CustomTypeSafeMatcher<File>("") {
-      @Override
-      protected boolean matchesSafely(File file) {
-        assertThat(file.getPath(), is("/output/coverage/" + SpoonUtils.sanitizeSerial(serial) + "/coverage.ec"));
-        return true;
-      }
-    };
+  private void createTemporaryCoverageFiles(String serialId1, String serialId2) throws IOException {
+    testFolder.newFolder("output", "coverage", sanitizeSerial(serialId1));
+    testFolder.newFolder("output", "coverage", sanitizeSerial(serialId2));
+    testFolder.newFile(format("output/coverage/%s/coverage.ec", sanitizeSerial(serialId1)));
+    testFolder.newFile(format("output/coverage/%s/coverage.ec", sanitizeSerial(serialId2)));
   }
 }

@@ -10,9 +10,7 @@ import com.beust.jcommander.ParameterException;
 import com.beust.jcommander.converters.IParameterSplitter;
 import com.google.common.collect.ImmutableSet;
 import com.squareup.spoon.html.HtmlRenderer;
-
 import org.apache.commons.io.FileUtils;
-import org.jacoco.core.tools.ExecFileLoader;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -218,7 +216,7 @@ public final class SpoonRunner {
     }
 
     if (codeCoverage) {
-      SpoonCoverageMerger coverageMerger = new SpoonCoverageMerger(new ExecFileLoader());
+      SpoonCoverageMerger coverageMerger = new SpoonCoverageMerger();
       try {
         coverageMerger.mergeCoverageFiles(serials, output);
         logDebug(debug, "Merging of coverage files done.");
