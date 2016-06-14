@@ -130,7 +130,8 @@ Options:
     --size              Only run test methods annotated by testSize (small, medium, large)
     --adb-timeout       Set maximum execution time per test in seconds (10min default)
     --fail-on-failure   Non-zero exit code on failure
-    --coverage          Code coverage flag (This option pulls the coverage file from all devices and merge them into a single file `merged-coverage.ec`.)
+    --coverage          Code coverage flag. For Spoon to calculate coverage file your app must have the `WRITE_EXTERNAL_STORAGE` permission.
+                        (This option pulls the coverage file from all devices and merge them into a single file `merged-coverage.ec`.)
     --fail-if-no-device-connected Fail if no device is connected
     --sequential        Execute the tests device by device
     --init-script       Path to a script that you want to run before each device
