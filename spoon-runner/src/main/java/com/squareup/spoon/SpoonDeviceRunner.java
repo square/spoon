@@ -253,7 +253,7 @@ public final class SpoonDeviceRunner {
         }
       }
       if (codeCoverage) {
-        String coveragePath = getInternalPath(COVERAGE_FILE);
+        String coveragePath = getExternalStoragePath(device, COVERAGE_FILE);
         runner.addInstrumentationArg("coverage", "true");
         runner.addInstrumentationArg("coverageFile", coveragePath);
       }
@@ -317,7 +317,12 @@ public final class SpoonDeviceRunner {
   private void pullCoverageFile(IDevice device) {
     coverageDir.mkdirs();
     File coverageFile = new File(coverageDir, COVERAGE_FILE);
-    String remotePath = getInternalPath(COVERAGE_FILE);
+    String remotePath = null;
+    try {
+      remotePath = getExternalStoragePath(device, COVERAGE_FILE);
+    } catch (Exception exception) {
+      throw new RuntimeException("error while calculating coverage file path.", exception);
+    }
     adbPullFile(device, remotePath, coverageFile.getAbsolutePath());
   }
 
@@ -412,11 +417,11 @@ public final class SpoonDeviceRunner {
 
   private void pullDirectory(final IDevice device, final String name) throws Exception {
     // Output path on private internal storage, for KitKat and below.
-    FileEntry internalDir = getScreenshotDirOnInternalStorage(name);
+    FileEntry internalDir = getDirectoryOnInternalStorage(name);
     logDebug(debug, "Internal path is " + internalDir.getFullPath());
 
     // Output path on public external storage, for Lollipop and above.
-    FileEntry externalDir = getScreenshotDirOnExternalStorage(device, name);
+    FileEntry externalDir = getDirectoryOnExternalStorage(device, name);
     logDebug(debug, "External path is " + externalDir.getFullPath());
 
     // Sync test output files to the local filesystem.
@@ -446,7 +451,7 @@ public final class SpoonDeviceRunner {
     }
   }
 
-  private FileEntry getScreenshotDirOnInternalStorage(final String dir) {
+  private FileEntry getDirectoryOnInternalStorage(final String dir) {
     String internalPath = getInternalPath(dir);
     return obtainDirectoryFileEntry(internalPath);
   }
@@ -456,16 +461,16 @@ public final class SpoonDeviceRunner {
     return "/data/data/" + appPackage + "/" + path;
   }
 
-  private static FileEntry getScreenshotDirOnExternalStorage(IDevice device, final String dir)
+  private FileEntry getDirectoryOnExternalStorage(IDevice device, final String dir)
       throws Exception {
-    String externalPath = getExternalStoragePath(device) + "/" + dir;
+    String externalPath = getExternalStoragePath(device, dir);
     return obtainDirectoryFileEntry(externalPath);
   }
 
-  private static String getExternalStoragePath(IDevice device) throws Exception {
+  private String getExternalStoragePath(IDevice device, final String path) throws Exception {
     CollectingOutputReceiver pathNameOutputReceiver = new CollectingOutputReceiver();
     device.executeShellCommand("echo $EXTERNAL_STORAGE", pathNameOutputReceiver);
-    return pathNameOutputReceiver.getOutput().trim();
+    return pathNameOutputReceiver.getOutput().trim() + "/" + path;
   }
 
   /** Grab all the parsed logs and map them to individual tests. */
