@@ -38,7 +38,7 @@ public class SpoonRunnerTest {
         .build(); //
     assertThat(parseOverallSuccess(summary)).isFalse();
 
-    // FAIL: Top-level exception during test run
+    // FAIL: Top-level exception during test run.
     summary = new SpoonSummary.Builder() //
             .setTitle("test") //
             .start() //
