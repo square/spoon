@@ -270,7 +270,7 @@ public final class SpoonRunner {
         return false; // App and/or test installation failed.
       }
       if (!result.getExceptions().isEmpty() || result.getTestResults().isEmpty()) {
-        return false; // Top-level exception present, or no tests were run
+        return false; // Top-level exception present, or no tests were run.
       }
       for (DeviceTestResult methodResult : result.getTestResults().values()) {
         if (methodResult.getStatus() != Status.PASS) {
