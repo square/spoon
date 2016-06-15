@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 1.5.5 *(2016-06-15)*
+----------------------------
+
+* Fix: code coverage storage on actual devices
+
 Version 1.5.4 *(2016-05-31)*
 ----------------------------
 
