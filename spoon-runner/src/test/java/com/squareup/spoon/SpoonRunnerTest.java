@@ -38,7 +38,23 @@ public class SpoonRunnerTest {
         .build(); //
     assertThat(parseOverallSuccess(summary)).isFalse();
 
-    // PASS: No tests run.
+    // FAIL: Top-level exception during test run.
+    summary = new SpoonSummary.Builder() //
+            .setTitle("test") //
+            .start() //
+            .addResult("123", new DeviceResult.Builder() //
+                    .addException(new RuntimeException())
+                    .startTests() //
+                    .addTestResultBuilder(device, new DeviceTestResult.Builder() //
+                            .startTest() //
+                            .endTest()) //
+                    .endTests() //
+                    .build()) //
+            .end() //
+            .build(); //
+    assertThat(parseOverallSuccess(summary)).isFalse();
+
+    // FAIL: No tests run.
     summary = new SpoonSummary.Builder() //
         .setTitle("test") //
         .start() //
@@ -48,7 +64,7 @@ public class SpoonRunnerTest {
             .build()) //
         .end() //
         .build(); //
-    assertThat(parseOverallSuccess(summary)).isTrue();
+    assertThat(parseOverallSuccess(summary)).isFalse();
 
     // FAIL: Test failure.
     summary = new SpoonSummary.Builder() //
