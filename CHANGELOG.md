@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 1.5.7 *(2016-06-29)*
+----------------------------
+
+* Fix: hopefully no more issues reading logcat
+
 Version 1.5.6 *(2016-06-15)*
 ----------------------------
 
