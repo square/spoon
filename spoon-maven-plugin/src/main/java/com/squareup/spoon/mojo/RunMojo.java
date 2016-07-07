@@ -81,6 +81,10 @@ public class RunMojo extends AbstractSpoonMojo {
   @Parameter
   private boolean sequential;
 
+  /** Grant all runtime permissions during installation on Marshmallow and above devices */
+  @Parameter
+  private boolean grantAll;
+
   /** Whether debug logging is enabled. */
   @Parameter
   private boolean debug;
@@ -167,6 +171,7 @@ public class RunMojo extends AbstractSpoonMojo {
         .useAllAttachedDevices()
         .setFailIfNoDeviceConnected(failIfNoDeviceConnected)
         .setSequential(sequential)
+        .setGrantAll(grantAll)
         .build()
         .run();
 

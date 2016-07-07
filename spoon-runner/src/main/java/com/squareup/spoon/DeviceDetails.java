@@ -8,6 +8,7 @@ import static com.google.common.base.Strings.emptyToNull;
 /** Device configuration and hardware information. */
 public final class DeviceDetails {
   public static final int UNKNOWN_API_LEVEL = 0;
+  public static final int MARSHMALLOW_API_LEVEL = 23;
 
   private final String model;
   private final String manufacturer;
