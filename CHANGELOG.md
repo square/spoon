@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 1.6.0 *(2016-07-11)*
+----------------------------
+
+* New: --grant-all flag to grant permissions on M+
+
 Version 1.5.7 *(2016-06-29)*
 ----------------------------
 
