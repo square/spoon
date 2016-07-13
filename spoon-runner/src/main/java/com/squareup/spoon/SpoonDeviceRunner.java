@@ -296,11 +296,8 @@ public final class SpoonDeviceRunner {
         pullCoverageFile(device);
       }
 
-      File screenshotDir = new File(work, DEVICE_SCREENSHOT_DIR);
-      cleanResultsDirectory(screenshotDir, imageDir, result);
-
-      File testFilesDir = new File(work, DEVICE_FILE_DIR);
-      cleanResultsDirectory(testFilesDir, fileDir, result);
+      cleanScreenshotsDirectory(result);
+      cleanFilesDirectory(result);
 
     } catch (Exception e) {
       result.addException(e);
@@ -322,12 +319,21 @@ public final class SpoonDeviceRunner {
     runner.addInstrumentationArg("shardIndex", Integer.toString(shardIndex));
   }
 
-  private void cleanResultsDirectory(File dir, File newDir, DeviceResult.Builder result)
-          throws IOException {
-    if (dir.exists()) {
-      newDir.mkdirs();
-      handleFiles(result, dir);
-      FileUtils.deleteDirectory(dir);
+  private void cleanScreenshotsDirectory(DeviceResult.Builder result) throws IOException {
+    File screenshotDir = new File(work, DEVICE_SCREENSHOT_DIR);
+    if (screenshotDir.exists()) {
+      imageDir.mkdirs();
+      handleImages(result, screenshotDir);
+      FileUtils.deleteDirectory(screenshotDir);
+    }
+  }
+
+  private void cleanFilesDirectory(DeviceResult.Builder result) throws IOException {
+    File testFilesDir = new File(work, DEVICE_FILE_DIR);
+    if (testFilesDir.exists()) {
+      fileDir.mkdirs();
+      handleFiles(result, testFilesDir);
+      FileUtils.deleteDirectory(testFilesDir);
     }
   }
 
