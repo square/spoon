@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 1.6.1 *(2016-07-13)*
+----------------------------
+
+* Fix: issues with images not showing up in output
+
 Version 1.6.0 *(2016-07-11)*
 ----------------------------
 
