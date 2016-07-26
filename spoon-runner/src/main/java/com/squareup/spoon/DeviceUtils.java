@@ -9,7 +9,7 @@ final class DeviceUtils {
     if (model.regionMatches(true, 0, manufacturer, 0, manufacturer.length())) {
       model = model.substring(manufacturer.length());
     }
-    if (model.charAt(0) == ' ' || model.charAt(0) == '-') {
+    if (model.length() > 0 && (model.charAt(0) == ' ' || model.charAt(0) == '-')) {
       model = model.substring(1);
     }
     return model;
