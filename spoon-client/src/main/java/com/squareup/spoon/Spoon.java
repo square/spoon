@@ -90,6 +90,46 @@ public final class Spoon {
     }
   }
 
+    /**
+     * Save a existent screenshot to the report using the specified tag.
+     *
+     * @param bitmap Bitmap that represents the screenshot.
+     * @param context Context of the Activity that was used.
+     * @param tag Unique tag to further identify the screenshot. Must match [a-zA-Z0-9_-]+.
+     * @return the image file that was created
+     */
+    public static File saveScreenshot(Bitmap bitmap, Context context, String tag) {
+        if (!TAG_VALIDATION.matcher(tag).matches()) {
+            throw new IllegalArgumentException("Tag must match " + TAG_VALIDATION.pattern() + ".");
+        }
+        try {
+            File screenshotDirectory = obtainScreenshotDirectory(context);
+            String screenshotName = System.currentTimeMillis() + NAME_SEPARATOR + tag + EXTENSION;
+            File screenshotFile = new File(screenshotDirectory, screenshotName);
+            saveScreenshot(screenshotFile, bitmap);
+            Log.d(TAG, "Captured screenshot '" + tag + "'.");
+            return screenshotFile;
+        } catch (Exception e) {
+            throw new RuntimeException("Unable to capture screenshot.", e);
+        }
+    }
+
+    private static void saveScreenshot(File file, final Bitmap bitmap) throws IOException {
+        OutputStream fos = null;
+        try {
+            fos = new BufferedOutputStream(new FileOutputStream(file));
+            bitmap.compress(PNG, 100 /* quality */, fos);
+
+            chmodPlusR(file);
+        } finally {
+            bitmap.recycle();
+            if (fos != null) {
+                fos.close();
+            }
+        }
+    }
+
+
   private static void takeScreenshot(File file, final Activity activity) throws IOException {
     View view = activity.getWindow().getDecorView();
     final Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), ARGB_8888);
