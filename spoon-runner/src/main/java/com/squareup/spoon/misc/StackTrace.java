@@ -82,7 +82,9 @@ public class StackTrace {
     String header = messageParts.removeFirst();
     Matcher headerMatch = HEADER.matcher(header);
     if (!headerMatch.matches()) {
-      throw new IllegalStateException("Couldn't match exception header.");
+      // The exception doesn't match our expected format, so fallback to something sensible so the
+      // user can still see their test results
+      return new StackTrace("", header, elements, last);
     }
     String exceptionClass = headerMatch.group(1);
 
