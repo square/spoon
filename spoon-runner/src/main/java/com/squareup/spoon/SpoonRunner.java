@@ -10,6 +10,8 @@ import com.beust.jcommander.ParameterException;
 import com.beust.jcommander.converters.IParameterSplitter;
 import com.google.common.collect.ImmutableSet;
 import com.squareup.spoon.html.HtmlRenderer;
+import org.apache.commons.io.FileUtils;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +25,6 @@ import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import org.apache.commons.io.FileUtils;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -36,8 +37,8 @@ import static java.util.Collections.synchronizedSet;
 
 /** Represents a collection of devices and the test configuration to be executed. */
 public final class SpoonRunner {
-  public static final String DEFAULT_OUTPUT_DIRECTORY = "spoon-output";
   private static final String DEFAULT_TITLE = "Spoon Execution";
+  public static final String DEFAULT_OUTPUT_DIRECTORY = "spoon-output";
   private static final int DEFAULT_ADB_TIMEOUT_SEC = 10 * 60; //10 minutes
   private final ExecutorService threadExecutor;
 
@@ -57,12 +58,12 @@ public final class SpoonRunner {
   private final boolean shard;
   private final String classpath;
   private final IRemoteAndroidTestRunner.TestSize testSize;
+  private boolean codeCoverage;
   private final boolean failIfNoDeviceConnected;
   private final List<ITestRunListener> testRunListeners;
   private final boolean terminateAdb;
-  private final boolean grantAll;
-  private boolean codeCoverage;
   private File initScript;
+  private final boolean grantAll;
 
   private SpoonRunner(String title, File androidSdk, File applicationApk, File instrumentationApk,
       File output, boolean debug, boolean noAnimations, int adbTimeoutMillis, Set<String> serials,
@@ -101,91 +102,6 @@ public final class SpoonRunner {
     }
   }
 
-  /** Returns {@code false} if a test failed on any device. */
-  static boolean parseOverallSuccess(SpoonSummary summary) {
-    for (DeviceResult result : summary.getResults().values()) {
-      if (result.getInstallFailed()) {
-        return false; // App and/or test installation failed.
-      }
-      if (!result.getExceptions().isEmpty() || result.getTestResults().isEmpty()) {
-        return false; // Top-level exception present, or no tests were run.
-      }
-      for (DeviceTestResult methodResult : result.getTestResults().values()) {
-        if (methodResult.getStatus() != Status.PASS) {
-          return false; // Individual test failure.
-        }
-      }
-    }
-    return true;
-  }
-
-  private static File cleanFile(String path) {
-    if (path == null) {
-      return null;
-    }
-    return new File(path);
-  }
-
-  public static void main(String... args) {
-    CommandLineArgs parsedArgs = new CommandLineArgs();
-    JCommander jc = new JCommander(parsedArgs);
-
-    try {
-      jc.parse(args);
-    } catch (ParameterException e) {
-      StringBuilder out = new StringBuilder(e.getLocalizedMessage()).append("\n\n");
-      jc.usage(out);
-      System.err.println(out.toString());
-      System.exit(1);
-      return;
-    }
-    if (parsedArgs.help) {
-      jc.usage();
-      return;
-    }
-
-    Builder builder = new SpoonRunner.Builder() //
-        .setTitle(parsedArgs.title)
-        .setApplicationApk(parsedArgs.apk)
-        .setInstrumentationApk(parsedArgs.testApk)
-        .setOutputDirectory(parsedArgs.output)
-        .setDebug(parsedArgs.debug)
-        .setAndroidSdk(parsedArgs.sdk)
-        .setNoAnimations(parsedArgs.noAnimations)
-        .setTestSize(parsedArgs.size)
-        .setAdbTimeout(parsedArgs.adbTimeoutSeconds * 1000)
-        .setFailIfNoDeviceConnected(parsedArgs.failIfNoDeviceConnected)
-        .setSequential(parsedArgs.sequential)
-        .setInitScript(parsedArgs.initScript)
-        .setGrantAll(parsedArgs.grantAll)
-        .setInstrumentationArgs(parsedArgs.instrumentationArgs)
-        .setCodeCoverage(parsedArgs.codeCoverage)
-        .setClassName(parsedArgs.className)
-        .setMethodName(parsedArgs.methodName)
-        .setShard(parsedArgs.shard);
-
-    if (parsedArgs.serials == null || parsedArgs.serials.isEmpty()) {
-      builder.useAllAttachedDevices();
-    } else {
-      for (String serial : parsedArgs.serials) {
-        builder.addDevice(serial);
-      }
-    }
-
-    //checks if there are any devices to skip testing on
-    if (parsedArgs.skipDevices != null && !parsedArgs.skipDevices.isEmpty()) {
-      for (String serial : parsedArgs.skipDevices) {
-        builder.skipDevice(serial);
-      }
-    }
-
-    SpoonRunner spoonRunner = builder.build();
-
-    if (!spoonRunner.run() && parsedArgs.failOnFailure) {
-      System.exit(1);
-    }
-  }
-
   /**
    * Install and execute the tests on all specified devices.
    *
@@ -205,7 +121,6 @@ public final class SpoonRunner {
       if (serials.isEmpty()) {
         serials = SpoonUtils.findAllDevices(adb, testInfo.getMinSdkVersion());
       }
-      //skipping selected devices if any
       if (this.skipDevices != null && !this.skipDevices.isEmpty()) {
         serials.removeAll(this.skipDevices);
       }
@@ -228,7 +143,7 @@ public final class SpoonRunner {
 
   private SpoonSummary runTests(AndroidDebugBridge adb, Set<String> serials) {
     int targetCount = serials.size();
-    logInfo("Executing instrumdentation suite on %d device(s).", targetCount);
+    logInfo("Executing instrumentation suite on %d device(s).", targetCount);
 
     try {
       FileUtils.deleteDirectory(output);
@@ -362,6 +277,24 @@ public final class SpoonRunner {
         e.printStackTrace(System.out);
       }
     }
+  }
+
+  /** Returns {@code false} if a test failed on any device. */
+  static boolean parseOverallSuccess(SpoonSummary summary) {
+    for (DeviceResult result : summary.getResults().values()) {
+      if (result.getInstallFailed()) {
+        return false; // App and/or test installation failed.
+      }
+      if (!result.getExceptions().isEmpty() || result.getTestResults().isEmpty()) {
+        return false; // Top-level exception present, or no tests were run.
+      }
+      for (DeviceTestResult methodResult : result.getTestResults().values()) {
+        if (methodResult.getStatus() != Status.PASS) {
+          return false; // Individual test failure.
+        }
+      }
+    }
+    return true;
   }
 
   private SpoonDeviceRunner getTestRunner(String serial, int shardIndex, int numShards,
@@ -576,15 +509,15 @@ public final class SpoonRunner {
 
       return new SpoonRunner(title, androidSdk, applicationApk, instrumentationApk, output, debug,
           noAnimations, adbTimeoutMillis, serials, skipDevices, shard, classpath,
-          instrumentationArgs, className,
-          methodName, testSize, failIfNoDeviceConnected, testRunListeners, sequential, initScript,
-          grantAll, terminateAdb, codeCoverage);
+          instrumentationArgs, className, methodName, testSize, failIfNoDeviceConnected,
+          testRunListeners, sequential, initScript, grantAll, terminateAdb, codeCoverage);
     }
   }
 
   /**
-   * Instances where string input should not be split there needs to be a way override the default
-   * splitting behavior. This class provides that options
+   * Instances where string input should not be split there needs to
+   * be a way override the default splitting behavior.
+   * This class provides that options
    */
   public static class NoSplitter implements IParameterSplitter {
     @Override public List<String> split(String value) {
@@ -645,7 +578,7 @@ public final class SpoonRunner {
 
     @Parameter(names = { "--grant-all" },
         description = "Grant all runtime permissions during installation on Marshmallow and above"
-            + " devices") //
+                + " devices") //
     public boolean grantAll;
 
     @Parameter(names = { "--no-animations" }, description = "Disable animated gif generation")
@@ -654,22 +587,35 @@ public final class SpoonRunner {
     @Parameter(names = { "--adb-timeout" },
         description = "Set maximum execution time per test in seconds (10min default)") //
     public int adbTimeoutSeconds = DEFAULT_ADB_TIMEOUT_SEC;
-    @Parameter(names = { "--shard" },
-        description = "Automatically shard across all specified serials") //
-    public boolean shard;
-    @Parameter(names = { "--debug" }, hidden = true) //
-    public boolean debug;
-    @Parameter(names = { "--coverage" }, description = "Code coverage flag", arity = 1)
-    public Boolean codeCoverage = false;
-    @Parameter(names = { "-h", "--help" }, description = "Command help", help = true, hidden = true)
-    public boolean help;
+
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection") //
     @Parameter(names = "-serial",
         description = "Serial of the device to use (May be used multiple times)")
     private List<String> serials = new ArrayList<String>();
+
     @Parameter(names = "-skipDevices",
         description = "Serial of the device to skip (May be used multiple times)")
     private List<String> skipDevices = new ArrayList<String>();
+
+    @Parameter(names = { "--shard" },
+        description = "Automatically shard across all specified serials") //
+    public boolean shard;
+
+    @Parameter(names = { "--debug" }, hidden = true) //
+    public boolean debug;
+
+    @Parameter(names = { "--coverage" }, description = "Code coverage flag", arity = 1)
+    public Boolean codeCoverage = false;
+
+    @Parameter(names = { "-h", "--help" }, description = "Command help", help = true, hidden = true)
+    public boolean help;
+  }
+
+  private static File cleanFile(String path) {
+    if (path == null) {
+      return null;
+    }
+    return new File(path);
   }
 
   /* JCommander deems it necessary that this class be public. Lame. */
@@ -687,6 +633,66 @@ public final class SpoonRunner {
       } catch (IllegalArgumentException e) {
         throw new ParameterException(e.getMessage());
       }
+    }
+  }
+
+  public static void main(String... args) {
+    CommandLineArgs parsedArgs = new CommandLineArgs();
+    JCommander jc = new JCommander(parsedArgs);
+
+    try {
+      jc.parse(args);
+    } catch (ParameterException e) {
+      StringBuilder out = new StringBuilder(e.getLocalizedMessage()).append("\n\n");
+      jc.usage(out);
+      System.err.println(out.toString());
+      System.exit(1);
+      return;
+    }
+    if (parsedArgs.help) {
+      jc.usage();
+      return;
+    }
+
+    Builder builder = new SpoonRunner.Builder() //
+        .setTitle(parsedArgs.title)
+        .setApplicationApk(parsedArgs.apk)
+        .setInstrumentationApk(parsedArgs.testApk)
+        .setOutputDirectory(parsedArgs.output)
+        .setDebug(parsedArgs.debug)
+        .setAndroidSdk(parsedArgs.sdk)
+        .setNoAnimations(parsedArgs.noAnimations)
+        .setTestSize(parsedArgs.size)
+        .setAdbTimeout(parsedArgs.adbTimeoutSeconds * 1000)
+        .setFailIfNoDeviceConnected(parsedArgs.failIfNoDeviceConnected)
+        .setSequential(parsedArgs.sequential)
+        .setInitScript(parsedArgs.initScript)
+        .setGrantAll(parsedArgs.grantAll)
+        .setInstrumentationArgs(parsedArgs.instrumentationArgs)
+        .setCodeCoverage(parsedArgs.codeCoverage)
+        .setClassName(parsedArgs.className)
+        .setMethodName(parsedArgs.methodName)
+        .setShard(parsedArgs.shard);
+
+    if (parsedArgs.serials == null || parsedArgs.serials.isEmpty()) {
+      builder.useAllAttachedDevices();
+    } else {
+      for (String serial : parsedArgs.serials) {
+        builder.addDevice(serial);
+      }
+    }
+
+    //checks if there are any devices to skip testing on
+    if (parsedArgs.skipDevices != null && !parsedArgs.skipDevices.isEmpty()) {
+      for (String serial : parsedArgs.skipDevices) {
+        builder.skipDevice(serial);
+      }
+    }
+
+    SpoonRunner spoonRunner = builder.build();
+
+    if (!spoonRunner.run() && parsedArgs.failOnFailure) {
+      System.exit(1);
     }
   }
 }
