@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+Version 1.6.3 *(2016-08-08)*
+----------------------------
+
+* Fix: allow double-marking failure/error 
+* New: skipDevice flag to allow excluding certain devices
+
 Version 1.6.2 *(2016-07-26)*
 ----------------------------
 
