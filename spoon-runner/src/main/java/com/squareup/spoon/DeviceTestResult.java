@@ -85,7 +85,8 @@ public final class DeviceTestResult {
 
     public Builder markTestAsFailed(String message) {
       checkNotNull(message);
-      checkArgument(status == Status.PASS, "Status was already marked as " + status);
+      checkArgument(status == Status.PASS || status == status.FAIL,
+        "Status was already marked as " + status);
       status = Status.FAIL;
       exception = StackTrace.from(message);
       return this;
@@ -93,7 +94,8 @@ public final class DeviceTestResult {
 
     public Builder markTestAsError(String message) {
       checkNotNull(message);
-      checkArgument(status == Status.PASS, "Status was already marked as " + status);
+      checkArgument(status == Status.PASS || status == status.ERROR,
+        "Status was already marked as " + status);
       status = Status.ERROR;
       exception = StackTrace.from(message);
       return this;
