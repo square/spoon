@@ -54,6 +54,7 @@ public final class SpoonRunner {
   private final String className;
   private final String methodName;
   private final Set<String> serials;
+  private final Set<String> skipDevices;
   private final boolean shard;
   private final String classpath;
   private final IRemoteAndroidTestRunner.TestSize testSize;
@@ -66,6 +67,7 @@ public final class SpoonRunner {
 
   private SpoonRunner(String title, File androidSdk, File applicationApk, File instrumentationApk,
       File output, boolean debug, boolean noAnimations, int adbTimeoutMillis, Set<String> serials,
+      Set<String> skipDevices,
       boolean shard, String classpath, List<String> instrumentationArgs, String className,
       String methodName, IRemoteAndroidTestRunner.TestSize testSize,
       boolean failIfNoDeviceConnected, List<ITestRunListener> testRunListeners, boolean sequential,
@@ -83,6 +85,7 @@ public final class SpoonRunner {
     this.methodName = methodName;
     this.classpath = classpath;
     this.testSize = testSize;
+    this.skipDevices = skipDevices;
     this.codeCoverage = codeCoverage;
     this.serials = ImmutableSet.copyOf(serials);
     this.shard = shard;
@@ -117,6 +120,9 @@ public final class SpoonRunner {
       Set<String> serials = this.serials;
       if (serials.isEmpty()) {
         serials = SpoonUtils.findAllDevices(adb, testInfo.getMinSdkVersion());
+      }
+      if (this.skipDevices != null && !this.skipDevices.isEmpty()) {
+        serials.removeAll(this.skipDevices);
       }
       if (failIfNoDeviceConnected && serials.isEmpty()) {
         throw new RuntimeException("No device(s) found.");
@@ -308,6 +314,7 @@ public final class SpoonRunner {
     private File output;
     private boolean debug = false;
     private Set<String> serials;
+    private Set<String> skipDevices;
     private String classpath = System.getProperty("java.class.path");
     private List<String> instrumentationArgs;
     private String className;
@@ -391,10 +398,23 @@ public final class SpoonRunner {
       return this;
     }
 
+    /** Add a device serial for skipping test execution. */
+    public Builder skipDevice(String serial) {
+      checkNotNull(serial, "Serial cannot be null.");
+      if (skipDevices == null) {
+        skipDevices = new LinkedHashSet<String>();
+      }
+      skipDevices.add(serial);
+      return this;
+    }
+
     /** Use all currently attached device serials when executed. */
     public Builder useAllAttachedDevices() {
       if (this.serials != null) {
         throw new IllegalStateException("Serial list already contains entries.");
+      }
+      if (this.skipDevices != null) {
+        logInfo("Skipping devices not empty, will skip following serials: ", skipDevices);
       }
       if (this.androidSdk == null) {
         throw new IllegalStateException("SDK must be set before calling this method.");
@@ -488,9 +508,9 @@ public final class SpoonRunner {
       }
 
       return new SpoonRunner(title, androidSdk, applicationApk, instrumentationApk, output, debug,
-          noAnimations, adbTimeoutMillis, serials, shard, classpath, instrumentationArgs, className,
-          methodName, testSize, failIfNoDeviceConnected, testRunListeners, sequential, initScript,
-          grantAll, terminateAdb, codeCoverage);
+          noAnimations, adbTimeoutMillis, serials, skipDevices, shard, classpath,
+          instrumentationArgs, className, methodName, testSize, failIfNoDeviceConnected,
+          testRunListeners, sequential, initScript, grantAll, terminateAdb, codeCoverage);
     }
   }
 
@@ -572,6 +592,10 @@ public final class SpoonRunner {
     @Parameter(names = "-serial",
         description = "Serial of the device to use (May be used multiple times)")
     private List<String> serials = new ArrayList<String>();
+
+    @Parameter(names = "-skipDevices",
+        description = "Serial of the device to skip (May be used multiple times)")
+    private List<String> skipDevices = new ArrayList<String>();
 
     @Parameter(names = { "--shard" },
         description = "Automatically shard across all specified serials") //
@@ -655,6 +679,13 @@ public final class SpoonRunner {
     } else {
       for (String serial : parsedArgs.serials) {
         builder.addDevice(serial);
+      }
+    }
+
+    //checks if there are any devices to skip testing on
+    if (parsedArgs.skipDevices != null && !parsedArgs.skipDevices.isEmpty()) {
+      for (String serial : parsedArgs.skipDevices) {
+        builder.skipDevice(serial);
       }
     }
 
