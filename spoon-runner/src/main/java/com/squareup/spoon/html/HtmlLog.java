@@ -17,9 +17,6 @@ final class HtmlLog {
       case FAIL:
         status = "failed";
         break;
-      case ERROR:
-        status = "errored";
-        break;
       default:
         throw new IllegalArgumentException("Unknown status: " + result.getStatus());
     }

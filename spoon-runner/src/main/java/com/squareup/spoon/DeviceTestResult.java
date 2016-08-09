@@ -11,13 +11,14 @@ import java.util.concurrent.TimeUnit;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Collections.unmodifiableList;
+import static com.squareup.spoon.SpoonLogger.logError;
 
 public final class DeviceTestResult {
   /** Separator between screenshot timestamp and tag. */
   public static final String SCREENSHOT_SEPARATOR = Spoon.NAME_SEPARATOR;
 
   public enum Status {
-    PASS, FAIL, ERROR
+    PASS, FAIL
   }
 
   private final Status status;
@@ -85,18 +86,10 @@ public final class DeviceTestResult {
 
     public Builder markTestAsFailed(String message) {
       checkNotNull(message);
-      checkArgument(status == Status.PASS || status == status.FAIL,
-        "Status was already marked as " + status);
+      if (status != Status.PASS) {
+        logError("Status was already marked as failed!");
+      }
       status = Status.FAIL;
-      exception = StackTrace.from(message);
-      return this;
-    }
-
-    public Builder markTestAsError(String message) {
-      checkNotNull(message);
-      checkArgument(status == Status.PASS || status == status.ERROR,
-        "Status was already marked as " + status);
-      status = Status.ERROR;
       exception = StackTrace.from(message);
       return this;
     }
@@ -116,7 +109,9 @@ public final class DeviceTestResult {
 
     public Builder endTest() {
       checkArgument(start != 0, "Start was not called.");
-      checkArgument(duration == -1, "End was already called.");
+      if (duration != -1) {
+        logError("Test was already marked as ended!");
+      }
       duration = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - start);
       return this;
     }

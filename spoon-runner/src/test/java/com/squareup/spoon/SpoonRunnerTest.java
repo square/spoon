@@ -81,21 +81,6 @@ public class SpoonRunnerTest {
         .build(); //
     assertThat(parseOverallSuccess(summary)).isFalse();
 
-    // FAIL: Test error.
-    summary = new SpoonSummary.Builder() //
-        .setTitle("test") //
-        .start() //
-        .addResult("123", new DeviceResult.Builder() //
-            .startTests() //
-            .addTestResultBuilder(device, new DeviceTestResult.Builder() //
-                .startTest() //
-                .markTestAsError("java.fake.Exception: Failed!")
-                .endTest()) //
-            .build()) //
-        .end() //
-        .build(); //
-    assertThat(parseOverallSuccess(summary)).isFalse();
-
     // PASS: Test success.
     summary = new SpoonSummary.Builder() //
         .setTitle("test") //

@@ -89,9 +89,6 @@ final class HtmlUtils {
       case FAIL:
         status = "fail";
         break;
-      case ERROR:
-        status = "error";
-        break;
       default:
         throw new IllegalArgumentException("Unknown result status: " + testResult.getStatus());
     }
