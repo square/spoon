@@ -81,6 +81,21 @@ public class SpoonRunnerTest {
         .build(); //
     assertThat(parseOverallSuccess(summary)).isFalse();
 
+    // FAIL: Test error with special HTML characters in the exception message
+    summary = new SpoonSummary.Builder() //
+            .setTitle("test") //
+            .start() //
+            .addResult("123", new DeviceResult.Builder() //
+                    .startTests() //
+                    .addTestResultBuilder(device, new DeviceTestResult.Builder() //
+                            .startTest() //
+                            .markTestAsFailed("java.fake.Exception: Expected <SUCCESS> but was <FAILED>!")
+                            .endTest()) //
+                    .build()) //
+            .end() //
+            .build(); //
+    assertThat(parseOverallSuccess(summary)).isFalse();
+
     // PASS: Test success.
     summary = new SpoonSummary.Builder() //
         .setTitle("test") //
