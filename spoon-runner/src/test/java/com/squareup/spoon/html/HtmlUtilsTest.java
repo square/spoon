@@ -73,16 +73,21 @@ public class HtmlUtilsTest {
     StackTrace exception = StackTrace.from(""
             + "java.fake.Exception: Expected <SUCCESS> but was <FAILED>!\n"
             + " at android.fake.FakeClass.fakeMethod(FakeClass.java:1)\n"
-            + " at android.fake.FakeClass.fakeMethod(FakeClass.java:2)\n");
+            + " at android.fake.FakeClass.fakeMethod(FakeClass.java:2)\n"
+            + "Caused by: java.lang.IllegalArgumentException: Inner exception <FAILED>\n"
+            + " at android.fake.FakeClass.fakeMethod(FakeClass.java:3)\n");
     ExceptionInfo exceptionInfo = processStackTrace(exception);
     assertThat(exceptionInfo.title).isEqualTo(""
             + "java.fake.Exception: Expected &lt;SUCCESS&gt; but was &lt;FAILED&gt;!");
     List<String> lines = exceptionInfo.body;
     assertThat(lines).isNotNull();
-    assertThat(lines.size()).isEqualTo(2);
+    assertThat(lines.size()).isEqualTo(3);
     assertThat(lines.get(0)).isEqualTo(""
             + "&nbsp;&nbsp;&nbsp;&nbsp;at android.fake.FakeClass.fakeMethod(FakeClass.java:1)");
     assertThat(lines.get(1)).isEqualTo(""
             + "&nbsp;&nbsp;&nbsp;&nbsp;at android.fake.FakeClass.fakeMethod(FakeClass.java:2)");
+    assertThat(lines.get(2)).isEqualTo(""
+            + "Caused by: java.lang.IllegalArgumentException: Inner exception &lt;FAILED&gt;");
+    // The stack trace for the "Caused by" exception does not get printed
   }
 }

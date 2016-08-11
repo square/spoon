@@ -201,7 +201,7 @@ final class HtmlUtils {
     }
     while (exception.getCause() != null) {
       exception = exception.getCause();
-      lines.add("Caused by: " + exception.toString().replace("\n", "<br/>"));
+      lines.add("Caused by: " + StringEscapeUtils.escapeHtml4(exception.toString()));
     }
     return new ExceptionInfo(message, lines);
   }
