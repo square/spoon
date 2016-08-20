@@ -1,6 +1,7 @@
 package com.squareup.spoon;
 
 import android.app.Activity;
+import android.app.Instrumentation;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -15,6 +16,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
@@ -48,31 +52,66 @@ public final class Spoon {
   /** Holds a set of directories that have been cleared for this test */
   private static Set<String> clearedOutputDirectories = new HashSet<String>();
 
+
   /**
-   * Take a screenshot with the specified tag.
+   * Take a screenshot with the specified tag. This will not attempt to use UiAutomator.
    *
    * @param activity Activity with which to capture a screenshot.
    * @param tag Unique tag to further identify the screenshot. Must match [a-zA-Z0-9_-]+.
    * @return the image file that was created
    */
   public static File screenshot(Activity activity, String tag) {
-    StackTraceElement testClass = findTestClassTraceElement(Thread.currentThread().getStackTrace());
-    String className = testClass.getClassName().replaceAll("[^A-Za-z0-9._-]", "_");
-    String methodName = testClass.getMethodName();
-    return screenshot(activity, tag, className, methodName);
+    return screenshot(activity, null, tag);
   }
 
   /**
-   * Take a screenshot with the specified tag.  This version allows the caller to manually specify
-   * the test class name and method name.  This is necessary when the screenshot is not called in
-   * the traditional manner.
+   * Take a screenshot with the specified tag. This will attempt to use UiAutomator if
+   * instrumentation is not null.
+   *
+   * @param activity Activity with which to capture a screenshot.
+   * @param instrumentation Instrumention instance to use for UiAutomator.
+   * @param tag Unique tag to further idenfiy the screenshot. Must match [a-zA-Z0-9_-]+.
+   * @return the image file that was created
+   */
+  public static File screenshot(Activity activity, Instrumentation instrumentation, String tag) {
+    StackTraceElement testClass = findTestClassTraceElement(Thread.currentThread().getStackTrace());
+    String className = testClass.getClassName().replaceAll("[^A-Za-z0-9._-]", "_");
+    String methodName = testClass.getMethodName();
+    return screenshot(activity, instrumentation, tag, className, methodName);
+
+  }
+
+  /**
+   * Take a screenshot with the specified tag. This will not attempt to use UiAutomator.
+   * This version allows the caller to manually specify the test class name and method name.
+   * This is necessary when the screenshot is not called in the traditional manner.
    *
    * @param activity Activity with which to capture a screenshot.
    * @param tag Unique tag to further identify the screenshot. Must match [a-zA-Z0-9_-]+.
+   * @param testClassName the name of the class that provides the test.
+   * @param testMethodName the name of the method in the test class.
    * @return the image file that was created
    */
+  @SuppressWarnings("unused")
   public static File screenshot(Activity activity, String tag, String testClassName,
       String testMethodName) {
+    return screenshot(activity, null, tag, testClassName,testMethodName);
+  }
+
+  /**
+   * Take a screenshot with the specified tag. This will attempt to use UiAutomator
+   * if instrumentation is not null
+   *
+   * This version allows the caller to manually specify the test class name and method name.
+   * This is necessary when the screenshot is not called in the traditional manner.
+   *
+   * @param activity Activity with which to capture a screenshot.
+   * @param tag Unique tag to further identify the screenshot. Must match [a-zA-Z0-9_-]+.
+   * @param testClassName the name of the class that provides the test.
+   * @param testMethodName the name of the method in the test class.
+   * @return the image file that was created
+   */
+  public static File screenshot(Activity activity, Instrumentation instrumentation, String tag, String testClassName, String testMethodName) {
     if (!TAG_VALIDATION.matcher(tag).matches()) {
       throw new IllegalArgumentException("Tag must match " + TAG_VALIDATION.pattern() + ".");
     }
@@ -82,7 +121,7 @@ public final class Spoon {
               testMethodName);
       String screenshotName = System.currentTimeMillis() + NAME_SEPARATOR + tag + EXTENSION;
       File screenshotFile = new File(screenshotDirectory, screenshotName);
-      takeScreenshot(screenshotFile, activity);
+      takeScreenshot(screenshotFile, activity, instrumentation);
       Log.d(TAG, "Captured screenshot '" + tag + "'.");
       return screenshotFile;
     } catch (Exception e) {
@@ -90,33 +129,138 @@ public final class Spoon {
     }
   }
 
-  private static void takeScreenshot(File file, final Activity activity) throws IOException {
-    View view = activity.getWindow().getDecorView();
-    final Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), ARGB_8888);
+  private static void takeScreenshot(File file, final Activity activity, final Instrumentation instrumentation) throws IOException {
+    Bitmap bitmap = null;
 
-    if (Looper.myLooper() == Looper.getMainLooper()) {
-      // On main thread already, Just Do It™.
-      drawDecorViewToBitmap(activity, bitmap);
-    } else {
-      // On a background thread, post to main.
-      final CountDownLatch latch = new CountDownLatch(1);
-      activity.runOnUiThread(new Runnable() {
-        @Override public void run() {
-          try {
-            drawDecorViewToBitmap(activity, bitmap);
-          } finally {
-            latch.countDown();
+    // use instrumentation/uiautomator
+    if (instrumentation != null && Build.VERSION.SDK_INT >= 18) {
+      if (Looper.myLooper() == Looper.getMainLooper()) {
+        try {
+          Method getUiAutomationMethod = instrumentation.getClass().getMethod("getUiAutomation");
+          Object uiAutomationObject = getUiAutomationMethod.invoke(instrumentation);
+          Method takeScreenshotMethod = uiAutomationObject.getClass().getMethod("takeScreenshot");
+          Object result = takeScreenshotMethod.invoke(uiAutomationObject);
+          if (result != null && result instanceof Bitmap) {
+            bitmap = (Bitmap) result;
           }
+        } catch (Exception e) {
+          Log.e(TAG, "Failed to get bitmap from uiAutomation.");
         }
-      });
-      try {
-        latch.await();
-      } catch (InterruptedException e) {
-        String msg = "Unable to get screenshot " + file.getAbsolutePath();
-        Log.e(TAG, msg, e);
-        throw new RuntimeException(msg, e);
+      }
+      else {
+        final CountDownLatch latch = new CountDownLatch(1);
+        View rootView = activity.getWindow().getDecorView();
+        final Bitmap outBitmap = Bitmap.createBitmap(rootView.getWidth(), rootView.getHeight(),
+            ARGB_8888);
+
+        activity.runOnUiThread(new Runnable() {
+          @Override
+        public void run() {
+            try {
+              Canvas canvas = new Canvas(outBitmap);
+              Method getUiAutomationMethod = instrumentation.getClass().getMethod("getUiAutomation");
+              Object uiAutomationObject = getUiAutomationMethod.invoke(instrumentation);
+              Method takeScreenshotMethod = uiAutomationObject.getClass().getMethod("takeScreenshot");
+              Object result = takeScreenshotMethod.invoke(uiAutomationObject);
+              if (result != null && result instanceof Bitmap) {
+                canvas.drawBitmap((Bitmap)result,0,0,null);
+              }
+
+            }
+            catch (Exception e) {
+              Log.e(TAG, "Failed to get bitmap from uiAutomation.");
+            }
+            finally {
+              latch.countDown();
+            }
+          }
+        });
+        try {
+          latch.await();
+        }
+        catch (InterruptedException e) {
+          String msg = "Unable to get screenshot " + file.getAbsolutePath();
+          Log.e(TAG, msg, e);
+          throw new RuntimeException(msg, e);
+        }
+        bitmap = outBitmap;
       }
     }
+
+    // use reflection hack.
+    if (bitmap == null) {
+      try {
+        View rootView = activity.getWindow().getDecorView();
+        final Bitmap outBitmap = Bitmap.createBitmap(rootView.getWidth(), rootView.getHeight(), ARGB_8888);
+        final View[] views = getWindowDecorViews();
+        if (views != null) {
+          for (final View view : views) {
+            if (Looper.myLooper() == Looper.getMainLooper()) {
+              // On main thread already, Just Do It™.
+              drawViewToBitmap(view, outBitmap);
+            } else {
+              // On a background thread, post to main.
+              final CountDownLatch latch = new CountDownLatch(1);
+              activity.runOnUiThread(new Runnable() {
+                @Override public void run() {
+                  try {
+                    drawViewToBitmap(view, outBitmap);
+                  } finally {
+                    latch.countDown();
+                  }
+                }
+              });
+              try {
+                latch.await();
+              } catch (InterruptedException e) {
+                String msg = "Unable to get screenshot " + file.getAbsolutePath();
+                Log.e(TAG, msg, e);
+                throw new RuntimeException(msg, e);
+              }
+            }
+          }
+          bitmap = outBitmap;
+        }
+        else {
+          Log.e(TAG,"No views?");
+        }
+      }
+      catch (Exception e) {
+        Log.e(TAG,"Walking Windows Failed.",e);
+      }
+    }
+
+    // finally, use the old method.
+    if (bitmap == null) {
+      View view = activity.getWindow().getDecorView();
+      final Bitmap outBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), ARGB_8888);
+
+      if (Looper.myLooper() == Looper.getMainLooper()) {
+        // On main thread already, Just Do It™.
+        drawDecorViewToBitmap(activity, outBitmap);
+      } else {
+        // On a background thread, post to main.
+        final CountDownLatch latch = new CountDownLatch(1);
+        activity.runOnUiThread(new Runnable() {
+          @Override public void run() {
+            try {
+              drawDecorViewToBitmap(activity, outBitmap);
+            } finally {
+              latch.countDown();
+            }
+          }
+        });
+        try {
+          latch.await();
+        } catch (InterruptedException e) {
+          String msg = "Unable to get screenshot " + file.getAbsolutePath();
+          Log.e(TAG, msg, e);
+          throw new RuntimeException(msg, e);
+        }
+      }
+      bitmap = outBitmap;
+    }
+
 
     OutputStream fos = null;
     try {
@@ -135,6 +279,13 @@ public final class Spoon {
   private static void drawDecorViewToBitmap(Activity activity, Bitmap bitmap) {
     Canvas canvas = new Canvas(bitmap);
     activity.getWindow().getDecorView().draw(canvas);
+  }
+
+  private static void drawViewToBitmap(View view, Bitmap bitmap) {
+    Canvas canvas = new Canvas(bitmap);
+    view.setDrawingCacheEnabled(true);
+    view.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+    view.draw(canvas);
   }
 
   private static File obtainScreenshotDirectory(Context context, String testClassName,
@@ -276,7 +427,75 @@ public final class Spoon {
       }
     }
     if (inclusive) {
-      path.delete();
+      @SuppressWarnings("unused")
+      boolean deleted = path.delete();
+    }
+  }
+
+  /**
+   * Returns the WindorDecorViews shown on the screen.
+   *
+   * @return the WindorDecorViews shown on the screen
+   */
+
+  private static View[] getWindowDecorViews()
+  {
+
+    Field viewsField;
+    Field instanceField;
+    try {
+      viewsField = windowManager.getDeclaredField("mViews");
+      instanceField = windowManager.getDeclaredField(getWindowManagerString());
+      viewsField.setAccessible(true);
+      instanceField.setAccessible(true);
+      Object instance = instanceField.get(null);
+      return (View[]) viewsField.get(instance);
+    } catch (SecurityException e) {
+      e.printStackTrace();
+    } catch (NoSuchFieldException e) {
+      e.printStackTrace();
+    } catch (IllegalArgumentException e) {
+      e.printStackTrace();
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+
+
+  private static Class<?> windowManager;
+  static{
+    try {
+      String windowManagerClassName;
+      if (android.os.Build.VERSION.SDK_INT >= 17) {
+        windowManagerClassName = "android.view.WindowManagerGlobal";
+      } else {
+        windowManagerClassName = "android.view.WindowManagerImpl";
+      }
+      windowManager = Class.forName(windowManagerClassName);
+
+    } catch (ClassNotFoundException e) {
+      throw new RuntimeException(e);
+    } catch (SecurityException e) {
+      e.printStackTrace();
+    }
+  }
+
+
+  /**
+   * Gets the window manager string.
+   */
+  private static String getWindowManagerString(){
+
+    if (android.os.Build.VERSION.SDK_INT >= 17) {
+      return "sDefaultWindowManager";
+
+    } else if(android.os.Build.VERSION.SDK_INT >= 13) {
+      return "sWindowManager";
+
+    } else {
+      return "mWindowManager";
     }
   }
 
