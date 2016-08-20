@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import static com.squareup.spoon.DeviceTestResult.SCREENSHOT_SEPARATOR;
 
@@ -191,14 +192,16 @@ final class HtmlUtils {
     if (exception == null) {
       return null;
     }
-    String message = exception.toString().replace("\n", "<br/>");
+    // Escape any special HTML characters in the exception that would otherwise break the HTML
+    // rendering (e.g. the angle brackets around the default toString() for enums).
+    String message = StringEscapeUtils.escapeHtml4(exception.toString());
     List<String> lines = new ArrayList<String>();
     for (StackTrace.Element element : exception.getElements()) {
       lines.add("&nbsp;&nbsp;&nbsp;&nbsp;at " + element.toString());
     }
     while (exception.getCause() != null) {
       exception = exception.getCause();
-      lines.add("Caused by: " + exception.toString().replace("\n", "<br/>"));
+      lines.add("Caused by: " + StringEscapeUtils.escapeHtml4(exception.toString()));
     }
     return new ExceptionInfo(message, lines);
   }
