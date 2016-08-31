@@ -133,6 +133,42 @@ public class StackTraceTest {
     assertThat(inner.getElements()).hasSize(2);
   }
 
+  /**
+   * The intent of this test is to check that unexpected format stack traces don't cause any
+   * parsing exceptions.
+   */
+  @Test public void unexpectedFormatException() {
+    String exception = "" +
+            "junit.framework.AssertionFailedError:\n";
+
+    // This exception does not match the expected stack trace format
+    String message = ""
+            + "        **** 2 Assertion Errors Found ****\n"
+            + "\n"
+            + "        --------- Failed Assertion # 1 --------\n"
+            + "junit.framework.AssertionFailedError: 1st expected failure\n"
+            + "at junit.framework.Assert.fail(Assert.java:50)\n"
+            + "at junit.framework.Assert.assertTrue(Assert.java:20)\n"
+            + "at com.capitalone.mobile.wallet.testing.AssertionErrorCollector.assertTrue(AssertionErrorCollector.java:34)\n"
+            + "\n"
+            + "        --------- Failed Assertion # 2 --------\n"
+            + "junit.framework.AssertionFailedError: 2nd expected failure\n"
+            + "at junit.framework.Assert.fail(Assert.java:50)\n"
+            + "at junit.framework.Assert.assertTrue(Assert.java:20)\n"
+            + "at com.capitalone.mobile.wallet.testing.AssertionErrorCollector.assertTrue(AssertionErrorCollector.java:34)\n";
+
+    StackTrace actual = StackTrace.from(exception + message);
+    assertThat(actual.getClassName()).isEqualTo("junit.framework.AssertionFailedError");
+
+    // Due to the unexpected exception format, only the first part of the stack trace gets parsed
+    // into the exception message
+    assertThat(actual.getMessage()).isEqualTo(""
+            + "        **** 2 Assertion Errors Found ****\n"
+            + "\n"
+            + "        --------- Failed Assertion # 1 --------\n"
+            + "junit.framework.AssertionFailedError: 1st expected failure");
+  }
+
   @Test public void nestedExceptionWithMore() {
     String exception = ""
         + "java.lang.NullPointerException: Hello to the world.\n"

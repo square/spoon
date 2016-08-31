@@ -30,7 +30,6 @@ final class HtmlUtils {
     }
   };
 
-
   static String deviceDetailsToString(DeviceDetails details) {
     if (details == null) return null;
 
@@ -195,13 +194,20 @@ final class HtmlUtils {
     // Escape any special HTML characters in the exception that would otherwise break the HTML
     // rendering (e.g. the angle brackets around the default toString() for enums).
     String message = StringEscapeUtils.escapeHtml4(exception.toString());
+
+    // Newline characters are usually stripped out by the parsing code in
+    // {@link StackTrace#from(String)}, but they can sometimes remain (e.g. when the stack trace
+    // is not in an expected format).  This replacement needs to be done after any HTML escaping.
+    message = message.replace("\n", "<br/>");
+
     List<String> lines = new ArrayList<String>();
     for (StackTrace.Element element : exception.getElements()) {
       lines.add("&nbsp;&nbsp;&nbsp;&nbsp;at " + element.toString());
     }
     while (exception.getCause() != null) {
       exception = exception.getCause();
-      lines.add("Caused by: " + StringEscapeUtils.escapeHtml4(exception.toString()));
+      String causeMessage = StringEscapeUtils.escapeHtml4(exception.toString());
+      lines.add("Caused by: " + causeMessage.replace("\n", "<br/>"));
     }
     return new ExceptionInfo(message, lines);
   }

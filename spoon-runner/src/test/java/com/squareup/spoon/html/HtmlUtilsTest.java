@@ -69,6 +69,50 @@ public class HtmlUtilsTest {
     assertThat(humanReadableDuration(3661)).isEqualTo("61 minutes, 1 second");
   }
 
+  /**
+   * This test is similar to {@link StackTraceTest#nestedCustomExceptionUnexpectedFormat}.
+   *
+   * The intent of this test is to check that unexpected format exceptions still print something
+   * useful to the user in the test results.
+   */
+  @Test public void processStackTraceUnexpectedFormat() {
+    // This exception does not match the expected stack trace format
+    StackTrace exception = StackTrace.from(""
+            + "        **** 2 Assertion Errors Found ****\n"
+            + "\n"
+            + "        --------- Failed Assertion # 1 --------\n"
+            + "junit.framework.AssertionFailedError: 1st expected failure\n"
+            + "at junit.framework.Assert.fail(Assert.java:50)\n"
+            + "at junit.framework.Assert.assertTrue(Assert.java:20)\n"
+            + "at com.capitalone.mobile.wallet.testing.AssertionErrorCollector.assertTrue(AssertionErrorCollector.java:34)\n"
+            + "\n"
+            + "        --------- Failed Assertion # 2 --------\n"
+            + "junit.framework.AssertionFailedError: 2nd expected failure\n"
+            + "at junit.framework.Assert.fail(Assert.java:50)\n"
+            + "at junit.framework.Assert.assertTrue(Assert.java:20)\n"
+            + "at com.capitalone.mobile.wallet.testing.AssertionErrorCollector.assertTrue(AssertionErrorCollector.java:34)\n");
+    ExceptionInfo exceptionInfo = processStackTrace(exception);
+    // This is one of the rare cases where newline characters need to be converted to <br/>.
+    // Usually newline characters are stripped out by the parsing code in
+    // {@link StackTrace#from(String)}, but it doesn't happen for unexpected format exceptions.
+    assertThat(exceptionInfo.title).isEqualTo(""
+            + "        **** 2 Assertion Errors Found ****: <br/>"
+            + "        --------- Failed Assertion # 1 --------<br/>"
+            + "junit.framework.AssertionFailedError: 1st expected failure");
+    List<String> lines = exceptionInfo.body;
+    assertThat(lines).isNotNull();
+    assertThat(lines.size()).isEqualTo(4);
+    assertThat(lines.get(0)).isEqualTo(""
+            + "&nbsp;&nbsp;&nbsp;&nbsp;at junit.framework.Assert.fail(Assert.java:50)");
+    assertThat(lines.get(1)).isEqualTo(""
+            + "&nbsp;&nbsp;&nbsp;&nbsp;at junit.framework.Assert.assertTrue(Assert.java:20)");
+    assertThat(lines.get(2)).isEqualTo(""
+            + "&nbsp;&nbsp;&nbsp;&nbsp;at com.capitalone.mobile.wallet.testing.AssertionErrorCollector.assertTrue(AssertionErrorCollector.java:34)");
+    // The final line here is "Caused by: ".  This is because the remaining parts of the stack trace
+    // are interpreted as a "Caused by: " exception.  This behavior isn't all that desirable, so we
+    // don't assert it here. :-)
+  }
+
   @Test public void processStackTraceHtmlEscapeAngleBrackets() {
     StackTrace exception = StackTrace.from(""
             + "java.fake.Exception: Expected <SUCCESS> but was <FAILED>!\n"
