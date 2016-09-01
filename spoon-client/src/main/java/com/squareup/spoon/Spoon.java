@@ -92,6 +92,11 @@ public final class Spoon {
 
   private static void takeScreenshot(File file, final Activity activity) throws IOException {
     View view = activity.getWindow().getDecorView();
+    if (view.getWidth() == 0 || view.getHeight() == 0) {
+      throw new IOException("Your view has no height or width. Are you sure "
+              + activity.getClass().getSimpleName()
+              + " is the currently displayed activity?");
+    }
     final Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), ARGB_8888);
 
     if (Looper.myLooper() == Looper.getMainLooper()) {
