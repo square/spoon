@@ -198,14 +198,16 @@ public final class SpoonDeviceRunner {
     } catch (InstallException e) {
       logInfo("InstallException while install app apk on device [%s]", serial);
       e.printStackTrace(System.out);
-      return result.markInstallAsFailed("Unable to install application APK.").build();
+      return result.markInstallAsFailed(
+              "Unable to install application APK.").addException(e).build();
     }
     try {
       device.installPackage(testApk.getAbsolutePath(), true);
     } catch (InstallException e) {
       logInfo("InstallException while install test apk on device [%s]", serial);
       e.printStackTrace(System.out);
-      return result.markInstallAsFailed("Unable to install instrumentation APK.").build();
+      return result.markInstallAsFailed(
+              "Unable to install instrumentation APK.").addException(e).build();
     }
 
     // If this is Android Marshmallow or above grant WRITE_EXTERNAL_STORAGE
@@ -224,7 +226,7 @@ public final class SpoonDeviceRunner {
             + "on device [%s]", serial);
         e.printStackTrace(System.out);
         return result.markInstallAsFailed(
-            "Unable to grant external storage access to application APK.").build();
+            "Unable to grant external storage access to application APK.").addException(e).build();
       }
     }
 
