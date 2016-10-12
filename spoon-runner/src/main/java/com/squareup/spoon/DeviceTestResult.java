@@ -13,6 +13,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Collections.unmodifiableList;
 import static com.squareup.spoon.SpoonLogger.logError;
 
+/** Represents the result of a single test method on a single device. */
 public final class DeviceTestResult {
   /** Separator between screenshot timestamp and tag. */
   public static final String SCREENSHOT_SEPARATOR = Spoon.NAME_SEPARATOR;
