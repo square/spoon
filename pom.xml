@@ -11,7 +11,7 @@
 
   <groupId>com.squareup.spoon</groupId>
   <artifactId>parent</artifactId>
-  <version>1.6.5-SNAPSHOT</version>
+  <version>1.7.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Spoon (Parent)</name>

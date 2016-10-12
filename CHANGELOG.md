@@ -1,6 +1,15 @@
 Change Log
 ==========
 
+Version 1.7.0 *(2016-09-12)*
+----------------------------
+
+* Fix: upgraded jacoco to fix code coverage merging
+* Fix: escape HTML in exception titles
+* Fix: allow unexpected exception format to continue parsing
+* Fix: eagerly blow up if view is 0x0
+* Fix: show install exceptions in the results output
+
 Version 1.6.4 *(2016-08-09)*
 ----------------------------
 
