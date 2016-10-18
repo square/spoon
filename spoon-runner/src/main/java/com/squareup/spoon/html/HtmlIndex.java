@@ -8,10 +8,8 @@ import com.squareup.spoon.DeviceTestResult;
 import com.squareup.spoon.SpoonSummary;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import static com.squareup.spoon.DeviceTestResult.Status;
 
@@ -20,14 +18,12 @@ final class HtmlIndex {
   static HtmlIndex from(SpoonSummary summary) {
     int testsRun = 0;
     int totalSuccess = 0;
-    Set<DeviceTest> tests = new LinkedHashSet<DeviceTest>();
     List<Device> devices = new ArrayList<Device>();
     for (Map.Entry<String, DeviceResult> result : summary.getResults().entrySet()) {
       devices.add(Device.from(result.getKey(), result.getValue()));
       Map<DeviceTest, DeviceTestResult> testResults = result.getValue().getTestResults();
       testsRun += testResults.size();
       for (Map.Entry<DeviceTest, DeviceTestResult> entry : testResults.entrySet()) {
-        tests.add(entry.getKey());
         if (entry.getValue().getStatus() == Status.PASS) {
           totalSuccess += 1;
         }
