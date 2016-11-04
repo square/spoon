@@ -38,12 +38,28 @@ public final class Spoon {
   static final String TEST_CASE_METHOD_JUNIT_4 = "runReflectiveCall";
   static final String TEST_CASE_CLASS_CUCUMBER_JVM = "cucumber.runtime.model.CucumberFeature";
   static final String TEST_CASE_METHOD_CUCUMBER_JVM = "run";
-  private static final String EXTENSION = ".png";
   private static final String TAG = "Spoon";
   private static final Object LOCK = new Object();
   private static final Pattern TAG_VALIDATION = Pattern.compile("[a-zA-Z0-9_-]+");
   private static final int LOLLIPOP_API_LEVEL = 21;
   private static final int MARSHMALLOW_API_LEVEL = 23;
+
+  /**
+   * The format of the compressed image (JPEG, PNG or WEBP)
+   * PNG by default.
+   */
+  private static Bitmap.CompressFormat compressFormat = Bitmap.CompressFormat.PNG;
+
+  /**
+   * The file fileExtension matching the compression
+   */
+  private static String fileExtension = ".png";
+
+  /**
+   *  Hint to the compressor, 0-100. 0 meaning compress for small size, 100 meaning compress for max quality.
+   *  Some formats, like PNG which is lossless, will ignore the quality setting
+   */
+  private static int compressionQuality = 100;
 
   /** Holds a set of directories that have been cleared for this test */
   private static Set<String> clearedOutputDirectories = new HashSet<String>();
@@ -80,7 +96,7 @@ public final class Spoon {
       File screenshotDirectory =
           obtainScreenshotDirectory(activity.getApplicationContext(), testClassName,
               testMethodName);
-      String screenshotName = System.currentTimeMillis() + NAME_SEPARATOR + tag + EXTENSION;
+      String screenshotName = System.currentTimeMillis() + NAME_SEPARATOR + tag + fileExtension;
       File screenshotFile = new File(screenshotDirectory, screenshotName);
       takeScreenshot(screenshotFile, activity);
       Log.d(TAG, "Captured screenshot '" + tag + "'.");
@@ -88,6 +104,19 @@ public final class Spoon {
     } catch (Exception e) {
       throw new RuntimeException("Unable to capture screenshot.", e);
     }
+  }
+
+  /**
+   * Call this method to set the screenshots compression format and compression quality.
+   * @param compressionFormat The format of the compressed image (JPEG, PNG or WEBP)
+   * @param compressionQuality int: Hint to the compressor, 0-100. 0 meaning compress for small size, 100 meaning compress for max quality. Some formats, like PNG which is lossless, will ignore the quality setting
+   */
+  public static void setCompressionFormat(final Bitmap.CompressFormat compressionFormat, final int compressionQuality) {
+    if (compressionFormat != null) {
+      compressFormat = compressionFormat;
+      fileExtension = "." + compressionFormat.name().toLowerCase();
+    }
+    Spoon.compressionQuality = compressionQuality;
   }
 
   private static void takeScreenshot(File file, final Activity activity) throws IOException {
@@ -126,7 +155,7 @@ public final class Spoon {
     OutputStream fos = null;
     try {
       fos = new BufferedOutputStream(new FileOutputStream(file));
-      bitmap.compress(PNG, 100 /* quality */, fos);
+      bitmap.compress(compressFormat, compressionQuality, fos);
 
       chmodPlusR(file);
     } finally {
