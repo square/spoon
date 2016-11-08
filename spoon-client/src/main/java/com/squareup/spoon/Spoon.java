@@ -55,7 +55,7 @@ public final class Spoon {
    *  100 meaning compress for max quality.
    *  Some formats, like PNG which is lossless, will ignore the quality setting
    */
-  private static int compressionQuality = 100;
+  private static int compressQuality = 100;
 
   /** Holds a set of directories that have been cleared for this test */
   private static Set<String> clearedOutputDirectories = new HashSet<String>();
@@ -113,10 +113,12 @@ public final class Spoon {
    */
   public static void setCompressionFormat(final Bitmap.CompressFormat compressionFormat,
      final int compressionQuality) {
-    if (compressionFormat != null) {
+    if (compressionFormat == null) {
+      throw new IllegalArgumentException("Null is not a valid CompressFormat");
+    } else {
       compressFormat = compressionFormat;
     }
-    com.squareup.spoon.Spoon.compressionQuality = compressionQuality;
+    compressQuality = compressionQuality;
   }
 
   private static void takeScreenshot(File file, final Activity activity) throws IOException {
@@ -155,7 +157,7 @@ public final class Spoon {
     OutputStream fos = null;
     try {
       fos = new BufferedOutputStream(new FileOutputStream(file));
-      bitmap.compress(compressFormat, compressionQuality, fos);
+      bitmap.compress(compressFormat, compressQuality, fos);
 
       chmodPlusR(file);
     } finally {
