@@ -173,7 +173,19 @@ public final class Spoon {
     return save(context, className, methodName, file);
   }
 
-  private static File save(Context context, String className, String methodName, File file) {
+  /**
+   * Save a file from this test run.  This version allows the caller to manually specify
+   * the test class name and method name.  This is necessary when save is not called in
+   * the traditional manner. The file will be copied to, so make sure all the data you want have been
+   * written to the file before calling save.
+   *
+   * @param context Context used to access files.
+   * @param className test class name.
+   * @param methodName test method name.
+   * @param file The file to save.
+   * @return the copy that was created.
+   */
+  public static File save(Context context, String className, String methodName, File file) {
     File filesDirectory = null;
     try {
       filesDirectory = filesDirectory(context, SPOON_FILES, className, methodName);
