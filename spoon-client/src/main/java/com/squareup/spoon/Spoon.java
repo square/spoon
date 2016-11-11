@@ -118,6 +118,9 @@ public final class Spoon {
     } else {
       compressFormat = compressionFormat;
     }
+    if (compressQuality < 0 || compressQuality > 100) {
+      throw new IllegalArgumentException("compressionQuality must be 0..100");
+    }
     compressQuality = compressionQuality;
   }
 
