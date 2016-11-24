@@ -144,4 +144,33 @@ public final class DeviceTestResult {
               screenshots, animatedGif, log, files);
     }
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    DeviceTestResult that = (DeviceTestResult) o;
+
+    if (duration != that.duration) return false;
+    if (status != that.status) return false;
+    if (exception != null ? !exception.equals(that.exception) : that.exception != null) return false;
+    if (screenshots != null ? !screenshots.equals(that.screenshots) : that.screenshots != null) return false;
+    if (files != null ? !files.equals(that.files) : that.files != null) return false;
+    if (animatedGif != null ? !animatedGif.equals(that.animatedGif) : that.animatedGif != null) return false;
+    return log != null ? log.equals(that.log) : that.log == null;
+
+  }
+
+  @Override
+  public int hashCode() {
+    int result = status != null ? status.hashCode() : 0;
+    result = 31 * result + (exception != null ? exception.hashCode() : 0);
+    result = 31 * result + (int) (duration ^ (duration >>> 32));
+    result = 31 * result + (screenshots != null ? screenshots.hashCode() : 0);
+    result = 31 * result + (files != null ? files.hashCode() : 0);
+    result = 31 * result + (animatedGif != null ? animatedGif.hashCode() : 0);
+    result = 31 * result + (log != null ? log.hashCode() : 0);
+    return result;
+  }
 }

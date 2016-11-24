@@ -194,4 +194,27 @@ public class StackTrace {
       return String.format("%s.%s(%s:%d)", className, methodName, fileName, line);
     }
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    StackTrace that = (StackTrace) o;
+
+    if (className != null ? !className.equals(that.className) : that.className != null) return false;
+    if (message != null ? !message.equals(that.message) : that.message != null) return false;
+    if (elements != null ? !elements.equals(that.elements) : that.elements != null) return false;
+    return cause != null ? cause.equals(that.cause) : that.cause == null;
+
+  }
+
+  @Override
+  public int hashCode() {
+    int result = className != null ? className.hashCode() : 0;
+    result = 31 * result + (message != null ? message.hashCode() : 0);
+    result = 31 * result + (elements != null ? elements.hashCode() : 0);
+    result = 31 * result + (cause != null ? cause.hashCode() : 0);
+    return result;
+  }
 }

@@ -93,10 +93,21 @@ public final class SpoonSummary {
       return this;
     }
 
+    Builder setStart(long value) {
+      start = value;
+      started = value;
+      return this;
+    }
+
     Builder end() {
       checkArgument(start != 0, "Start must be called before end.");
       checkArgument(duration == -1, "End already called.");
       duration = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - start);
+      return this;
+    }
+
+    Builder setDuration(long value){
+      duration = value;
       return this;
     }
 

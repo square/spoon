@@ -104,4 +104,35 @@ public final class DeviceDetails {
   @Override public String toString() {
     return ToStringBuilder.reflectionToString(this);
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    DeviceDetails that = (DeviceDetails) o;
+
+    if (apiLevel != that.apiLevel) return false;
+    if (isEmulator != that.isEmulator) return false;
+    if (model != null ? !model.equals(that.model) : that.model != null) return false;
+    if (manufacturer != null ? !manufacturer.equals(that.manufacturer) : that.manufacturer != null) return false;
+    if (version != null ? !version.equals(that.version) : that.version != null) return false;
+    if (language != null ? !language.equals(that.language) : that.language != null) return false;
+    if (region != null ? !region.equals(that.region) : that.region != null) return false;
+    return avdName != null ? avdName.equals(that.avdName) : that.avdName == null;
+
+  }
+
+  @Override
+  public int hashCode() {
+    int result = model != null ? model.hashCode() : 0;
+    result = 31 * result + (manufacturer != null ? manufacturer.hashCode() : 0);
+    result = 31 * result + (version != null ? version.hashCode() : 0);
+    result = 31 * result + apiLevel;
+    result = 31 * result + (language != null ? language.hashCode() : 0);
+    result = 31 * result + (region != null ? region.hashCode() : 0);
+    result = 31 * result + (isEmulator ? 1 : 0);
+    result = 31 * result + (avdName != null ? avdName.hashCode() : 0);
+    return result;
+  }
 }

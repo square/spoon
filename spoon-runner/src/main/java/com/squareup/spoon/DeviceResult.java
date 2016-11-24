@@ -154,4 +154,34 @@ public final class DeviceResult {
           duration, exceptions);
     }
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    DeviceResult that = (DeviceResult) o;
+
+    if (installFailed != that.installFailed) return false;
+    if (started != that.started) return false;
+    if (duration != that.duration) return false;
+    if (installMessage != null ? !installMessage.equals(that.installMessage) : that.installMessage != null)
+      return false;
+    if (deviceDetails != null ? !deviceDetails.equals(that.deviceDetails) : that.deviceDetails != null) return false;
+    if (testResults != null ? !testResults.equals(that.testResults) : that.testResults != null) return false;
+    return exceptions != null ? exceptions.equals(that.exceptions) : that.exceptions == null;
+
+  }
+
+  @Override
+  public int hashCode() {
+    int result = (installFailed ? 1 : 0);
+    result = 31 * result + (installMessage != null ? installMessage.hashCode() : 0);
+    result = 31 * result + (deviceDetails != null ? deviceDetails.hashCode() : 0);
+    result = 31 * result + (testResults != null ? testResults.hashCode() : 0);
+    result = 31 * result + (int) (started ^ (started >>> 32));
+    result = 31 * result + (int) (duration ^ (duration >>> 32));
+    result = 31 * result + (exceptions != null ? exceptions.hashCode() : 0);
+    return result;
+  }
 }
