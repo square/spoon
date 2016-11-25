@@ -26,10 +26,12 @@ public class SpoonSummaryMergerTest {
   @Test
   public void mergeAcrossMultipleTestMachines() throws Exception {
     // Given I have multiple SpoonSummaries, from multiple machines that run the same tests
-    generateSummariesForMultipleMachines();
+    SpoonSummary[] generated = TestUtils.generateSummariesForMultipleMachines(2);
+    summary1 = generated[0];
+    summary2 = generated[1];
     // And they are in JSON format
-    File result1 = renderResult(summary1);
-    File result2 = renderResult(summary2);
+    File result1 = TestUtils.renderResult(gson, summary1);
+    File result2 = TestUtils.renderResult(gson, summary2);
     File[] results = new File[]{result1, result2};
 
     // When I let it merge these summaries
@@ -46,95 +48,10 @@ public class SpoonSummaryMergerTest {
     Map<String, DeviceResult> resultMapMerged = merged.getResults();
 
     assertEquals(resultMap1.size() + resultMap2.size(), resultMapMerged.size());
-    assertMapContainsResults(resultMap1, resultMapMerged);
-    assertMapContainsResults(resultMap2, resultMapMerged);
+    TestUtils.assertMapContainsResults(resultMap1, resultMapMerged);
+    TestUtils.assertMapContainsResults(resultMap2, resultMapMerged);
   }
 
-  private void generateSummariesForMultipleMachines() throws InterruptedException {
 
-    summary1 = new SpoonSummary.Builder()
-      .setTitle("summary1")
-      .start()
-      .addResult(
-        "device1",
-        generateDeviceResult(
-          new DeviceTest("class1", "method1"),
-          new DeviceTest("class1", "method2")
-        )
-      )
-      .addResult(
-        "device2",
-        generateDeviceResult(
-          new DeviceTest("class1", "method1"),
-          new DeviceTest("class1", "method2")
-        )
-      )
-      .end()
-      .build();
-
-    // force a later starting time for the second summary
-    Thread.sleep(100);
-
-    summary2 = new SpoonSummary.Builder()
-      .setTitle("summary1")
-      .start()
-      .addResult(
-        "device3",
-        generateDeviceResult(
-          new DeviceTest("class1", "method1"),
-          new DeviceTest("class1", "method2")
-        )
-      )
-      .addResult(
-        "device4",
-        generateDeviceResult(
-          new DeviceTest("class1", "method1"),
-          new DeviceTest("class1", "method2")
-        )
-      )
-      .end()
-      .build();
-
-    // sanity check
-    assertTrue(summary1.getStarted() < summary2.getStarted());
-  }
-
-  private DeviceResult generateDeviceResult(DeviceTest... deviceTests) {
-    DeviceResult.Builder builder = new DeviceResult.Builder();
-    builder.startTests();
-
-    for (DeviceTest deviceTest : deviceTests) {
-      builder.addTestResultBuilder(
-        deviceTest,
-        new DeviceTestResult.Builder()
-          .startTest()
-          .endTest()
-      );
-    }
-
-    return builder.build();
-  }
-
-  private File renderResult(SpoonSummary spoonSummary) throws Exception {
-    // This method is essentially a rewrite of HtmlRenderer.writeToJson().
-    // It would be much nicer to use the actual rendering function as a
-    // reference instead.
-
-    File file = File.createTempFile(spoonSummary.getTitle(), "json");
-    FileWriter result = new FileWriter(file);
-    gson.toJson(spoonSummary, result);
-    result.close();
-
-    return file;
-  }
-
-  private void assertMapContainsResults(Map<String, DeviceResult> values, Map<String, DeviceResult> container) {
-    for (Map.Entry<String, DeviceResult> entry : values.entrySet()) {
-      String key = entry.getKey();
-      DeviceResult value = entry.getValue();
-      DeviceResult containerValue = container.get(key);
-      assertEquals(value, containerValue);
-    }
-  }
 
 }
