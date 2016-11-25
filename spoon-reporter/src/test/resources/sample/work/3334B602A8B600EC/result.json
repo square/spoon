@@ -1,0 +1,2884 @@
+{
+  "installFailed": false,
+  "deviceDetails": {
+    "name": "Nexus S",
+    "manufacturer": "samsung",
+    "version": "4.0.4",
+    "apiLevel": 15,
+    "language": "en",
+    "region": "US"
+  },
+  "testResults": [
+    [
+      {
+        "className": "com.example.spoon.ordering.tests.LoginActivityTest",
+        "methodName": "testBlankPassword_ShowsError"
+      },
+      {
+        "status": "PASS",
+        "duration": 3,
+        "screenshots": [
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.LoginActivityTest/testBlankPassword_ShowsError/1360693772245_initial_state.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.LoginActivityTest/testBlankPassword_ShowsError/1360693772783_username_entered.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.LoginActivityTest/testBlankPassword_ShowsError/1360693773205_login_clicked.png"
+        ],
+        "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.LoginActivityTest/testBlankPassword_ShowsError.gif",
+        "log": [
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:30.707",
+            "message": "started: testBlankPassword_ShowsError(com.example.spoon.ordering.tests.LoginActivityTest)"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:31.145",
+            "message": "GC_CONCURRENT freed 538K, 7% free 9431K/10055K, paused 4ms+3ms"
+          },
+          {
+            "logLevel": "ASSERT",
+            "pid": "13748",
+            "tid": "13756",
+            "tag": "PowerManager",
+            "time": "02-12 10:29:31.145",
+            "message": "WakeLock finalized while still held: SpoonInstrumentationTestRunner"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "libEGL",
+            "time": "02-12 10:29:31.278",
+            "message": "loaded /system/lib/egl/libGLES_android.so"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "libEGL",
+            "time": "02-12 10:29:31.282",
+            "message": "loaded /vendor/lib/egl/libEGL_POWERVR_SGX540_120.so"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "libEGL",
+            "time": "02-12 10:29:31.293",
+            "message": "loaded /vendor/lib/egl/libGLESv1_CM_POWERVR_SGX540_120.so"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "libEGL",
+            "time": "02-12 10:29:31.297",
+            "message": "loaded /vendor/lib/egl/libGLESv2_POWERVR_SGX540_120.so"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "OpenGLRenderer",
+            "time": "02-12 10:29:31.352",
+            "message": "Enabling debug mode 0"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.285",
+            "message": "GC_FOR_ALLOC freed 54K, 6% free 9492K/10055K, paused 33ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:29:32.293",
+            "message": "Grow heap (frag case) to 10.804MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.344",
+            "message": "GC_CONCURRENT freed 3K, 6% free 10989K/11591K, paused 4ms+5ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.699",
+            "message": "Could not find method android.widget.TextView.getHighlightColor, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasHighlightColor"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.699",
+            "message": "VFY: unable to resolve virtual method 1084: Landroid/widget/TextView;.getHighlightColor ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.699",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.703",
+            "message": "Could not find method android.widget.TextView.getLineSpacingExtra, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasLineSpacingExtra"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.703",
+            "message": "VFY: unable to resolve virtual method 1093: Landroid/widget/TextView;.getLineSpacingExtra ()F"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.703",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.703",
+            "message": "Could not find method android.widget.TextView.getLineSpacingMultiplier, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasLineSpacingMultiplier"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.703",
+            "message": "VFY: unable to resolve virtual method 1094: Landroid/widget/TextView;.getLineSpacingMultiplier ()F"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.703",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.703",
+            "message": "Could not find method android.widget.TextView.getMarqueeRepeatLimit, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasMarqueeRepeatLimit"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.703",
+            "message": "VFY: unable to resolve virtual method 1096: Landroid/widget/TextView;.getMarqueeRepeatLimit ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.703",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.707",
+            "message": "Could not find method android.widget.TextView.getMaxEms, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasMaxEms"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.707",
+            "message": "VFY: unable to resolve virtual method 1097: Landroid/widget/TextView;.getMaxEms ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.707",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.707",
+            "message": "Could not find method android.widget.TextView.getMaxHeight, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasMaxHeight"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.707",
+            "message": "VFY: unable to resolve virtual method 1098: Landroid/widget/TextView;.getMaxHeight ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.707",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.711",
+            "message": "Could not find method android.widget.TextView.getMaxLines, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasMaxLines"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.711",
+            "message": "VFY: unable to resolve virtual method 1099: Landroid/widget/TextView;.getMaxLines ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.711",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.711",
+            "message": "Could not find method android.widget.TextView.getMaxWidth, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasMaxWidth"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.711",
+            "message": "VFY: unable to resolve virtual method 1100: Landroid/widget/TextView;.getMaxWidth ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.711",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.711",
+            "message": "Could not find method android.widget.TextView.getMinEms, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasMinEms"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.711",
+            "message": "VFY: unable to resolve virtual method 1101: Landroid/widget/TextView;.getMinEms ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.711",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.711",
+            "message": "Could not find method android.widget.TextView.getMinHeight, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasMinHeight"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.711",
+            "message": "VFY: unable to resolve virtual method 1102: Landroid/widget/TextView;.getMinHeight ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.711",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.711",
+            "message": "Could not find method android.widget.TextView.getMinLines, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasMinLines"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.711",
+            "message": "VFY: unable to resolve virtual method 1103: Landroid/widget/TextView;.getMinLines ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.711",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.715",
+            "message": "Could not find method android.widget.TextView.getMinWidth, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasMinWidth"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.715",
+            "message": "VFY: unable to resolve virtual method 1104: Landroid/widget/TextView;.getMinWidth ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.715",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.715",
+            "message": "Could not find method android.widget.TextView.getShadowColor, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasShadowColor"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.715",
+            "message": "VFY: unable to resolve virtual method 1108: Landroid/widget/TextView;.getShadowColor ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.715",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.715",
+            "message": "Could not find method android.widget.TextView.getShadowDx, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasShadowDx"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.715",
+            "message": "VFY: unable to resolve virtual method 1109: Landroid/widget/TextView;.getShadowDx ()F"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.715",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.715",
+            "message": "Could not find method android.widget.TextView.getShadowDy, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasShadowDy"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.715",
+            "message": "VFY: unable to resolve virtual method 1110: Landroid/widget/TextView;.getShadowDy ()F"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.715",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.719",
+            "message": "Could not find method android.widget.TextView.getShadowRadius, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.hasShadowRadius"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.719",
+            "message": "VFY: unable to resolve virtual method 1111: Landroid/widget/TextView;.getShadowRadius ()F"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.719",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.719",
+            "message": "DexOpt: illegal method access (call Landroid/widget/TextView;.isCursorVisible ()Z from Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.723",
+            "message": "Could not find method android.widget.TextView.isCursorVisible, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.isCursorNotVisible"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.723",
+            "message": "VFY: unable to resolve virtual method 1120: Landroid/widget/TextView;.isCursorVisible ()Z"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.723",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.723",
+            "message": "DexOpt: illegal method access (call Landroid/widget/TextView;.isCursorVisible ()Z from Lorg/fest/assertions/api/android/widget/AbstractTextViewAssert;)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.723",
+            "message": "Could not find method android.widget.TextView.isCursorVisible, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.isCursorVisible"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.723",
+            "message": "VFY: unable to resolve virtual method 1120: Landroid/widget/TextView;.isCursorVisible ()Z"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.723",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.723",
+            "message": "Could not find method android.widget.TextView.getIncludeFontPadding, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.isIncludingFontPadding"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.723",
+            "message": "VFY: unable to resolve virtual method 1089: Landroid/widget/TextView;.getIncludeFontPadding ()Z"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.723",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.723",
+            "message": "Could not find method android.widget.TextView.getIncludeFontPadding, referenced from method org.fest.assertions.api.android.widget.AbstractTextViewAssert.isNotIncludingFontPadding"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.723",
+            "message": "VFY: unable to resolve virtual method 1089: Landroid/widget/TextView;.getIncludeFontPadding ()Z"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.723",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.731",
+            "message": "Could not find method android.view.View.getMinimumHeight, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasMinimumHeight"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.731",
+            "message": "VFY: unable to resolve virtual method 634: Landroid/view/View;.getMinimumHeight ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.731",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.731",
+            "message": "Could not find method android.view.View.getMinimumWidth, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasMinimumWidth"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.731",
+            "message": "VFY: unable to resolve virtual method 635: Landroid/view/View;.getMinimumWidth ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.731",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.731",
+            "message": "Could not find method android.view.View.getParentForAccessibility, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasParentForAccessibility"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.731",
+            "message": "VFY: unable to resolve virtual method 647: Landroid/view/View;.getParentForAccessibility ()Landroid/view/ViewParent;"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.731",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.735",
+            "message": "Could not find method android.view.View.getScrollBarDefaultDelayBeforeFade, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasScrollBarDefaultDelayBeforeFade"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.735",
+            "message": "VFY: unable to resolve virtual method 657: Landroid/view/View;.getScrollBarDefaultDelayBeforeFade ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.735",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.735",
+            "message": "Could not find method android.view.View.getScrollBarFadeDuration, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasScrollBarFadeDuration"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.735",
+            "message": "VFY: unable to resolve virtual method 658: Landroid/view/View;.getScrollBarFadeDuration ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.735",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.735",
+            "message": "Could not find method android.view.View.getScrollBarSize, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.hasScrollBarSize"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.735",
+            "message": "VFY: unable to resolve virtual method 659: Landroid/view/View;.getScrollBarSize ()I"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.735",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.742",
+            "message": "Could not find method android.view.View.isScrollContainer, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.isNotScrollContainer"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.742",
+            "message": "VFY: unable to resolve virtual method 703: Landroid/view/View;.isScrollContainer ()Z"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.742",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.746",
+            "message": "Could not find method android.view.View.isScrollContainer, referenced from method org.fest.assertions.api.android.view.AbstractViewAssert.isScrollContainer"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.746",
+            "message": "VFY: unable to resolve virtual method 703: Landroid/view/View;.isScrollContainer ()Z"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.746",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.746",
+            "message": "VFY: unable to find class referenced in signature (Ljava/beans/PropertyDescriptor;)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.746",
+            "message": "Could not find method java.beans.PropertyDescriptor.getReadMethod, referenced from method org.fest.assertions.internal.JavaBeanDescriptor.invokeReadMethod"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.746",
+            "message": "VFY: unable to resolve virtual method 1567: Ljava/beans/PropertyDescriptor;.getReadMethod ()Ljava/lang/reflect/Method;"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.746",
+            "message": "VFY: replacing opcode 0x6e at 0x0000"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.805",
+            "message": "GC_FOR_ALLOC freed 1532K, 19% free 9492K/11591K, paused 18ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:29:32.809",
+            "message": "Grow heap (frag case) to 10.804MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:32.867",
+            "message": "GC_CONCURRENT freed \u003c1K, 6% free 10992K/11591K, paused 2ms+2ms"
+          },
+          {
+            "logLevel": "ERROR",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "LoginActivity",
+            "time": "02-12 10:29:33.192",
+            "message": "Password was blank."
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:33.231",
+            "message": "GC_FOR_ALLOC freed 1528K, 19% free 9498K/11591K, paused 18ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:29:33.231",
+            "message": "Grow heap (frag case) to 10.810MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:33.270",
+            "message": "GC_CONCURRENT freed 1K, 6% free 10997K/11591K, paused 2ms+3ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:33.707",
+            "message": "GC_EXPLICIT freed 1524K, 19% free 9487K/11591K, paused 1ms+2ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:33.758",
+            "message": "GC_EXPLICIT freed 6K, 19% free 9480K/11591K, paused 2ms+3ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:33.758",
+            "message": "finished: testBlankPassword_ShowsError(com.example.spoon.ordering.tests.LoginActivityTest)"
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "className": "com.example.spoon.ordering.tests.LoginActivityTest",
+        "methodName": "testBlankUsername_ShowsError"
+      },
+      {
+        "status": "PASS",
+        "duration": 2,
+        "screenshots": [
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.LoginActivityTest/testBlankUsername_ShowsError/1360693774245_initial_state.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.LoginActivityTest/testBlankUsername_ShowsError/1360693774851_password_entered.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.LoginActivityTest/testBlankUsername_ShowsError/1360693775622_login_clicked.png"
+        ],
+        "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.LoginActivityTest/testBlankUsername_ShowsError.gif",
+        "log": [
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:33.762",
+            "message": "started: testBlankUsername_ShowsError(com.example.spoon.ordering.tests.LoginActivityTest)"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "IInputConnectionWrapper",
+            "time": "02-12 10:29:33.910",
+            "message": "showStatusIcon on inactive InputConnection"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "OpenGLRenderer",
+            "time": "02-12 10:29:34.071",
+            "message": "Flushing caches (mode 0)"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:34.274",
+            "message": "GC_FOR_ALLOC freed 57K, 18% free 9542K/11591K, paused 20ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:29:34.274",
+            "message": "Grow heap (frag case) to 10.854MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:34.344",
+            "message": "GC_CONCURRENT freed 2K, 5% free 11040K/11591K, paused 3ms+12ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:34.879",
+            "message": "GC_FOR_ALLOC freed 1589K, 19% free 9486K/11591K, paused 21ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:29:34.879",
+            "message": "Grow heap (frag case) to 10.799MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:34.914",
+            "message": "GC_FOR_ALLOC freed 1K, 6% free 10984K/11591K, paused 22ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:34.973",
+            "message": "GC_CONCURRENT freed \u003c1K, 6% free 10985K/11591K, paused 3ms+5ms"
+          },
+          {
+            "logLevel": "ERROR",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "LoginActivity",
+            "time": "02-12 10:29:35.258",
+            "message": "Username was blank."
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:35.676",
+            "message": "GC_FOR_ALLOC freed 1530K, 19% free 9502K/11591K, paused 43ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:29:35.676",
+            "message": "Grow heap (frag case) to 10.815MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:35.707",
+            "message": "GC_CONCURRENT freed 2K, 6% free 11000K/11591K, paused 2ms+2ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:36.106",
+            "message": "GC_EXPLICIT freed 1515K, 19% free 9499K/11591K, paused 2ms+7ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:36.141",
+            "message": "GC_EXPLICIT freed 4K, 19% free 9494K/11591K, paused 2ms+2ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:36.141",
+            "message": "finished: testBlankUsername_ShowsError(com.example.spoon.ordering.tests.LoginActivityTest)"
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "className": "com.example.spoon.ordering.tests.LoginActivityTest",
+        "methodName": "testEmptyForm_ShowsBothErrors"
+      },
+      {
+        "status": "PASS",
+        "duration": 2,
+        "screenshots": [
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.LoginActivityTest/testEmptyForm_ShowsBothErrors/1360693776678_initial_state.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.LoginActivityTest/testEmptyForm_ShowsBothErrors/1360693777556_login_clicked.png"
+        ],
+        "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.LoginActivityTest/testEmptyForm_ShowsBothErrors.gif",
+        "log": [
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:36.153",
+            "message": "started: testEmptyForm_ShowsBothErrors(com.example.spoon.ordering.tests.LoginActivityTest)"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "IInputConnectionWrapper",
+            "time": "02-12 10:29:36.305",
+            "message": "showStatusIcon on inactive InputConnection"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "OpenGLRenderer",
+            "time": "02-12 10:29:36.492",
+            "message": "Flushing caches (mode 0)"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "OpenGLRenderer",
+            "time": "02-12 10:29:36.520",
+            "message": "Flushing caches (mode 0)"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:36.707",
+            "message": "GC_FOR_ALLOC freed 56K, 18% free 9556K/11591K, paused 22ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:29:36.707",
+            "message": "Grow heap (frag case) to 10.868MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:36.785",
+            "message": "GC_CONCURRENT freed 2K, 5% free 11053K/11591K, paused 2ms+5ms"
+          },
+          {
+            "logLevel": "ERROR",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "InputQueue-JNI",
+            "time": "02-12 10:29:37.246",
+            "message": "channel \u0027418366c0 PopupWindow:413dffb0 (client)\u0027 ~ Publisher closed input channel or an error occurred.  events\u003d0x8"
+          },
+          {
+            "logLevel": "ERROR",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "LoginActivity",
+            "time": "02-12 10:29:37.262",
+            "message": "Username was blank."
+          },
+          {
+            "logLevel": "ERROR",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "LoginActivity",
+            "time": "02-12 10:29:37.270",
+            "message": "Password was blank."
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:37.590",
+            "message": "GC_FOR_ALLOC freed 1598K, 18% free 9509K/11591K, paused 27ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:29:37.590",
+            "message": "Grow heap (frag case) to 10.822MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:37.625",
+            "message": "GC_CONCURRENT freed 3K, 6% free 11006K/11591K, paused 2ms+2ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:38.121",
+            "message": "GC_EXPLICIT freed 1515K, 19% free 9505K/11591K, paused 2ms+3ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:38.172",
+            "message": "GC_EXPLICIT freed 4K, 19% free 9500K/11591K, paused 2ms+2ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:38.172",
+            "message": "finished: testEmptyForm_ShowsBothErrors(com.example.spoon.ordering.tests.LoginActivityTest)"
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "className": "com.example.spoon.ordering.tests.LoginActivityTest",
+        "methodName": "testPasswordTooShort_ShowsError"
+      },
+      {
+        "status": "PASS",
+        "duration": 2,
+        "screenshots": [
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.LoginActivityTest/testPasswordTooShort_ShowsError/1360693778597_initial_state.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.LoginActivityTest/testPasswordTooShort_ShowsError/1360693779119_values_entered.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.LoginActivityTest/testPasswordTooShort_ShowsError/1360693779890_login_clicked.png"
+        ],
+        "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.LoginActivityTest/testPasswordTooShort_ShowsError.gif",
+        "log": [
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:38.176",
+            "message": "started: testPasswordTooShort_ShowsError(com.example.spoon.ordering.tests.LoginActivityTest)"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "OpenGLRenderer",
+            "time": "02-12 10:29:38.422",
+            "message": "Flushing caches (mode 0)"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "OpenGLRenderer",
+            "time": "02-12 10:29:38.446",
+            "message": "Flushing caches (mode 0)"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:38.625",
+            "message": "GC_FOR_ALLOC freed 53K, 18% free 9561K/11591K, paused 21ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:29:38.625",
+            "message": "Grow heap (frag case) to 10.873MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:38.668",
+            "message": "GC_CONCURRENT freed 2K, 5% free 11059K/11591K, paused 2ms+2ms"
+          },
+          {
+            "logLevel": "ERROR",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "InputQueue-JNI",
+            "time": "02-12 10:29:38.953",
+            "message": "channel \u002741351280 PopupWindow:413c1410 (client)\u0027 ~ Publisher closed input channel or an error occurred.  events\u003d0x8"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:39.137",
+            "message": "GC_FOR_ALLOC freed 1599K, 19% free 9491K/11591K, paused 22ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:29:39.145",
+            "message": "Grow heap (frag case) to 10.804MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:39.199",
+            "message": "GC_FOR_ALLOC freed 1K, 6% free 10990K/11591K, paused 46ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:39.266",
+            "message": "GC_CONCURRENT freed \u003c1K, 6% free 10991K/11591K, paused 2ms+5ms"
+          },
+          {
+            "logLevel": "ERROR",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "LoginActivity",
+            "time": "02-12 10:29:39.633",
+            "message": "Password too short."
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:39.969",
+            "message": "GC_FOR_ALLOC freed 1526K, 19% free 9496K/11591K, paused 74ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:29:39.973",
+            "message": "Grow heap (frag case) to 10.809MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:40.000",
+            "message": "GC_CONCURRENT freed 1K, 6% free 10995K/11591K, paused 1ms+2ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:40.395",
+            "message": "GC_EXPLICIT freed 1515K, 19% free 9494K/11591K, paused 2ms+5ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:40.434",
+            "message": "GC_EXPLICIT freed 4K, 19% free 9490K/11591K, paused 2ms+4ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:40.434",
+            "message": "finished: testPasswordTooShort_ShowsError(com.example.spoon.ordering.tests.LoginActivityTest)"
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "className": "com.example.spoon.ordering.tests.LoginActivityTest",
+        "methodName": "testValidValues_StartsNewActivity"
+      },
+      {
+        "status": "PASS",
+        "duration": 2,
+        "screenshots": [
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.LoginActivityTest/testValidValues_StartsNewActivity/1360693780837_initial_state.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.LoginActivityTest/testValidValues_StartsNewActivity/1360693781464_values_entered.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.LoginActivityTest/testValidValues_StartsNewActivity/1360693782294_next_activity_shown.png"
+        ],
+        "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.LoginActivityTest/testValidValues_StartsNewActivity.gif",
+        "log": [
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:40.442",
+            "message": "started: testValidValues_StartsNewActivity(com.example.spoon.ordering.tests.LoginActivityTest)"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "OpenGLRenderer",
+            "time": "02-12 10:29:40.676",
+            "message": "Flushing caches (mode 0)"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:40.860",
+            "message": "GC_FOR_ALLOC freed 56K, 18% free 9551K/11591K, paused 18ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:29:40.864",
+            "message": "Grow heap (frag case) to 10.863MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:40.922",
+            "message": "GC_CONCURRENT freed 2K, 5% free 11048K/11591K, paused 1ms+6ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:41.489",
+            "message": "GC_FOR_ALLOC freed 1598K, 19% free 9488K/11591K, paused 19ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:29:41.492",
+            "message": "Grow heap (frag case) to 10.801MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:41.571",
+            "message": "GC_FOR_ALLOC freed 1K, 6% free 10986K/11591K, paused 68ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:41.633",
+            "message": "GC_CONCURRENT freed \u003c1K, 6% free 10986K/11591K, paused 1ms+8ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "OpenGLRenderer",
+            "time": "02-12 10:29:42.262",
+            "message": "Flushing caches (mode 0)"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:42.328",
+            "message": "GC_FOR_ALLOC freed 1582K, 18% free 9582K/11591K, paused 25ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:29:42.332",
+            "message": "Grow heap (frag case) to 10.893MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:42.367",
+            "message": "GC_CONCURRENT freed 8K, 5% free 11074K/11591K, paused 2ms+3ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:42.703",
+            "message": "GC_EXPLICIT freed 1518K, 18% free 9569K/11591K, paused 2ms+2ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:42.735",
+            "message": "GC_EXPLICIT freed 8K, 18% free 9561K/11591K, paused 2ms+2ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.735",
+            "message": "finished: testValidValues_StartsNewActivity(com.example.spoon.ordering.tests.LoginActivityTest)"
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "className": "com.example.spoon.ordering.tests.MiscellaneousTest",
+        "methodName": "testAVeryLongNameBecauseIWantToSeeThePageWordWrapAndAlwaysBeFailingForFunAndProfit"
+      },
+      {
+        "status": "FAIL",
+        "exception": {
+          "className": "junit.framework.AssertionFailedError",
+          "message": "Explicitly testing assertion failures!",
+          "elements": [
+            {
+              "className": "com.example.spoon.ordering.tests.MiscellaneousTest",
+              "fileName": "MiscellaneousTest.java",
+              "line": 7,
+              "methodName": "testAVeryLongNameBecauseIWantToSeeThePageWordWrapAndAlwaysBeFailingForFunAndProfit",
+              "isNative": false
+            },
+            {
+              "className": "java.lang.reflect.Method",
+              "line": 0,
+              "methodName": "invokeNative",
+              "isNative": true
+            },
+            {
+              "className": "android.test.InstrumentationTestCase",
+              "fileName": "InstrumentationTestCase.java",
+              "line": 214,
+              "methodName": "runMethod",
+              "isNative": false
+            },
+            {
+              "className": "android.test.InstrumentationTestCase",
+              "fileName": "InstrumentationTestCase.java",
+              "line": 199,
+              "methodName": "runTest",
+              "isNative": false
+            },
+            {
+              "className": "android.test.AndroidTestRunner",
+              "fileName": "AndroidTestRunner.java",
+              "line": 169,
+              "methodName": "runTest",
+              "isNative": false
+            },
+            {
+              "className": "android.test.AndroidTestRunner",
+              "fileName": "AndroidTestRunner.java",
+              "line": 154,
+              "methodName": "runTest",
+              "isNative": false
+            },
+            {
+              "className": "android.test.InstrumentationTestRunner",
+              "fileName": "InstrumentationTestRunner.java",
+              "line": 545,
+              "methodName": "onStart",
+              "isNative": false
+            },
+            {
+              "className": "com.example.spoon.ordering.tests.SpoonInstrumentationTestRunner",
+              "fileName": "SpoonInstrumentationTestRunner.java",
+              "line": 36,
+              "methodName": "onStart",
+              "isNative": false
+            },
+            {
+              "className": "android.app.Instrumentation$InstrumentationThread",
+              "fileName": "Instrumentation.java",
+              "line": 1551,
+              "methodName": "run",
+              "isNative": false
+            }
+          ]
+        },
+        "duration": 0,
+        "screenshots": [],
+        "log": [
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.739",
+            "message": "started: testAVeryLongNameBecauseIWantToSeeThePageWordWrapAndAlwaysBeFailingForFunAndProfit(com.example.spoon.ordering.tests.MiscellaneousTest)"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:42.770",
+            "message": "GC_EXPLICIT freed 58K, 18% free 9511K/11591K, paused 2ms+3ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:42.801",
+            "message": "GC_EXPLICIT freed \u003c1K, 18% free 9511K/11591K, paused 2ms+3ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.801",
+            "message": "failed: testAVeryLongNameBecauseIWantToSeeThePageWordWrapAndAlwaysBeFailingForFunAndProfit(com.example.spoon.ordering.tests.MiscellaneousTest)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.805",
+            "message": "----- begin exception -----"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.809",
+            "message": "junit.framework.AssertionFailedError: Explicitly testing assertion failures!"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.809",
+            "message": "\tat junit.framework.Assert.fail(Assert.java:47)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.809",
+            "message": "\tat com.example.spoon.ordering.tests.MiscellaneousTest.testAVeryLongNameBecauseIWantToSeeThePageWordWrapAndAlwaysBeFailingForFunAndProfit(MiscellaneousTest.java:7)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.809",
+            "message": "\tat java.lang.reflect.Method.invokeNative(Native Method)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.809",
+            "message": "\tat java.lang.reflect.Method.invoke(Method.java:511)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.809",
+            "message": "\tat android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.809",
+            "message": "\tat android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.809",
+            "message": "\tat junit.framework.TestCase.runBare(TestCase.java:127)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.809",
+            "message": "\tat junit.framework.TestResult$1.protect(TestResult.java:106)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.809",
+            "message": "\tat junit.framework.TestResult.runProtected(TestResult.java:124)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.809",
+            "message": "\tat junit.framework.TestResult.run(TestResult.java:109)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.809",
+            "message": "\tat junit.framework.TestCase.run(TestCase.java:118)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.809",
+            "message": "\tat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.809",
+            "message": "\tat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.809",
+            "message": "\tat android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:545)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.809",
+            "message": "\tat com.example.spoon.ordering.tests.SpoonInstrumentationTestRunner.onStart(SpoonInstrumentationTestRunner.java:36)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.809",
+            "message": "\tat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1551)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.809",
+            "message": "----- end exception -----"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.821",
+            "message": "finished: testAVeryLongNameBecauseIWantToSeeThePageWordWrapAndAlwaysBeFailingForFunAndProfit(com.example.spoon.ordering.tests.MiscellaneousTest)"
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "className": "com.example.spoon.ordering.tests.MiscellaneousTest",
+        "methodName": "testAnotherLongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant"
+      },
+      {
+        "status": "ERROR",
+        "exception": {
+          "className": "java.lang.IllegalStateException",
+          "message": "Explicitly testing unexpected, nested exceptions.",
+          "elements": [
+            {
+              "className": "com.example.spoon.ordering.tests.MiscellaneousTest",
+              "fileName": "MiscellaneousTest.java",
+              "line": 14,
+              "methodName": "testAnotherLongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant",
+              "isNative": false
+            },
+            {
+              "className": "java.lang.reflect.Method",
+              "line": 0,
+              "methodName": "invokeNative",
+              "isNative": true
+            },
+            {
+              "className": "android.test.InstrumentationTestCase",
+              "fileName": "InstrumentationTestCase.java",
+              "line": 214,
+              "methodName": "runMethod",
+              "isNative": false
+            },
+            {
+              "className": "android.test.InstrumentationTestCase",
+              "fileName": "InstrumentationTestCase.java",
+              "line": 199,
+              "methodName": "runTest",
+              "isNative": false
+            },
+            {
+              "className": "android.test.AndroidTestRunner",
+              "fileName": "AndroidTestRunner.java",
+              "line": 169,
+              "methodName": "runTest",
+              "isNative": false
+            },
+            {
+              "className": "android.test.AndroidTestRunner",
+              "fileName": "AndroidTestRunner.java",
+              "line": 154,
+              "methodName": "runTest",
+              "isNative": false
+            },
+            {
+              "className": "android.test.InstrumentationTestRunner",
+              "fileName": "InstrumentationTestRunner.java",
+              "line": 545,
+              "methodName": "onStart",
+              "isNative": false
+            },
+            {
+              "className": "com.example.spoon.ordering.tests.SpoonInstrumentationTestRunner",
+              "fileName": "SpoonInstrumentationTestRunner.java",
+              "line": 36,
+              "methodName": "onStart",
+              "isNative": false
+            },
+            {
+              "className": "android.app.Instrumentation$InstrumentationThread",
+              "fileName": "Instrumentation.java",
+              "line": 1551,
+              "methodName": "run",
+              "isNative": false
+            }
+          ],
+          "cause": {
+            "className": "java.lang.RuntimeException",
+            "message": "Messages can have...\n...newlines.",
+            "elements": [
+              {
+                "className": "com.example.spoon.ordering.tests.MiscellaneousTest",
+                "fileName": "MiscellaneousTest.java",
+                "line": 12,
+                "methodName": "testAnotherLongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant",
+                "isNative": false
+              }
+            ]
+          }
+        },
+        "duration": 0,
+        "screenshots": [],
+        "log": [
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.828",
+            "message": "started: testAnotherLongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant(com.example.spoon.ordering.tests.MiscellaneousTest)"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:42.867",
+            "message": "GC_EXPLICIT freed 106K, 18% free 9519K/11591K, paused 2ms+3ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:42.903",
+            "message": "GC_EXPLICIT freed \u003c1K, 18% free 9519K/11591K, paused 2ms+4ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.903",
+            "message": "failed: testAnotherLongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant(com.example.spoon.ordering.tests.MiscellaneousTest)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.903",
+            "message": "----- begin exception -----"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.907",
+            "message": "java.lang.IllegalStateException: Explicitly testing unexpected, nested exceptions."
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.907",
+            "message": "\tat com.example.spoon.ordering.tests.MiscellaneousTest.testAnotherLongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant(MiscellaneousTest.java:14)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.907",
+            "message": "\tat java.lang.reflect.Method.invokeNative(Native Method)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.907",
+            "message": "\tat java.lang.reflect.Method.invoke(Method.java:511)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.907",
+            "message": "\tat android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.907",
+            "message": "\tat android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.907",
+            "message": "\tat junit.framework.TestCase.runBare(TestCase.java:127)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.907",
+            "message": "\tat junit.framework.TestResult$1.protect(TestResult.java:106)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.907",
+            "message": "\tat junit.framework.TestResult.runProtected(TestResult.java:124)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.907",
+            "message": "\tat junit.framework.TestResult.run(TestResult.java:109)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.907",
+            "message": "\tat junit.framework.TestCase.run(TestCase.java:118)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.907",
+            "message": "\tat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.907",
+            "message": "\tat android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.907",
+            "message": "\tat android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:545)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.907",
+            "message": "\tat com.example.spoon.ordering.tests.SpoonInstrumentationTestRunner.onStart(SpoonInstrumentationTestRunner.java:36)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.907",
+            "message": "\tat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1551)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.907",
+            "message": "Caused by: java.lang.RuntimeException: Messages can have..."
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.907",
+            "message": "...newlines."
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.907",
+            "message": "\tat com.example.spoon.ordering.tests.MiscellaneousTest.testAnotherLongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant(MiscellaneousTest.java:12)"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.907",
+            "message": "\t... 14 more"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.907",
+            "message": "----- end exception -----"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.918",
+            "message": "finished: testAnotherLongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant(com.example.spoon.ordering.tests.MiscellaneousTest)"
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "className": "com.example.spoon.ordering.tests.OrderActivityTest",
+        "methodName": "testMakeASandwich_ItTastesGood"
+      },
+      {
+        "status": "PASS",
+        "duration": 24,
+        "screenshots": [
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1360693784196_initial_state.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1360693785761_selected_sandwich.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1360693786880_bread.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1360693788517_selected_bread.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1360693789645_meats.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1360693792485_selected_meats.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1360693793591_veggies.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1360693797501_selected_veggies.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1360693798603_cheeses.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1360693800170_selected_cheeses.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1360693801225_toasted.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1360693803295_your_info.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1360693806274_completed_your_info.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.OrderActivityTest/testMakeASandwich_ItTastesGood/1360693807272_review.png"
+        ],
+        "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.OrderActivityTest/testMakeASandwich_ItTastesGood.gif",
+        "log": [
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:29:42.918",
+            "message": "started: testMakeASandwich_ItTastesGood(com.example.spoon.ordering.tests.OrderActivityTest)"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "OpenGLRenderer",
+            "time": "02-12 10:29:43.102",
+            "message": "Flushing caches (mode 0)"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:44.211",
+            "message": "GC_FOR_ALLOC freed 235K, 18% free 9619K/11591K, paused 17ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:29:44.211",
+            "message": "Grow heap (frag case) to 10.929MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:44.242",
+            "message": "GC_CONCURRENT freed 5K, 5% free 11113K/11591K, paused 2ms+2ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:45.805",
+            "message": "GC_FOR_ALLOC freed 1587K, 18% free 9618K/11591K, paused 47ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:29:45.809",
+            "message": "Grow heap (frag case) to 10.928MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:45.864",
+            "message": "GC_FOR_ALLOC freed 1K, 5% free 11116K/11591K, paused 45ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:45.910",
+            "message": "GC_CONCURRENT freed 1K, 5% free 11127K/11591K, paused 1ms+5ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:46.918",
+            "message": "GC_FOR_ALLOC freed 1558K, 17% free 9649K/11591K, paused 40ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:29:46.922",
+            "message": "Grow heap (frag case) to 10.958MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:46.992",
+            "message": "GC_CONCURRENT freed 1K, 4% free 11148K/11591K, paused 4ms+2ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:48.586",
+            "message": "GC_FOR_ALLOC freed 1593K, 17% free 9652K/11591K, paused 73ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:29:48.586",
+            "message": "Grow heap (frag case) to 10.961MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:48.614",
+            "message": "GC_FOR_ALLOC freed 3K, 4% free 11149K/11591K, paused 17ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:48.668",
+            "message": "GC_CONCURRENT freed 19K, 4% free 11153K/11591K, paused 2ms+9ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:49.664",
+            "message": "GC_FOR_ALLOC freed 1566K, 17% free 9719K/11591K, paused 25ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:29:49.668",
+            "message": "Grow heap (frag case) to 11.027MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:49.727",
+            "message": "GC_CONCURRENT freed 3K, 4% free 11216K/11591K, paused 2ms+4ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:52.555",
+            "message": "GC_FOR_ALLOC freed 1697K, 17% free 9713K/11591K, paused 74ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:29:52.559",
+            "message": "Grow heap (frag case) to 11.021MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:52.586",
+            "message": "GC_FOR_ALLOC freed 11K, 4% free 11202K/11591K, paused 17ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:52.633",
+            "message": "GC_CONCURRENT freed \u003c1K, 4% free 11202K/11591K, paused 3ms+5ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:53.610",
+            "message": "GC_FOR_ALLOC freed 1590K, 17% free 9709K/11591K, paused 24ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:29:53.614",
+            "message": "Grow heap (frag case) to 11.017MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:53.660",
+            "message": "GC_CONCURRENT freed 5K, 4% free 11203K/11591K, paused 2ms+2ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:57.571",
+            "message": "GC_FOR_ALLOC freed 1762K, 17% free 9719K/11591K, paused 70ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:29:57.571",
+            "message": "Grow heap (frag case) to 11.027MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:57.598",
+            "message": "GC_FOR_ALLOC freed 13K, 4% free 11206K/11591K, paused 17ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:57.653",
+            "message": "GC_CONCURRENT freed \u003c1K, 4% free 11207K/11591K, paused 1ms+6ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:58.625",
+            "message": "GC_FOR_ALLOC freed 1594K, 17% free 9695K/11591K, paused 24ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:29:58.625",
+            "message": "Grow heap (frag case) to 11.003MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:29:58.680",
+            "message": "GC_CONCURRENT freed 6K, 4% free 11189K/11591K, paused 2ms+3ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:00.188",
+            "message": "GC_FOR_ALLOC freed 1603K, 17% free 9695K/11591K, paused 21ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:30:00.188",
+            "message": "Grow heap (frag case) to 11.003MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:00.219",
+            "message": "GC_FOR_ALLOC freed 4K, 4% free 11190K/11591K, paused 20ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:00.270",
+            "message": "GC_CONCURRENT freed 0K, 4% free 11191K/11591K, paused 2ms+6ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:01.246",
+            "message": "GC_FOR_ALLOC freed 1603K, 17% free 9691K/11591K, paused 24ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:30:01.246",
+            "message": "Grow heap (frag case) to 11.000MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:01.282",
+            "message": "GC_CONCURRENT freed 5K, 4% free 11185K/11591K, paused 2ms+2ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:02.621",
+            "message": "Could not find method android.widget.CheckedTextView.getCheckMarkDrawable, referenced from method org.fest.assertions.api.android.widget.CheckedTextViewAssert.hasCheckMarkDrawable"
+          },
+          {
+            "logLevel": "WARN",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:02.625",
+            "message": "VFY: unable to resolve virtual method 896: Landroid/widget/CheckedTextView;.getCheckMarkDrawable ()Landroid/graphics/drawable/Drawable;"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:02.625",
+            "message": "VFY: replacing opcode 0x6e at 0x0007"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:03.340",
+            "message": "GC_FOR_ALLOC freed 1672K, 17% free 9661K/11591K, paused 42ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:30:03.340",
+            "message": "Grow heap (frag case) to 10.970MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:03.414",
+            "message": "GC_CONCURRENT freed 7K, 4% free 11153K/11591K, paused 4ms+2ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:05.731",
+            "message": "GC_CONCURRENT freed 1964K, 18% free 9829K/11911K, paused 2ms+4ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:06.192",
+            "message": "GC_CONCURRENT freed 394K, 18% free 9840K/11911K, paused 2ms+4ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:06.289",
+            "message": "GC_FOR_ALLOC freed 169K, 19% free 9752K/11911K, paused 20ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:30:06.293",
+            "message": "Grow heap (frag case) to 11.059MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:06.324",
+            "message": "GC_CONCURRENT freed 19K, 6% free 11232K/11911K, paused 2ms+3ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:07.293",
+            "message": "GC_FOR_ALLOC freed 1580K, 19% free 9721K/11911K, paused 25ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:30:07.293",
+            "message": "Grow heap (frag case) to 11.029MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:07.352",
+            "message": "GC_CONCURRENT freed 3K, 6% free 11217K/11911K, paused 2ms+5ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:07.817",
+            "message": "GC_EXPLICIT freed 1530K, 19% free 9700K/11911K, paused 2ms+2ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:07.860",
+            "message": "GC_EXPLICIT freed 18K, 19% free 9683K/11911K, paused 2ms+3ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:30:07.860",
+            "message": "finished: testMakeASandwich_ItTastesGood(com.example.spoon.ordering.tests.OrderActivityTest)"
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "className": "com.example.spoon.ordering.tests.OrderActivityTest",
+        "methodName": "testMakeSomeSalad_ItIsHealthy"
+      },
+      {
+        "status": "PASS",
+        "duration": 13,
+        "screenshots": [
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1360693809141_initial_state.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1360693810694_selected_salad.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1360693811778_salad_type.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1360693813421_selected_salad_type.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1360693814534_dressing.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1360693816674_your_info.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1360693819419_completed_your_info.png",
+          "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy/1360693820416_review.png"
+        ],
+        "animatedGif": "/Users/jw/dev/square/spoon/spoon-sample/tests/target/spoon-output/image/3334B602A8B600EC/com.example.spoon.ordering.tests.OrderActivityTest/testMakeSomeSalad_ItIsHealthy.gif",
+        "log": [
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:30:07.864",
+            "message": "started: testMakeSomeSalad_ItIsHealthy(com.example.spoon.ordering.tests.OrderActivityTest)"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "OpenGLRenderer",
+            "time": "02-12 10:30:08.051",
+            "message": "Flushing caches (mode 0)"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "OpenGLRenderer",
+            "time": "02-12 10:30:08.067",
+            "message": "Flushing caches (mode 0)"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:09.157",
+            "message": "GC_FOR_ALLOC freed 170K, 19% free 9707K/11911K, paused 18ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:30:09.157",
+            "message": "Grow heap (frag case) to 11.015MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:09.188",
+            "message": "GC_CONCURRENT freed 5K, 6% free 11202K/11911K, paused 1ms+2ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:10.758",
+            "message": "GC_FOR_ALLOC freed 1585K, 19% free 9705K/11911K, paused 68ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:30:10.758",
+            "message": "Grow heap (frag case) to 11.013MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:10.785",
+            "message": "GC_FOR_ALLOC freed 2K, 6% free 11203K/11911K, paused 18ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:10.840",
+            "message": "GC_CONCURRENT freed 2K, 6% free 11213K/11911K, paused 2ms+6ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:11.821",
+            "message": "GC_FOR_ALLOC freed 1557K, 19% free 9723K/11911K, paused 44ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:30:11.821",
+            "message": "Grow heap (frag case) to 11.031MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:11.895",
+            "message": "GC_CONCURRENT freed \u003c1K, 6% free 11222K/11911K, paused 4ms+2ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:13.489",
+            "message": "GC_FOR_ALLOC freed 1592K, 19% free 9726K/11911K, paused 72ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:30:13.492",
+            "message": "Grow heap (frag case) to 11.034MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13748",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:13.520",
+            "message": "GC_FOR_ALLOC freed 3K, 6% free 11223K/11911K, paused 18ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:13.574",
+            "message": "GC_CONCURRENT freed 18K, 6% free 11226K/11911K, paused 3ms+8ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:14.555",
+            "message": "GC_FOR_ALLOC freed 1573K, 18% free 9777K/11911K, paused 26ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:30:14.555",
+            "message": "Grow heap (frag case) to 11.083MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:14.594",
+            "message": "GC_CONCURRENT freed 1K, 6% free 11275K/11911K, paused 3ms+2ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:16.715",
+            "message": "GC_FOR_ALLOC freed 1672K, 19% free 9748K/11911K, paused 42ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:30:16.719",
+            "message": "Grow heap (frag case) to 11.055MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:16.797",
+            "message": "GC_CONCURRENT freed 6K, 6% free 11241K/11911K, paused 4ms+3ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:19.117",
+            "message": "GC_CONCURRENT freed 1988K, 18% free 9937K/12039K, paused 2ms+3ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:19.442",
+            "message": "GC_FOR_ALLOC freed 330K, 18% free 9889K/12039K, paused 23ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:30:19.446",
+            "message": "Grow heap (frag case) to 11.193MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:19.477",
+            "message": "GC_CONCURRENT freed 64K, 6% free 11324K/12039K, paused 2ms+3ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:20.465",
+            "message": "GC_FOR_ALLOC freed 1591K, 19% free 9801K/12039K, paused 48ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm-heap",
+            "time": "02-12 10:30:20.465",
+            "message": "Grow heap (frag case) to 11.107MB for 1536016-byte allocation"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13750",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:20.516",
+            "message": "GC_CONCURRENT freed 5K, 7% free 11296K/12039K, paused 1ms+3ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:20.969",
+            "message": "GC_EXPLICIT freed 1616K, 20% free 9694K/12039K, paused 2ms+3ms"
+          },
+          {
+            "logLevel": "DEBUG",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "dalvikvm",
+            "time": "02-12 10:30:21.016",
+            "message": "GC_EXPLICIT freed 18K, 20% free 9677K/12039K, paused 1ms+9ms"
+          },
+          {
+            "logLevel": "INFO",
+            "pid": "13748",
+            "tid": "13760",
+            "tag": "TestRunner",
+            "time": "02-12 10:30:21.016",
+            "message": "finished: testMakeSomeSalad_ItIsHealthy(com.example.spoon.ordering.tests.OrderActivityTest)"
+          }
+        ]
+      }
+    ]
+  ],
+  "started": 1360693653921,
+  "duration": 50,
+  "exceptions": []
+}
