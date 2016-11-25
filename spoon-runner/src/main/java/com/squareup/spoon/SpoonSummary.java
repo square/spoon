@@ -106,7 +106,7 @@ public final class SpoonSummary {
       return this;
     }
 
-    Builder setDuration(long value){
+    Builder setDuration(long value) {
       duration = value;
       return this;
     }

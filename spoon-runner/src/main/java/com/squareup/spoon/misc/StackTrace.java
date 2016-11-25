@@ -202,7 +202,8 @@ public class StackTrace {
 
     StackTrace that = (StackTrace) o;
 
-    if (className != null ? !className.equals(that.className) : that.className != null) return false;
+    if (className != null ? !className.equals(that.className) : that.className != null)
+      return false;
     if (message != null ? !message.equals(that.message) : that.message != null) return false;
     if (elements != null ? !elements.equals(that.elements) : that.elements != null) return false;
     return cause != null ? cause.equals(that.cause) : that.cause == null;

@@ -154,10 +154,13 @@ public final class DeviceTestResult {
 
     if (duration != that.duration) return false;
     if (status != that.status) return false;
-    if (exception != null ? !exception.equals(that.exception) : that.exception != null) return false;
-    if (screenshots != null ? !screenshots.equals(that.screenshots) : that.screenshots != null) return false;
+    if (exception != null ? !exception.equals(that.exception) : that.exception != null)
+      return false;
+    if (screenshots != null ? !screenshots.equals(that.screenshots) : that.screenshots != null)
+      return false;
     if (files != null ? !files.equals(that.files) : that.files != null) return false;
-    if (animatedGif != null ? !animatedGif.equals(that.animatedGif) : that.animatedGif != null) return false;
+    if (animatedGif != null ? !animatedGif.equals(that.animatedGif) : that.animatedGif != null)
+      return false;
     return log != null ? log.equals(that.log) : that.log == null;
 
   }

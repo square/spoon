@@ -49,7 +49,8 @@ public final class DeviceTest implements Comparable<DeviceTest> {
 
     DeviceTest that = (DeviceTest) o;
 
-    if (className != null ? !className.equals(that.className) : that.className != null) return false;
+    if (className != null ? !className.equals(that.className) : that.className != null)
+      return false;
     return methodName != null ? methodName.equals(that.methodName) : that.methodName == null;
 
   }

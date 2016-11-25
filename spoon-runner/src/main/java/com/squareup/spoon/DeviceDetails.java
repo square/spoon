@@ -115,7 +115,8 @@ public final class DeviceDetails {
     if (apiLevel != that.apiLevel) return false;
     if (isEmulator != that.isEmulator) return false;
     if (model != null ? !model.equals(that.model) : that.model != null) return false;
-    if (manufacturer != null ? !manufacturer.equals(that.manufacturer) : that.manufacturer != null) return false;
+    if (manufacturer != null ? !manufacturer.equals(that.manufacturer) : that.manufacturer != null)
+      return false;
     if (version != null ? !version.equals(that.version) : that.version != null) return false;
     if (language != null ? !language.equals(that.language) : that.language != null) return false;
     if (region != null ? !region.equals(that.region) : that.region != null) return false;
