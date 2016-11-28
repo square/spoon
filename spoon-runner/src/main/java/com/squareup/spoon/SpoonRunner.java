@@ -229,7 +229,8 @@ public final class SpoonRunner {
         coverageMerger.mergeCoverageFiles(serials, output);
         logDebug(debug, "Merging of coverage files done.");
       } catch (IOException exception) {
-        throw new RuntimeException("error while merging coverage files", exception);
+        throw new RuntimeException("Error while merging coverage files. " +
+            "Did you set the \"testCoverageEnabled\" flag in your build.gradle?", exception);
       }
     }
     if (!debug) {
