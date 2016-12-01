@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -13,7 +14,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class TestUtils {
 
-  public static SpoonSummary[] generateSummariesForMultipleMachines(int count) throws InterruptedException {
+  public static SpoonSummary[] generateSummariesForMultipleMachines(int count) throws InterruptedException, IOException {
 
     SpoonSummary[] summaries = new SpoonSummary[count];
     for(int i=0;i < count; i++){
@@ -46,7 +47,7 @@ public class TestUtils {
     return summaries;
   }
 
-  private static DeviceResult generateDeviceResult(DeviceTest... deviceTests) {
+  private static DeviceResult generateDeviceResult(DeviceTest... deviceTests) throws IOException {
     DeviceResult.Builder builder = new DeviceResult.Builder();
     builder.startTests();
 
@@ -55,6 +56,7 @@ public class TestUtils {
         deviceTest,
         new DeviceTestResult.Builder()
           .startTest()
+          .addScreenshot(File.createTempFile(deviceTest.getClassName(), deviceTest.getMethodName()+".png"))
           .endTest()
       );
     }
