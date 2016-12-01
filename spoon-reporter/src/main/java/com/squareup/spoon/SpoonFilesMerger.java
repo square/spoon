@@ -2,7 +2,12 @@ package com.squareup.spoon;
 
 import com.google.common.io.Files;
 
-import java.io.*;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -11,11 +16,13 @@ import java.util.regex.Pattern;
 /**
  * Copies any files in a {@link SpoonSummary} json file and rewrites the file paths to resemble the
  * new location
- * */
+ */
 public class SpoonFilesMerger {
 
-  private static final Pattern FINDER_PATTERN = Pattern.compile("(\\S+\\.png\"|\\S+\\.gif\")");
-  private static final Pattern REPLACER_PATTERN = Pattern.compile("[^\"]+\\/([^\\/]+\\.png\",*)$|[^\"]+\\/([^\\/]+\\.gif\",*)$");
+  private static final Pattern FINDER_PATTERN =
+    Pattern.compile("(\\S+\\.png\"|\\S+\\.gif\")");
+  private static final Pattern REPLACER_PATTERN =
+    Pattern.compile("[^\"]+\\/([^\\/]+\\.png\",*)$|[^\"]+\\/([^\\/]+\\.gif\",*)$");
 
   public static File[] copyAndRewrite(File outputDir, File[] summaries) throws IOException {
     if (!outputDir.isDirectory()) {
@@ -63,7 +70,7 @@ public class SpoonFilesMerger {
       for (int i = 0; i < matcher.groupCount(); i++) {
         //strip off the parenthesis
         String path = matcher.group(i);
-        path = path.substring(1, path.length()-1);
+        path = path.substring(1, path.length() - 1);
 
         File original = new File(path);
         File copy = new File(outputDir, original.getName());
@@ -77,7 +84,7 @@ public class SpoonFilesMerger {
 
   private static String rewriteFilePaths(String line, String outputPath) {
     Matcher replacer = REPLACER_PATTERN.matcher(line);
-    return replacer.replaceAll(outputPath+"$1");
+    return replacer.replaceAll(outputPath + "$1");
   }
 
 }

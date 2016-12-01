@@ -9,23 +9,28 @@ import com.squareup.spoon.html.HtmlRenderer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
-/** processes output of the Spoon runner and generates human readable reports */
+/**
+ * processes output of the Spoon runner and generates human readable reports
+ */
 public class SpoonReporter {
 
   private static final String DEFAULT_TITLE = "Spoon Execution";
 
-  private final SpoonSummaryMerger merger;
+  private final SpoonSummaryMerger summaryMerger;
+  private final String title;
   private final File[] inputs;
   private final File output;
 
   SpoonReporter(Gson gson, String title, File[] inputs, File output) throws FileNotFoundException {
-    this.merger = new SpoonSummaryMerger(SpoonUtils.GSON);
+    this.summaryMerger = new SpoonSummaryMerger(gson);
+    this.title = title;
     this.inputs = inputs;
     this.output = output;
   }
 
-  public static void main(String... args) throws FileNotFoundException {
+  public static void main(String... args) throws IOException {
     CommandLineArgs parsedArgs = new CommandLineArgs();
     JCommander jc = new JCommander(parsedArgs);
 
@@ -51,33 +56,31 @@ public class SpoonReporter {
     reporter.run();
   }
 
-  public void run() throws FileNotFoundException {
-    SpoonSummary summary = merger.merge(inputs);
+  public void run() throws IOException {
+    File[] modified = SpoonFilesMerger.copyAndRewrite(output, inputs);
+    SpoonSummary summary = summaryMerger.merge(title, modified);
     new HtmlRenderer(summary, SpoonUtils.GSON, output).render();
   }
 
   static class CommandLineArgs {
-    @Parameter(names = { "--title" }, description = "Execution title") //
+    @Parameter(names = {"--title" }, description = "Execution title")
     public String title = DEFAULT_TITLE;
 
-    @Parameter(names = { "--input" }, description = "Comma seperated paths to Spoon reports",
+    @Parameter(names = {"--input" }, description = "Comma seperated paths to Spoon reports",
       converter = FilesConverter.class, required = true)
     public File[] input;
 
 
-    @Parameter(names = { "--output" }, description = "Output path",
-      converter = FileConverter.class) //
+    @Parameter(names = {"--output" }, description = "Output path",
+      converter = FileConverter.class)
     public File output = cleanFile(SpoonRunner.DEFAULT_OUTPUT_DIRECTORY);
 
 
-
-    @Parameter(names = { "--debug" }, hidden = true) //
+    @Parameter(names = {"--debug" }, hidden = true)
     public boolean debug;
 
-    @Parameter(names = { "--coverage" }, description = "Code coverage flag", arity = 1)
-    public Boolean codeCoverage = false;
 
-    @Parameter(names = { "-h", "--help" }, description = "Command help", help = true, hidden = true)
+    @Parameter(names = {"-h", "--help" }, description = "Command help", help = true, hidden = true)
     public boolean help;
   }
 

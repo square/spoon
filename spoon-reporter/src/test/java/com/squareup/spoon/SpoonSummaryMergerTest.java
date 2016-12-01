@@ -36,7 +36,7 @@ public class SpoonSummaryMergerTest {
 
     // When I let it merge these summaries
     SpoonSummaryMerger subject = new SpoonSummaryMerger(gson);
-    SpoonSummary merged = subject.merge(results);
+    SpoonSummary merged = subject.merge(null, results);
 
     // Then it should create one SpoonSummary
     assertNotNull(merged);
