@@ -46,6 +46,8 @@ public class SpoonFilesMergerTest {
   }
 
   private void checkModifiedPaths(File outputDir, SpoonSummary original, SpoonSummary modified) {
+    String imageDir = outputDir.getPath() + "/images/";
+
     DeviceResult[] originalDeviceResults = new DeviceResult[original.getResults().values().size()];
     original.getResults().values().toArray(originalDeviceResults);
     DeviceResult[] modifiedDeviceResults = new DeviceResult[modified.getResults().values().size()];
@@ -71,7 +73,7 @@ public class SpoonFilesMergerTest {
           File originalScreenshot = originalScreenshots.get(k);
           File modifiedScreenshot = modifiedScreenshots.get(k);
 
-          String expectedPath = new File(outputDir, originalScreenshot.getName()).getPath();
+          String expectedPath = new File(imageDir, originalScreenshot.getName()).getPath();
           assertEquals(expectedPath, modifiedScreenshot.getPath());
         }
       }

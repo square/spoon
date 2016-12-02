@@ -57,6 +57,7 @@ public class SpoonReporter {
   }
 
   public void run() throws IOException {
+    output.mkdirs();
     File[] modified = SpoonFilesMerger.copyAndRewrite(output, inputs);
     SpoonSummary summary = summaryMerger.merge(title, modified);
     new HtmlRenderer(summary, SpoonUtils.GSON, output).render();

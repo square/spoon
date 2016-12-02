@@ -21,8 +21,10 @@ public class SpoonFilesMerger {
 
   private static final Pattern FINDER_PATTERN =
     Pattern.compile("(\\S+\\.png\"|\\S+\\.gif\")");
-  private static final Pattern REPLACER_PATTERN =
-    Pattern.compile("[^\"]+\\/([^\\/]+\\.png\",*)$|[^\"]+\\/([^\\/]+\\.gif\",*)$");
+  private static final Pattern REPLACER_PNG_PATTERN =
+    Pattern.compile("[^\"]+\\/([^\\/]+\\.png\",*)$");
+  private static final Pattern REPLACE_GIF_PATTERN =
+    Pattern.compile("[^\"]+\\/([^\\/]+\\.gif\",*)$");
 
   public static File[] copyAndRewrite(File outputDir, File[] summaries) throws IOException {
     if (!outputDir.isDirectory()) {
@@ -40,7 +42,9 @@ public class SpoonFilesMerger {
   }
 
   private static File mergeSummary(File summaryFile, File outputDir) throws IOException {
-    final String outputPath = outputDir.getPath() + "/";
+    final String imagePath = outputDir.getPath() + "/images/";
+    final File imageDir = new File(imagePath);
+    imageDir.mkdirs();
 
     BufferedReader originalReader = new BufferedReader(new FileReader(summaryFile));
     File modifiedSummaryFile = File.createTempFile(summaryFile.getName(), null, outputDir);
@@ -49,9 +53,9 @@ public class SpoonFilesMerger {
     String line;
     while ((line = originalReader.readLine()) != null) {
 
-      copyFiles(line, outputDir);
+      copyFiles(line, imageDir);
       modifiedWriter.write(
-        rewriteFilePaths(line, outputPath)
+        rewriteFilePaths(line, imagePath)
       );
     }
 
@@ -83,8 +87,20 @@ public class SpoonFilesMerger {
   }
 
   private static String rewriteFilePaths(String line, String outputPath) {
-    Matcher replacer = REPLACER_PATTERN.matcher(line);
-    return replacer.replaceAll(outputPath + "$1");
+    String modifiedLine = line;
+    Matcher replacer;
+
+    replacer = REPLACER_PNG_PATTERN.matcher(line);
+    if (replacer.find()) {
+      modifiedLine = replacer.replaceAll(outputPath + "$1");
+    }
+
+    replacer = REPLACE_GIF_PATTERN.matcher(line);
+    if (replacer.find()) {
+      modifiedLine = replacer.replaceAll(outputPath + "$1");
+    }
+
+    return modifiedLine;
   }
 
 }
