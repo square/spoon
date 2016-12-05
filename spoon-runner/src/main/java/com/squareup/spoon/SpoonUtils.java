@@ -3,6 +3,7 @@ package com.squareup.spoon;
 import com.android.ddmlib.AndroidDebugBridge;
 import com.android.ddmlib.DdmPreferences;
 import com.android.ddmlib.IDevice;
+import com.android.ddmlib.logcat.LogCatMessage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
@@ -21,6 +22,9 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
+
+import com.squareup.spoon.serialization.LogcatDeserializer;
+import com.squareup.spoon.serialization.StatusDeserializer;
 import org.apache.commons.io.FileUtils;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
@@ -29,6 +33,7 @@ import static com.android.ddmlib.FileListingService.TYPE_DIRECTORY;
 /** Utilities for executing instrumentation tests on devices. */
 public final class SpoonUtils {
   private static final Pattern SERIAL_VALIDATION = Pattern.compile("[^a-zA-Z0-9_-]");
+
   static final Gson GSON = new GsonBuilder() //
       .registerTypeAdapter(File.class, new TypeAdapter<File>() {
         @Override public void write(JsonWriter jsonWriter, File file) throws IOException {
@@ -45,6 +50,8 @@ public final class SpoonUtils {
       }) //
       .enableComplexMapKeySerialization() //
       .setPrettyPrinting() //
+      .registerTypeAdapter(LogCatMessage.class, new LogcatDeserializer())
+      .registerTypeAdapter(DeviceTestResult.Status.class, new StatusDeserializer())
       .create();
 
   /** Fetch or create a real device that corresponds to a device model. */
@@ -166,4 +173,5 @@ public final class SpoonUtils {
   private SpoonUtils() {
     // No instances.
   }
+
 }

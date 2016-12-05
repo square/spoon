@@ -30,22 +30,6 @@ public final class DeviceTest implements Comparable<DeviceTest> {
     return methodName;
   }
 
-  @Override public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-
-    DeviceTest that = (DeviceTest) o;
-    if (!className.equals(that.className)) return false;
-    if (!methodName.equals(that.methodName)) return false;
-    return true;
-  }
-
-  @Override public int hashCode() {
-    int result = className.hashCode();
-    result = 31 * result + methodName.hashCode();
-    return result;
-  }
-
   @Override public String toString() {
     return className + "#" + methodName;
   }
@@ -56,5 +40,25 @@ public final class DeviceTest implements Comparable<DeviceTest> {
       return classCompare;
     }
     return methodName.compareTo(other.methodName);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    DeviceTest that = (DeviceTest) o;
+
+    if (className != null ? !className.equals(that.className) : that.className != null)
+      return false;
+    return methodName != null ? methodName.equals(that.methodName) : that.methodName == null;
+
+  }
+
+  @Override
+  public int hashCode() {
+    int result = className != null ? className.hashCode() : 0;
+    result = 31 * result + (methodName != null ? methodName.hashCode() : 0);
+    return result;
   }
 }
