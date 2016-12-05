@@ -1,6 +1,7 @@
 package com.squareup.spoon;
 
 import com.android.ddmlib.IDevice;
+import com.google.gson.annotations.SerializedName;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import static com.google.common.base.Strings.emptyToNull;
@@ -10,7 +11,7 @@ public final class DeviceDetails {
   public static final int UNKNOWN_API_LEVEL = 0;
   public static final int MARSHMALLOW_API_LEVEL = 23;
 
-  private final String model;
+  @SerializedName("name") private final String model;
   private final String manufacturer;
   private final String version;
   private final int apiLevel;
