@@ -141,7 +141,8 @@ public final class SpoonRunner {
     }
   }
 
-  private SpoonSummary runTests(AndroidDebugBridge adb, Set<String> serials, final SpoonInstrumentationInfo testInfo) {
+  private SpoonSummary runTests(AndroidDebugBridge adb, Set<String> serials,
+      final SpoonInstrumentationInfo testInfo) {
     int targetCount = serials.size();
     logInfo("Executing instrumentation suite on %d device(s).", targetCount);
 
