@@ -129,7 +129,7 @@ public final class SpoonRunner {
       }
 
       // Execute all the things...
-      SpoonSummary summary = runTests(adb, serials);
+      SpoonSummary summary = runTests(adb, serials, testInfo);
       // ...and render to HTML
       new HtmlRenderer(summary, SpoonUtils.GSON, output).render();
 
@@ -141,7 +141,7 @@ public final class SpoonRunner {
     }
   }
 
-  private SpoonSummary runTests(AndroidDebugBridge adb, Set<String> serials) {
+  private SpoonSummary runTests(AndroidDebugBridge adb, Set<String> serials, final SpoonInstrumentationInfo testInfo) {
     int targetCount = serials.size();
     logInfo("Executing instrumentation suite on %d device(s).", targetCount);
 
@@ -151,7 +151,6 @@ public final class SpoonRunner {
       throw new RuntimeException("Unable to clean output directory: " + output, e);
     }
 
-    final SpoonInstrumentationInfo testInfo = parseFromFile(instrumentationApk);
     logDebug(debug, "Application: %s from %s", testInfo.getApplicationPackage(),
         applicationApk.getAbsolutePath());
     logDebug(debug, "Instrumentation: %s from %s", testInfo.getInstrumentationPackage(),
