@@ -132,6 +132,16 @@ public final class SpoonRunner {
       SpoonSummary summary = runTests(adb, serials, testInfo);
       // ...and render to HTML
       new HtmlRenderer(summary, SpoonUtils.GSON, output).render();
+      if (codeCoverage) {
+        SpoonCoverageMerger coverageMerger = new SpoonCoverageMerger();
+        try {
+          coverageMerger.mergeCoverageFiles(serials, output);
+          logDebug(debug, "Merging of coverage files done.");
+        } catch (IOException exception) {
+          throw new RuntimeException("Error while merging coverage files. "
+              + "Did you set the \"testCoverageEnabled\" flag in your build.gradle?", exception);
+        }
+      }
 
       return parseOverallSuccess(summary);
     } finally {
@@ -223,16 +233,6 @@ public final class SpoonRunner {
       }
     }
 
-    if (codeCoverage) {
-      SpoonCoverageMerger coverageMerger = new SpoonCoverageMerger();
-      try {
-        coverageMerger.mergeCoverageFiles(serials, output);
-        logDebug(debug, "Merging of coverage files done.");
-      } catch (IOException exception) {
-        throw new RuntimeException("Error while merging coverage files. "
-            + "Did you set the \"testCoverageEnabled\" flag in your build.gradle?", exception);
-      }
-    }
     if (!debug) {
       // Clean up anything in the work directory.
       try {
