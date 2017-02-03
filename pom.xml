@@ -51,13 +51,7 @@
 
   <modules>
     <module>spoon-client</module>
-    <module>spoon-maven-plugin</module>
     <module>spoon-runner</module>
-    <!--
-    Uncomment this if you want to run the sample locally.  It `mvn install`s fine, but breaks on
-    `mvn package`.
-    -->
-    <!--<module>spoon-sample</module>-->
   </modules>
 
   <dependencyManagement>
