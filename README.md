@@ -53,6 +53,12 @@ multiple test runs.
 
 ![Results with screenshots](website/static/example_screenshots.png)
 
+You can set the compression format and quality compression by calling `setCompressionFormat` before calling the `screenshot` method.
+```java
+Spoon.setCompressionFormat(Bitmap.CompressFormat.JPEG, 80);
+/* The following screenshots will be saved as JPEG files */
+```
+
 You can also view each test's screenshots as an animated GIF to gauge the actual
 sequence of interaction.
 
