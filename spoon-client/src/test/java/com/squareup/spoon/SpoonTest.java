@@ -1,6 +1,8 @@
 // Copyright 2012 Square, Inc.
 package com.squareup.spoon;
 
+import android.app.Activity;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
@@ -99,7 +101,7 @@ public class SpoonTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidTagThrowsException() {
-    Spoon.screenshot(null, "!@#$%^&*()");
+    Spoon.screenshot((Activity) null, "!@#$%^&*()");
   }
 
   private static class StackTraceBuilder {
