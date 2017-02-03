@@ -12,6 +12,10 @@
   <artifactId>spoon-runner</artifactId>
   <name>Spoon Runner</name>
 
+  <properties>
+    <java.version>1.8</java.version>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>

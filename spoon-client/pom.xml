@@ -12,6 +12,10 @@
   <artifactId>spoon-client</artifactId>
   <name>Spoon Client Library</name>
 
+  <properties>
+    <java.version>1.6</java.version>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>com.google.android</groupId>
