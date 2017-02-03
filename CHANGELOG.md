@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+Version 1.7.1 *(2017-02-02)*
+----------------------------
+
+* Fix: Merge code coverage reports even if tests crash.
+
+
 Version 1.7.0 *(2016-09-12)*
 ----------------------------
 
