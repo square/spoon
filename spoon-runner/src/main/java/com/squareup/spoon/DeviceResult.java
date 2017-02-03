@@ -1,6 +1,7 @@
 package com.squareup.spoon;
 
 import com.squareup.spoon.misc.StackTrace;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,7 +15,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Collections.unmodifiableMap;
 
-/** Represents the results of executing instrumentation tests on a single device. */
+/**
+ * Represents the results of executing instrumentation tests on a single device.
+ */
 public final class DeviceResult {
   private final boolean installFailed;
   private final String installMessage;
@@ -25,8 +28,8 @@ public final class DeviceResult {
   private final List<StackTrace> exceptions;
 
   private DeviceResult(boolean installFailed, String installMessage, DeviceDetails deviceDetails,
-      Map<DeviceTest, DeviceTestResult> testResults, long started, long duration,
-      List<StackTrace> exceptions) {
+                       Map<DeviceTest, DeviceTestResult> testResults, long started, long duration,
+                       List<StackTrace> exceptions) {
     this.installFailed = installFailed;
     this.installMessage = installMessage;
     this.deviceDetails = deviceDetails;
@@ -55,27 +58,37 @@ public final class DeviceResult {
     return installMessage;
   }
 
-  /** Configuration and hardware device details. */
+  /**
+   * Configuration and hardware device details.
+   */
   public DeviceDetails getDeviceDetails() {
     return deviceDetails;
   }
 
-  /** Individual test results. */
+  /**
+   * Individual test results.
+   */
   public Map<DeviceTest, DeviceTestResult> getTestResults() {
     return testResults;
   }
 
-  /** Execution start time. */
+  /**
+   * Execution start time.
+   */
   public long getStarted() {
     return started;
   }
 
-  /** Length (in seconds) of execution of all tests on device, or {@code -1} if none ran. */
+  /**
+   * Length (in seconds) of execution of all tests on device, or {@code -1} if none ran.
+   */
   public long getDuration() {
     return duration;
   }
 
-  /** Exceptions that occurred during execution. */
+  /**
+   * Exceptions that occurred during execution.
+   */
   public List<StackTrace> getExceptions() {
     return exceptions;
   }
@@ -84,7 +97,7 @@ public final class DeviceResult {
     private boolean installFailed = false;
     private String installMessage = null;
     private final Map<DeviceTest, DeviceTestResult.Builder> testResultBuilders =
-        new HashMap<DeviceTest, DeviceTestResult.Builder>();
+      new HashMap<DeviceTest, DeviceTestResult.Builder>();
     private DeviceDetails deviceDetails = null;
     private final long started = new Date().getTime();
     private long start;
@@ -92,7 +105,7 @@ public final class DeviceResult {
     private final List<StackTrace> exceptions = new ArrayList<StackTrace>();
 
     public Builder addTestResultBuilder(DeviceTest test,
-        DeviceTestResult.Builder methodResultBuilder) {
+                                        DeviceTestResult.Builder methodResultBuilder) {
       checkArgument(!installFailed, "Cannot add test result builder when install failed.");
       checkNotNull(methodResultBuilder);
       testResultBuilders.put(test, methodResultBuilder);
@@ -151,7 +164,42 @@ public final class DeviceResult {
       }
 
       return new DeviceResult(installFailed, installMessage, deviceDetails, testResults, started,
-          duration, exceptions);
+        duration, exceptions);
     }
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    DeviceResult that = (DeviceResult) o;
+
+    if (installFailed != that.installFailed) return false;
+    if (started != that.started) return false;
+    if (duration != that.duration) return false;
+    if (installMessage != null
+      ? !installMessage.equals(that.installMessage) : that.installMessage != null)
+      return false;
+    if (deviceDetails != null
+      ? !deviceDetails.equals(that.deviceDetails) : that.deviceDetails != null)
+      return false;
+    if (testResults != null
+      ? !testResults.equals(that.testResults) : that.testResults != null)
+      return false;
+    return exceptions != null ? exceptions.equals(that.exceptions) : that.exceptions == null;
+
+  }
+
+  @Override
+  public int hashCode() {
+    int result = (installFailed ? 1 : 0);
+    result = 31 * result + (installMessage != null ? installMessage.hashCode() : 0);
+    result = 31 * result + (deviceDetails != null ? deviceDetails.hashCode() : 0);
+    result = 31 * result + (testResults != null ? testResults.hashCode() : 0);
+    result = 31 * result + (int) (started ^ (started >>> 32));
+    result = 31 * result + (int) (duration ^ (duration >>> 32));
+    result = 31 * result + (exceptions != null ? exceptions.hashCode() : 0);
+    return result;
   }
 }
