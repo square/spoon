@@ -1,28 +1,9 @@
-# Eclipse
-.classpath
-.project
-.settings
-.metadata
-eclipsebin
-
-# Ant
-bin
-gen
+# Gradle
+.gradle
 build
-out
-lib
-
-# Maven
-target
-pom.xml.*
-release.properties
+reports
+local.properties
 
 # IntelliJ
 .idea
 *.iml
-*.iws
-*.ipr
-classes
-gen-external-apklibs
-
-.DS_Store

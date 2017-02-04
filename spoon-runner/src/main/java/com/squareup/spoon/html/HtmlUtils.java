@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 
-import static com.squareup.spoon.DeviceTestResult.SCREENSHOT_SEPARATOR;
+import static com.squareup.spoon.internal.Constants.NAME_SEPARATOR;
 
 /** Utilities for representing the execution in HTML. */
 final class HtmlUtils {
@@ -134,7 +134,7 @@ final class HtmlUtils {
     imageName = FilenameUtils.removeExtension(imageName);
 
     // Remove the timestamp information.
-    imageName = imageName.split(SCREENSHOT_SEPARATOR, 2)[1];
+    imageName = imageName.split(NAME_SEPARATOR, 2)[1];
 
     StringBuilder pretty = new StringBuilder();
     for (String part : imageName.replace('_', '-').split("-")) {

@@ -1,20 +1,15 @@
 package com.squareup.spoon;
 
 import com.google.common.collect.ImmutableSet;
-import org.hamcrest.CustomTypeSafeMatcher;
-import org.jacoco.core.tools.ExecFileLoader;
+import java.io.File;
+import java.io.IOException;
+import java.util.Set;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Set;
-
 import static com.squareup.spoon.SpoonUtils.sanitizeSerial;
 import static java.lang.String.format;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 public class SpoonCoverageMergerTest {

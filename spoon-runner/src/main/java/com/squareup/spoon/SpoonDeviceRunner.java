@@ -30,8 +30,6 @@ import org.apache.commons.io.filefilter.TrueFileFilter;
 import static com.android.ddmlib.FileListingService.FileEntry;
 import static com.android.ddmlib.SyncService.getNullProgressMonitor;
 import static com.google.common.base.Strings.isNullOrEmpty;
-import static com.squareup.spoon.Spoon.SPOON_FILES;
-import static com.squareup.spoon.Spoon.SPOON_SCREENSHOTS;
 import static com.squareup.spoon.SpoonLogger.logDebug;
 import static com.squareup.spoon.SpoonLogger.logError;
 import static com.squareup.spoon.SpoonLogger.logInfo;
@@ -39,6 +37,8 @@ import static com.squareup.spoon.SpoonUtils.GSON;
 import static com.squareup.spoon.SpoonUtils.createAnimatedGif;
 import static com.squareup.spoon.SpoonUtils.obtainDirectoryFileEntry;
 import static com.squareup.spoon.SpoonUtils.obtainRealDevice;
+import static com.squareup.spoon.internal.Constants.SPOON_FILES;
+import static com.squareup.spoon.internal.Constants.SPOON_SCREENSHOTS;
 
 /** Represents a single device and the test configuration to be executed. */
 public final class SpoonDeviceRunner {

@@ -1,10 +1,9 @@
 package com.squareup.spoon.adapters;
 
-import static org.junit.Assert.*;
-
+import com.android.ddmlib.testrunner.TestIdentifier;
 import org.junit.Test;
 
-import com.android.ddmlib.testrunner.TestIdentifier;
+import static org.junit.Assert.assertEquals;
 
 public class TestIdentifierAdapterTest {
 

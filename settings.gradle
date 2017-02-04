@@ -1,0 +1,3 @@
+include ':spoon-common'
+include ':spoon-client'
+include ':spoon-runner'

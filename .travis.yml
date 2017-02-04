@@ -1,20 +1,24 @@
 language: android
 
-android:
-  components:
-    - build-tools-20.0.0
-    - android-16
-
 jdk:
   - oraclejdk8
+
+before_install:
+  - echo y | android update sdk --no-ui --all --filter "tools"
+  - echo y | android update sdk --no-ui --all --filter "platform-tools"
+  - mkdir "$ANDROID_HOME/licenses" || true
+  - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
+
+script:
+  - ./gradlew build --no-daemon
 
 after_success:
   - .buildscript/deploy_snapshot.sh
 
 env:
   global:
-    - secure: "GiRZ29ScIYHiKjsYAA6WG+q5O5UdaNl5lcT3EJRea4aFjnZ8ar0xEWkoFXyMNeKTcx/cq4Yi1cRrW7vMnUNhTOYLANKpEY+p2V9b9oK4FzYGj25h+LwoYpzcQr+RtdLciseyu7mSuAkiOR6Ijxy3whOtk/cR807+wcNe+KwR444="
-    - secure: "A8h+gO/vwQ+bkBoGopu6gJsAysVxL9o4NG1U43B+4rRMCSzwYX8PlVSPfhpuD+hTWgMucDujebNy9RXqpfdP6143W0m6qC2Y0MB5zgnT+3LjGRRctqkSAF42T2kGyXMldCDEYukn3wvJw6/6BlnNkacDfA4KK8RI8DOwa6zJ0Es="
+    - secure: "YpBKpOdLkn4kcnzTUcOdupPV8zEDpUGLGkY5Z9mAtnZibOWnX+6MuQExkmi4Bd+uAHPB6QKP4AELiGv9udjE1UMtVUwZpb0hZ5XTo+kV4mOEvIS6FJAXwEqelyuqrtjo/QqnlWHmA579y2UBqFLzv1coiapKTNz3kwbUd9oMCr4="
+    - secure: "fAdMvu5VpVXEelBwGcIMMLg7zTol2DDrU7e+XKP8NTJYw0A7HOdDl5KB3uP2Lgb8lGMEIJ3Xin5AQNxuBmyQ4zP43Xjixs/rW/LqNdctvY8RmuI6PFJKm0QGsDni62iOKqqf681tjB3tDmRymEU14WQ5y81GGwDQ8GmqmI4U7h4="
 
 branches:
   except:
@@ -25,6 +29,12 @@ notifications:
 
 sudo: false
 
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
+
 cache:
   directories:
-    - $HOME/.m2
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $HOME/.android/build-cache
