@@ -19,7 +19,7 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>spoon-client</artifactId>
+      <artifactId>spoon-common</artifactId>
       <version>${project.version}</version>
     </dependency>
 

@@ -26,12 +26,12 @@ import static android.graphics.Bitmap.Config.ARGB_8888;
 import static android.os.Environment.getExternalStorageDirectory;
 import static com.squareup.spoon.Chmod.chmodPlusR;
 import static com.squareup.spoon.Chmod.chmodPlusRWX;
+import static com.squareup.spoon.internal.Constants.NAME_SEPARATOR;
+import static com.squareup.spoon.internal.Constants.SPOON_FILES;
+import static com.squareup.spoon.internal.Constants.SPOON_SCREENSHOTS;
 
 /** Utility class for capturing screenshots for Spoon. */
 public final class Spoon {
-  static final String SPOON_SCREENSHOTS = "spoon-screenshots";
-  static final String SPOON_FILES = "spoon-files";
-  static final String NAME_SEPARATOR = "_";
   static final String TEST_CASE_CLASS_JUNIT_3 = "android.test.InstrumentationTestCase";
   static final String TEST_CASE_METHOD_JUNIT_3 = "runMethod";
   static final String TEST_CASE_CLASS_JUNIT_4 = "org.junit.runners.model.FrameworkMethod$1";

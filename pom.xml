@@ -48,6 +48,7 @@
   </properties>
 
   <modules>
+    <module>spoon-common</module>
     <module>spoon-client</module>
     <module>spoon-runner</module>
   </modules>
@@ -121,7 +122,21 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.0</version>
+          <configuration>
+            <source>${java.version}</source>
+            <target>${java.version}</target>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
 
     <plugins>
       <plugin>
