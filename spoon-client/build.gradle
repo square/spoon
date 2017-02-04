@@ -12,6 +12,7 @@ android {
   lintOptions {
     textReport true
     textOutput 'stdout'
+    lintConfig file('lint.xml')
   }
 
   defaultConfig {
@@ -21,8 +22,8 @@ android {
 
 dependencies {
   compile project(':spoon-common')
+  compile deps.junit
 
-  testCompile deps.junit
   testCompile deps.fest
 }
 
