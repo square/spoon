@@ -44,6 +44,5 @@ subprojects { project ->
   tasks.withType(Checkstyle) {
     configFile rootProject.file('checkstyle.xml')
     exclude 'com/squareup/spoon/axmlparser/**'
-    exclude '**/*Test*' // TODO fix problems and remove
   }
 }

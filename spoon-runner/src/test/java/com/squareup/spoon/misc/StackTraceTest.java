@@ -28,14 +28,15 @@ public class StackTraceTest {
   @Test public void stringException() {
     String exception = ""
         + "java.lang.RuntimeException: Explicitly testing unexpected exceptions!\n"
-        + "at com.example.spoon.ordering.tests.MiscellaneousTest.testAnotherLongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant(MiscellaneousTest.java:11)\n"
+        + "at com.example.Example."
+        + "testALongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant(Example.java:11)\n"
         + "at java.lang.reflect.Method.invokeNative(Native Method)\n"
         + "at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)\n"
         + "at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)\n"
         + "at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:190)\n"
         + "at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:175)\n"
         + "at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:555)\n"
-        + "at com.example.spoon.ordering.tests.SpoonInstrumentationTestRunner.onStart(SpoonInstrumentationTestRunner.java:36)\n"
+        + "at com.example.ExampleTestRunner.onStart(ExampleTestRunner.java:36)\n"
         + "at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1661)";
 
     StackTrace actual = StackTrace.from(exception);
@@ -45,11 +46,10 @@ public class StackTraceTest {
     assertThat(actual.getElements()).hasSize(9);
 
     StackTrace.Element elementOne = actual.getElements().get(0);
-    assertThat(elementOne.getClassName()) //
-        .isEqualTo("com.example.spoon.ordering.tests.MiscellaneousTest");
+    assertThat(elementOne.getClassName()).isEqualTo("com.example.Example");
     assertThat(elementOne.getMethodName()) //
-        .isEqualTo("testAnotherLongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant");
-    assertThat(elementOne.getFileName()).isEqualTo("MiscellaneousTest.java");
+        .isEqualTo("testALongNameBecauseItIsHumorousAndTestingThingsLikeThisIsImportant");
+    assertThat(elementOne.getFileName()).isEqualTo("Example.java");
     assertThat(elementOne.getLine()).isEqualTo(11);
     assertThat(elementOne.isNative()).isFalse();
 
@@ -138,8 +138,7 @@ public class StackTraceTest {
    * parsing exceptions.
    */
   @Test public void unexpectedFormatException() {
-    String exception = "" +
-            "junit.framework.AssertionFailedError:\n";
+    String exception = "junit.framework.AssertionFailedError:\n";
 
     // This exception does not match the expected stack trace format
     String message = ""
@@ -149,13 +148,13 @@ public class StackTraceTest {
             + "junit.framework.AssertionFailedError: 1st expected failure\n"
             + "at junit.framework.Assert.fail(Assert.java:50)\n"
             + "at junit.framework.Assert.assertTrue(Assert.java:20)\n"
-            + "at com.capitalone.mobile.wallet.testing.AssertionErrorCollector.assertTrue(AssertionErrorCollector.java:34)\n"
+            + "at com.example.Example.assertTrue(AssertionErrorCollector.java:34)\n"
             + "\n"
             + "        --------- Failed Assertion # 2 --------\n"
             + "junit.framework.AssertionFailedError: 2nd expected failure\n"
             + "at junit.framework.Assert.fail(Assert.java:50)\n"
             + "at junit.framework.Assert.assertTrue(Assert.java:20)\n"
-            + "at com.capitalone.mobile.wallet.testing.AssertionErrorCollector.assertTrue(AssertionErrorCollector.java:34)\n";
+            + "at com.example.Example.assertTrue(AssertionErrorCollector.java:34)\n";
 
     StackTrace actual = StackTrace.from(exception + message);
     assertThat(actual.getClassName()).isEqualTo("junit.framework.AssertionFailedError");

@@ -84,13 +84,13 @@ public class HtmlUtilsTest {
             + "junit.framework.AssertionFailedError: 1st expected failure\n"
             + "at junit.framework.Assert.fail(Assert.java:50)\n"
             + "at junit.framework.Assert.assertTrue(Assert.java:20)\n"
-            + "at com.capitalone.mobile.wallet.testing.AssertionErrorCollector.assertTrue(AssertionErrorCollector.java:34)\n"
+            + "at com.example.Example.assertTrue(Example.java:34)\n"
             + "\n"
             + "        --------- Failed Assertion # 2 --------\n"
             + "junit.framework.AssertionFailedError: 2nd expected failure\n"
             + "at junit.framework.Assert.fail(Assert.java:50)\n"
             + "at junit.framework.Assert.assertTrue(Assert.java:20)\n"
-            + "at com.capitalone.mobile.wallet.testing.AssertionErrorCollector.assertTrue(AssertionErrorCollector.java:34)\n");
+            + "at com.example.Example.assertTrue(Example.java:34)\n");
     ExceptionInfo exceptionInfo = processStackTrace(exception);
     // This is one of the rare cases where newline characters need to be converted to <br/>.
     // Usually newline characters are stripped out by the parsing code in
@@ -107,7 +107,7 @@ public class HtmlUtilsTest {
     assertThat(lines.get(1)).isEqualTo(""
             + "&nbsp;&nbsp;&nbsp;&nbsp;at junit.framework.Assert.assertTrue(Assert.java:20)");
     assertThat(lines.get(2)).isEqualTo(""
-            + "&nbsp;&nbsp;&nbsp;&nbsp;at com.capitalone.mobile.wallet.testing.AssertionErrorCollector.assertTrue(AssertionErrorCollector.java:34)");
+            + "&nbsp;&nbsp;&nbsp;&nbsp;at com.example.Example.assertTrue(Example.java:34)");
     // The final line here is "Caused by: ".  This is because the remaining parts of the stack trace
     // are interpreted as a "Caused by: " exception.  This behavior isn't all that desirable, so we
     // don't assert it here. :-)
