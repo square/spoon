@@ -1,0 +1,33 @@
+apply plugin: 'java'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+dependencies {
+  compile project(':spoon-common')
+  compile deps.jcommander
+  compile deps.gson
+  compile deps.commonsLang3
+  compile deps.commonsIo
+  compile deps.ddmlib
+  compile deps.animatedGifLib
+  compile deps.guava
+  compile deps.mustache
+  compile deps.lesscss
+  compile(deps.jacocoMavenPlugin) {
+    exclude group: 'org.apache.maven', module: 'maven-project'
+  }
+
+  testCompile deps.junit
+  testCompile deps.fest
+  testCompile deps.mockito
+}
+
+tasks.getByName('assemble').dependsOn('shadowJar')
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
+
+artifacts {
+  archives shadowJar
+}

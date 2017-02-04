@@ -1,0 +1,29 @@
+apply plugin: 'com.android.library'
+
+android {
+  compileSdkVersion versions.compileSdk
+  buildToolsVersion versions.buildTools
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_7
+    targetCompatibility JavaVersion.VERSION_1_7
+  }
+
+  lintOptions {
+    textReport true
+    textOutput 'stdout'
+  }
+
+  defaultConfig {
+    minSdkVersion versions.minSdk
+  }
+}
+
+dependencies {
+  compile project(':spoon-common')
+
+  testCompile deps.junit
+  testCompile deps.fest
+}
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
