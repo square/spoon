@@ -13,6 +13,8 @@ public class SpoonRunnerTest {
     // PASS: No devices attached.
     summary = new SpoonSummary.Builder() //
         .setTitle("test") //
+        .start()
+        .end()
         .build(); //
     assertThat(parseOverallSuccess(summary)).isTrue();
 
