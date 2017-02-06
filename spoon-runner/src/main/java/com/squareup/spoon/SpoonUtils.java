@@ -100,7 +100,7 @@ public final class SpoonUtils {
    *                      version will be returned.
    */
   public static Set<String> findAllDevices(AndroidDebugBridge adb, Integer minApiLevel) {
-    Set<String> devices = new LinkedHashSet<String>();
+    Set<String> devices = new LinkedHashSet<>();
     for (IDevice realDevice : adb.getDevices()) {
       if (minApiLevel == null) {
         devices.add(realDevice.getSerialNumber());

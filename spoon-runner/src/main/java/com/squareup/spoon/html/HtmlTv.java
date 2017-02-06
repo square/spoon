@@ -19,7 +19,7 @@ final class HtmlTv {
     String title = summary.getTitle();
     String duration = HtmlUtils.humanReadableDuration(summary.getDuration());
 
-    List<Device> devices = new ArrayList<Device>();
+    List<Device> devices = new ArrayList<>();
     for (Map.Entry<String, DeviceResult> result : summary.getResults().entrySet()) {
       devices.add(Device.from(result.getKey(), result.getValue(), outputPath));
     }
@@ -42,7 +42,7 @@ final class HtmlTv {
 
   static final class Device implements Comparable<Device> {
     static Device from(String serial, DeviceResult result, File outputPath) {
-      List<TestResult> testResults = new ArrayList<TestResult>();
+      List<TestResult> testResults = new ArrayList<>();
       for (Map.Entry<DeviceTest, DeviceTestResult> entry : result.getTestResults().entrySet()) {
         // Only add tests where we have screenshots.
         if (!entry.getValue().getScreenshots().isEmpty()) {
@@ -97,7 +97,7 @@ final class HtmlTv {
         File output) {
       String status = HtmlUtils.getStatusCssClass(result);
 
-      List<HtmlUtils.Screenshot> screenshots = new ArrayList<HtmlUtils.Screenshot>();
+      List<HtmlUtils.Screenshot> screenshots = new ArrayList<>();
       for (File screenshot : result.getScreenshots()) {
         screenshots.add(HtmlUtils.getScreenshot(screenshot, output));
       }

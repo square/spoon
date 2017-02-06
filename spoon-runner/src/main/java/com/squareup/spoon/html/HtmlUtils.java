@@ -200,7 +200,7 @@ final class HtmlUtils {
     // is not in an expected format).  This replacement needs to be done after any HTML escaping.
     message = message.replace("\n", "<br/>");
 
-    List<String> lines = new ArrayList<String>();
+    List<String> lines = new ArrayList<>();
     for (StackTrace.Element element : exception.getElements()) {
       lines.add("&nbsp;&nbsp;&nbsp;&nbsp;at " + element.toString());
     }

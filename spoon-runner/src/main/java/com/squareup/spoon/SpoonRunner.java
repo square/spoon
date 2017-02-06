@@ -194,7 +194,7 @@ public final class SpoonRunner {
 
       // Spawn a new thread for each device and wait for them all to finish.
       final CountDownLatch done = new CountDownLatch(targetCount);
-      final Set<String> remaining = synchronizedSet(new HashSet<String>(serials));
+      final Set<String> remaining = synchronizedSet(new HashSet<>(serials));
 
       int shardIndex = 0;
       final int numShards = shard ? serials.size() : 0;
@@ -324,7 +324,7 @@ public final class SpoonRunner {
     private IRemoteAndroidTestRunner.TestSize testSize;
     private int adbTimeoutMillis = DEFAULT_ADB_TIMEOUT_SEC * 1000;
     private boolean failIfNoDeviceConnected;
-    private List<ITestRunListener> testRunListeners = new ArrayList<ITestRunListener>();
+    private List<ITestRunListener> testRunListeners = new ArrayList<>();
     private boolean sequential;
     private File initScript;
     private boolean grantAll;
@@ -393,7 +393,7 @@ public final class SpoonRunner {
       checkNotNull(serial, "Serial cannot be null.");
       checkArgument(serials == null || !serials.isEmpty(), "Already marked as using all devices.");
       if (serials == null) {
-        serials = new LinkedHashSet<String>();
+        serials = new LinkedHashSet<>();
       }
       serials.add(serial);
       return this;
@@ -403,7 +403,7 @@ public final class SpoonRunner {
     public Builder skipDevice(String serial) {
       checkNotNull(serial, "Serial cannot be null.");
       if (skipDevices == null) {
-        skipDevices = new LinkedHashSet<String>();
+        skipDevices = new LinkedHashSet<>();
       }
       skipDevices.add(serial);
       return this;
@@ -592,11 +592,11 @@ public final class SpoonRunner {
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection") //
     @Parameter(names = "-serial",
         description = "Serial of the device to use (May be used multiple times)")
-    private List<String> serials = new ArrayList<String>();
+    private List<String> serials = new ArrayList<>();
 
     @Parameter(names = "-skipDevices",
         description = "Serial of the device to skip (May be used multiple times)")
-    private List<String> skipDevices = new ArrayList<String>();
+    private List<String> skipDevices = new ArrayList<>();
 
     @Parameter(names = { "--shard" },
         description = "Automatically shard across all specified serials") //

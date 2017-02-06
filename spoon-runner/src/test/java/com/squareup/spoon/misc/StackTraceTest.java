@@ -234,7 +234,7 @@ public class StackTraceTest {
   }
 
   @Test public void toStringFormat() {
-    Deque<StackTrace.Element> elements = new ArrayDeque<StackTrace.Element>();
+    Deque<StackTrace.Element> elements = new ArrayDeque<>();
 
     StackTrace onlyClass = new StackTrace("java.lang.NullPointerException", null, elements, null);
     assertThat(onlyClass.toString()).isEqualTo("java.lang.NullPointerException");

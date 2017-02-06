@@ -15,7 +15,7 @@ import static com.squareup.spoon.DeviceTestResult.Status;
 /** Model for representing a {@code device.html} page. */
 final class HtmlDevice {
   static HtmlDevice from(String serial, DeviceResult result, File output) {
-    List<TestResult> testResults = new ArrayList<TestResult>();
+    List<TestResult> testResults = new ArrayList<>();
     int testsPassed = 0;
     for (Map.Entry<DeviceTest, DeviceTestResult> entry : result.getTestResults().entrySet()) {
       DeviceTestResult testResult = entry.getValue();
@@ -31,7 +31,7 @@ final class HtmlDevice {
     DeviceDetails details = result.getDeviceDetails();
     String title = (details != null) ? details.getName() : serial;
 
-    List<HtmlUtils.ExceptionInfo> exceptions = new ArrayList<HtmlUtils.ExceptionInfo>();
+    List<HtmlUtils.ExceptionInfo> exceptions = new ArrayList<>();
     for (StackTrace exception : result.getExceptions()) {
       exceptions.add(HtmlUtils.processStackTrace(exception));
     }
@@ -81,11 +81,11 @@ final class HtmlDevice {
       String prettyMethodName = HtmlUtils.prettifyMethodName(methodName);
       String testId = HtmlUtils.testClassAndMethodToId(className, methodName);
       String status = HtmlUtils.getStatusCssClass(result);
-      List<HtmlUtils.Screenshot> screenshots = new ArrayList<HtmlUtils.Screenshot>();
+      List<HtmlUtils.Screenshot> screenshots = new ArrayList<>();
       for (File screenshot : result.getScreenshots()) {
         screenshots.add(HtmlUtils.getScreenshot(screenshot, output));
       }
-      List<HtmlUtils.SavedFile> files = new ArrayList<HtmlUtils.SavedFile>();
+      List<HtmlUtils.SavedFile> files = new ArrayList<>();
       for (File file : result.getFiles()) {
         files.add(HtmlUtils.getFile(file, output));
       }

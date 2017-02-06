@@ -18,7 +18,7 @@ final class HtmlTest {
     int deviceCount = 0;
     int testsPassed = 0;
     int duration = 0;
-    List<TestResult> devices = new ArrayList<TestResult>();
+    List<TestResult> devices = new ArrayList<>();
     for (Map.Entry<String, DeviceResult> entry : summary.getResults().entrySet()) {
       DeviceResult deviceResult = entry.getValue();
       DeviceTestResult testResult = deviceResult.getTestResults().get(test);
@@ -77,7 +77,7 @@ final class HtmlTest {
     static TestResult from(String serial, String name, DeviceTestResult result, File output) {
       String status = HtmlUtils.getStatusCssClass(result);
 
-      List<HtmlUtils.Screenshot> screenshots = new ArrayList<HtmlUtils.Screenshot>();
+      List<HtmlUtils.Screenshot> screenshots = new ArrayList<>();
       for (File screenshot : result.getScreenshots()) {
         screenshots.add(HtmlUtils.getScreenshot(screenshot, output));
       }

@@ -25,7 +25,7 @@ public final class SpoonSummary {
     this.testSize = testSize;
     this.started = started;
     this.duration = duration;
-    this.results = unmodifiableMap(new HashMap<String, DeviceResult>(results));
+    this.results = unmodifiableMap(new HashMap<>(results));
   }
 
   /** Execution title. */
@@ -54,7 +54,7 @@ public final class SpoonSummary {
   }
 
   static class Builder {
-    private final Map<String, DeviceResult> results = new HashMap<String, DeviceResult>();
+    private final Map<String, DeviceResult> results = new HashMap<>();
     private String title;
     private IRemoteAndroidTestRunner.TestSize testSize;
     private long started;

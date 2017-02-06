@@ -119,7 +119,7 @@ public final class HtmlRenderer {
   private void generateTestHtml(MustacheFactory mustacheFactory) {
     Mustache mustache = mustacheFactory.compile("page/test.html");
     // Create a set of unique tests.
-    Set<DeviceTest> tests = new LinkedHashSet<DeviceTest>();
+    Set<DeviceTest> tests = new LinkedHashSet<>();
     for (DeviceResult deviceResult : summary.getResults().values()) {
       tests.addAll(deviceResult.getTestResults().keySet());
     }

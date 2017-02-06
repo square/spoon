@@ -18,7 +18,7 @@ final class HtmlIndex {
   static HtmlIndex from(SpoonSummary summary) {
     int testsRun = 0;
     int totalSuccess = 0;
-    List<Device> devices = new ArrayList<Device>();
+    List<Device> devices = new ArrayList<>();
     for (Map.Entry<String, DeviceResult> result : summary.getResults().entrySet()) {
       devices.add(Device.from(result.getKey(), result.getValue()));
       Map<DeviceTest, DeviceTestResult> testResults = result.getValue().getTestResults();
@@ -68,7 +68,7 @@ final class HtmlIndex {
 
   static final class Device implements Comparable<Device> {
     static Device from(String serial, DeviceResult result) {
-      List<TestResult> testResults = new ArrayList<TestResult>();
+      List<TestResult> testResults = new ArrayList<>();
       for (Map.Entry<DeviceTest, DeviceTestResult> entry : result.getTestResults().entrySet()) {
         testResults.add(TestResult.from(serial, entry.getKey(), entry.getValue()));
       }

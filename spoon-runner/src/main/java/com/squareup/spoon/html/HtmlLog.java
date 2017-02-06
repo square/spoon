@@ -26,7 +26,7 @@ final class HtmlLog {
         + " in " + HtmlUtils.humanReadableDuration(result.getDuration())
         + " on " + name;
 
-    List<LogEntry> log = new ArrayList<LogEntry>();
+    List<LogEntry> log = new ArrayList<>();
     for (LogCatMessage message : result.getLog()) {
       log.add(LogEntry.from(message));
     }
