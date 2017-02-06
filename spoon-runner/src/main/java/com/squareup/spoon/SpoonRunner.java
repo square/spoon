@@ -173,9 +173,10 @@ public final class SpoonRunner {
       summary.setTestSize(testSize);
     }
 
+    executeInitScript();
+
     if (targetCount == 1) {
       // Since there is only one device just execute it synchronously in this process.
-      executeInitScript();
       String serial = Iterables.getOnlyElement(serials);
       String safeSerial = SpoonUtils.sanitizeSerial(serial);
       try {
@@ -189,9 +190,6 @@ public final class SpoonRunner {
         logDebug(debug, "[%s] Execution done.", serial);
       }
     } else {
-      // Execute a script before the first test on the thread executor if sequential mode on
-      threadExecutor.execute(getRunnableScript());
-
       // Spawn a new thread for each device and wait for them all to finish.
       final CountDownLatch done = new CountDownLatch(targetCount);
       final Set<String> remaining = synchronizedSet(new HashSet<>(serials));
@@ -242,15 +240,6 @@ public final class SpoonRunner {
     }
 
     return summary.end().build();
-  }
-
-  /** Returns a {@link Runnable} to launch the script before/between devices in sequential mode. */
-  private Runnable getRunnableScript() {
-    return new Runnable() {
-      @Override public void run() {
-        executeInitScript();
-      }
-    };
   }
 
   /** Execute the script file specified in param --init-script */
