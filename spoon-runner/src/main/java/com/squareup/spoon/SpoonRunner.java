@@ -667,16 +667,12 @@ public final class SpoonRunner {
     if (parsedArgs.serials == null || parsedArgs.serials.isEmpty()) {
       builder.useAllAttachedDevices();
     } else {
-      for (String serial : parsedArgs.serials) {
-        builder.addDevice(serial);
-      }
+      parsedArgs.serials.forEach(builder::addDevice);
     }
 
     //checks if there are any devices to skip testing on
     if (parsedArgs.skipDevices != null && !parsedArgs.skipDevices.isEmpty()) {
-      for (String serial : parsedArgs.skipDevices) {
-        builder.skipDevice(serial);
-      }
+      parsedArgs.skipDevices.forEach(builder::skipDevice);
     }
 
     SpoonRunner spoonRunner = builder.build();

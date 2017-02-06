@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -15,6 +14,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 import static com.squareup.spoon.internal.Constants.NAME_SEPARATOR;
+import static java.util.stream.Collectors.toList;
 
 /** Utilities for representing the execution in HTML. */
 final class HtmlUtils {
@@ -200,10 +200,10 @@ final class HtmlUtils {
     // is not in an expected format).  This replacement needs to be done after any HTML escaping.
     message = message.replace("\n", "<br/>");
 
-    List<String> lines = new ArrayList<>();
-    for (StackTrace.Element element : exception.getElements()) {
-      lines.add("&nbsp;&nbsp;&nbsp;&nbsp;at " + element.toString());
-    }
+    List<String> lines = exception.getElements()
+        .stream()
+        .map(element -> "&nbsp;&nbsp;&nbsp;&nbsp;at " + element.toString())
+        .collect(toList());
     while (exception.getCause() != null) {
       exception = exception.getCause();
       String causeMessage = StringEscapeUtils.escapeHtml4(exception.toString());
