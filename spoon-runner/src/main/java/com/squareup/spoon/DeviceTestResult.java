@@ -32,10 +32,10 @@ public final class DeviceTestResult {
     this.status = status;
     this.exception = exception;
     this.duration = duration;
-    this.screenshots = unmodifiableList(new ArrayList<File>(screenshots));
-    this.files = unmodifiableList(new ArrayList<File>(files));
+    this.screenshots = unmodifiableList(new ArrayList<>(screenshots));
+    this.files = unmodifiableList(new ArrayList<>(files));
     this.animatedGif = animatedGif;
-    this.log = unmodifiableList(new ArrayList<LogCatMessage>(log));
+    this.log = unmodifiableList(new ArrayList<>(log));
   }
 
   /** Execution status. */
@@ -73,8 +73,8 @@ public final class DeviceTestResult {
   }
 
   public static class Builder {
-    private final List<File> screenshots = new ArrayList<File>();
-    private final List<File> files = new ArrayList<File>();
+    private final List<File> screenshots = new ArrayList<>();
+    private final List<File> files = new ArrayList<>();
     private Status status = Status.PASS;
     private StackTrace exception;
     private long start;

@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static java.util.Collections.unmodifiableMap;
 
 /** Result summary of executing instrumentation on multiple devices. */
@@ -25,7 +26,7 @@ public final class SpoonSummary {
     this.testSize = testSize;
     this.started = started;
     this.duration = duration;
-    this.results = unmodifiableMap(new HashMap<String, DeviceResult>(results));
+    this.results = unmodifiableMap(new HashMap<>(results));
   }
 
   /** Execution title. */
@@ -54,7 +55,7 @@ public final class SpoonSummary {
   }
 
   static class Builder {
-    private final Map<String, DeviceResult> results = new HashMap<String, DeviceResult>();
+    private final Map<String, DeviceResult> results = new HashMap<>();
     private String title;
     private IRemoteAndroidTestRunner.TestSize testSize;
     private long started;
@@ -63,14 +64,14 @@ public final class SpoonSummary {
 
     Builder setTitle(String title) {
       checkNotNull(title);
-      checkArgument(title != null, "Title already set.");
+      checkState(this.title == null, "Title already set.");
       this.title = title;
       return this;
     }
 
     Builder setTestSize(IRemoteAndroidTestRunner.TestSize testSize) {
       checkNotNull(testSize);
-      checkArgument(testSize != null, "Test size already set.");
+      checkState(this.testSize == null, "Test size already set.");
       this.testSize = testSize;
       return this;
     }
@@ -78,7 +79,7 @@ public final class SpoonSummary {
     Builder addResult(String serial, DeviceResult result) {
       checkNotNull(serial);
       checkNotNull(result);
-      checkArgument(start != 0, "Start must be called before results can be added.");
+      checkState(start != 0, "Start must be called before results can be added.");
       synchronized (results) {
         checkArgument(!results.containsKey(serial), "Result for serial already added.");
         results.put(serial, result);
@@ -87,22 +88,22 @@ public final class SpoonSummary {
     }
 
     Builder start() {
-      checkArgument(start == 0, "Start already called.");
+      checkState(start == 0, "Start already called.");
       start = System.nanoTime();
       started = new Date().getTime();
       return this;
     }
 
     Builder end() {
-      checkArgument(start != 0, "Start must be called before end.");
-      checkArgument(duration == -1, "End already called.");
+      checkState(start != 0, "Start must be called before end.");
+      checkState(duration == -1, "End already called.");
       duration = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - start);
       return this;
     }
 
     SpoonSummary build() {
-      checkNotNull(title, "Title is required.");
-      checkNotNull(started, "Never started.");
+      checkState(title != null, "Title is required.");
+      checkState(started != 0, "Never started.");
 
       return new SpoonSummary(title, testSize, started, duration, results);
     }

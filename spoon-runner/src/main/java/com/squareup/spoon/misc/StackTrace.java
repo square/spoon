@@ -27,7 +27,7 @@ public class StackTrace {
       cause = from(realCause);
     }
 
-    Deque<Element> elements = new ArrayDeque<Element>();
+    Deque<Element> elements = new ArrayDeque<>();
     for (StackTraceElement element : exception.getStackTrace()) {
       elements.add(Element.from(element));
     }
@@ -42,8 +42,8 @@ public class StackTrace {
     String parts[] = exception.replace("\r\n", "\n").split("\n");
 
     StackTrace last = null;
-    Deque<String> messageParts = new ArrayDeque<String>();
-    Deque<Element> elements = new ArrayDeque<Element>();
+    Deque<String> messageParts = new ArrayDeque<>();
+    Deque<Element> elements = new ArrayDeque<>();
     boolean matchingElements = true; // Assume we will be matching elements first (bottom, up).
     for (int i = parts.length - 1; i >= 0; i--) {
       String part = parts[i];

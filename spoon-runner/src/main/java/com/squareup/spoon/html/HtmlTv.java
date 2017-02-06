@@ -3,14 +3,13 @@ package com.squareup.spoon.html;
 import com.google.gson.Gson;
 import com.squareup.spoon.DeviceDetails;
 import com.squareup.spoon.DeviceResult;
-import com.squareup.spoon.DeviceTest;
 import com.squareup.spoon.DeviceTestResult;
 import com.squareup.spoon.SpoonSummary;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 /** Model for representing the {@code tv.html} page. */
 final class HtmlTv {
@@ -19,11 +18,12 @@ final class HtmlTv {
     String title = summary.getTitle();
     String duration = HtmlUtils.humanReadableDuration(summary.getDuration());
 
-    List<Device> devices = new ArrayList<Device>();
-    for (Map.Entry<String, DeviceResult> result : summary.getResults().entrySet()) {
-      devices.add(Device.from(result.getKey(), result.getValue(), outputPath));
-    }
-    Collections.sort(devices);
+    List<Device> devices = summary.getResults()
+        .entrySet()
+        .stream()
+        .map(result -> Device.from(result.getKey(), result.getValue(), outputPath))
+        .sorted()
+        .collect(Collectors.toList());
 
     return new HtmlTv(gson, title, testDate, duration, devices);
   }
@@ -42,18 +42,19 @@ final class HtmlTv {
 
   static final class Device implements Comparable<Device> {
     static Device from(String serial, DeviceResult result, File outputPath) {
-      List<TestResult> testResults = new ArrayList<TestResult>();
-      for (Map.Entry<DeviceTest, DeviceTestResult> entry : result.getTestResults().entrySet()) {
-        // Only add tests where we have screenshots.
-        if (!entry.getValue().getScreenshots().isEmpty()) {
-          String classSimpleName = HtmlUtils.getClassSimpleName(entry.getKey().getClassName());
-          String prettyMethodName = HtmlUtils.prettifyMethodName(entry.getKey().getMethodName());
+      List<TestResult> testResults = result.getTestResults()
+          .entrySet()
+          .stream()
+          // Only add tests where we have screenshots.
+          .filter(entry -> !entry.getValue().getScreenshots().isEmpty())
+          .map(entry -> {
+            String classSimpleName = HtmlUtils.getClassSimpleName(entry.getKey().getClassName());
+            String prettyMethodName = HtmlUtils.prettifyMethodName(entry.getKey().getMethodName());
 
-          testResults.add(
-              TestResult.from(serial, classSimpleName, prettyMethodName, entry.getValue(),
-                  outputPath));
-        }
-      }
+            return TestResult.from(serial, classSimpleName, prettyMethodName, entry.getValue(),
+                    outputPath);
+          })
+          .collect(toList());
 
       DeviceDetails deviceDetails = result.getDeviceDetails();
       String name = (deviceDetails != null) ? deviceDetails.getName() : serial;
@@ -97,10 +98,10 @@ final class HtmlTv {
         File output) {
       String status = HtmlUtils.getStatusCssClass(result);
 
-      List<HtmlUtils.Screenshot> screenshots = new ArrayList<HtmlUtils.Screenshot>();
-      for (File screenshot : result.getScreenshots()) {
-        screenshots.add(HtmlUtils.getScreenshot(screenshot, output));
-      }
+      List<HtmlUtils.Screenshot> screenshots = result.getScreenshots()
+          .stream()
+          .map(screenshot -> HtmlUtils.getScreenshot(screenshot, output))
+          .collect(toList());
       return new TestResult(className, name, serial, status, screenshots);
     }
 

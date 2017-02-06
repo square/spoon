@@ -278,7 +278,7 @@ public final class SpoonDeviceRunner {
       if (testSize != null) {
         runner.setTestSize(testSize);
       }
-      List<ITestRunListener> listeners = new ArrayList<ITestRunListener>();
+      List<ITestRunListener> listeners = new ArrayList<>();
       listeners.add(new SpoonTestRunListener(result, debug, testIdentifierAdapter));
       listeners.add(new XmlTestRunListener(junitReport));
       if (testRunListeners != null) {
@@ -363,7 +363,7 @@ public final class SpoonDeviceRunner {
         FileUtils.copyDirectory(classNameDir, destDir);
 
         // Get a sorted list of all screenshots from the device run.
-        List<File> screenshots = new ArrayList<File>(
+        List<File> screenshots = new ArrayList<>(
             FileUtils.listFiles(destDir, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE));
         Collections.sort(screenshots);
 
@@ -387,7 +387,7 @@ public final class SpoonDeviceRunner {
       if (!noAnimations) {
         // Make animated GIFs for all the tests which have screenshots.
         for (DeviceTest deviceTest : testScreenshots.keySet()) {
-          List<File> screenshots = new ArrayList<File>(testScreenshots.get(deviceTest));
+          List<File> screenshots = new ArrayList<>(testScreenshots.get(deviceTest));
           if (screenshots.size() == 1) {
             continue; // Do not make an animated GIF if there is only one screenshot.
           }
@@ -411,7 +411,7 @@ public final class SpoonDeviceRunner {
         logInfo("Copied " + classNameDir + " to " + destDir);
 
         // Get a sorted list of all files from the device run.
-        List<File> files = new ArrayList<File>(
+        List<File> files = new ArrayList<>(
             FileUtils.listFiles(destDir, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE));
         Collections.sort(files);
 

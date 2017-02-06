@@ -3,8 +3,9 @@ package com.squareup.spoon.html;
 import com.android.ddmlib.logcat.LogCatMessage;
 import com.squareup.spoon.DeviceTest;
 import com.squareup.spoon.DeviceTestResult;
-import java.util.ArrayList;
 import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 /** Model for representing a {@code log.html} page. */
 final class HtmlLog {
@@ -26,10 +27,7 @@ final class HtmlLog {
         + " in " + HtmlUtils.humanReadableDuration(result.getDuration())
         + " on " + name;
 
-    List<LogEntry> log = new ArrayList<LogEntry>();
-    for (LogCatMessage message : result.getLog()) {
-      log.add(LogEntry.from(message));
-    }
+    List<LogEntry> log = result.getLog().stream().map(LogEntry::from).collect(toList());
 
     return new HtmlLog(title, subtitle, log);
   }

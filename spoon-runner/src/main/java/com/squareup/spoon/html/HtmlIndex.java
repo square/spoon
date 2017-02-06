@@ -12,13 +12,14 @@ import java.util.List;
 import java.util.Map;
 
 import static com.squareup.spoon.DeviceTestResult.Status;
+import static java.util.stream.Collectors.toList;
 
 /** Model for representing the {@code index.html} page. */
 final class HtmlIndex {
   static HtmlIndex from(SpoonSummary summary) {
     int testsRun = 0;
     int totalSuccess = 0;
-    List<Device> devices = new ArrayList<Device>();
+    List<Device> devices = new ArrayList<>();
     for (Map.Entry<String, DeviceResult> result : summary.getResults().entrySet()) {
       devices.add(Device.from(result.getKey(), result.getValue()));
       Map<DeviceTest, DeviceTestResult> testResults = result.getValue().getTestResults();
@@ -68,10 +69,11 @@ final class HtmlIndex {
 
   static final class Device implements Comparable<Device> {
     static Device from(String serial, DeviceResult result) {
-      List<TestResult> testResults = new ArrayList<TestResult>();
-      for (Map.Entry<DeviceTest, DeviceTestResult> entry : result.getTestResults().entrySet()) {
-        testResults.add(TestResult.from(serial, entry.getKey(), entry.getValue()));
-      }
+      List<TestResult> testResults = result.getTestResults()
+          .entrySet()
+          .stream()
+          .map(entry -> TestResult.from(serial, entry.getKey(), entry.getValue()))
+          .collect(toList());
       DeviceDetails details = result.getDeviceDetails();
       String name = (details != null) ? details.getName() : serial;
       boolean executionFailed = testResults.isEmpty() && !result.getExceptions().isEmpty();

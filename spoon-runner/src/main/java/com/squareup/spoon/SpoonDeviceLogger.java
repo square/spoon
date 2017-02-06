@@ -20,7 +20,7 @@ final class SpoonDeviceLogger implements LogCatListener {
   private final LogCatReceiverTask logCatReceiverTask;
 
   public SpoonDeviceLogger(IDevice device) {
-    messages = new ArrayList<LogCatMessage>();
+    messages = new ArrayList<>();
     logCatReceiverTask = new LogCatReceiverTask(device);
     logCatReceiverTask.addLogCatListener(this);
 
@@ -37,7 +37,7 @@ final class SpoonDeviceLogger implements LogCatListener {
   public Map<DeviceTest, List<LogCatMessage>> getParsedLogs() {
     logCatReceiverTask.stop();
 
-    Map<DeviceTest, List<LogCatMessage>> logs = new HashMap<DeviceTest, List<LogCatMessage>>();
+    Map<DeviceTest, List<LogCatMessage>> logs = new HashMap<>();
     DeviceTest current = null;
     int pid = -1;
     synchronized (messages) {
@@ -48,7 +48,7 @@ final class SpoonDeviceLogger implements LogCatListener {
             current = new DeviceTest(match.group(2), match.group(1));
             pid = message.getPid();
 
-            List<LogCatMessage> deviceLogMessages = new ArrayList<LogCatMessage>();
+            List<LogCatMessage> deviceLogMessages = new ArrayList<>();
             deviceLogMessages.add(message);
             logs.put(current, deviceLogMessages);
           }

@@ -4,18 +4,18 @@ import com.squareup.spoon.DeviceDetails;
 import com.squareup.spoon.DeviceResult;
 import com.squareup.spoon.DeviceTest;
 import com.squareup.spoon.DeviceTestResult;
-import com.squareup.spoon.misc.StackTrace;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import static com.squareup.spoon.DeviceTestResult.Status;
+import static java.util.stream.Collectors.toList;
 
 /** Model for representing a {@code device.html} page. */
 final class HtmlDevice {
   static HtmlDevice from(String serial, DeviceResult result, File output) {
-    List<TestResult> testResults = new ArrayList<TestResult>();
+    List<TestResult> testResults = new ArrayList<>();
     int testsPassed = 0;
     for (Map.Entry<DeviceTest, DeviceTestResult> entry : result.getTestResults().entrySet()) {
       DeviceTestResult testResult = entry.getValue();
@@ -31,10 +31,10 @@ final class HtmlDevice {
     DeviceDetails details = result.getDeviceDetails();
     String title = (details != null) ? details.getName() : serial;
 
-    List<HtmlUtils.ExceptionInfo> exceptions = new ArrayList<HtmlUtils.ExceptionInfo>();
-    for (StackTrace exception : result.getExceptions()) {
-      exceptions.add(HtmlUtils.processStackTrace(exception));
-    }
+    List<HtmlUtils.ExceptionInfo> exceptions = result.getExceptions()
+        .stream()
+        .map(HtmlUtils::processStackTrace)
+        .collect(toList());
 
     StringBuilder subtitle1 = new StringBuilder();
     subtitle1.append(totalTestsRun).append(" run");
@@ -81,14 +81,14 @@ final class HtmlDevice {
       String prettyMethodName = HtmlUtils.prettifyMethodName(methodName);
       String testId = HtmlUtils.testClassAndMethodToId(className, methodName);
       String status = HtmlUtils.getStatusCssClass(result);
-      List<HtmlUtils.Screenshot> screenshots = new ArrayList<HtmlUtils.Screenshot>();
-      for (File screenshot : result.getScreenshots()) {
-        screenshots.add(HtmlUtils.getScreenshot(screenshot, output));
-      }
-      List<HtmlUtils.SavedFile> files = new ArrayList<HtmlUtils.SavedFile>();
-      for (File file : result.getFiles()) {
-        files.add(HtmlUtils.getFile(file, output));
-      }
+      List<HtmlUtils.Screenshot> screenshots = result.getScreenshots()
+          .stream()
+          .map(screenshot -> HtmlUtils.getScreenshot(screenshot, output))
+          .collect(toList());
+      List<HtmlUtils.SavedFile> files = result.getFiles()
+          .stream()
+          .map(file -> HtmlUtils.getFile(file, output))
+          .collect(toList());
       String animatedGif = HtmlUtils.createRelativeUri(result.getAnimatedGif(), output);
       HtmlUtils.ExceptionInfo exception = HtmlUtils.processStackTrace(result.getException());
       return new TestResult(serial, className, methodName, classSimpleName, prettyMethodName,

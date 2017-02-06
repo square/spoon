@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.squareup.spoon.DeviceTestResult.Status;
+import static java.util.stream.Collectors.toList;
 
 /** Model for representing a {@code test.html} page. */
 final class HtmlTest {
@@ -18,7 +19,7 @@ final class HtmlTest {
     int deviceCount = 0;
     int testsPassed = 0;
     int duration = 0;
-    List<TestResult> devices = new ArrayList<TestResult>();
+    List<TestResult> devices = new ArrayList<>();
     for (Map.Entry<String, DeviceResult> entry : summary.getResults().entrySet()) {
       DeviceResult deviceResult = entry.getValue();
       DeviceTestResult testResult = deviceResult.getTestResults().get(test);
@@ -77,10 +78,10 @@ final class HtmlTest {
     static TestResult from(String serial, String name, DeviceTestResult result, File output) {
       String status = HtmlUtils.getStatusCssClass(result);
 
-      List<HtmlUtils.Screenshot> screenshots = new ArrayList<HtmlUtils.Screenshot>();
-      for (File screenshot : result.getScreenshots()) {
-        screenshots.add(HtmlUtils.getScreenshot(screenshot, output));
-      }
+      List<HtmlUtils.Screenshot> screenshots = result.getScreenshots()
+          .stream()
+          .map(screenshot -> HtmlUtils.getScreenshot(screenshot, output))
+          .collect(toList());
       String animatedGif = HtmlUtils.createRelativeUri(result.getAnimatedGif(), output);
       HtmlUtils.ExceptionInfo exception = HtmlUtils.processStackTrace(result.getException());
 

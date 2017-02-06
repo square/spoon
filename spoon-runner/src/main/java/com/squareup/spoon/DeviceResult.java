@@ -31,9 +31,9 @@ public final class DeviceResult {
     this.installMessage = installMessage;
     this.deviceDetails = deviceDetails;
     this.started = started;
-    this.testResults = unmodifiableMap(new TreeMap<DeviceTest, DeviceTestResult>(testResults));
+    this.testResults = unmodifiableMap(new TreeMap<>(testResults));
     this.duration = duration;
-    this.exceptions = unmodifiableList(new ArrayList<StackTrace>(exceptions));
+    this.exceptions = unmodifiableList(new ArrayList<>(exceptions));
   }
 
   /**
@@ -83,13 +83,12 @@ public final class DeviceResult {
   static class Builder {
     private boolean installFailed = false;
     private String installMessage = null;
-    private final Map<DeviceTest, DeviceTestResult.Builder> testResultBuilders =
-        new HashMap<DeviceTest, DeviceTestResult.Builder>();
+    private final Map<DeviceTest, DeviceTestResult.Builder> testResultBuilders = new HashMap<>();
     private DeviceDetails deviceDetails = null;
     private final long started = new Date().getTime();
     private long start;
     private long duration = -1;
-    private final List<StackTrace> exceptions = new ArrayList<StackTrace>();
+    private final List<StackTrace> exceptions = new ArrayList<>();
 
     public Builder addTestResultBuilder(DeviceTest test,
         DeviceTestResult.Builder methodResultBuilder) {
@@ -145,7 +144,7 @@ public final class DeviceResult {
 
     public DeviceResult build() {
       // Convert builders to actual instances.
-      Map<DeviceTest, DeviceTestResult> testResults = new HashMap<DeviceTest, DeviceTestResult>();
+      Map<DeviceTest, DeviceTestResult> testResults = new HashMap<>();
       for (Map.Entry<DeviceTest, DeviceTestResult.Builder> entry : testResultBuilders.entrySet()) {
         testResults.put(entry.getKey(), entry.getValue().build());
       }
