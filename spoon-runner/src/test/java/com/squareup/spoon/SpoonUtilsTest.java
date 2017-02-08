@@ -2,9 +2,9 @@ package com.squareup.spoon;
 
 import org.junit.Test;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static com.google.common.truth.Truth.assertThat;
 
-public class SpoonUtilsTest {
+public final class SpoonUtilsTest {
   @Test public void serialSanitizer() {
     assertThat(SpoonUtils.sanitizeSerial("1234")).isEqualTo("1234");
     assertThat(SpoonUtils.sanitizeSerial("FooBarBaz")).isEqualTo("FooBarBaz");

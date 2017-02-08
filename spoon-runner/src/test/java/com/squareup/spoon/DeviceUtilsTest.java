@@ -2,11 +2,11 @@ package com.squareup.spoon;
 
 import org.junit.Test;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.squareup.spoon.DeviceUtils.scrubLanguage;
 import static com.squareup.spoon.DeviceUtils.scrubModel;
-import static org.fest.assertions.api.Assertions.assertThat;
 
-public class DeviceUtilsTest {
+public final class DeviceUtilsTest {
   @Test public void scrubModelExamples() {
     assertThat(scrubModel(null, null)).isNull();
     assertThat(scrubModel("DynaTAC", null)).isNull();

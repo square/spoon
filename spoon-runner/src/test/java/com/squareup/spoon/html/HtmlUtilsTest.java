@@ -6,14 +6,14 @@ import org.junit.Test;
 import com.squareup.spoon.html.HtmlUtils.ExceptionInfo;
 import com.squareup.spoon.misc.StackTrace;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.squareup.spoon.html.HtmlUtils.createRelativeUri;
 import static com.squareup.spoon.html.HtmlUtils.prettifyImageName;
 import static com.squareup.spoon.html.HtmlUtils.prettifyMethodName;
 import static com.squareup.spoon.html.HtmlUtils.processStackTrace;
 import static com.squareup.spoon.html.HtmlUtils.humanReadableDuration;
-import static org.fest.assertions.api.Assertions.assertThat;
 
-public class HtmlUtilsTest {
+public final class HtmlUtilsTest {
   @Test public void prettifyImageNameExamples() {
     // Simple cases.
     assertThat(prettifyImageName("012344567_click-the-button.png")).isEqualTo("Click The Button");

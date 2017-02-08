@@ -4,16 +4,17 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import org.junit.Test;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
+import static com.google.common.truth.Truth.assertThat;
 
-public class StackTraceTest {
+public final class StackTraceTest {
   @Test public void recursiveCause() {
-    Exception spied = spy(new IllegalArgumentException("To understand recursion..."));
-    when(spied.getCause()).thenReturn(spied);
+    Exception e = new IllegalArgumentException("To understand recursion...") {
+      @Override public synchronized Throwable getCause() {
+        return this;
+      }
+    };
 
-    StackTrace actual = StackTrace.from(spied);
+    StackTrace actual = StackTrace.from(e);
     assertThat(actual.getCause()).isNull();
   }
 
@@ -57,7 +58,7 @@ public class StackTraceTest {
     assertThat(elementTwo.getClassName()).isEqualTo("java.lang.reflect.Method");
     assertThat(elementTwo.getMethodName()).isEqualTo("invokeNative");
     assertThat(elementTwo.getFileName()).isNull();
-    assertThat(elementTwo.getLine()).isZero();
+    assertThat(elementTwo.getLine()).isEqualTo(0);
     assertThat(elementTwo.isNative()).isTrue();
   }
 

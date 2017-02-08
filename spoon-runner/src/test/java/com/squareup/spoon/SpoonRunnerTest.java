@@ -2,10 +2,10 @@ package com.squareup.spoon;
 
 import org.junit.Test;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.squareup.spoon.SpoonRunner.parseOverallSuccess;
-import static org.fest.assertions.api.Assertions.assertThat;
 
-public class SpoonRunnerTest {
+public final class SpoonRunnerTest {
   @Test public void parsingSuccess() {
     SpoonSummary summary;
     DeviceTest device = new DeviceTest("foo", "bar");
