@@ -12,7 +12,7 @@ import static com.squareup.spoon.SpoonUtils.sanitizeSerial;
 import static java.lang.String.format;
 import static org.junit.Assert.assertTrue;
 
-public class SpoonCoverageMergerTest {
+public final class SpoonCoverageMergerTest {
 
   @Rule
   public TemporaryFolder testFolder = new TemporaryFolder();

@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class TestIdentifierAdapterTest {
+public final class TestIdentifierAdapterTest {
 
   @Test
   public void otherAdapter() {

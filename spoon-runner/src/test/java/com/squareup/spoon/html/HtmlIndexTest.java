@@ -5,11 +5,11 @@ import java.util.Collections;
 import java.util.List;
 import org.junit.Test;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.squareup.spoon.html.HtmlIndex.Device;
 import static com.squareup.spoon.html.HtmlIndex.TestResult;
-import static org.fest.assertions.api.Assertions.assertThat;
 
-public class HtmlIndexTest {
+public final class HtmlIndexTest {
   private static final List<TestResult> NO_TESTS = Collections.emptyList();
 
   @Test public void devicesWithNoNamesAreSortedLast() {

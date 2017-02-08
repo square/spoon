@@ -24,7 +24,7 @@ dependencies {
   compile project(':spoon-common')
   compile deps.junit
 
-  testCompile deps.fest
+  testCompile deps.truth
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
