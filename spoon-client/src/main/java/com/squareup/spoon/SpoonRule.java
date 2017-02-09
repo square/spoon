@@ -3,10 +3,7 @@ package com.squareup.spoon;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.os.Looper;
 import android.util.Log;
-import android.view.View;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,7 +12,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.concurrent.CountDownLatch;
 import java.util.regex.Pattern;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
@@ -23,7 +19,6 @@ import org.junit.runners.model.Statement;
 
 import static android.content.Context.MODE_WORLD_READABLE;
 import static android.graphics.Bitmap.CompressFormat.PNG;
-import static android.graphics.Bitmap.Config.ARGB_8888;
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static android.os.Environment.getExternalStorageDirectory;
@@ -73,48 +68,10 @@ public final class SpoonRule implements TestRule {
         obtainScreenshotDirectory(activity.getApplicationContext(), className, methodName);
     String screenshotName = System.currentTimeMillis() + NAME_SEPARATOR + tag + EXTENSION;
     File screenshotFile = new File(screenshotDirectory, screenshotName);
-    Bitmap bitmap = captureScreenshot(tag, activity);
+    Bitmap bitmap = Screenshot.capture(tag, activity);
     writeBitmapToFile(bitmap, screenshotFile);
     Log.d(TAG, "Captured screenshot '" + tag + "'.");
     return screenshotFile;
-  }
-
-  private static Bitmap captureScreenshot(String tag, final Activity activity) {
-    View view = activity.getWindow().getDecorView();
-    if (view.getWidth() == 0 || view.getHeight() == 0) {
-      throw new IllegalStateException("Your view has no height or width. Are you sure "
-          + activity.getClass().getSimpleName()
-          + " is the currently displayed activity?");
-    }
-    final Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), ARGB_8888);
-
-    if (Looper.myLooper() == Looper.getMainLooper()) {
-      // On main thread already, Just Do It™.
-      drawDecorViewToBitmap(activity, bitmap);
-    } else {
-      // On a background thread, post to main.
-      final CountDownLatch latch = new CountDownLatch(1);
-      activity.runOnUiThread(new Runnable() {
-        @Override public void run() {
-          try {
-            drawDecorViewToBitmap(activity, bitmap);
-          } finally {
-            latch.countDown();
-          }
-        }
-      });
-      try {
-        latch.await();
-      } catch (InterruptedException e) {
-        throw new RuntimeException("Unable to get screenshot '" + tag + "'", e);
-      }
-    }
-    return bitmap;
-  }
-
-  private static void drawDecorViewToBitmap(Activity activity, Bitmap bitmap) {
-    Canvas canvas = new Canvas(bitmap);
-    activity.getWindow().getDecorView().draw(canvas);
   }
 
   private static void writeBitmapToFile(Bitmap bitmap, File file) {
