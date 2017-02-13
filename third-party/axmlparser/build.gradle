@@ -1,0 +1,10 @@
+apply plugin: 'java'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+tasks.withType(Checkstyle) {
+  enabled = false
+}
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

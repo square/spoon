@@ -13,18 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.squareup.spoon.axmlparser;
+package com.squareup.spoon.internal.thirdparty.axmlparser;
 
 /**
  * @author Dmitry Skiba
  *
+ * Helper class, used in Cast.toCharSequence.
  */
-public class Cast {
+public class CSString implements CharSequence {
 
-    public static final CharSequence toCharSequence(String string) {
+    public CSString(String string) {
         if (string==null) {
-            return null;
+            string="";
         }
-        return new CSString(string);
+        m_string=string;
     }
+
+    public int length() {
+        return m_string.length();
+    }
+
+    public char charAt(int index) {
+        return m_string.charAt(index);
+    }
+
+    public CharSequence subSequence(int start,int end) {
+        return new CSString(m_string.substring(start,end));
+    }
+
+    public String toString() {
+        return m_string;
+    }
+
+    private String m_string;
 }

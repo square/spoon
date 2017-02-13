@@ -42,6 +42,5 @@ subprojects { project ->
   apply plugin: 'checkstyle'
   tasks.withType(Checkstyle) {
     configFile rootProject.file('checkstyle.xml')
-    exclude 'com/squareup/spoon/axmlparser/**'
   }
 }

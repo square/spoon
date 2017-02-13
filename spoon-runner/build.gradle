@@ -6,6 +6,7 @@ targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
   compile project(':spoon-common')
+  compile project(':third-party:axmlparser')
   compile deps.jcommander
   compile deps.gson
   compile deps.commonsLang3
