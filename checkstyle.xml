@@ -14,9 +14,9 @@
     <property name="message" value="Line has trailing spaces."/>
   </module>
 
-  <!-- Space after 'for' and 'if' -->
+  <!-- Exactly one space after 'for' and 'if' -->
   <module name="RegexpSingleline">
-    <property name="format" value="^\s*(for|if)[^ ]\("/>
+    <property name="format" value="^\s*(for|if)(|\s{2,})\("/>
     <property name="message" value="Space needed before opening parenthesis."/>
   </module>
 
