@@ -12,12 +12,13 @@ import com.squareup.spoon.DeviceResult;
 import com.squareup.spoon.DeviceTest;
 import com.squareup.spoon.DeviceTestResult;
 import com.squareup.spoon.SpoonSummary;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -82,7 +83,8 @@ public final class HtmlRenderer {
   }
 
   private void writeResultJson() {
-    try (Writer result = new PrintWriter(new File(output, "result.json"), "UTF-8")) {
+    try (Writer result = new BufferedWriter(
+        new OutputStreamWriter(new FileOutputStream(new File(output, "result.json")), UTF_8))) {
       gson.toJson(summary, result);
     } catch (IOException e) {
       throw new RuntimeException("Unable to write result.json file.", e);
@@ -148,7 +150,8 @@ public final class HtmlRenderer {
 
   private static void renderMustacheToFile(Mustache mustache, Object scope, File file) {
     file.getParentFile().mkdirs();
-    try (Writer writer = new PrintWriter(file, "UTF-8")) {
+    try (Writer writer = new BufferedWriter(
+        new OutputStreamWriter(new FileOutputStream(file), UTF_8))) {
       mustache.execute(writer, scope);
     } catch (IOException e) {
       throw new RuntimeException(e);

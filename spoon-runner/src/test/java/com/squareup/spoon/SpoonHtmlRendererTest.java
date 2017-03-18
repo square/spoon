@@ -20,6 +20,7 @@ import org.junit.rules.TemporaryFolder;
 public final class SpoonHtmlRendererTest {
 
   private static final String SPOON_IN_RUSSIAN = "\u041B\u043E\u0436\u043A\u0430";
+  private static final String[] FILE_EXTENSIONS_TO_CHECK = {"html", "css", "json", "js"};
 
   @Rule
   public TemporaryFolder testFolder = new TemporaryFolder();
@@ -35,10 +36,9 @@ public final class SpoonHtmlRendererTest {
     htmlRenderer.render();
 
     setDefaultCharset(StandardCharsets.US_ASCII);
-
-    Iterator<File> it = FileUtils
-        .iterateFiles(folder, new String[]{"html", "css", "json", "js"}, true);
+    Iterator<File> it = FileUtils.iterateFiles(folder, FILE_EXTENSIONS_TO_CHECK, true);
     File nextFile = null;
+
     try {
       while (it.hasNext()) {
         nextFile = it.next();
