@@ -1,5 +1,7 @@
 package com.squareup.spoon.html;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
@@ -12,18 +14,17 @@ import com.squareup.spoon.DeviceTestResult;
 import com.squareup.spoon.SpoonSummary;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.lesscss.LessCompiler;
-
-import static com.google.common.base.Charsets.UTF_8;
 
 /** Renders a {@link com.squareup.spoon.SpoonSummary} as static HTML to an output directory. */
 public final class HtmlRenderer {
@@ -62,7 +63,7 @@ public final class HtmlRenderer {
 
   private void copyStaticAssets() {
     File statics = new File(output, STATIC_DIRECTORY);
-    statics.mkdir();
+    statics.mkdirs();
     for (String staticAsset : STATIC_ASSETS) {
       copyStaticToOutput(staticAsset, statics);
     }
@@ -74,21 +75,17 @@ public final class HtmlRenderer {
       String less = Resources.toString(getClass().getResource("/spoon.less"), UTF_8);
       String css = compiler.compile(less);
       File cssFile = FileUtils.getFile(output, STATIC_DIRECTORY, "spoon.css");
-      FileUtils.writeStringToFile(cssFile, css);
+      FileUtils.writeStringToFile(cssFile, css, UTF_8);
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
   }
 
   private void writeResultJson() {
-    FileWriter result = null;
-    try {
-      result = new FileWriter(new File(output, "result.json"));
+    try (Writer result = new PrintWriter(new File(output, "result.json"), "UTF-8")) {
       gson.toJson(summary, result);
     } catch (IOException e) {
       throw new RuntimeException("Unable to write result.json file.", e);
-    } finally {
-      IOUtils.closeQuietly(result);
     }
   }
 
@@ -150,15 +147,11 @@ public final class HtmlRenderer {
   }
 
   private static void renderMustacheToFile(Mustache mustache, Object scope, File file) {
-    FileWriter writer = null;
-    try {
-      file.getParentFile().mkdirs();
-      writer = new FileWriter(file);
+    file.getParentFile().mkdirs();
+    try (Writer writer = new PrintWriter(file, "UTF-8")) {
       mustache.execute(writer, scope);
     } catch (IOException e) {
       throw new RuntimeException(e);
-    } finally {
-      IOUtils.closeQuietly(writer);
     }
   }
 
