@@ -38,7 +38,7 @@ final class HtmlTest {
 
     int testsFailed = deviceCount - testsPassed;
     String totalDevices = deviceCount + " device" + (deviceCount != 1 ? "s" : "");
-    String title = HtmlUtils.prettifyMethodName(test.getMethodName());
+    String title = test.getMethodName();
 
     StringBuilder subtitle = new StringBuilder();
     subtitle.append("Ran on ")

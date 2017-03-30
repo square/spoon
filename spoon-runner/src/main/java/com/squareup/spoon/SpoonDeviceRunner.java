@@ -11,7 +11,6 @@ import com.android.ddmlib.testrunner.ITestRunListener;
 import com.android.ddmlib.testrunner.RemoteAndroidTestRunner;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-import com.squareup.spoon.adapters.TestIdentifierAdapter;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -168,7 +167,6 @@ public final class SpoonDeviceRunner {
   public DeviceResult run(AndroidDebugBridge adb) {
     String testPackage = instrumentationInfo.getInstrumentationPackage();
     String testRunner = instrumentationInfo.getTestRunnerClass();
-    TestIdentifierAdapter testIdentifierAdapter = TestIdentifierAdapter.fromTestRunner(testRunner);
 
     logDebug(debug, "InstrumentationInfo: [%s]", instrumentationInfo);
 
@@ -279,7 +277,7 @@ public final class SpoonDeviceRunner {
         runner.setTestSize(testSize);
       }
       List<ITestRunListener> listeners = new ArrayList<>();
-      listeners.add(new SpoonTestRunListener(result, debug, testIdentifierAdapter));
+      listeners.add(new SpoonTestRunListener(result, debug));
       listeners.add(new XmlTestRunListener(junitReport));
       if (testRunListeners != null) {
         listeners.addAll(testRunListeners);

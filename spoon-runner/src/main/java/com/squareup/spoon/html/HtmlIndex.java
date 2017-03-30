@@ -117,10 +117,9 @@ final class HtmlIndex {
       String className = test.getClassName();
       String methodName = test.getMethodName();
       String classSimpleName = HtmlUtils.getClassSimpleName(className);
-      String prettyMethodName = HtmlUtils.prettifyMethodName(methodName);
       String testId = HtmlUtils.testClassAndMethodToId(className, methodName);
       String status = HtmlUtils.getStatusCssClass(testResult);
-      return new TestResult(serial, classSimpleName, prettyMethodName, testId, status);
+      return new TestResult(serial, classSimpleName, methodName, testId, status);
     }
 
     public final String serial;
