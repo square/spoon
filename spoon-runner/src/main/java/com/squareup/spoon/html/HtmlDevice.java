@@ -78,7 +78,6 @@ final class HtmlDevice {
       String className = test.getClassName();
       String methodName = test.getMethodName();
       String classSimpleName = HtmlUtils.getClassSimpleName(className);
-      String prettyMethodName = HtmlUtils.prettifyMethodName(methodName);
       String testId = HtmlUtils.testClassAndMethodToId(className, methodName);
       String status = HtmlUtils.getStatusCssClass(result);
       List<HtmlUtils.Screenshot> screenshots = result.getScreenshots()
@@ -91,7 +90,7 @@ final class HtmlDevice {
           .collect(toList());
       String animatedGif = HtmlUtils.createRelativeUri(result.getAnimatedGif(), output);
       HtmlUtils.ExceptionInfo exception = HtmlUtils.processStackTrace(result.getException());
-      return new TestResult(serial, className, methodName, classSimpleName, prettyMethodName,
+      return new TestResult(serial, className, methodName, classSimpleName, methodName,
           testId, status, screenshots, animatedGif, exception, files);
     }
 

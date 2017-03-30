@@ -49,7 +49,7 @@ final class HtmlTv {
           .filter(entry -> !entry.getValue().getScreenshots().isEmpty())
           .map(entry -> {
             String classSimpleName = HtmlUtils.getClassSimpleName(entry.getKey().getClassName());
-            String prettyMethodName = HtmlUtils.prettifyMethodName(entry.getKey().getMethodName());
+            String prettyMethodName = entry.getKey().getMethodName();
 
             return TestResult.from(serial, classSimpleName, prettyMethodName, entry.getValue(),
                     outputPath);

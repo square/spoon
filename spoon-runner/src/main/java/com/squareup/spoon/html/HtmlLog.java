@@ -22,7 +22,7 @@ final class HtmlLog {
         throw new IllegalArgumentException("Unknown status: " + result.getStatus());
     }
 
-    String title = HtmlUtils.prettifyMethodName(test.getMethodName());
+    String title = test.getMethodName();
     String subtitle = "Test " + status
         + " in " + HtmlUtils.humanReadableDuration(result.getDuration())
         + " on " + name;

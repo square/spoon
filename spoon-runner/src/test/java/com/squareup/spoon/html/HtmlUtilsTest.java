@@ -8,43 +8,10 @@ import com.squareup.spoon.misc.StackTrace;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.squareup.spoon.html.HtmlUtils.createRelativeUri;
-import static com.squareup.spoon.html.HtmlUtils.prettifyImageName;
-import static com.squareup.spoon.html.HtmlUtils.prettifyMethodName;
 import static com.squareup.spoon.html.HtmlUtils.processStackTrace;
 import static com.squareup.spoon.html.HtmlUtils.humanReadableDuration;
 
 public final class HtmlUtilsTest {
-  @Test public void prettifyImageNameExamples() {
-    // Simple cases.
-    assertThat(prettifyImageName("012344567_click-the-button.png")).isEqualTo("Click The Button");
-    assertThat(prettifyImageName("987245978_click_the_button.png")).isEqualTo("Click The Button");
-  }
-
-  @Test public void prettifyTestNameExamples() {
-    // Simple cases.
-    assertThat(prettifyMethodName("testClickTheButton")).isEqualTo("Click The Button");
-    assertThat(prettifyMethodName("testClickTheButton_ShowsTheName")) //
-        .isEqualTo("Click The Button, Shows The Name");
-    assertThat(prettifyMethodName("testClickTheButton_ShowsTheName_HidesTheInput")) //
-        .isEqualTo("Click The Button, Shows The Name, Hides The Input");
-
-    // Over-eager underscore users.
-    assertThat(prettifyMethodName("testOne__Two_Three")).isEqualTo("One, Two, Three");
-    assertThat(prettifyMethodName("testOne_Two____Three")).isEqualTo("One, Two, Three");
-    assertThat(prettifyMethodName("test__One_Two_Three")).isEqualTo("One, Two, Three");
-    assertThat(prettifyMethodName("testOne_Two_Three__")).isEqualTo("One, Two, Three");
-
-    // Harder, edge cases.
-    assertThat(prettifyMethodName("testURLConnection")).isEqualTo("URL Connection");
-    assertThat(prettifyMethodName("testAHardCase")).isEqualTo("A Hard Case");
-    assertThat(prettifyMethodName("testOneATwo")).isEqualTo("One A Two");
-  }
-
-  @Test public void prettifyMethodNameWorksRegardlessOfTestPrefix() {
-    assertThat(prettifyMethodName("oneTwoThree_Four")).isEqualTo("One Two Three, Four");
-    assertThat(prettifyMethodName("thisIsAHardCase")).isEqualTo("This Is A Hard Case");
-  }
-
   @Test public void relativeUriCreation() {
     File file = new File("/path/to/image/this/that/whatever.png");
     File output = new File("/path/to");

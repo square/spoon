@@ -2,8 +2,6 @@ package com.squareup.spoon;
 
 import com.android.ddmlib.testrunner.ITestRunListener;
 import com.android.ddmlib.testrunner.TestIdentifier;
-import com.squareup.spoon.adapters.TestIdentifierAdapter;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,14 +14,11 @@ final class SpoonTestRunListener implements ITestRunListener {
   private final DeviceResult.Builder result;
   private final Map<TestIdentifier, DeviceTestResult.Builder> methodResults = new HashMap<>();
   private final boolean debug;
-  private final TestIdentifierAdapter testIdentifierAdapter;
 
-  SpoonTestRunListener(DeviceResult.Builder result, boolean debug,
-      TestIdentifierAdapter testIdentifierAdapter) {
+  SpoonTestRunListener(DeviceResult.Builder result, boolean debug) {
     checkNotNull(result);
     this.result = result;
     this.debug = debug;
-    this.testIdentifierAdapter = testIdentifierAdapter;
   }
 
   @Override public void testRunStarted(String runName, int testCount) {
@@ -34,12 +29,11 @@ final class SpoonTestRunListener implements ITestRunListener {
   @Override public void testStarted(TestIdentifier test) {
     logDebug(debug, "test=%s", test);
     DeviceTestResult.Builder methodResult = new DeviceTestResult.Builder().startTest();
-    methodResults.put(testIdentifierAdapter.adapt(test), methodResult);
+    methodResults.put(test, methodResult);
   }
 
   @Override public void testFailed(TestIdentifier test, String trace) {
     logDebug(debug, "test=%s", test);
-    test = testIdentifierAdapter.adapt(test);
     DeviceTestResult.Builder methodResult = methodResults.get(test);
     if (methodResult == null) {
       logError("unknown test=%s", test);
@@ -63,7 +57,6 @@ final class SpoonTestRunListener implements ITestRunListener {
 
   @Override public void testEnded(TestIdentifier test, Map<String, String> testMetrics) {
     logDebug(debug, "test=%s", test);
-    test = testIdentifierAdapter.adapt(test);
     DeviceTestResult.Builder methodResult = methodResults.get(test);
     if (methodResult == null) {
       logError("unknown test=%s", test);
