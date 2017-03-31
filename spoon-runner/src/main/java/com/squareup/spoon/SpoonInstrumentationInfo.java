@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -48,11 +47,9 @@ final class SpoonInstrumentationInfo {
 
   /** Parse key information from an instrumentation APK's manifest. */
   static SpoonInstrumentationInfo parseFromFile(File apkTestFile) {
-    InputStream is = null;
-    try {
-      ZipFile zip = new ZipFile(apkTestFile);
+    try (ZipFile zip = new ZipFile(apkTestFile)) {
       ZipEntry entry = zip.getEntry("AndroidManifest.xml");
-      is = zip.getInputStream(entry);
+      InputStream is = zip.getInputStream(entry);
 
       AXMLParser parser = new AXMLParser(is);
       int eventType = parser.getType();
@@ -98,8 +95,6 @@ final class SpoonInstrumentationInfo {
       return new SpoonInstrumentationInfo(appPackage, minSdkVersion, testPackage, testRunnerClass);
     } catch (IOException e) {
       throw new RuntimeException("Unable to parse test app AndroidManifest.xml.", e);
-    } finally {
-      IOUtils.closeQuietly(is);
     }
   }
 }
