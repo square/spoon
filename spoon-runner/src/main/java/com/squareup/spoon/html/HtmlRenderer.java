@@ -1,7 +1,5 @@
 package com.squareup.spoon.html;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
@@ -26,6 +24,8 @@ import java.util.Set;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.lesscss.LessCompiler;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /** Renders a {@link com.squareup.spoon.SpoonSummary} as static HTML to an output directory. */
 public final class HtmlRenderer {

@@ -133,9 +133,9 @@ public final class SpoonDeviceRunner {
     work.mkdirs();
 
     // Write our configuration to a file in the output directory.
-    FileWriter executionWriter = new FileWriter(new File(work, FILE_EXECUTION));
-    GSON.toJson(this, executionWriter);
-    executionWriter.close();
+    try (FileWriter executionWriter = new FileWriter(new File(work, FILE_EXECUTION))) {
+      GSON.toJson(this, executionWriter);
+    }
 
     // Kick off a new process to interface with ADB and perform the real execution.
     String name = SpoonDeviceRunner.class.getName();
@@ -148,18 +148,17 @@ public final class SpoonDeviceRunner {
     logDebug(debug, "Process.waitFor() finished for [%s] with exitCode %d", serial, exitCode);
 
     // Read the result from a file in the output directory.
-    FileReader resultFile = new FileReader(new File(work, FILE_RESULT));
-    DeviceResult result = GSON.fromJson(resultFile, DeviceResult.class);
-    resultFile.close();
-
-    return result;
+    try (FileReader resultFile = new FileReader(new File(work, FILE_RESULT))) {
+      return GSON.fromJson(resultFile, DeviceResult.class);
+    }
   }
 
   private void printStream(InputStream stream, String tag) throws IOException {
-    BufferedReader stdout = new BufferedReader(new InputStreamReader(stream));
-    String s;
-    while ((s = stdout.readLine()) != null) {
-      logDebug(debug, "[%s] %s %s", serial, tag, s);
+    try (BufferedReader stdout = new BufferedReader(new InputStreamReader(stream))) {
+      String s;
+      while ((s = stdout.readLine()) != null) {
+        logDebug(debug, "[%s] %s %s", serial, tag, s);
+      }
     }
   }
 
@@ -525,18 +524,19 @@ public final class SpoonDeviceRunner {
         throw new IllegalArgumentException("Device directory and/or execution file doesn't exist.");
       }
 
-      FileReader reader = new FileReader(executionFile);
-      SpoonDeviceRunner target = GSON.fromJson(reader, SpoonDeviceRunner.class);
-      reader.close();
+      SpoonDeviceRunner target;
+      try (FileReader reader = new FileReader(executionFile)) {
+        target = GSON.fromJson(reader, SpoonDeviceRunner.class);
+      }
 
       AndroidDebugBridge adb = SpoonUtils.initAdb(target.sdk, target.adbTimeout);
       DeviceResult result = target.run(adb);
       AndroidDebugBridge.terminate();
 
       // Write device result file.
-      FileWriter writer = new FileWriter(new File(outputDir, FILE_RESULT));
-      GSON.toJson(result, writer);
-      writer.close();
+      try (FileWriter writer = new FileWriter(new File(outputDir, FILE_RESULT))) {
+        GSON.toJson(result, writer);
+      }
     } catch (Throwable ex) {
       logInfo("ERROR: Unable to execute test for target.  Exception message: %s", ex.getMessage());
       ex.printStackTrace(System.out);
