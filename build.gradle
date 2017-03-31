@@ -3,6 +3,8 @@ buildscript {
       'minSdk': 9,
       'compileSdk': 25,
       'buildTools': '25.0.2',
+
+      'errorProne': '2.0.19',
   ]
 
   ext.deps = [
@@ -24,10 +26,14 @@ buildscript {
   dependencies {
     classpath 'com.android.tools.build:gradle:2.2.3'
     classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
+    classpath 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.8'
   }
 
   repositories {
     jcenter()
+    maven {
+      url 'https://plugins.gradle.org/m2/'
+    }
   }
 }
 
@@ -42,5 +48,21 @@ subprojects { project ->
   apply plugin: 'checkstyle'
   tasks.withType(Checkstyle) {
     configFile rootProject.file('checkstyle.xml')
+  }
+
+  if (!project.path.startsWith(':third-party')) {
+    project.apply(plugin: 'net.ltgt.errorprone')
+  }
+
+  configurations.all {
+    resolutionStrategy {
+      eachDependency { details ->
+        // Force all the error-prone dependencies to use the same version.
+        if (details.requested.group == 'com.google.errorprone'
+            && details.requested.name.startsWith('error_prone_')) {
+          details.useVersion versions.errorProne
+        }
+      }
+    }
   }
 }
