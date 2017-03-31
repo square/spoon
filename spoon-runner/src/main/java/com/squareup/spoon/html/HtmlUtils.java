@@ -9,6 +9,7 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicLong;
 import org.apache.commons.lang3.StringEscapeUtils;
 
@@ -17,16 +18,11 @@ import static java.util.stream.Collectors.toList;
 /** Utilities for representing the execution in HTML. */
 final class HtmlUtils {
   private static final String INVALID_ID_CHARS = "[^a-zA-Z0-9]";
-  private static final ThreadLocal<Format> DATE_FORMAT = new ThreadLocal<Format>() {
-    @Override protected Format initialValue() {
-      return new SimpleDateFormat("yyyy-MM-dd hh:mm a");
-    }
-  };
-  private static final ThreadLocal<Format> DATE_FORMAT_TV = new ThreadLocal<Format>() {
-    @Override protected Format initialValue() {
-      return new SimpleDateFormat("EEEE, MMMM dd, h:mm a");
-    }
-  };
+  // TODO use local date/time format instances instead?
+  private static final ThreadLocal<Format> DATE_FORMAT =
+      ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyy-MM-dd hh:mm a", Locale.US));
+  private static final ThreadLocal<Format> DATE_FORMAT_TV =
+      ThreadLocal.withInitial(() -> new SimpleDateFormat("EEEE, MMMM dd, h:mm a", Locale.US));
 
   static String deviceDetailsToString(DeviceDetails details) {
     if (details == null) return null;

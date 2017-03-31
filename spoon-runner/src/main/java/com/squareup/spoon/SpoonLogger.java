@@ -3,14 +3,12 @@ package com.squareup.spoon;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /** Simple logger interface. */
 final class SpoonLogger {
-  private static final ThreadLocal<DateFormat> DATE_FORMAT = new ThreadLocal<DateFormat>() {
-    @Override protected DateFormat initialValue() {
-      return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    }
-  };
+  private static final ThreadLocal<DateFormat> DATE_FORMAT =
+      ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US));
 
   static void logError(String message, Object... args) {
     System.err.println(getPrefix() + String.format(message, args));
