@@ -46,7 +46,8 @@ subprojects { project ->
   }
 
   apply plugin: 'checkstyle'
-  tasks.withType(Checkstyle) {
+  project.checkstyle {
+    toolVersion "7.6.1"
     configFile rootProject.file('checkstyle.xml')
   }
 

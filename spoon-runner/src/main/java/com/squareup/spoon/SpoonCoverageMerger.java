@@ -17,7 +17,7 @@ final class SpoonCoverageMerger {
   private static final String MERGED_COVERAGE_FILE = "merged-coverage.ec";
   private ExecFileLoader execFileLoader;
 
-  public SpoonCoverageMerger() {
+  SpoonCoverageMerger() {
     this.execFileLoader = new ExecFileLoader();
   }
 
