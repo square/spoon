@@ -66,12 +66,12 @@ android.testVariants.all { testVariant ->
     }
 
     classpath = configurations.spoon
-    main = 'com.squareup.spoon.SpoonRunner'
+    main = 'com.squareup.spoon.Main'
     args = [
-        '--debug',
-        '--apk', variantOutputs[0].outputFile,
-        '--test-apk', testVariantOutputs[0].outputFile,
+        variantOutputs[0].outputFile,
+        testVariantOutputs[0].outputFile,
         '--output', outputDir,
+        '--debug',
     ]
   }
   task.dependsOn(variantOutputs[0].assemble, testVariantOutputs[0].assemble)
