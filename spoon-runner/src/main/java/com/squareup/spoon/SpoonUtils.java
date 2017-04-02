@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.time.Duration;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -116,11 +117,11 @@ public final class SpoonUtils {
   }
 
   /** Get an {@link com.android.ddmlib.AndroidDebugBridge} instance given an SDK path. */
-  public static AndroidDebugBridge initAdb(File sdk, long timeOutMs) {
+  public static AndroidDebugBridge initAdb(File sdk, Duration timeOut) {
     AndroidDebugBridge.initIfNeeded(false);
     File adbPath = FileUtils.getFile(sdk, "platform-tools", "adb");
     AndroidDebugBridge adb = AndroidDebugBridge.createBridge(adbPath.getAbsolutePath(), false);
-    waitForAdb(adb, timeOutMs);
+    waitForAdb(adb, timeOut);
     return adb;
   }
 
@@ -148,7 +149,8 @@ public final class SpoonUtils {
     encoder.finish();
   }
 
-  private static void waitForAdb(AndroidDebugBridge adb, long timeOutMs) {
+  private static void waitForAdb(AndroidDebugBridge adb, Duration timeOut) {
+    long timeOutMs = timeOut.toMillis();
     long sleepTimeMs = TimeUnit.SECONDS.toMillis(1);
     while (!adb.hasInitialDeviceList() && timeOutMs > 0) {
       try {

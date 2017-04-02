@@ -18,11 +18,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 
@@ -61,7 +63,7 @@ public final class SpoonDeviceRunner {
   private final int numShards;
   private final boolean debug;
   private final boolean noAnimations;
-  private final int adbTimeout;
+  private final Duration adbTimeout;
   private final List<String> instrumentationArgs;
   private final String className;
   private final String methodName;
@@ -95,7 +97,7 @@ public final class SpoonDeviceRunner {
    * @param testRunListeners Additional TestRunListener or empty list.
    */
   SpoonDeviceRunner(File sdk, File apk, File testApk, File output, String serial, int shardIndex,
-      int numShards, boolean debug, boolean noAnimations, int adbTimeout, String classpath,
+      int numShards, boolean debug, boolean noAnimations, Duration adbTimeout, String classpath,
       SpoonInstrumentationInfo instrumentationInfo, List<String> instrumentationArgs,
       String className, String methodName, IRemoteAndroidTestRunner.TestSize testSize,
       List<ITestRunListener> testRunListeners, boolean codeCoverage, boolean grantAll) {
@@ -183,7 +185,7 @@ public final class SpoonDeviceRunner {
     result.setDeviceDetails(deviceDetails);
     logDebug(debug, "[%s] setDeviceDetails %s", serial, deviceDetails);
 
-    DdmPreferences.setTimeOut(adbTimeout);
+    DdmPreferences.setTimeOut((int) adbTimeout.toMillis());
 
     // Now install the main application and the instrumentation application.
     try {
@@ -237,7 +239,7 @@ public final class SpoonDeviceRunner {
     try {
       logDebug(debug, "About to actually run tests for [%s]", serial);
       RemoteAndroidTestRunner runner = new RemoteAndroidTestRunner(testPackage, testRunner, device);
-      runner.setMaxtimeToOutputResponse(adbTimeout);
+      runner.setMaxTimeToOutputResponse(adbTimeout.toMillis(), TimeUnit.MILLISECONDS);
 
       if (instrumentationArgs != null && instrumentationArgs.size() > 0) {
         for (String pair : instrumentationArgs) {
