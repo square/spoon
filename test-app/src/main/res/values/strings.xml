@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">Box Bucks</string>
+  <string name="launcher_name">Bucks</string>
+  <string name="send">Send</string>
+  <string name="send_amount">Send %1$s</string>
+  <string name="ok">OK</string>
+  <string name="send_error">Unable to send.\nTry again later.</string>
+  <string name="send_success">Sent %1$s to\n%2$s</string>
+  <string name="to">To</string>
+  <string name="note">Note</string>
+</resources>

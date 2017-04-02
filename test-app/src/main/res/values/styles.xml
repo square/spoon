@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <style name="Theme.Bucks.Colored" parent="Theme.AppCompat.NoActionBar">
+    <item name="colorPrimary">@color/primary</item>
+    <item name="colorPrimaryDark">@color/primary_dark</item>
+    <item name="colorAccent">@color/white</item>
+
+    <item name="android:windowBackground">@color/primary</item>
+
+    <!-- TODO these should be selectors -->
+    <item name="android:textColorPrimary">@color/white</item>
+    <item name="android:textColorPrimaryInverse">@color/primary</item>
+  </style>
+
+  <style name="Theme.Bucks.Light" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="colorPrimary">#fff</item>
+    <item name="colorPrimaryDark">@color/primary_dark</item>
+    <item name="colorAccent">@color/primary</item>
+  </style>
+
+  <style name="Widget.Keypad.Button" parent="Widget.AppCompat.Button.Borderless.Colored">
+    <item name="android:textSize">18sp</item>
+  </style>
+</resources>
