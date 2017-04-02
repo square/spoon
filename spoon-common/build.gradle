@@ -1,2 +1,5 @@
 apply plugin: 'java'
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
+
+targetCompatibility = JavaVersion.VERSION_1_6
+sourceCompatibility = JavaVersion.VERSION_1_6
