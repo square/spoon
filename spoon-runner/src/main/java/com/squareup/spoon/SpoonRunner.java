@@ -15,6 +15,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -39,7 +40,7 @@ import static java.util.Collections.synchronizedSet;
 public final class SpoonRunner {
   private static final String DEFAULT_TITLE = "Spoon Execution";
   public static final String DEFAULT_OUTPUT_DIRECTORY = "spoon-output";
-  private static final int DEFAULT_ADB_TIMEOUT_SEC = 10 * 60; //10 minutes
+  private static final Duration DEFAULT_ADB_TIMEOUT = Duration.ofMinutes(10);
   private final ExecutorService threadExecutor;
 
   private final String title;
@@ -49,7 +50,7 @@ public final class SpoonRunner {
   private final File output;
   private final boolean debug;
   private final boolean noAnimations;
-  private final int adbTimeoutMillis;
+  private final Duration adbTimeout;
   private final List<String> instrumentationArgs;
   private final String className;
   private final String methodName;
@@ -66,10 +67,9 @@ public final class SpoonRunner {
   private final boolean grantAll;
 
   private SpoonRunner(String title, File androidSdk, File applicationApk, File instrumentationApk,
-      File output, boolean debug, boolean noAnimations, int adbTimeoutMillis, Set<String> serials,
-      Set<String> skipDevices,
-      boolean shard, String classpath, List<String> instrumentationArgs, String className,
-      String methodName, IRemoteAndroidTestRunner.TestSize testSize,
+      File output, boolean debug, boolean noAnimations, Duration adbTimeout, Set<String> serials,
+      Set<String> skipDevices, boolean shard, String classpath, List<String> instrumentationArgs,
+      String className, String methodName, IRemoteAndroidTestRunner.TestSize testSize,
       boolean failIfNoDeviceConnected, List<ITestRunListener> testRunListeners, boolean sequential,
       File initScript, boolean grantAll, boolean terminateAdb, boolean codeCoverage) {
     this.title = title;
@@ -79,7 +79,7 @@ public final class SpoonRunner {
     this.output = output;
     this.debug = debug;
     this.noAnimations = noAnimations;
-    this.adbTimeoutMillis = adbTimeoutMillis;
+    this.adbTimeout = adbTimeout;
     this.instrumentationArgs = instrumentationArgs;
     this.className = className;
     this.methodName = methodName;
@@ -111,7 +111,7 @@ public final class SpoonRunner {
     checkArgument(applicationApk.exists(), "Could not find application APK.");
     checkArgument(instrumentationApk.exists(), "Could not find instrumentation APK.");
 
-    AndroidDebugBridge adb = SpoonUtils.initAdb(androidSdk, adbTimeoutMillis);
+    AndroidDebugBridge adb = SpoonUtils.initAdb(androidSdk, adbTimeout);
 
     try {
       final SpoonInstrumentationInfo testInfo = parseFromFile(instrumentationApk);
@@ -290,7 +290,7 @@ public final class SpoonRunner {
   private SpoonDeviceRunner getTestRunner(String serial, int shardIndex, int numShards,
       SpoonInstrumentationInfo testInfo) {
     return new SpoonDeviceRunner(androidSdk, applicationApk, instrumentationApk, output, serial,
-        shardIndex, numShards, debug, noAnimations, adbTimeoutMillis, classpath, testInfo,
+        shardIndex, numShards, debug, noAnimations, adbTimeout, classpath, testInfo,
         instrumentationArgs, className, methodName, testSize, testRunListeners, codeCoverage,
         grantAll);
   }
@@ -311,7 +311,7 @@ public final class SpoonRunner {
     private String methodName;
     private boolean noAnimations;
     private IRemoteAndroidTestRunner.TestSize testSize;
-    private int adbTimeoutMillis = DEFAULT_ADB_TIMEOUT_SEC * 1000;
+    private Duration adbTimeout = DEFAULT_ADB_TIMEOUT;
     private boolean failIfNoDeviceConnected;
     private List<ITestRunListener> testRunListeners = new ArrayList<>();
     private boolean sequential;
@@ -372,8 +372,8 @@ public final class SpoonRunner {
     }
 
     /** Set ADB timeout. */
-    public Builder setAdbTimeout(int value) {
-      this.adbTimeoutMillis = value;
+    public Builder setAdbTimeout(Duration value) {
+      this.adbTimeout = value;
       return this;
     }
 
@@ -498,7 +498,7 @@ public final class SpoonRunner {
       }
 
       return new SpoonRunner(title, androidSdk, applicationApk, instrumentationApk, output, debug,
-          noAnimations, adbTimeoutMillis, serials, skipDevices, shard, classpath,
+          noAnimations, adbTimeout, serials, skipDevices, shard, classpath,
           instrumentationArgs, className, methodName, testSize, failIfNoDeviceConnected,
           testRunListeners, sequential, initScript, grantAll, terminateAdb, codeCoverage);
     }
@@ -575,8 +575,9 @@ public final class SpoonRunner {
     public boolean noAnimations;
 
     @Parameter(names = { "--adb-timeout" },
-        description = "Set maximum execution time per test in seconds (10min default)") //
-    public int adbTimeoutSeconds = DEFAULT_ADB_TIMEOUT_SEC;
+        description = "Set maximum execution time per test in seconds (10min default)",
+        converter = DurationConverter.class) //
+    public Duration adbTimeout = DEFAULT_ADB_TIMEOUT;
 
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection") //
     @Parameter(names = "-serial",
@@ -608,10 +609,17 @@ public final class SpoonRunner {
     return new File(path);
   }
 
-  /* JCommander deems it necessary that this class be public. Lame. */
+  /* JCommander deems it necessary that this class be public. */
   public static class FileConverter implements IStringConverter<File> {
-    @Override public File convert(String s) {
-      return cleanFile(s);
+    @Override public File convert(String value) {
+      return cleanFile(value);
+    }
+  }
+
+  /* JCommander deems it necessary that this class be public. */
+  public static class DurationConverter implements IStringConverter<Duration> {
+    @Override public Duration convert(String value) {
+      return Duration.parse(value);
     }
   }
 
@@ -653,7 +661,7 @@ public final class SpoonRunner {
         .setAndroidSdk(parsedArgs.sdk)
         .setNoAnimations(parsedArgs.noAnimations)
         .setTestSize(parsedArgs.size)
-        .setAdbTimeout(parsedArgs.adbTimeoutSeconds * 1000)
+        .setAdbTimeout(parsedArgs.adbTimeout)
         .setFailIfNoDeviceConnected(parsedArgs.failIfNoDeviceConnected)
         .setSequential(parsedArgs.sequential)
         .setInitScript(parsedArgs.initScript)
