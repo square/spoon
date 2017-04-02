@@ -1,0 +1,78 @@
+apply plugin: 'com.android.application'
+
+android {
+  compileSdkVersion versions.compileSdk
+  buildToolsVersion versions.buildTools
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_7
+    targetCompatibility JavaVersion.VERSION_1_7
+  }
+
+  lintOptions {
+    textReport true
+    textOutput 'stdout'
+  }
+
+  defaultConfig {
+    minSdkVersion versions.minSdk
+    targetSdkVersion versions.compileSdk
+
+    applicationId 'com.example.boxup.bucks'
+    versionCode 1
+    versionName version
+
+    testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+  }
+}
+
+configurations {
+  spoon
+}
+
+dependencies {
+  compile deps.support.annotations
+  compile deps.support.appCompat
+  compile deps.support.design
+  compile deps.support.coordinatorLayout
+  compile deps.butterknife.runtime
+  annotationProcessor deps.butterknife.compiler
+
+  spoon project(':spoon-runner')
+
+  androidTestCompile deps.junit
+  androidTestCompile deps.truth
+  androidTestCompile deps.support.test.runner
+  androidTestCompile deps.support.test.rules
+  androidTestCompile deps.support.test.espresso
+  androidTestCompile deps.support.test.espressoContrib
+  androidTestCompile project(':spoon-client')
+}
+
+android.testVariants.all { testVariant ->
+  def variantOutputs = testVariant.testedVariant.outputs
+  def testVariantOutputs = testVariant.outputs
+  if (variantOutputs.size() != 1 || testVariantOutputs.size() != 1) {
+    throw new AssertionError()
+  }
+  def task = tasks.create("spoon${testVariant.name.capitalize()}", JavaExec) {
+    doFirst {
+      logger.info("Spoon args: $args")
+    }
+
+    def outputDir = "$buildDir/outputs/reports/spoon"
+    doLast {
+      logger.lifecycle("Spoon report written to $outputDir/index.html")
+    }
+
+    classpath = configurations.spoon
+    main = 'com.squareup.spoon.SpoonRunner'
+    args = [
+        '--debug',
+        '--apk', variantOutputs[0].outputFile,
+        '--test-apk', testVariantOutputs[0].outputFile,
+        '--output', outputDir,
+    ]
+  }
+  task.dependsOn(variantOutputs[0].assemble, testVariantOutputs[0].assemble)
+}

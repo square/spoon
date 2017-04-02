@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <dimen name="keypad_horizontal_parent_margin">16dp</dimen>
+  <dimen name="keypad_button_padding">16dp</dimen>
+  <dimen name="keypad_send_margin">8dp</dimen>
+</resources>

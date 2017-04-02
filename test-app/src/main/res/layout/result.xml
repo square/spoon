@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+  <ImageView
+      android:id="@+id/image"
+      android:layout_width="100dp"
+      android:layout_height="100dp"
+      app:layout_constraintBottom_toTopOf="@+id/message"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintRight_toRightOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_chainStyle="packed"
+      tools:src="@drawable/ic_check_circle_white_24dp"
+      />
+  <TextView
+      android:id="@+id/message"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="20dp"
+      android:gravity="center_horizontal"
+      android:textSize="20sp"
+      app:layout_constraintBottom_toTopOf="@+id/action_ok"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintRight_toRightOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/image"
+      tools:text="Sent $56 to\njakewharton@gmail.com"
+      />
+  <Button
+      android:id="@+id/action_ok"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:background="?attr/colorAccent"
+      android:padding="18dp"
+      android:text="@string/ok"
+      android:textColor="?android:attr/textColorPrimaryInverse"
+      android:textSize="18sp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintRight_toRightOf="parent"
+      style="@style/Widget.AppCompat.Button.Borderless.Colored"
+      />
+</android.support.constraint.ConstraintLayout>

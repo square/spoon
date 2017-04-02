@@ -1,0 +1,28 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.boxup.bucks"
+    >
+  <uses-permission android:name="android.permission.VIBRATE"/>
+
+  <application
+      android:icon="@mipmap/ic_launcher"
+      android:title="@string/app_name"
+      android:allowBackup="false"
+      android:theme="@style/Theme.Bucks.Colored"
+      >
+    <activity
+        android:name=".AmountActivity"
+        android:title="@string/launcher_name"
+        >
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+      </intent-filter>
+    </activity>
+    <activity
+        android:name=".RecipientActivity"
+        android:theme="@style/Theme.Bucks.Light"
+        />
+    <activity android:name=".ResultActivity"/>
+  </application>
+</manifest>

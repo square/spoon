@@ -4,6 +4,7 @@ buildscript {
       'compileSdk': 25,
       'buildTools': '25.0.2',
 
+      'supportLibrary': '25.3.1',
       'errorProne': '2.0.19',
   ]
 
@@ -18,13 +19,31 @@ buildscript {
       'lesscss': 'org.lesscss:lesscss:1.3.3',
       'mustache': 'com.github.spullara.mustache.java:compiler:0.8.14',
       'jacocoMavenPlugin': 'org.jacoco:jacoco-maven-plugin:0.7.6.201602180812',
+      'butterknife': [
+          'runtime': 'com.jakewharton:butterknife:8.5.1',
+          'compiler': 'com.jakewharton:butterknife-compiler:8.5.1'
+      ],
 
       'junit': 'junit:junit:4.12',
       'truth': 'com.google.truth:truth:0.31',
+
+      'support': [
+          'annotations': "com.android.support:support-annotations:${versions.supportLibrary}",
+          'appCompat': "com.android.support:appcompat-v7:${versions.supportLibrary}",
+          'design': "com.android.support:design:${versions.supportLibrary}",
+          'coordinatorLayout': "com.android.support.constraint:constraint-layout:1.0.2",
+
+          'test': [
+              'espresso': 'com.android.support.test.espresso:espresso-core:2.2.2',
+              'espressoContrib': 'com.android.support.test.espresso:espresso-contrib:2.2.2',
+              'runner': 'com.android.support.test:runner:0.5',
+              'rules': 'com.android.support.test:rules:0.5',
+          ],
+      ],
   ]
 
   dependencies {
-    classpath 'com.android.tools.build:gradle:2.2.3'
+    classpath 'com.android.tools.build:gradle:2.3.0'
     classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
     classpath 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.8'
   }
@@ -58,6 +77,10 @@ subprojects { project ->
   configurations.all {
     resolutionStrategy {
       eachDependency { details ->
+        // Force all of the primary support libraries to use the same version.
+        if (details.requested.group == 'com.android.support') {
+          details.useVersion versions.supportLibrary
+        }
         // Force all the error-prone dependencies to use the same version.
         if (details.requested.group == 'com.google.errorprone'
             && details.requested.name.startsWith('error_prone_')) {
