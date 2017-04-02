@@ -12,7 +12,7 @@ buildscript {
       'jcommander': 'com.beust:jcommander:1.35',
       'commonsLang3': 'org.apache.commons:commons-lang3:3.3.1',
       'commonsIo': 'commons-io:commons-io:2.5',
-      'ddmlib': 'com.android.tools.ddms:ddmlib:25.2.0',
+      'ddmlib': 'com.android.tools.ddms:ddmlib:25.3.0',
       'animatedGifLib': 'com.madgag:animated-gif-lib:1.2',
       'guava': 'com.google.guava:guava:21.0',
       'lesscss': 'org.lesscss:lesscss:1.3.3',
