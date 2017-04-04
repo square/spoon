@@ -5,12 +5,13 @@ buildscript {
       'buildTools': '25.0.2',
 
       'supportLibrary': '25.3.1',
+      'kotlin': '1.1.1',
       'errorProne': '2.0.19',
   ]
 
   ext.deps = [
       'gson': 'com.google.code.gson:gson:2.8.0',
-      'jcommander': 'com.beust:jcommander:1.35',
+      'argparser': 'com.xenomachina:kotlin-argparser:1.1.0',
       'commonsLang3': 'org.apache.commons:commons-lang3:3.3.1',
       'commonsIo': 'commons-io:commons-io:2.5',
       'ddmlib': 'com.android.tools.ddms:ddmlib:25.3.0',
@@ -23,6 +24,7 @@ buildscript {
           'runtime': 'com.jakewharton:butterknife:8.5.1',
           'compiler': 'com.jakewharton:butterknife-compiler:8.5.1'
       ],
+      'kotlinStdLibJre8': "org.jetbrains.kotlin:kotlin-stdlib-jre8:${versions.kotlin}",
 
       'junit': 'junit:junit:4.12',
       'truth': 'com.google.truth:truth:0.31',
@@ -46,6 +48,7 @@ buildscript {
     classpath 'com.android.tools.build:gradle:2.3.0'
     classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
     classpath 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.8'
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
   }
 
   repositories {
