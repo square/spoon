@@ -127,9 +127,8 @@ public final class SpoonRunner {
       // ...and render to HTML
       new HtmlRenderer(summary, SpoonUtils.GSON, output).render();
       if (codeCoverage) {
-        SpoonCoverageMerger coverageMerger = new SpoonCoverageMerger();
         try {
-          coverageMerger.mergeCoverageFiles(serials, output);
+          SpoonCoverageMerger.mergeCoverageFiles(serials, output);
           logDebug(debug, "Merging of coverage files done.");
         } catch (IOException exception) {
           throw new RuntimeException("Error while merging coverage files. "
