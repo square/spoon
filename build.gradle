@@ -11,7 +11,7 @@ buildscript {
 
   ext.deps = [
       'gson': 'com.google.code.gson:gson:2.8.0',
-      'argparser': 'com.xenomachina:kotlin-argparser:1.1.0',
+      'argparser': 'com.xenomachina:kotlin-argparser:2.0.0',
       'commonsLang3': 'org.apache.commons:commons-lang3:3.3.1',
       'commonsIo': 'commons-io:commons-io:2.5',
       'ddmlib': 'com.android.tools.ddms:ddmlib:25.3.0',
