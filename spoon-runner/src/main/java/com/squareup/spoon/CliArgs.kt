@@ -37,7 +37,8 @@ internal class CliArgs(parser: ArgParser) {
   val sdk by parser.storing("Android SDK path. Defaults to ANDROID_HOME if unset.",
       transform = ::File).default(null)
 
-  val failOnFailure by parser.flagging("--fail-on-failure", help = "Non-zero exit code on failure")
+  val alwaysZero by parser.flagging("--always-zero",
+      help = "Always use 0 for the exit code regardless of execution failure")
 
   val allowNoDevices by parser.flagging("--allow-no-devices",
       help = "Do not fail if zero devices connected")

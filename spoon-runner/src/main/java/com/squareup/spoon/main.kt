@@ -29,7 +29,7 @@ fun main(vararg args: String) {
       builder.setDebug(debug)
       builder.setCodeCoverage(coverage)
 
-      if (!builder.build().run() && failOnFailure) {
+      if (!builder.build().run() && !alwaysZero) {
         System.exit(1)
       }
     }
