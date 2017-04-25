@@ -5,7 +5,7 @@ buildscript {
       'buildTools': '25.0.2',
 
       'supportLibrary': '25.3.1',
-      'kotlin': '1.1.1',
+      'kotlin': '1.1.2',
       'errorProne': '2.0.19',
   ]
 
