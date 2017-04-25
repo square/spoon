@@ -37,10 +37,11 @@ internal class CliArgs(parser: ArgParser) {
   val sdk by parser.storing("Android SDK path. Defaults to ANDROID_HOME if unset.",
       transform = ::File).default(null)
 
-  val failOnFailure by parser.flagging("--fail-on-failure", help = "Non-zero exit code on failure")
+  val alwaysZero by parser.flagging("--always-zero",
+      help = "Always use 0 for the exit code regardless of execution failure")
 
-  val failIfNoDevices by parser.flagging("--fail-if-no-devices",
-      help = "Fail if no devices connected")
+  val allowNoDevices by parser.flagging("--allow-no-devices",
+      help = "Do not fail if zero devices connected")
 
   val sequential by parser.flagging("Execute tests sequentially (one device at a time)")
 
@@ -66,4 +67,8 @@ internal class CliArgs(parser: ArgParser) {
   val debug by parser.flagging("Enable debug logging")
 
   val coverage by parser.flagging("Enable code coverage")
+
+  init {
+    parser.force()
+  }
 }

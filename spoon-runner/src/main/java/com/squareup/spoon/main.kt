@@ -5,33 +5,34 @@ import com.xenomachina.argparser.ArgParser
 import com.xenomachina.argparser.mainBody
 
 fun main(vararg args: String) {
-  mainBody("spoon-runner") {
-    CliArgs(ArgParser(args)).run {
-      val builder = SpoonRunner.Builder()
-      builder.setApplicationApk(mainApk)
-      builder.setInstrumentationApk(testApk)
-      sdk?.let(builder::setAndroidSdk)
-      title?.let(builder::setTitle)
-      builder.setInstrumentationArgs(instrumentationArgs);
-      className?.let(builder::setClassName)
-      methodName?.let(builder::setMethodName)
-      size?.let(builder::setTestSize)
-      output?.let(builder::setOutputDirectory)
-      builder.setFailIfNoDeviceConnected(failIfNoDevices)
-      builder.setSequential(sequential)
-      initScript?.let(builder::setInitScript)
-      builder.setGrantAll(grantAll)
-      builder.setNoAnimations(disableGif)
-      adbTimeout?.let(builder::setAdbTimeout)
-      serials.forEach { builder.addDevice(it) }
-      skipSerials.forEach { builder.addDevice(it) }
-      builder.setShard(shard)
-      builder.setDebug(debug)
-      builder.setCodeCoverage(coverage)
+  val cli = mainBody("spoon-runner") {
+    CliArgs(ArgParser(args))
+  }
 
-      if (!builder.build().run() && failOnFailure) {
-        System.exit(1)
-      }
-    }
+  val runner = SpoonRunner.Builder().apply {
+    setApplicationApk(cli.mainApk)
+    setInstrumentationApk(cli.testApk)
+    cli.sdk?.let(this::setAndroidSdk)
+    cli.title?.let(this::setTitle)
+    setInstrumentationArgs(cli.instrumentationArgs);
+    cli.className?.let(this::setClassName)
+    cli.methodName?.let(this::setMethodName)
+    cli.size?.let(this::setTestSize)
+    cli.output?.let(this::setOutputDirectory)
+    setAllowNoDevices(cli.allowNoDevices)
+    setSequential(cli.sequential)
+    cli.initScript?.let(this::setInitScript)
+    setGrantAll(cli.grantAll)
+    setNoAnimations(cli.disableGif)
+    cli.adbTimeout?.let(this::setAdbTimeout)
+    cli.serials.forEach { addDevice(it) }
+    cli.skipSerials.forEach { addDevice(it) }
+    setShard(cli.shard)
+    setDebug(cli.debug)
+    setCodeCoverage(cli.coverage)
+  }.build()
+
+  if (!runner.run() && !cli.alwaysZero) {
+    System.exit(1)
   }
 }
