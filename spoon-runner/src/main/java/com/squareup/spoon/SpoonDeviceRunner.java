@@ -56,8 +56,8 @@ public final class SpoonDeviceRunner {
   static final String COVERAGE_DIR = "coverage";
 
   private final File sdk;
-  private final File apk;
   private final File testApk;
+  private final List<File> otherApks;
   private final String serial;
   private final int shardIndex;
   private final int numShards;
@@ -83,8 +83,8 @@ public final class SpoonDeviceRunner {
    * Create a test runner for a single device.
    *
    * @param sdk Path to the local Android SDK directory.
-   * @param apk Path to application APK.
-   * @param testApk Path to test application APK.
+   * @param testApk Path to test APK.
+   * @param otherApks Paths to additional APKs.
    * @param output Path to output directory.
    * @param serial Device to run the test on.
    * @param debug Whether or not debug logging is enabled.
@@ -96,14 +96,15 @@ public final class SpoonDeviceRunner {
    * {@code className}.
    * @param testRunListeners Additional TestRunListener or empty list.
    */
-  SpoonDeviceRunner(File sdk, File apk, File testApk, File output, String serial, int shardIndex,
-      int numShards, boolean debug, boolean noAnimations, Duration adbTimeout, String classpath,
-      SpoonInstrumentationInfo instrumentationInfo, List<String> instrumentationArgs,
-      String className, String methodName, IRemoteAndroidTestRunner.TestSize testSize,
-      List<ITestRunListener> testRunListeners, boolean codeCoverage, boolean grantAll) {
+  SpoonDeviceRunner(File sdk, File testApk, List<File> otherApks, File output, String serial,
+      int shardIndex, int numShards, boolean debug, boolean noAnimations, Duration adbTimeout,
+      String classpath, SpoonInstrumentationInfo instrumentationInfo,
+      List<String> instrumentationArgs, String className, String methodName,
+      IRemoteAndroidTestRunner.TestSize testSize, List<ITestRunListener> testRunListeners,
+      boolean codeCoverage, boolean grantAll) {
     this.sdk = sdk;
-    this.apk = apk;
     this.testApk = testApk;
+    this.otherApks = otherApks;
     this.serial = serial;
     this.shardIndex = shardIndex;
     this.numShards = numShards;
@@ -188,17 +189,18 @@ public final class SpoonDeviceRunner {
     DdmPreferences.setTimeOut((int) adbTimeout.toMillis());
 
     // Now install the main application and the instrumentation application.
-    try {
-      String extraArgument = "";
-      if (grantAll && deviceDetails.getApiLevel() >= DeviceDetails.MARSHMALLOW_API_LEVEL) {
-        extraArgument = "-g";
+    for (File otherApk : otherApks) {
+      try {
+        String extraArgument = "";
+        if (grantAll && deviceDetails.getApiLevel() >= DeviceDetails.MARSHMALLOW_API_LEVEL) {
+          extraArgument = "-g";
+        }
+        device.installPackage(otherApk.getAbsolutePath(), true, extraArgument);
+      } catch (InstallException e) {
+        logInfo("InstallException while install other apk on device [%s]", serial);
+        e.printStackTrace(System.out);
+        return result.markInstallAsFailed("Unable to install other APK.").addException(e).build();
       }
-      device.installPackage(apk.getAbsolutePath(), true, extraArgument);
-    } catch (InstallException e) {
-      logInfo("InstallException while install app apk on device [%s]", serial);
-      e.printStackTrace(System.out);
-      return result.markInstallAsFailed(
-              "Unable to install application APK.").addException(e).build();
     }
     try {
       device.installPackage(testApk.getAbsolutePath(), true);

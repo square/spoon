@@ -68,8 +68,8 @@ android.testVariants.all { testVariant ->
     classpath = configurations.spoon
     main = 'com.squareup.spoon.Main'
     args = [
-        variantOutputs[0].outputFile,
         testVariantOutputs[0].outputFile,
+        variantOutputs[0].outputFile,
         '--output', outputDir,
         '--debug',
     ]

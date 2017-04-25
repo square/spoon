@@ -10,8 +10,8 @@ fun main(vararg args: String) {
   }
 
   val runner = SpoonRunner.Builder().apply {
-    setApplicationApk(cli.mainApk)
-    setInstrumentationApk(cli.testApk)
+    setTestApk(cli.testApk)
+    cli.otherApks.forEach { addOtherApk(it) }
     cli.sdk?.let(this::setAndroidSdk)
     cli.title?.let(this::setTitle)
     setInstrumentationArgs(cli.instrumentationArgs);

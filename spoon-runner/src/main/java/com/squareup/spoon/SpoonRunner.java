@@ -39,8 +39,8 @@ public final class SpoonRunner {
 
   private final String title;
   private final File androidSdk;
-  private final File applicationApk;
-  private final File instrumentationApk;
+  private final File testApk;
+  private final List<File> otherApks;
   private final File output;
   private final boolean debug;
   private final boolean noAnimations;
@@ -60,7 +60,7 @@ public final class SpoonRunner {
   private File initScript;
   private final boolean grantAll;
 
-  private SpoonRunner(String title, File androidSdk, File applicationApk, File instrumentationApk,
+  private SpoonRunner(String title, File androidSdk, File testApk, List<File> otherApks,
       File output, boolean debug, boolean noAnimations, Duration adbTimeout, Set<String> serials,
       Set<String> skipDevices, boolean shard, String classpath, List<String> instrumentationArgs,
       String className, String methodName, IRemoteAndroidTestRunner.TestSize testSize,
@@ -68,8 +68,8 @@ public final class SpoonRunner {
       File initScript, boolean grantAll, boolean terminateAdb, boolean codeCoverage) {
     this.title = title;
     this.androidSdk = androidSdk;
-    this.applicationApk = applicationApk;
-    this.instrumentationApk = instrumentationApk;
+    this.otherApks = otherApks;
+    this.testApk = testApk;
     this.output = output;
     this.debug = debug;
     this.noAnimations = noAnimations;
@@ -102,13 +102,15 @@ public final class SpoonRunner {
    * @return {@code true} if there were no test failures or exceptions thrown.
    */
   public boolean run() {
-    checkArgument(applicationApk.exists(), "Could not find application APK.");
-    checkArgument(instrumentationApk.exists(), "Could not find instrumentation APK.");
+    otherApks.forEach(otherApk -> {
+      checkArgument(otherApk.exists(), "Could not find other APK: " + otherApk);
+    });
+    checkArgument(testApk.exists(), "Could not find test APK: " + testApk);
 
     AndroidDebugBridge adb = SpoonUtils.initAdb(androidSdk, adbTimeout);
 
     try {
-      final SpoonInstrumentationInfo testInfo = parseFromFile(instrumentationApk);
+      final SpoonInstrumentationInfo testInfo = parseFromFile(testApk);
 
       // If we were given an empty serial set, load all available devices.
       Set<String> serials = this.serials;
@@ -155,10 +157,11 @@ public final class SpoonRunner {
       throw new RuntimeException("Unable to clean output directory: " + output, e);
     }
 
-    logDebug(debug, "Application: %s from %s", testInfo.getApplicationPackage(),
-        applicationApk.getAbsolutePath());
     logDebug(debug, "Instrumentation: %s from %s", testInfo.getInstrumentationPackage(),
-        instrumentationApk.getAbsolutePath());
+        testApk.getAbsolutePath());
+    otherApks.forEach(otherApk -> {
+      logDebug(debug, "Other: %s", otherApk.getAbsolutePath());
+    });
 
     final SpoonSummary.Builder summary = new SpoonSummary.Builder().setTitle(title).start();
 
@@ -282,7 +285,7 @@ public final class SpoonRunner {
 
   private SpoonDeviceRunner getTestRunner(String serial, int shardIndex, int numShards,
       SpoonInstrumentationInfo testInfo) {
-    return new SpoonDeviceRunner(androidSdk, applicationApk, instrumentationApk, output, serial,
+    return new SpoonDeviceRunner(androidSdk, testApk, otherApks, output, serial,
         shardIndex, numShards, debug, noAnimations, adbTimeout, classpath, testInfo,
         instrumentationArgs, className, methodName, testSize, testRunListeners, codeCoverage,
         grantAll);
@@ -292,8 +295,8 @@ public final class SpoonRunner {
   public static class Builder {
     private String title = DEFAULT_TITLE;
     private File androidSdk = cleanFile(System.getenv("ANDROID_HOME"));
-    private File applicationApk;
-    private File instrumentationApk;
+    private File testApk;
+    private List<File> otherApks = new ArrayList<>();
     private File output = cleanFile(DEFAULT_OUTPUT_DIRECTORY);
     private boolean debug = false;
     private Set<String> serials = new LinkedHashSet<>();
@@ -329,19 +332,19 @@ public final class SpoonRunner {
       return this;
     }
 
-    /** Path to application APK. */
-    public Builder setApplicationApk(File apk) {
-      checkNotNull(apk, "APK path not specified.");
-      checkArgument(apk.exists(), "APK path does not exist.");
-      this.applicationApk = apk;
+    /** Path to test APK. */
+    public Builder setTestApk(File apk) {
+      checkNotNull(apk, "Test APK path not specified.");
+      checkArgument(apk.exists(), "Test APK path does not exist.");
+      this.testApk = apk;
       return this;
     }
 
-    /** Path to instrumentation APK. */
-    public Builder setInstrumentationApk(File apk) {
-      checkNotNull(apk, "Instrumentation APK path not specified.");
-      checkArgument(apk.exists(), "Instrumentation APK path does not exist.");
-      this.instrumentationApk = apk;
+    /** Add an other APK path. */
+    public Builder addOtherApk(File apk) {
+      checkNotNull(apk, "APK path not specified.");
+      checkArgument(apk.exists(), "APK path does not exist.");
+      otherApks.add(apk);
       return this;
     }
 
@@ -459,15 +462,14 @@ public final class SpoonRunner {
     public SpoonRunner build() {
       checkNotNull(androidSdk, "SDK is required.");
       checkArgument(androidSdk.exists(), "SDK path does not exist.");
-      checkNotNull(applicationApk, "Application APK is required.");
-      checkNotNull(instrumentationApk, "Instrumentation APK is required.");
+      checkNotNull(testApk, "Instrumentation APK is required.");
       checkNotNull(serials, "Device serials are required.");
       if (!isNullOrEmpty(methodName)) {
         checkArgument(!isNullOrEmpty(className),
             "Must specify class name if you're specifying a method name.");
       }
 
-      return new SpoonRunner(title, androidSdk, applicationApk, instrumentationApk, output, debug,
+      return new SpoonRunner(title, androidSdk, testApk, otherApks, output, debug,
           noAnimations, adbTimeout, serials, skipDevices, shard, classpath,
           instrumentationArgs, className, methodName, testSize, allowNoDevices,
           testRunListeners, sequential, initScript, grantAll, terminateAdb, codeCoverage);
