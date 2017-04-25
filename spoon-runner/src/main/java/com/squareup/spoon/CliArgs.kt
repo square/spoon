@@ -67,4 +67,8 @@ internal class CliArgs(parser: ArgParser) {
   val debug by parser.flagging("Enable debug logging")
 
   val coverage by parser.flagging("Enable code coverage")
+
+  init {
+    parser.force()
+  }
 }
