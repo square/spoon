@@ -17,7 +17,7 @@ fun main(vararg args: String) {
       methodName?.let(builder::setMethodName)
       size?.let(builder::setTestSize)
       output?.let(builder::setOutputDirectory)
-      builder.setFailIfNoDeviceConnected(failIfNoDevices)
+      builder.setAllowNoDevices(allowNoDevices)
       builder.setSequential(sequential)
       initScript?.let(builder::setInitScript)
       builder.setGrantAll(grantAll)

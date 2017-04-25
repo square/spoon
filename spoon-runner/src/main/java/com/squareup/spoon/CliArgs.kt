@@ -39,8 +39,8 @@ internal class CliArgs(parser: ArgParser) {
 
   val failOnFailure by parser.flagging("--fail-on-failure", help = "Non-zero exit code on failure")
 
-  val failIfNoDevices by parser.flagging("--fail-if-no-devices",
-      help = "Fail if no devices connected")
+  val allowNoDevices by parser.flagging("--allow-no-devices",
+      help = "Do not fail if zero devices connected")
 
   val sequential by parser.flagging("Execute tests sequentially (one device at a time)")
 

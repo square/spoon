@@ -54,7 +54,7 @@ public final class SpoonRunner {
   private final String classpath;
   private final IRemoteAndroidTestRunner.TestSize testSize;
   private boolean codeCoverage;
-  private final boolean failIfNoDeviceConnected;
+  private final boolean allowNoDevices;
   private final List<ITestRunListener> testRunListeners;
   private final boolean terminateAdb;
   private File initScript;
@@ -64,7 +64,7 @@ public final class SpoonRunner {
       File output, boolean debug, boolean noAnimations, Duration adbTimeout, Set<String> serials,
       Set<String> skipDevices, boolean shard, String classpath, List<String> instrumentationArgs,
       String className, String methodName, IRemoteAndroidTestRunner.TestSize testSize,
-      boolean failIfNoDeviceConnected, List<ITestRunListener> testRunListeners, boolean sequential,
+      boolean allowNoDevices, List<ITestRunListener> testRunListeners, boolean sequential,
       File initScript, boolean grantAll, boolean terminateAdb, boolean codeCoverage) {
     this.title = title;
     this.androidSdk = androidSdk;
@@ -83,7 +83,7 @@ public final class SpoonRunner {
     this.codeCoverage = codeCoverage;
     this.serials = ImmutableSet.copyOf(serials);
     this.shard = shard;
-    this.failIfNoDeviceConnected = failIfNoDeviceConnected;
+    this.allowNoDevices = allowNoDevices;
     this.testRunListeners = testRunListeners;
     this.terminateAdb = terminateAdb;
     this.initScript = initScript;
@@ -118,7 +118,7 @@ public final class SpoonRunner {
       if (this.skipDevices != null && !this.skipDevices.isEmpty()) {
         serials.removeAll(this.skipDevices);
       }
-      if (failIfNoDeviceConnected && serials.isEmpty()) {
+      if (serials.isEmpty() && !allowNoDevices) {
         throw new RuntimeException("No device(s) found.");
       }
 
@@ -305,7 +305,7 @@ public final class SpoonRunner {
     private boolean noAnimations;
     private IRemoteAndroidTestRunner.TestSize testSize;
     private Duration adbTimeout = DEFAULT_ADB_TIMEOUT;
-    private boolean failIfNoDeviceConnected;
+    private boolean allowNoDevices;
     private List<ITestRunListener> testRunListeners = new ArrayList<>();
     private boolean sequential;
     private File initScript;
@@ -406,8 +406,8 @@ public final class SpoonRunner {
       return this;
     }
 
-    public Builder setFailIfNoDeviceConnected(boolean failIfNoDeviceConnected) {
-      this.failIfNoDeviceConnected = failIfNoDeviceConnected;
+    public Builder setAllowNoDevices(boolean allowNoDevices) {
+      this.allowNoDevices = allowNoDevices;
       return this;
     }
 
@@ -469,7 +469,7 @@ public final class SpoonRunner {
 
       return new SpoonRunner(title, androidSdk, applicationApk, instrumentationApk, output, debug,
           noAnimations, adbTimeout, serials, skipDevices, shard, classpath,
-          instrumentationArgs, className, methodName, testSize, failIfNoDeviceConnected,
+          instrumentationArgs, className, methodName, testSize, allowNoDevices,
           testRunListeners, sequential, initScript, grantAll, terminateAdb, codeCoverage);
     }
   }
