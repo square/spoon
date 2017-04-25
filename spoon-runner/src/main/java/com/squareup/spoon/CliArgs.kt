@@ -7,9 +7,11 @@ import java.io.File
 import java.time.Duration
 
 internal class CliArgs(parser: ArgParser) {
-  val mainApk by parser.positional("MAIN_APK", "Main APK", transform = ::File)
-
   val testApk by parser.positional("TEST_APK", "Test APK", transform = ::File)
+
+  val otherApks by parser.positionalList("OTHER_APK",
+      "Other APKs to install before test APK (e.g., main app or helper/buddy APKs)",
+      transform = ::File)
 
   val title by parser.storing("Execution title").default(null)
 
