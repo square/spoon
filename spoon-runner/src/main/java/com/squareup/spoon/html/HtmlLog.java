@@ -15,8 +15,14 @@ final class HtmlLog {
       case PASS:
         status = "passed";
         break;
+      case IGNORED:
+        status = "ignored";
+        break;
       case FAIL:
         status = "failed";
+        break;
+      case ASSUMPTION_FAILURE:
+        status = "assumption violated";
         break;
       default:
         throw new IllegalArgumentException("Unknown status: " + result.getStatus());

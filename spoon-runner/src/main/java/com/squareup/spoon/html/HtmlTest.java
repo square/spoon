@@ -25,7 +25,7 @@ final class HtmlTest {
       DeviceTestResult testResult = deviceResult.getTestResults().get(test);
       if (testResult != null) {
         deviceCount += 1;
-        if (testResult.getStatus() == Status.PASS) {
+        if (testResult.getStatus() != Status.FAIL) {
           testsPassed += 1;
           duration += testResult.getDuration();
         }

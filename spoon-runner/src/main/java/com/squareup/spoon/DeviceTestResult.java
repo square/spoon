@@ -16,7 +16,7 @@ import static java.util.Collections.unmodifiableList;
 /** Represents the result of a single test method on a single device. */
 public final class DeviceTestResult {
   public enum Status {
-    PASS, FAIL
+    PASS, IGNORED, ASSUMPTION_FAILURE, FAIL
   }
 
   private final Status status;
@@ -85,9 +85,27 @@ public final class DeviceTestResult {
     public Builder markTestAsFailed(String message) {
       checkNotNull(message);
       if (status != Status.PASS) {
-        logError("Status was already marked as failed!");
+        logError("Status was already marked as " + status);
       }
       status = Status.FAIL;
+      exception = StackTrace.from(message);
+      return this;
+    }
+
+    public Builder markTestAsIgnored() {
+      if (status != Status.PASS) {
+        logError("Status was already marked as " + status);
+      }
+      status = Status.IGNORED;
+      return this;
+    }
+
+    public Builder markTestAsAssumptionViolation(String message) {
+      checkNotNull(message);
+      if (status != Status.PASS) {
+        logError("Status was already marked as " + status);
+      }
+      status = Status.ASSUMPTION_FAILURE;
       exception = StackTrace.from(message);
       return this;
     }

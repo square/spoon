@@ -80,8 +80,14 @@ final class HtmlUtils {
       case PASS:
         status = "pass";
         break;
+      case IGNORED:
+        status = "ignored";
+        break;
       case FAIL:
         status = "fail";
+        break;
+      case ASSUMPTION_FAILURE:
+        status = "assumption-violation";
         break;
       default:
         throw new IllegalArgumentException("Unknown result status: " + testResult.getStatus());
