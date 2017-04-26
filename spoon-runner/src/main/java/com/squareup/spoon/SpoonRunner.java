@@ -275,7 +275,7 @@ public final class SpoonRunner {
         return false; // Top-level exception present, or no tests were run.
       }
       for (DeviceTestResult methodResult : result.getTestResults().values()) {
-        if (methodResult.getStatus() != Status.PASS) {
+        if (methodResult.getStatus() == Status.FAIL) {
           return false; // Individual test failure.
         }
       }

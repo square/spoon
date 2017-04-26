@@ -20,7 +20,7 @@ final class HtmlDevice {
     for (Map.Entry<DeviceTest, DeviceTestResult> entry : result.getTestResults().entrySet()) {
       DeviceTestResult testResult = entry.getValue();
       testResults.add(TestResult.from(serial, entry.getKey(), testResult, output));
-      if (testResult.getStatus() == Status.PASS) {
+      if (testResult.getStatus() != Status.FAIL) {
         testsPassed += 1;
       }
     }
