@@ -28,11 +28,6 @@ final class SpoonTestRunListener implements ITestRunListener {
     });
   }
 
-  @Override public void testRunStarted(String runName, int testCount) {
-    logDebug(debug, "testCount=%d runName=%s", testCount, runName);
-    result.startTests();
-  }
-
   @Override public void testStarted(TestIdentifier test) {
     logDebug(debug, "started %s", test);
     methodResults.put(test, new DeviceTestResult.Builder().startTest());
@@ -58,17 +53,17 @@ final class SpoonTestRunListener implements ITestRunListener {
     result.addTestResultBuilder(DeviceTest.from(test), obtainMethodResult(test).endTest());
   }
 
+  @Override public void testRunStarted(String runName, int testCount) {
+  }
+
   @Override public void testRunFailed(String errorMessage) {
     logDebug(debug, "errorMessage=%s", errorMessage);
     result.addException(errorMessage);
   }
 
   @Override public void testRunStopped(long elapsedTime) {
-    logDebug(debug, "elapsedTime=%d", elapsedTime);
   }
 
   @Override public void testRunEnded(long elapsedTime, Map<String, String> runMetrics) {
-    logDebug(debug, "elapsedTime=%d", elapsedTime);
-    result.endTests();
   }
 }
