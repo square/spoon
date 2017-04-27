@@ -34,7 +34,7 @@ dependencies {
   compile deps.support.annotations
   compile deps.support.appCompat
   compile deps.support.design
-  compile deps.support.coordinatorLayout
+  compile deps.support.constraintLayout
   compile deps.butterknife.runtime
   annotationProcessor deps.butterknife.compiler
 

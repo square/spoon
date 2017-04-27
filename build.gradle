@@ -33,7 +33,7 @@ buildscript {
           'annotations': "com.android.support:support-annotations:${versions.supportLibrary}",
           'appCompat': "com.android.support:appcompat-v7:${versions.supportLibrary}",
           'design': "com.android.support:design:${versions.supportLibrary}",
-          'coordinatorLayout': "com.android.support.constraint:constraint-layout:1.0.2",
+          'constraintLayout': "com.android.support.constraint:constraint-layout:1.0.2",
 
           'test': [
               'espresso': 'com.android.support.test.espresso:espresso-core:2.2.2',
