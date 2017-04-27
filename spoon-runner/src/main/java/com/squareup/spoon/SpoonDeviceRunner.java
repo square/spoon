@@ -9,6 +9,7 @@ import com.android.ddmlib.logcat.LogCatMessage;
 import com.android.ddmlib.testrunner.IRemoteAndroidTestRunner;
 import com.android.ddmlib.testrunner.ITestRunListener;
 import com.android.ddmlib.testrunner.RemoteAndroidTestRunner;
+import com.android.ddmlib.testrunner.TestIdentifier;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import java.io.BufferedReader;
@@ -40,6 +41,7 @@ import static com.squareup.spoon.SpoonUtils.obtainDirectoryFileEntry;
 import static com.squareup.spoon.SpoonUtils.obtainRealDevice;
 import static com.squareup.spoon.internal.Constants.SPOON_FILES;
 import static com.squareup.spoon.internal.Constants.SPOON_SCREENSHOTS;
+import static java.util.Collections.emptyMap;
 
 /** Represents a single device and the test configuration to be executed. */
 public final class SpoonDeviceRunner {
@@ -207,8 +209,9 @@ public final class SpoonDeviceRunner {
     } catch (InstallException e) {
       logInfo("InstallException while install test apk on device [%s]", serial);
       e.printStackTrace(System.out);
-      return result.markInstallAsFailed(
-              "Unable to install instrumentation APK.").addException(e).build();
+      return result.markInstallAsFailed("Unable to install instrumentation APK.")
+          .addException(e)
+          .build();
     }
 
     // If this is Android Marshmallow or above grant WRITE_EXTERNAL_STORAGE
@@ -234,41 +237,15 @@ public final class SpoonDeviceRunner {
     // Create the output directory, if it does not already exist.
     work.mkdirs();
 
-    // Initiate device logging.
-    SpoonDeviceLogger deviceLogger = new SpoonDeviceLogger(device);
-
-    // Run all the tests! o/
+    LogRecordingTestRunListener recorder = new LogRecordingTestRunListener();
     try {
-      logDebug(debug, "About to actually run tests for [%s]", serial);
-      RemoteAndroidTestRunner runner = new RemoteAndroidTestRunner(testPackage, testRunner, device);
-      runner.setMaxTimeToOutputResponse(adbTimeout.toMillis(), TimeUnit.MILLISECONDS);
-
-      if (instrumentationArgs != null && instrumentationArgs.size() > 0) {
-        for (String pair : instrumentationArgs) {
-          int firstEqualSignIndex = pair.indexOf("=");
-          if (firstEqualSignIndex <= -1) {
-            // No Equal Sign, can't process
-            logDebug(debug, "Can't process instrumentationArg [%s] (no equal sign)", pair);
-            continue;
-          }
-          String key = pair.substring(0, firstEqualSignIndex);
-          String value = pair.substring(firstEqualSignIndex + 1);
-          if (isNullOrEmpty(key) || isNullOrEmpty(value)) {
-            // Invalid values, skipping
-            logDebug(debug, "Can't process instrumentationArg [%s] (empty key or value)", pair);
-            continue;
-          }
-          runner.addInstrumentationArg(key, value);
-        }
-      }
-      if (codeCoverage) {
-        addCodeCoverageInstrumentationArgs(runner, device);
-      }
+      logDebug(debug, "Querying a list of tests on [%s]", serial);
+      RemoteAndroidTestRunner runner = createConfiguredRunner(testPackage, testRunner, device);
+      runner.addBooleanArg("log", true);
       // Add the sharding instrumentation arguments if necessary
       if (numShards != 0) {
         addShardingInstrumentationArgs(runner);
       }
-
       if (!isNullOrEmpty(className)) {
         if (isNullOrEmpty(methodName)) {
           runner.setClassName(className);
@@ -279,16 +256,48 @@ public final class SpoonDeviceRunner {
       if (testSize != null) {
         runner.setTestSize(testSize);
       }
-      List<ITestRunListener> listeners = new ArrayList<>();
-      listeners.add(new SpoonTestRunListener(result, debug));
-      listeners.add(new XmlTestRunListener(junitReport));
-      if (testRunListeners != null) {
-        listeners.addAll(testRunListeners);
-      }
-      runner.run(listeners);
+      runner.run(recorder);
     } catch (Exception e) {
-      result.addException(e);
     }
+    List<TestIdentifier> activeTests = recorder.activeTests();
+    List<TestIdentifier> ignoredTests = recorder.ignoredTests();
+    logDebug(debug, "Active tests: %s", activeTests);
+    logDebug(debug, "Ignored tests: %s", ignoredTests);
+
+    // Initiate device logging.
+    SpoonDeviceLogger deviceLogger = new SpoonDeviceLogger(device);
+
+    List<ITestRunListener> listeners = new ArrayList<>();
+    listeners.add(new SpoonTestRunListener(result, debug));
+    listeners.add(new XmlTestRunListener(junitReport));
+    if (testRunListeners != null) {
+      listeners.addAll(testRunListeners);
+    }
+    MultiRunITestListener multiRunListener = new MultiRunITestListener(listeners);
+
+    result.startTests();
+    multiRunListener.multiRunStarted(recorder.runName(), recorder.testCount());
+    for (TestIdentifier test : activeTests) {
+      logDebug(debug, "Running %s [%s]", test, serial);
+      try {
+        RemoteAndroidTestRunner runner = createConfiguredRunner(testPackage, testRunner, device);
+        if (codeCoverage) {
+          addCodeCoverageInstrumentationArgs(runner, device);
+        }
+        runner.setMethodName(test.getClassName(), test.getTestName());
+        runner.run(listeners);
+      } catch (Exception e) {
+        result.addException(e);
+        break;
+      }
+    }
+    for (TestIdentifier ignoredTest : ignoredTests) {
+      multiRunListener.testStarted(ignoredTest);
+      multiRunListener.testIgnored(ignoredTest);
+      multiRunListener.testEnded(ignoredTest, emptyMap());
+    }
+    multiRunListener.multiRunEnded();
+    result.endTests();
 
     mapLogsToTests(deviceLogger, result);
 
@@ -308,6 +317,34 @@ public final class SpoonDeviceRunner {
     logDebug(debug, "Done running for [%s]", serial);
 
     return result.build();
+  }
+
+  private RemoteAndroidTestRunner createConfiguredRunner(String testPackage, String testRunner,
+      IDevice device) throws Exception {
+    RemoteAndroidTestRunner runner = new RemoteAndroidTestRunner(testPackage, testRunner, device);
+    runner.setMaxTimeToOutputResponse(adbTimeout.toMillis(), TimeUnit.MILLISECONDS);
+
+    // TODO do something about this. Use an ImmutableMultimap<String, String> in the model?
+    if (instrumentationArgs != null && instrumentationArgs.size() > 0) {
+      for (String pair : instrumentationArgs) {
+        int firstEqualSignIndex = pair.indexOf("=");
+        if (firstEqualSignIndex <= -1) {
+          // No Equal Sign, can't process
+          logDebug(debug, "Can't process instrumentationArg [%s] (no equal sign)", pair);
+          continue;
+        }
+        String key = pair.substring(0, firstEqualSignIndex);
+        String value = pair.substring(firstEqualSignIndex + 1);
+        if (isNullOrEmpty(key) || isNullOrEmpty(value)) {
+          // Invalid values, skipping
+          logDebug(debug, "Can't process instrumentationArg [%s] (empty key or value)", pair);
+          continue;
+        }
+        runner.addInstrumentationArg(key, value);
+      }
+    }
+
+    return runner;
   }
 
   private void addCodeCoverageInstrumentationArgs(RemoteAndroidTestRunner runner, IDevice device)
