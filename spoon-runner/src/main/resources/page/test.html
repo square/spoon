@@ -23,16 +23,25 @@
                 <div class="span12">
                     <h2 class="test-result {{status}}">
                         {{name}}
-                        <!-- Icons modified from Glyphish Free. http://glyphish.com -->
+                        <!-- Icons from https://material.io/icons/ -->
                         <a href="../../logs/{{serial}}/{{className}}/{{methodName}}.html" title="View device log" class="pull-right icon">
-                            <img src="../../static/icon-log.png" alt="View device log">
+                            <svg fill="#222" height="28" viewBox="0 0 24 24" width="28" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M19 2h-4.18C14.4.84 13.3 0 12 0c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm7 18H5V4h2v3h10V4h2v16z"/>
+                                <path d="M0 0h24v24H0z" fill="none"/>
+                            </svg>
                         </a>
                         <a href="../../device/{{serial}}.html" title="View only this device" class="pull-right icon">
-                            <img src="../../static/icon-devices.png" alt="View only this device">
+                            <svg fill="#222" height="28" viewBox="0 0 24 24" width="28" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16 1H8C6.34 1 5 2.34 5 4v16c0 1.66 1.34 3 3 3h8c1.66 0 3-1.34 3-3V4c0-1.66-1.34-3-3-3zm-2 20h-4v-1h4v1zm3.25-3H6.75V4h10.5v14z"/>
+                                <path d="M0 0h24v24H0z" fill="none"/>
+                            </svg>
                         </a>
                         {{#hasScreenshots}}
                         <a href="../../{{animatedGif}}" title="View as animated GIF" class="pull-right icon">
-                            <img src="../../static/icon-animated.png" alt="View as animated GIF">
+                            <svg fill="#222" height="28" viewBox="0 0 24 24" width="28" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/>
+                                <path d="M0 0h24v24H0z" fill="none"/>
+                            </svg>
                         </a>
                         {{/hasScreenshots}}
                     </h2>

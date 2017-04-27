@@ -33,8 +33,8 @@ public final class HtmlRenderer {
   private static final String STATIC_DIRECTORY = "static";
   private static final String[] STATIC_ASSETS = {
     "bootstrap.min.css", "bootstrap-responsive.min.css", "bootstrap.min.js", "jquery.min.js",
-    "jquery.nivo.slider.pack.js", "nivo-slider.css", "icon-animated.png", "icon-devices.png",
-    "icon-log.png", "ceiling_android.png", "arrows.png", "bullets.png", "loading.gif"
+    "jquery.nivo.slider.pack.js", "nivo-slider.css", "ceiling_android.png", "arrows.png",
+    "bullets.png", "loading.gif"
   };
 
   private final SpoonSummary summary;
