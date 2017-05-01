@@ -14,8 +14,6 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -35,7 +33,6 @@ import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.squareup.spoon.SpoonLogger.logDebug;
 import static com.squareup.spoon.SpoonLogger.logError;
 import static com.squareup.spoon.SpoonLogger.logInfo;
-import static com.squareup.spoon.SpoonUtils.GSON;
 import static com.squareup.spoon.SpoonUtils.createAnimatedGif;
 import static com.squareup.spoon.SpoonUtils.obtainDirectoryFileEntry;
 import static com.squareup.spoon.SpoonUtils.obtainRealDevice;
@@ -45,8 +42,6 @@ import static java.util.Collections.emptyMap;
 
 /** Represents a single device and the test configuration to be executed. */
 public final class SpoonDeviceRunner {
-  private static final String FILE_EXECUTION = "execution.json";
-  private static final String FILE_RESULT = "result.json";
   private static final String DEVICE_SCREENSHOT_DIR = "app_" + SPOON_SCREENSHOTS;
   private static final String DEVICE_FILE_DIR = "app_" + SPOON_FILES;
   private static final String[] DEVICE_DIRS = {DEVICE_SCREENSHOT_DIR, DEVICE_FILE_DIR};
@@ -57,7 +52,6 @@ public final class SpoonDeviceRunner {
   static final String COVERAGE_FILE = "coverage.ec";
   static final String COVERAGE_DIR = "coverage";
 
-  private final File sdk;
   private final File testApk;
   private final List<File> otherApks;
   private final String serial;
@@ -75,7 +69,6 @@ public final class SpoonDeviceRunner {
   private final File imageDir;
   private final File coverageDir;
   private final File fileDir;
-  private final String classpath;
   private final SpoonInstrumentationInfo instrumentationInfo;
   private boolean codeCoverage;
   private final List<ITestRunListener> testRunListeners;
@@ -84,27 +77,23 @@ public final class SpoonDeviceRunner {
   /**
    * Create a test runner for a single device.
    *
-   * @param sdk Path to the local Android SDK directory.
    * @param testApk Path to test APK.
    * @param otherApks Paths to additional APKs.
    * @param output Path to output directory.
    * @param serial Device to run the test on.
    * @param debug Whether or not debug logging is enabled.
    * @param adbTimeout time in ms for longest test execution
-   * @param classpath Custom JVM classpath or {@code null}.
    * @param instrumentationInfo Test apk manifest information.
    * @param className Test class name to run or {@code null} to run all tests.
    * @param methodName Test method name to run or {@code null} to run all tests.  Must also pass
    * {@code className}.
    * @param testRunListeners Additional TestRunListener or empty list.
    */
-  SpoonDeviceRunner(File sdk, File testApk, List<File> otherApks, File output, String serial,
-      int shardIndex, int numShards, boolean debug, boolean noAnimations, Duration adbTimeout,
-      String classpath, SpoonInstrumentationInfo instrumentationInfo,
-      List<String> instrumentationArgs, String className, String methodName,
-      IRemoteAndroidTestRunner.TestSize testSize, List<ITestRunListener> testRunListeners,
-      boolean codeCoverage, boolean grantAll) {
-    this.sdk = sdk;
+  SpoonDeviceRunner(File testApk, List<File> otherApks, File output, String serial, int shardIndex,
+      int numShards, boolean debug, boolean noAnimations, Duration adbTimeout,
+      SpoonInstrumentationInfo instrumentationInfo, List<String> instrumentationArgs,
+      String className, String methodName, IRemoteAndroidTestRunner.TestSize testSize,
+      List<ITestRunListener> testRunListeners, boolean codeCoverage, boolean grantAll) {
     this.testApk = testApk;
     this.otherApks = otherApks;
     this.serial = serial;
@@ -117,7 +106,6 @@ public final class SpoonDeviceRunner {
     this.className = className;
     this.methodName = methodName;
     this.testSize = testSize;
-    this.classpath = classpath;
     this.instrumentationInfo = instrumentationInfo;
     this.codeCoverage = codeCoverage;
     serial = SpoonUtils.sanitizeSerial(serial);
@@ -128,34 +116,6 @@ public final class SpoonDeviceRunner {
     this.coverageDir = FileUtils.getFile(output, COVERAGE_DIR, serial);
     this.testRunListeners = testRunListeners;
     this.grantAll = grantAll;
-  }
-
-  /** Serialize to disk and start {@link #main(String...)} in another process. */
-  public DeviceResult runInNewProcess() throws IOException, InterruptedException {
-    logDebug(debug, "[%s]", serial);
-
-    // Create the output directory.
-    work.mkdirs();
-
-    // Write our configuration to a file in the output directory.
-    try (FileWriter executionWriter = new FileWriter(new File(work, FILE_EXECUTION))) {
-      GSON.toJson(this, executionWriter);
-    }
-
-    // Kick off a new process to interface with ADB and perform the real execution.
-    String name = SpoonDeviceRunner.class.getName();
-    Process process = new ProcessBuilder("java", "-Djava.awt.headless=true", "-cp", classpath, name,
-        work.getAbsolutePath()).start();
-    printStream(process.getInputStream(), "STDOUT");
-    printStream(process.getErrorStream(), "STDERR");
-
-    final int exitCode = process.waitFor();
-    logDebug(debug, "Process.waitFor() finished for [%s] with exitCode %d", serial, exitCode);
-
-    // Read the result from a file in the output directory.
-    try (FileReader resultFile = new FileReader(new File(work, FILE_RESULT))) {
-      return GSON.fromJson(resultFile, DeviceResult.class);
-    }
   }
 
   private void printStream(InputStream stream, String tag) throws IOException {
@@ -544,44 +504,6 @@ public final class SpoonDeviceRunner {
       if (builder != null) {
         builder.setLog(entry.getValue());
       }
-    }
-  }
-
-  /////////////////////////////////////////////////////////////////////////////
-  ////  Secondary Per-Device Process  /////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////////////////
-
-  /** De-serialize from disk, run the tests, and serialize the result back to disk. */
-  public static void main(String... args) {
-    if (args.length != 1) {
-      throw new IllegalArgumentException("Must be started with a device directory.");
-    }
-
-    try {
-      String outputDirName = args[0];
-      File outputDir = new File(outputDirName);
-      File executionFile = new File(outputDir, FILE_EXECUTION);
-      if (!executionFile.exists()) {
-        throw new IllegalArgumentException("Device directory and/or execution file doesn't exist.");
-      }
-
-      SpoonDeviceRunner target;
-      try (FileReader reader = new FileReader(executionFile)) {
-        target = GSON.fromJson(reader, SpoonDeviceRunner.class);
-      }
-
-      AndroidDebugBridge adb = SpoonUtils.initAdb(target.sdk, target.adbTimeout);
-      DeviceResult result = target.run(adb);
-      AndroidDebugBridge.terminate();
-
-      // Write device result file.
-      try (FileWriter writer = new FileWriter(new File(outputDir, FILE_RESULT))) {
-        GSON.toJson(result, writer);
-      }
-    } catch (Throwable ex) {
-      logInfo("ERROR: Unable to execute test for target.  Exception message: %s", ex.getMessage());
-      ex.printStackTrace(System.out);
-      System.exit(1);
     }
   }
 }

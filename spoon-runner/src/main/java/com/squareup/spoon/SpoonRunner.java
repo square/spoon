@@ -51,7 +51,6 @@ public final class SpoonRunner {
   private final Set<String> serials;
   private final Set<String> skipDevices;
   private final boolean shard;
-  private final String classpath;
   private final IRemoteAndroidTestRunner.TestSize testSize;
   private boolean codeCoverage;
   private final boolean allowNoDevices;
@@ -62,10 +61,10 @@ public final class SpoonRunner {
 
   private SpoonRunner(String title, File androidSdk, File testApk, List<File> otherApks,
       File output, boolean debug, boolean noAnimations, Duration adbTimeout, Set<String> serials,
-      Set<String> skipDevices, boolean shard, String classpath, List<String> instrumentationArgs,
-      String className, String methodName, IRemoteAndroidTestRunner.TestSize testSize,
-      boolean allowNoDevices, List<ITestRunListener> testRunListeners, boolean sequential,
-      File initScript, boolean grantAll, boolean terminateAdb, boolean codeCoverage) {
+      Set<String> skipDevices, boolean shard, List<String> instrumentationArgs, String className,
+      String methodName, IRemoteAndroidTestRunner.TestSize testSize, boolean allowNoDevices,
+      List<ITestRunListener> testRunListeners, boolean sequential, File initScript,
+      boolean grantAll, boolean terminateAdb, boolean codeCoverage) {
     this.title = title;
     this.androidSdk = androidSdk;
     this.otherApks = otherApks;
@@ -77,7 +76,6 @@ public final class SpoonRunner {
     this.instrumentationArgs = instrumentationArgs;
     this.className = className;
     this.methodName = methodName;
-    this.classpath = classpath;
     this.testSize = testSize;
     this.skipDevices = skipDevices;
     this.codeCoverage = codeCoverage;
@@ -200,7 +198,7 @@ public final class SpoonRunner {
           @Override public void run() {
             try {
               summary.addResult(safeSerial,
-                  getTestRunner(serial, safeShardIndex, numShards, testInfo).runInNewProcess());
+                  getTestRunner(serial, safeShardIndex, numShards, testInfo).run(adb));
             } catch (Exception e) {
               e.printStackTrace(System.out);
               summary.addResult(safeSerial, new DeviceResult.Builder().addException(e).build());
@@ -285,10 +283,9 @@ public final class SpoonRunner {
 
   private SpoonDeviceRunner getTestRunner(String serial, int shardIndex, int numShards,
       SpoonInstrumentationInfo testInfo) {
-    return new SpoonDeviceRunner(androidSdk, testApk, otherApks, output, serial,
-        shardIndex, numShards, debug, noAnimations, adbTimeout, classpath, testInfo,
-        instrumentationArgs, className, methodName, testSize, testRunListeners, codeCoverage,
-        grantAll);
+    return new SpoonDeviceRunner(testApk, otherApks, output, serial, shardIndex, numShards, debug,
+        noAnimations, adbTimeout, testInfo, instrumentationArgs, className, methodName, testSize,
+        testRunListeners, codeCoverage, grantAll);
   }
 
   /** Build a test suite for the specified devices and configuration. */
@@ -301,7 +298,6 @@ public final class SpoonRunner {
     private boolean debug = false;
     private Set<String> serials = new LinkedHashSet<>();
     private Set<String> skipDevices = new LinkedHashSet<>();
-    private String classpath = System.getProperty("java.class.path");
     private List<String> instrumentationArgs;
     private String className;
     private String methodName;
@@ -387,13 +383,6 @@ public final class SpoonRunner {
       return this;
     }
 
-    /** Classpath to use for new JVM processes. */
-    public Builder setClasspath(String classpath) {
-      checkNotNull(classpath, "Classpath cannot be null.");
-      this.classpath = classpath;
-      return this;
-    }
-
     public Builder setInstrumentationArgs(List<String> instrumentationArgs) {
       this.instrumentationArgs = instrumentationArgs;
       return this;
@@ -469,10 +458,10 @@ public final class SpoonRunner {
             "Must specify class name if you're specifying a method name.");
       }
 
-      return new SpoonRunner(title, androidSdk, testApk, otherApks, output, debug,
-          noAnimations, adbTimeout, serials, skipDevices, shard, classpath,
-          instrumentationArgs, className, methodName, testSize, allowNoDevices,
-          testRunListeners, sequential, initScript, grantAll, terminateAdb, codeCoverage);
+      return new SpoonRunner(title, androidSdk, testApk, otherApks, output, debug, noAnimations,
+          adbTimeout, serials, skipDevices, shard, instrumentationArgs, className, methodName,
+          testSize, allowNoDevices, testRunListeners, sequential, initScript, grantAll,
+          terminateAdb, codeCoverage);
     }
   }
 
