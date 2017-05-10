@@ -147,6 +147,8 @@ public final class SpoonDeviceRunner {
     final DeviceDetails deviceDetails = DeviceDetails.createForDevice(device);
     result.setDeviceDetails(deviceDetails);
     logDebug(debug, "[%s] setDeviceDetails %s", serial, deviceDetails);
+    
+    DdmPreferences.setTimeOut(adbTimeout);
 
     DdmPreferences.setTimeOut((int) adbTimeout.toMillis());
 
