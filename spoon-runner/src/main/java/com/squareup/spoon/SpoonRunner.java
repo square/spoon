@@ -79,7 +79,6 @@ public final class SpoonRunner {
     this.testSize = testSize;
     this.skipDevices = skipDevices;
     this.codeCoverage = codeCoverage;
-    this.serials = ImmutableSet.copyOf(serials);
     this.shard = shard;
     this.allowNoDevices = allowNoDevices;
     this.testRunListeners = testRunListeners;
@@ -92,6 +91,10 @@ public final class SpoonRunner {
     } else {
       this.threadExecutor = Executors.newCachedThreadPool();
     }
+    if (this.skipDevices != null && !this.skipDevices.isEmpty()) {
+      serials.removeAll(this.skipDevices);
+    }
+    this.serials = ImmutableSet.copyOf(serials);
   }
 
   /**
@@ -114,9 +117,6 @@ public final class SpoonRunner {
       Set<String> serials = this.serials;
       if (serials.isEmpty()) {
         serials = SpoonUtils.findAllDevices(adb, testInfo.getMinSdkVersion());
-      }
-      if (this.skipDevices != null && !this.skipDevices.isEmpty()) {
-        serials.removeAll(this.skipDevices);
       }
       if (serials.isEmpty() && !allowNoDevices) {
         throw new RuntimeException("No device(s) found.");
