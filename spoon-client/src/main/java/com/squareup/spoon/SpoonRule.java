@@ -61,13 +61,16 @@ public final class SpoonRule implements TestRule {
   }
 
   public File screenshot(Activity activity, String tag) {
+      return screenshot(activity, tag, true);
+  }
+
+  public File screenshot(Activity activity, String tag, boolean timestampInScreenshotName) {
     if (!TAG_VALIDATION.matcher(tag).matches()) {
       throw new IllegalArgumentException("Tag must match " + TAG_VALIDATION.pattern() + ".");
     }
     File screenshotDirectory =
         obtainScreenshotDirectory(activity.getApplicationContext(), className, methodName);
-    String screenshotName = System.currentTimeMillis() + NAME_SEPARATOR + tag + EXTENSION;
-    File screenshotFile = new File(screenshotDirectory, screenshotName);
+    File screenshotFile = obtainScreenshotFile(screenshotDirectory, tag, timestampInScreenshotName);
     Bitmap bitmap = Screenshot.capture(tag, activity);
     writeBitmapToFile(bitmap, screenshotFile);
     Log.d(TAG, "Captured screenshot '" + tag + "'.");
@@ -92,6 +95,15 @@ public final class SpoonRule implements TestRule {
         }
       }
     }
+  }
+
+  private static File obtainScreenshotFile(File screenshotDirectory, String tag,
+      boolean timestampInScreenshotName) {
+    String screenshotName = tag + EXTENSION;
+    if (timestampInScreenshotName) {
+      screenshotName = System.currentTimeMillis() + NAME_SEPARATOR + screenshotName;
+    }
+    return new File(screenshotDirectory, screenshotName);
   }
 
   private static File obtainScreenshotDirectory(Context context, String testClassName,
