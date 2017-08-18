@@ -52,6 +52,7 @@ buildscript {
   }
 
   repositories {
+    google()
     jcenter()
     maven {
       url 'https://plugins.gradle.org/m2/'
@@ -64,6 +65,7 @@ subprojects { project ->
   version = VERSION_NAME
 
   repositories {
+    google()
     jcenter()
   }
 
