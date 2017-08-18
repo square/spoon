@@ -1,13 +1,17 @@
 language: android
 
+android:
+  components:
+    - tools
+    - platform-tools
+
 jdk:
   - oraclejdk8
 
 before_install:
-  - echo y | android update sdk --no-ui --all --filter "tools"
-  - echo y | android update sdk --no-ui --all --filter "platform-tools"
+  # Install SDK license so Android Gradle plugin can install deps.
   - mkdir "$ANDROID_HOME/licenses" || true
-  - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
+  - echo "8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
 
 script:
   - ./gradlew build --no-daemon
