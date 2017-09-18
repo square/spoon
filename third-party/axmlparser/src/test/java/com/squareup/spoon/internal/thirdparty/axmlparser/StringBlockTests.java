@@ -32,8 +32,8 @@ public class StringBlockTests {
     /**
      * Used in fallback method to load the test APKs when getResource() fails.
      */
-    private static final String PATH_TO_RESOURCES =
-            "third-party/axmlparser/src/test/resources/";
+    private static final String PATH_TO_PROJECT = "third-party/axmlParser";
+    private static final String PATH_TO_RESOURCES = "src/test/resources";
 
     /** Strings that should be string pool in the test file APK_MANIFEST_UTF_8. */
     private static final String[] EXPECTED_STRINGS_UTF_8 = new String[]{
@@ -173,7 +173,13 @@ public class StringBlockTests {
      * @return An APK file object.
      */
     private File getTestDataFileFromFileSystem(String dataFileName) {
+        // Works for gradle test task."
         File resourcesDirectory = new File(PATH_TO_RESOURCES);
+        if (!resourcesDirectory.isDirectory()) {
+            // Works for IDE right-click "Run test..."
+            resourcesDirectory = new File(PATH_TO_PROJECT + "/" + PATH_TO_RESOURCES);
+        }
+
         assertTrue("Resources directory should exist.", resourcesDirectory.isDirectory());
 
         File dataFile = new File(resourcesDirectory, dataFileName);
