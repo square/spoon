@@ -3,6 +3,10 @@ apply plugin: 'java'
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
+dependencies {
+  testCompile deps.junit
+}
+
 tasks.withType(Checkstyle) {
   enabled = false
 }

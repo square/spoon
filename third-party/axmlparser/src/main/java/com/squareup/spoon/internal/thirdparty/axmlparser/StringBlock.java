@@ -16,6 +16,8 @@
 package com.squareup.spoon.internal.thirdparty.axmlparser;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 /**
  * @author Dmitry Skiba
@@ -37,7 +39,7 @@ public class StringBlock {
         int chunkSize=reader.readInt();
         int stringCount=reader.readInt();
         int styleOffsetCount=reader.readInt();
-        /*?*/reader.readInt();
+        int flags = reader.readInt();
         int stringsOffset=reader.readInt();
         int stylesOffset=reader.readInt();
 
@@ -51,7 +53,7 @@ public class StringBlock {
             if ((size%4)!=0) {
                 throw new IOException("String data size is not multiple of 4 ("+size+").");
             }
-            block.m_strings=reader.readIntArray(size/4);
+            block.m_stringPool =reader.readByteArray(size);
         }
         if (stylesOffset!=0) {
             int size=(chunkSize-stylesOffset);
@@ -61,15 +63,16 @@ public class StringBlock {
             block.m_styles=reader.readIntArray(size/4);
         }
 
-        block.s=new String[block.getCount()];
+        // Set field flag to determine if stored in UTF-8 (or false for UTF-16).
+        block.m_isUtf8 = (flags & UTF8_FLAG) == UTF8_FLAG;
+
+        block.m_strings =new String[block.getCount()];
         for (int i=0;i!=block.getCount();++i) {
-            block.s[i]=block.getRaw(i);
+            block.m_strings[i]=block.stringAt(i);
         }
 
         return block;
     }
-
-    public String[] s;
 
     /**
      * Returns number of strings in block.
@@ -85,20 +88,11 @@ public class StringBlock {
      * Returns null if index is invalid or object was not initialized.
      */
     public String getRaw(int index) {
-        if (index<0 ||
-                m_stringOffsets==null ||
-                index>=m_stringOffsets.length)
-        {
+        if (m_strings == null || index < 0 || index > m_strings.length - 1) {
             return null;
         }
-        int offset=m_stringOffsets[index];
-        int length=getShort(m_strings,offset);
-        StringBuilder result=new StringBuilder(length);
-        for (;length!=0;length-=1) {
-            offset+=2;
-            result.append((char)getShort(m_strings,offset));
-        }
-        return result.toString();
+
+        return m_strings[index];
     }
 
     /**
@@ -172,26 +166,16 @@ public class StringBlock {
      * Returns -1 if the string was not found.
      */
     public int find(String string) {
-        if (string==null) {
+        if (m_strings == null) {
             return -1;
         }
-        for (int i=0;i!=m_stringOffsets.length;++i) {
-            int offset=m_stringOffsets[i];
-            int length=getShort(m_strings,offset);
-            if (length!=string.length()) {
-                continue;
-            }
-            int j=0;
-            for (;j!=length;++j) {
-                offset+=2;
-                if (string.charAt(j)!=getShort(m_strings,offset)) {
-                    break;
-                }
-            }
-            if (j==length) {
+
+        for (int i = 0; i < m_strings.length - 1; i++) {
+            if (m_strings[i].equals(string)) {
                 return i;
             }
         }
+
         return -1;
     }
 
@@ -237,19 +221,104 @@ public class StringBlock {
         return style;
     }
 
-    private static final int getShort(int[] array,int offset) {
-        int value=array[offset/4];
-        if ((offset%4)/2==0) {
-            return (value & 0xFFFF);
+    /**
+     * (Comment taken from Android platform ResourceTypes.cpp)
+     * <p>
+     * Strings in UTF-8 format have length indicated by a length encoded in the
+     * stored data. It is either 1 or 2 characters of length data. This allows a
+     * maximum length of 0x7FFF (32767 bytes), but you should consider storing
+     * text in another way if you're using that much data in a single string.
+     * <p>
+     * If the high bit is set, then there are two characters or 2 bytes of length
+     * data encoded. In that case, drop the high bit of the first character and
+     * add it together with the next character.
+     */
+    private int decodeLengthUtf8(ByteBuffer buffer) {
+        int length = buffer.get();
+        if ((length & 0x8000) != 0) {
+            length = ((length & 0x7FFF) << 16) | buffer.get();
         } else {
-            return (value >>> 16);
+            // Advance past the 2nd useless duplicate length byte.
+            buffer.get();
         }
+        return length;
     }
 
+    /**
+     * Called to decode string length located at the start of each
+     * string in the string pool. Redirects call the the appropriate
+     * decoding handler for either UTF-8 or UTF-16 string pools.
+     *
+     * @param byteBuffer A ByteBuffer whose current index points to
+     *                   the encoded length value.
+     * @return A decoded string length.
+     */
+    private int decodeLength(ByteBuffer byteBuffer) {
+        return m_isUtf8 ? decodeLengthUtf8(byteBuffer) : decodeLengthUtf16(byteBuffer);
+    }
+
+
+    /**
+     * (Comment taken from platform ResourceTypes.cpp)
+     * <p>
+     * Strings in UTF-16 format have length indicated by a length encoded in the
+     * stored data. It is either 1 or 2 characters of length data. This allows a
+     * maximum length of 0x7FFFFFF (2147483647 bytes), but if you're storing that
+     * much data in a string, you're abusing them.
+     * <p>
+     * If the high bit is set, then there are two characters or 4 bytes of length
+     * data encoded. In that case, drop the high bit of the first character and
+     * add it together with the next character.
+     */
+    private static int decodeLengthUtf16(ByteBuffer buffer) {
+        int length = buffer.get();
+        if ((length & 0x80) != 0) {
+            length = ((length & 0x7F) << 8) | buffer.get();
+        }
+        return length;
+    }
+
+    /**
+     * Extracts a string from the string pool at the given index.
+     *
+     * @param index Position of string in the string pool.
+     * @return A String representation of the encoded string pool entry.
+     */
+    private String stringAt(int index) {
+        // Determine the offset from the start of the string pool.
+        int offset = m_stringOffsets[index];
+
+        // For convenience, wrap the string pool in ByteBuffer
+        // so that it will handle advancing the buffer index.
+        ByteBuffer buffer =
+                ByteBuffer.wrap(m_stringPool, offset, m_stringPool.length - offset)
+                        .order(ByteOrder.BIG_ENDIAN);
+
+        // Now get the decoded string length.
+        int length = decodeLength(buffer);
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (int i = 0; i < length; i++) {
+            if (m_isUtf8) {
+                stringBuilder.append((char) buffer.get());
+            } else {
+                int byte1 = buffer.get();
+                int byte2 = buffer.get();
+                stringBuilder.append((char) (byte2 | byte1));
+            }
+        }
+
+        return stringBuilder.toString();
+    }
+
+    private boolean m_isUtf8;
+    private byte[] m_stringPool;
+    private String[] m_strings;
     private int[] m_stringOffsets;
-    private int[] m_strings;
     private int[] m_styleOffsets;
     private int[] m_styles;
 
     private static final int CHUNK_TYPE=0x001C0001;
+    private static final int UTF8_FLAG = 1 << 8;
 }
