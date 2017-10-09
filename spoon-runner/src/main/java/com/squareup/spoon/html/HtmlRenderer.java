@@ -160,7 +160,7 @@ public final class HtmlRenderer {
         return;
       }
     } catch (IOException e) {
-      throw new RuntimeException("Unable to create raw log file to " + rawFile.getAbsolutePath(), e);
+      throw new RuntimeException("Unable to create raw log file " + rawFile.getAbsolutePath(), e);
     }
 
     try (Writer writer = new BufferedWriter(
