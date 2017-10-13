@@ -2,7 +2,7 @@ buildscript {
   ext.versions = [
       'minSdk': 9,
       'compileSdk': 25,
-      'buildTools': '25.0.2',
+      'buildTools': '26.0.2',
 
       'supportLibrary': '25.3.1',
       'kotlin': '1.1.2',
@@ -45,7 +45,7 @@ buildscript {
   ]
 
   dependencies {
-    classpath 'com.android.tools.build:gradle:2.3.0'
+    classpath 'com.android.tools.build:gradle:3.0.0-beta7'
     classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
     classpath 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.10'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"

@@ -7,3 +7,6 @@ local.properties
 # IntelliJ
 .idea
 *.iml
+
+**/target
+**/out

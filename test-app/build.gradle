@@ -40,13 +40,13 @@ dependencies {
 
   spoon project(':spoon-runner')
 
-  androidTestCompile deps.junit
-  androidTestCompile deps.truth
-  androidTestCompile deps.support.test.runner
-  androidTestCompile deps.support.test.rules
-  androidTestCompile deps.support.test.espresso
-  androidTestCompile deps.support.test.espressoContrib
-  androidTestCompile project(':spoon-client')
+  androidTestImplementation deps.junit
+  androidTestImplementation deps.truth
+  androidTestImplementation deps.support.test.runner
+  androidTestImplementation deps.support.test.rules
+  androidTestImplementation deps.support.test.espresso
+  androidTestImplementation deps.support.test.espressoContrib
+  androidTestImplementation project(':spoon-client')
 }
 
 def spoonTest = tasks.create("spoonAndroidTest") {
@@ -55,33 +55,37 @@ def spoonTest = tasks.create("spoonAndroidTest") {
 }
 
 android.testVariants.all { testVariant ->
-  def variantOutputs = testVariant.testedVariant.outputs
   def testVariantOutputs = testVariant.outputs
-  if (variantOutputs.size() != 1 || testVariantOutputs.size() != 1) {
+  if (testVariantOutputs.size() != 1) {
     throw new AssertionError()
   }
   def task = tasks.create("spoon${testVariant.name.capitalize()}", JavaExec) {
-    dependsOn(variantOutputs[0].assemble, testVariantOutputs[0].assemble)
+    dependsOn(testVariant.testedVariant.assemble, testVariantOutputs[0].assemble)
     group = JavaBasePlugin.VERIFICATION_GROUP
     description = "Installs and runs the instrumentation tests for ${testVariant.testedVariant.name} with Spoon."
 
     doFirst {
+      def outputDir = "$buildDir/outputs/reports/spoon"
+      def variantOutputs = testVariant.testedVariant.outputs
+      if (variantOutputs.size() != 1) {
+        throw new AssertionError()
+      }
+      args = [
+        testVariantOutputs[0].outputFile,
+        variantOutputs[0].outputFile,
+        '--output', outputDir,
+        '--debug',
+      ]
       logger.info("Spoon args: $args")
     }
 
-    def outputDir = "$buildDir/outputs/reports/spoon"
     doLast {
+      def outputDir = "$buildDir/outputs/reports/spoon"
       logger.lifecycle("Spoon report written to $outputDir/index.html")
     }
 
     classpath = configurations.spoon
     main = 'com.squareup.spoon.Main'
-    args = [
-        testVariantOutputs[0].outputFile,
-        variantOutputs[0].outputFile,
-        '--output', outputDir,
-        '--debug',
-    ]
   }
   spoonTest.dependsOn(task)
 }
