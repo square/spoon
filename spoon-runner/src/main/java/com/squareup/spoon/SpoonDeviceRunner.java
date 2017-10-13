@@ -174,24 +174,23 @@ public final class SpoonDeviceRunner {
           .build();
     }
 
-    // If this is Android Marshmallow or above grant WRITE_EXTERNAL_STORAGE
-    if (deviceDetails.getApiLevel() >= DeviceDetails.MARSHMALLOW_API_LEVEL) {
-      String appPackage = instrumentationInfo.getApplicationPackage();
-      try {
-        CollectingOutputReceiver grantOutputReceiver = new CollectingOutputReceiver();
-        device.executeShellCommand(
-            "pm grant " + appPackage + " android.permission.READ_EXTERNAL_STORAGE",
-            grantOutputReceiver);
-        device.executeShellCommand(
-            "pm grant " + appPackage + " android.permission.WRITE_EXTERNAL_STORAGE",
-            grantOutputReceiver);
-      } catch (Exception e) {
-        logInfo("Exception while granting external storage access to application apk"
-            + "on device [%s]", serial);
-        e.printStackTrace(System.out);
-        return result.markInstallAsFailed(
-            "Unable to grant external storage access to application APK.").addException(e).build();
-      }
+    try {
+      cleanScreenshotsDirectoriesOnDevice(device);
+    } catch (Exception e) {
+      logInfo("Exception while cleaning screenshots storage directories on device [%s]", serial);
+      e.printStackTrace(System.out);
+      return result.markInstallAsFailed(
+          "Unable to delete screenshots storage directories").addException(e).build();
+    }
+
+    try {
+      grantReadWriteExternalStorage(deviceDetails, device);
+    } catch (Exception e) {
+      logInfo("Exception while granting external storage access to application apk"
+              + "on device [%s]", serial);
+      e.printStackTrace(System.out);
+      return result.markInstallAsFailed(
+          "Unable to grant external storage access to application APK.").addException(e).build();
     }
 
     // Create the output directory, if it does not already exist.
@@ -277,6 +276,21 @@ public final class SpoonDeviceRunner {
     logDebug(debug, "Done running for [%s]", serial);
 
     return result.build();
+  }
+
+  private void grantReadWriteExternalStorage(DeviceDetails deviceDetails, IDevice device)
+      throws Exception {
+    // If this is Android Marshmallow or above grant WRITE_EXTERNAL_STORAGE
+    if (deviceDetails.getApiLevel() >= DeviceDetails.MARSHMALLOW_API_LEVEL) {
+      String appPackage = instrumentationInfo.getApplicationPackage();
+      CollectingOutputReceiver grantOutputReceiver = new CollectingOutputReceiver();
+      device.executeShellCommand(
+              "pm grant " + appPackage + " android.permission.READ_EXTERNAL_STORAGE",
+              grantOutputReceiver);
+      device.executeShellCommand(
+              "pm grant " + appPackage + " android.permission.WRITE_EXTERNAL_STORAGE",
+              grantOutputReceiver);
+    }
   }
 
   private RemoteAndroidTestRunner createConfiguredRunner(String testPackage, String testRunner,
@@ -505,5 +519,18 @@ public final class SpoonDeviceRunner {
         builder.setLog(entry.getValue());
       }
     }
+  }
+
+  private void cleanScreenshotsDirectoriesOnDevice(IDevice device) throws Exception {
+    FileEntry externalScreenShotDir = getDirectoryOnExternalStorage(device, DEVICE_SCREENSHOT_DIR);
+    cleanDirectoryOnDevice(externalScreenShotDir.getFullPath(), device);
+
+    FileEntry internalScreenShotDir = getDirectoryOnInternalStorage(DEVICE_SCREENSHOT_DIR);
+    cleanDirectoryOnDevice(internalScreenShotDir.getFullPath(), device);
+  }
+
+  private void cleanDirectoryOnDevice(String fullPath, IDevice device) throws Exception {
+    CollectingOutputReceiver deleteDirOutputReceiver = new CollectingOutputReceiver();
+    device.executeShellCommand("rm -rf " + fullPath, deleteDirOutputReceiver);
   }
 }

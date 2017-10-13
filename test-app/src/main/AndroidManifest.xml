@@ -2,6 +2,7 @@
     package="com.example.boxup.bucks"
     >
   <uses-permission android:name="android.permission.VIBRATE"/>
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
   <application
       android:icon="@mipmap/ic_launcher"

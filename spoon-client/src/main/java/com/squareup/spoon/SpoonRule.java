@@ -10,8 +10,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.LinkedHashSet;
-import java.util.Set;
 import java.util.regex.Pattern;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
@@ -46,10 +44,6 @@ public final class SpoonRule implements TestRule {
   private static final String EXTENSION = ".png";
   private static final String TAG = "Spoon";
   private static final Pattern TAG_VALIDATION = Pattern.compile("[a-zA-Z0-9_-]+");
-  private static final Object LOCK = new Object();
-
-  /** Holds a set of directories that have been cleared for this test */
-  private static final Set<String> clearedOutputDirectories = new LinkedHashSet<>();
 
   private String className;
   private String methodName;
@@ -105,12 +99,6 @@ public final class SpoonRule implements TestRule {
       directory = context.getDir(SPOON_SCREENSHOTS, MODE_WORLD_READABLE);
     }
 
-    synchronized (LOCK) {
-      if (clearedOutputDirectories.add(SPOON_SCREENSHOTS)) {
-        deletePath(directory, false);
-      }
-    }
-
     File dirClass = new File(directory, testClassName);
     File dirMethod = new File(dirClass, testMethodName);
     createDir(dirMethod);
@@ -126,19 +114,5 @@ public final class SpoonRule implements TestRule {
       throw new RuntimeException("Unable to create output dir: " + dir.getAbsolutePath());
     }
     chmodPlusRWX(dir);
-  }
-
-  private static void deletePath(File path, boolean inclusive) {
-    if (path.isDirectory()) {
-      File[] children = path.listFiles();
-      if (children != null) {
-        for (File child : children) {
-          deletePath(child, true);
-        }
-      }
-    }
-    if (inclusive) {
-      path.delete();
-    }
   }
 }
