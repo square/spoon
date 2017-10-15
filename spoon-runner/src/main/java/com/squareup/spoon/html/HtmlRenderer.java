@@ -61,6 +61,7 @@ public final class HtmlRenderer {
     generateDeviceHtml(mustacheFactory);
     generateTestHtml(mustacheFactory);
     generateLogHtml(mustacheFactory);
+    saveRawLog();
   }
 
   private void copyStaticAssets() {
@@ -141,14 +142,23 @@ public final class HtmlRenderer {
       String name = (details != null) ? details.getName() : serial;
       for (Map.Entry<DeviceTest, DeviceTestResult> entry : result.getTestResults().entrySet()) {
         DeviceTest test = entry.getKey();
-        File rawFile = FileUtils.getFile(output, "logs", serial, test.getClassName(),
-          test.getMethodName() + ".log");
-        saveRawLogFile(rawFile, entry.getValue());
-        HtmlLog scope = HtmlLog.from(name, test, rawFile, entry.getValue());
+        HtmlLog scope = HtmlLog.from(name, test, entry.getValue());
         File htmlFile = FileUtils.getFile(output, "logs", serial, test.getClassName(),
           test.getMethodName() + ".html");
         renderMustacheToFile(mustache, scope, htmlFile);
+      }
+    }
+  }
 
+  private void saveRawLog() {
+    for (Map.Entry<String, DeviceResult> resultEntry : summary.getResults().entrySet()) {
+      String serial = resultEntry.getKey();
+      DeviceResult result = resultEntry.getValue();
+      for (Map.Entry<DeviceTest, DeviceTestResult> entry : result.getTestResults().entrySet()) {
+        DeviceTest test = entry.getKey();
+        File rawFile = FileUtils.getFile(output, "logs", serial, test.getClassName(),
+          test.getMethodName() + ".log");
+        saveRawLogFile(rawFile, entry.getValue());
       }
     }
   }

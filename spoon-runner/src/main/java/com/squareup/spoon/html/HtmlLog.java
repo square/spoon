@@ -4,14 +4,13 @@ import com.android.ddmlib.logcat.LogCatMessage;
 import com.squareup.spoon.DeviceTest;
 import com.squareup.spoon.DeviceTestResult;
 
-import java.io.File;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
 /** Model for representing a {@code log.html} page. */
 final class HtmlLog {
-  public static HtmlLog from(String name, DeviceTest test, File rawFile, DeviceTestResult result) {
+  public static HtmlLog from(String name, DeviceTest test, DeviceTestResult result) {
     String status;
     switch (result.getStatus()) {
       case PASS:
@@ -37,18 +36,16 @@ final class HtmlLog {
 
     List<LogEntry> log = result.getLog().stream().map(LogEntry::from).collect(toList());
 
-    return new HtmlLog(title, subtitle, rawFile.getAbsolutePath(), log);
+    return new HtmlLog(title, subtitle, log);
   }
 
   public final String title;
   public final String subtitle;
-  public final String rawFile;
   public final List<LogEntry> log;
 
-  HtmlLog(String title, String subtitle, String rawFile, List<LogEntry> log) {
+  HtmlLog(String title, String subtitle, List<LogEntry> log) {
     this.title = title;
     this.subtitle = subtitle;
-    this.rawFile = rawFile;
     this.log = log;
   }
 
