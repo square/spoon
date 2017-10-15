@@ -24,4 +24,12 @@ public final class BucksSendingTest {
     onView(withText("Send")).perform(click());
     spoon.screenshot(amountActivityRule.getActivity(), "send_clicked");
   }
+
+  @Test
+  public void sendNothing() {
+    spoon.screenshot(amountActivityRule.getActivity(), "amount_empty");
+
+    onView(withText("Send")).perform(click());
+    spoon.screenshot(amountActivityRule.getActivity(), "send_clicked");
+  }
 }
