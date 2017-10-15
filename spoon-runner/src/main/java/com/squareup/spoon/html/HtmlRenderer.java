@@ -143,9 +143,9 @@ public final class HtmlRenderer {
       for (Map.Entry<DeviceTest, DeviceTestResult> entry : result.getTestResults().entrySet()) {
         DeviceTest test = entry.getKey();
         HtmlLog scope = HtmlLog.from(name, test, entry.getValue());
-        File htmlFile = FileUtils.getFile(output, "logs", serial, test.getClassName(),
-          test.getMethodName() + ".html");
-        renderMustacheToFile(mustache, scope, htmlFile);
+        File file = FileUtils.getFile(output, "logs", serial, test.getClassName(),
+            test.getMethodName() + ".html");
+        renderMustacheToFile(mustache, scope, file);
       }
     }
   }
@@ -157,7 +157,7 @@ public final class HtmlRenderer {
       for (Map.Entry<DeviceTest, DeviceTestResult> entry : result.getTestResults().entrySet()) {
         DeviceTest test = entry.getKey();
         File rawFile = FileUtils.getFile(output, "logs", serial, test.getClassName(),
-          test.getMethodName() + ".log");
+            test.getMethodName() + ".log");
         saveRawLogFile(rawFile, entry.getValue());
       }
     }
