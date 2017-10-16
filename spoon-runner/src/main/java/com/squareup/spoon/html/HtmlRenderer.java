@@ -1,5 +1,6 @@
 package com.squareup.spoon.html;
 
+import com.android.ddmlib.logcat.LogCatMessage;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
@@ -60,6 +61,7 @@ public final class HtmlRenderer {
     generateDeviceHtml(mustacheFactory);
     generateTestHtml(mustacheFactory);
     generateLogHtml(mustacheFactory);
+    saveRawLog();
   }
 
   private void copyStaticAssets() {
@@ -145,6 +147,47 @@ public final class HtmlRenderer {
             test.getMethodName() + ".html");
         renderMustacheToFile(mustache, scope, file);
       }
+    }
+  }
+
+  private void saveRawLog() {
+    for (Map.Entry<String, DeviceResult> resultEntry : summary.getResults().entrySet()) {
+      String serial = resultEntry.getKey();
+      DeviceResult result = resultEntry.getValue();
+      for (Map.Entry<DeviceTest, DeviceTestResult> entry : result.getTestResults().entrySet()) {
+        DeviceTest test = entry.getKey();
+        File rawFile = FileUtils.getFile(output, "logs", serial, test.getClassName(),
+            test.getMethodName() + ".log");
+        saveRawLogFile(rawFile, entry.getValue());
+      }
+    }
+  }
+
+  private void saveRawLogFile(File rawFile, DeviceTestResult deviceTestResult) {
+    rawFile.getParentFile().mkdirs();
+    try {
+      if (!rawFile.createNewFile() || !rawFile.canWrite()) {
+        return;
+      }
+    } catch (IOException e) {
+      throw new RuntimeException("Unable to create raw log file " + rawFile.getAbsolutePath(), e);
+    }
+
+    try (Writer writer = new BufferedWriter(
+        new OutputStreamWriter(new FileOutputStream(rawFile), UTF_8))) {
+      for (LogCatMessage logCatMessage : deviceTestResult.getLog()) {
+        writer.write(logCatMessage.getTimestamp().toString());
+        writer.write(" ");
+        writer.write(logCatMessage.getLogLevel().getStringValue());
+        writer.write(" ");
+        writer.write(logCatMessage.getTag());
+        writer.write(" ");
+        writer.write(logCatMessage.getMessage());
+        writer.write("\n");
+      }
+
+    } catch (IOException e) {
+      throw new RuntimeException("Unable to write raw log file to " + rawFile.getAbsolutePath(), e);
     }
   }
 
