@@ -176,11 +176,12 @@ public final class SpoonDeviceRunner {
 
     try {
       cleanScreenshotsDirectoriesOnDevice(device);
+      cleanFilesDirectoriesOnDevice(device);
     } catch (Exception e) {
-      logInfo("Exception while cleaning screenshots storage directories on device [%s]", serial);
+      logInfo("Exception while cleaning storage directories on device [%s]", serial);
       e.printStackTrace(System.out);
       return result.markInstallAsFailed(
-          "Unable to delete screenshots storage directories").addException(e).build();
+          "Unable to delete storage directories").addException(e).build();
     }
 
     try {
@@ -527,6 +528,14 @@ public final class SpoonDeviceRunner {
 
     FileEntry internalScreenShotDir = getDirectoryOnInternalStorage(DEVICE_SCREENSHOT_DIR);
     cleanDirectoryOnDevice(internalScreenShotDir.getFullPath(), device);
+  }
+
+  private void cleanFilesDirectoriesOnDevice(IDevice device) throws Exception {
+    FileEntry externalFileDir = getDirectoryOnExternalStorage(device, DEVICE_FILE_DIR);
+    cleanDirectoryOnDevice(externalFileDir.getFullPath(), device);
+
+    FileEntry internalFileDir = getDirectoryOnInternalStorage(DEVICE_FILE_DIR);
+    cleanDirectoryOnDevice(internalFileDir.getFullPath(), device);
   }
 
   private void cleanDirectoryOnDevice(String fullPath, IDevice device) throws Exception {
