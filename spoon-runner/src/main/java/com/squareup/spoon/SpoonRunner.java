@@ -265,12 +265,21 @@ public final class SpoonRunner {
 
   /** Returns {@code false} if a test failed on any device. */
   static boolean parseOverallSuccess(SpoonSummary summary) {
+    if (summary.getResults().size() == 0) {
+      return true;
+    }
+
+
+    boolean sawTestResults = false;
     for (DeviceResult result : summary.getResults().values()) {
       if (result.getInstallFailed()) {
         return false; // App and/or test installation failed.
       }
-      if (!result.getExceptions().isEmpty() || result.getTestResults().isEmpty()) {
+      if (!result.getExceptions().isEmpty()) {
         return false; // Top-level exception present, or no tests were run.
+      }
+      if (!result.getTestResults().isEmpty()) {
+        sawTestResults = true;
       }
       for (DeviceTestResult methodResult : result.getTestResults().values()) {
         if (methodResult.getStatus() == Status.FAIL) {
@@ -278,7 +287,7 @@ public final class SpoonRunner {
         }
       }
     }
-    return true;
+    return sawTestResults;
   }
 
   private SpoonDeviceRunner getTestRunner(String serial, int shardIndex, int numShards,
