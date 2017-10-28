@@ -30,6 +30,7 @@ fun main(vararg args: String) {
     setShard(cli.shard)
     setDebug(cli.debug)
     setCodeCoverage(cli.coverage)
+    setSingleInstrumentationCall(cli.singleInstrumentationCall)
   }.build()
 
   if (!runner.run() && !cli.alwaysZero) {
