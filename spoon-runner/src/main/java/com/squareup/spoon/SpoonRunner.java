@@ -91,9 +91,6 @@ public final class SpoonRunner {
     } else {
       this.threadExecutor = Executors.newCachedThreadPool();
     }
-    if (this.skipDevices != null && !this.skipDevices.isEmpty()) {
-      serials.removeAll(this.skipDevices);
-    }
     this.serials = ImmutableSet.copyOf(serials);
   }
 
@@ -117,6 +114,10 @@ public final class SpoonRunner {
       Set<String> serials = this.serials;
       if (serials.isEmpty()) {
         serials = SpoonUtils.findAllDevices(adb, testInfo.getMinSdkVersion());
+      }
+      if (this.skipDevices != null && !this.skipDevices.isEmpty()) {
+        serials = new LinkedHashSet<>(serials);
+        serials.removeAll(this.skipDevices);
       }
       if (serials.isEmpty() && !allowNoDevices) {
         throw new RuntimeException("No device(s) found.");
