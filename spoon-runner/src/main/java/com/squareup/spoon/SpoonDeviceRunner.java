@@ -201,7 +201,7 @@ public final class SpoonDeviceRunner {
     // Create the output directory, if it does not already exist.
     work.mkdirs();
 
-    // determine the test set that is applicable for this device
+    // Determine the test set that is applicable for this device.
     LogRecordingTestRunListener recorder;
     List<TestIdentifier> activeTests;
     List<TestIdentifier> ignoredTests;
