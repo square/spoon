@@ -213,8 +213,8 @@ public final class SpoonDeviceRunner {
       logDebug(debug, "Ignored tests: %s", ignoredTests);
     } catch (Exception e) {
       return result
-              .addException(e)
-              .build();
+          .addException(e)
+          .build();
     }
 
     // Initiate device logging.
