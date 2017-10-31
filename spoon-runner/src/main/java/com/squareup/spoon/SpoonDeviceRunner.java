@@ -11,6 +11,7 @@ import com.android.ddmlib.testrunner.ITestRunListener;
 import com.android.ddmlib.testrunner.RemoteAndroidTestRunner;
 import com.android.ddmlib.testrunner.TestIdentifier;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Multimap;
 import java.io.BufferedReader;
 import java.io.File;
@@ -60,7 +61,7 @@ public final class SpoonDeviceRunner {
   private final boolean debug;
   private final boolean noAnimations;
   private final Duration adbTimeout;
-  private final List<String> instrumentationArgs;
+  private final ImmutableMap<String, String> instrumentationArgs;
   private final String className;
   private final String methodName;
   private final IRemoteAndroidTestRunner.TestSize testSize;
@@ -91,7 +92,7 @@ public final class SpoonDeviceRunner {
    */
   SpoonDeviceRunner(File testApk, List<File> otherApks, File output, String serial, int shardIndex,
       int numShards, boolean debug, boolean noAnimations, Duration adbTimeout,
-      SpoonInstrumentationInfo instrumentationInfo, List<String> instrumentationArgs,
+      SpoonInstrumentationInfo instrumentationInfo, Map<String, String> instrumentationArgs,
       String className, String methodName, IRemoteAndroidTestRunner.TestSize testSize,
       List<ITestRunListener> testRunListeners, boolean codeCoverage, boolean grantAll) {
     this.testApk = testApk;
@@ -102,7 +103,8 @@ public final class SpoonDeviceRunner {
     this.debug = debug;
     this.noAnimations = noAnimations;
     this.adbTimeout = adbTimeout;
-    this.instrumentationArgs = instrumentationArgs;
+    this.instrumentationArgs = ImmutableMap.copyOf(instrumentationArgs != null ?
+        instrumentationArgs : Collections.emptyMap());
     this.className = className;
     this.methodName = methodName;
     this.testSize = testSize;
@@ -244,6 +246,8 @@ public final class SpoonDeviceRunner {
         if (codeCoverage) {
           addCodeCoverageInstrumentationArgs(runner, device);
         }
+        // at this point it's not needed also it would conflict with class instrumentation arg
+        runner.removeInstrumentationArg("package");
         runner.setMethodName(test.getClassName(), test.getTestName());
         runner.run(listeners);
       } catch (Exception e) {
@@ -299,26 +303,15 @@ public final class SpoonDeviceRunner {
     RemoteAndroidTestRunner runner = new RemoteAndroidTestRunner(testPackage, testRunner, device);
     runner.setMaxTimeToOutputResponse(adbTimeout.toMillis(), TimeUnit.MILLISECONDS);
 
-    // TODO do something about this. Use an ImmutableMultimap<String, String> in the model?
-    if (instrumentationArgs != null && instrumentationArgs.size() > 0) {
-      for (String pair : instrumentationArgs) {
-        int firstEqualSignIndex = pair.indexOf("=");
-        if (firstEqualSignIndex <= -1) {
-          // No Equal Sign, can't process
-          logDebug(debug, "Can't process instrumentationArg [%s] (no equal sign)", pair);
-          continue;
-        }
-        String key = pair.substring(0, firstEqualSignIndex);
-        String value = pair.substring(firstEqualSignIndex + 1);
-        if (isNullOrEmpty(key) || isNullOrEmpty(value)) {
-          // Invalid values, skipping
-          logDebug(debug, "Can't process instrumentationArg [%s] (empty key or value)", pair);
-          continue;
-        }
-        runner.addInstrumentationArg(key, value);
+    for (Map.Entry<String, String> entry : instrumentationArgs.entrySet()) {
+      if (isNullOrEmpty(entry.getKey()) || isNullOrEmpty(entry.getValue())) {
+        // Invalid values, skipping
+        logDebug(debug, "Can't process instrumentationArg [%s] (empty key or value)",
+            entry.getKey() + "=>" + entry.getValue());
+        continue;
       }
+      runner.addInstrumentationArg(entry.getKey(), entry.getValue());
     }
-
     return runner;
   }
 

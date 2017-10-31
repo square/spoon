@@ -3,9 +3,13 @@ package com.squareup.spoon;
 import com.android.ddmlib.AndroidDebugBridge;
 import com.android.ddmlib.testrunner.IRemoteAndroidTestRunner;
 import com.android.ddmlib.testrunner.ITestRunListener;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.squareup.spoon.html.HtmlRenderer;
+
+import org.apache.commons.io.FileUtils;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -15,11 +19,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import org.apache.commons.io.FileUtils;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -28,6 +32,7 @@ import static com.squareup.spoon.DeviceTestResult.Status;
 import static com.squareup.spoon.SpoonInstrumentationInfo.parseFromFile;
 import static com.squareup.spoon.SpoonLogger.logDebug;
 import static com.squareup.spoon.SpoonLogger.logInfo;
+import static java.util.Collections.emptyMap;
 import static java.util.Collections.synchronizedSet;
 
 /** Represents a collection of devices and the test configuration to be executed. */
@@ -45,7 +50,7 @@ public final class SpoonRunner {
   private final boolean debug;
   private final boolean noAnimations;
   private final Duration adbTimeout;
-  private final List<String> instrumentationArgs;
+  private final ImmutableMap<String, String> instrumentationArgs;
   private final String className;
   private final String methodName;
   private final Set<String> serials;
@@ -61,7 +66,7 @@ public final class SpoonRunner {
 
   private SpoonRunner(String title, File androidSdk, File testApk, List<File> otherApks,
       File output, boolean debug, boolean noAnimations, Duration adbTimeout, Set<String> serials,
-      Set<String> skipDevices, boolean shard, List<String> instrumentationArgs, String className,
+      Set<String> skipDevices, boolean shard, Map<String, String> instrumentationArgs, String className,
       String methodName, IRemoteAndroidTestRunner.TestSize testSize, boolean allowNoDevices,
       List<ITestRunListener> testRunListeners, boolean sequential, File initScript,
       boolean grantAll, boolean terminateAdb, boolean codeCoverage) {
@@ -73,7 +78,8 @@ public final class SpoonRunner {
     this.debug = debug;
     this.noAnimations = noAnimations;
     this.adbTimeout = adbTimeout;
-    this.instrumentationArgs = instrumentationArgs;
+    this.instrumentationArgs = ImmutableMap.copyOf(instrumentationArgs != null ?
+        instrumentationArgs : emptyMap());
     this.className = className;
     this.methodName = methodName;
     this.testSize = testSize;
@@ -298,7 +304,7 @@ public final class SpoonRunner {
     private boolean debug = false;
     private Set<String> serials = new LinkedHashSet<>();
     private Set<String> skipDevices = new LinkedHashSet<>();
-    private List<String> instrumentationArgs;
+    private Map<String, String> instrumentationArgs;
     private String className;
     private String methodName;
     private boolean noAnimations;
@@ -383,7 +389,7 @@ public final class SpoonRunner {
       return this;
     }
 
-    public Builder setInstrumentationArgs(List<String> instrumentationArgs) {
+    public Builder setInstrumentationArgs(Map<String, String> instrumentationArgs) {
       this.instrumentationArgs = instrumentationArgs;
       return this;
     }
