@@ -24,10 +24,10 @@ internal class CliArgs(parser: ArgParser) {
   }.addValidator { validateInstrumentationArgs() }.default(null)
 
   val className by parser.storing("--class-name", help = "Fully-qualified test class to run")
-      .default(null)//.addValidator { validateInstrumentationArgs() }
+      .default(null)
 
   val methodName by parser.storing("--method-name", help = "Method name inside --class-name to run")
-      .default(null)//.addValidator { validateInstrumentationArgs() }
+      .default(null)
 
   val size by parser.mapping(
       "--small" to TestSize.SMALL,

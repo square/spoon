@@ -246,7 +246,7 @@ public final class SpoonDeviceRunner {
         if (codeCoverage) {
           addCodeCoverageInstrumentationArgs(runner, device);
         }
-        // at this point it's not needed also it would conflict with class instrumentation arg
+        // At this point package is not needed and it would conflict with class instrumentation arg.
         runner.removeInstrumentationArg("package");
         runner.setMethodName(test.getClassName(), test.getTestName());
         runner.run(listeners);

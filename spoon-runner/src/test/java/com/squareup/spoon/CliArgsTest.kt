@@ -95,7 +95,7 @@ class CliArgsTest {
 
   @Test
   fun parserInstrumentationArgsValidatorValidDataTest() {
-    // package only, no conflict expected
+    // Package argument only, conflicts are not expected.
     val packageOnlyArgs = arrayOf(
         "app-androidTest.apk",
         "app.apk",
@@ -104,7 +104,7 @@ class CliArgsTest {
         "com.sample.testsuites"
     )
     CliArgs(ArgParser(packageOnlyArgs))
-    // instrumentation class only, no conflict expected
+    // Instrumentation class argument only, conflicts are not expected.
     val classOnlyArgs = arrayOf(
         "app-androidTest.apk",
         "app.apk",
@@ -113,7 +113,7 @@ class CliArgsTest {
         "com.sample.testsuites.SomeClass"
     )
     CliArgs(ArgParser(classOnlyArgs))
-    // --class-name arg only, no conflict expected
+    // Spoon --class-name argument only, conflicts are not expected.
     val classNameOnlyArgs = arrayOf(
         "app-androidTest.apk",
         "app.apk",
@@ -121,7 +121,7 @@ class CliArgsTest {
         "com.sample.testsuites.SomeClass"
     )
     CliArgs(ArgParser(classNameOnlyArgs))
-    // --method-name arg only, no conflict expected
+    // Spoon --method-name argument only, conflicts are not expected.
     val methodNameOnlyArgs = arrayOf(
         "app-androidTest.apk",
         "app.apk",
