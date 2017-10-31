@@ -13,6 +13,10 @@ import com.android.ddmlib.testrunner.TestIdentifier;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Multimap;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.TrueFileFilter;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -25,8 +29,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.TrueFileFilter;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
 import static com.android.ddmlib.SyncService.getNullProgressMonitor;
@@ -103,8 +105,8 @@ public final class SpoonDeviceRunner {
     this.debug = debug;
     this.noAnimations = noAnimations;
     this.adbTimeout = adbTimeout;
-    this.instrumentationArgs = ImmutableMap.copyOf(instrumentationArgs != null ?
-        instrumentationArgs : Collections.emptyMap());
+    this.instrumentationArgs = ImmutableMap.copyOf(instrumentationArgs != null
+        ? instrumentationArgs : Collections.emptyMap());
     this.className = className;
     this.methodName = methodName;
     this.testSize = testSize;
@@ -135,7 +137,6 @@ public final class SpoonDeviceRunner {
     String testRunner = instrumentationInfo.getTestRunnerClass();
 
     logDebug(debug, "InstrumentationInfo: [%s]", instrumentationInfo);
-
     if (debug) {
       SpoonUtils.setDdmlibInternalLoggingLevel();
     }
@@ -279,7 +280,6 @@ public final class SpoonDeviceRunner {
       result.addException(e);
     }
     logDebug(debug, "Done running for [%s]", serial);
-
     return result.build();
   }
 

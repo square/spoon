@@ -66,10 +66,10 @@ public final class SpoonRunner {
 
   private SpoonRunner(String title, File androidSdk, File testApk, List<File> otherApks,
       File output, boolean debug, boolean noAnimations, Duration adbTimeout, Set<String> serials,
-      Set<String> skipDevices, boolean shard, Map<String, String> instrumentationArgs, String className,
-      String methodName, IRemoteAndroidTestRunner.TestSize testSize, boolean allowNoDevices,
-      List<ITestRunListener> testRunListeners, boolean sequential, File initScript,
-      boolean grantAll, boolean terminateAdb, boolean codeCoverage) {
+      Set<String> skipDevices, boolean shard, Map<String, String> instrumentationArgs,
+      String className, String methodName, IRemoteAndroidTestRunner.TestSize testSize,
+      boolean allowNoDevices, List<ITestRunListener> testRunListeners, boolean sequential,
+      File initScript, boolean grantAll, boolean terminateAdb, boolean codeCoverage) {
     this.title = title;
     this.androidSdk = androidSdk;
     this.otherApks = otherApks;
@@ -78,8 +78,8 @@ public final class SpoonRunner {
     this.debug = debug;
     this.noAnimations = noAnimations;
     this.adbTimeout = adbTimeout;
-    this.instrumentationArgs = ImmutableMap.copyOf(instrumentationArgs != null ?
-        instrumentationArgs : emptyMap());
+    this.instrumentationArgs = ImmutableMap.copyOf(instrumentationArgs != null
+        ? instrumentationArgs : emptyMap());
     this.className = className;
     this.methodName = methodName;
     this.testSize = testSize;
