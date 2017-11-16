@@ -58,13 +58,15 @@ public final class SpoonRunner {
   private final boolean terminateAdb;
   private File initScript;
   private final boolean grantAll;
+  private final boolean singleInstrumentationCall;
 
   private SpoonRunner(String title, File androidSdk, File testApk, List<File> otherApks,
       File output, boolean debug, boolean noAnimations, Duration adbTimeout, Set<String> serials,
       Set<String> skipDevices, boolean shard, List<String> instrumentationArgs, String className,
       String methodName, IRemoteAndroidTestRunner.TestSize testSize, boolean allowNoDevices,
       List<ITestRunListener> testRunListeners, boolean sequential, File initScript,
-      boolean grantAll, boolean terminateAdb, boolean codeCoverage) {
+      boolean grantAll, boolean terminateAdb, boolean codeCoverage,
+      boolean singleInstrumentationCall) {
     this.title = title;
     this.androidSdk = androidSdk;
     this.otherApks = otherApks;
@@ -85,6 +87,7 @@ public final class SpoonRunner {
     this.terminateAdb = terminateAdb;
     this.initScript = initScript;
     this.grantAll = grantAll;
+    this.singleInstrumentationCall = singleInstrumentationCall;
 
     if (sequential) {
       this.threadExecutor = Executors.newSingleThreadExecutor();
@@ -286,7 +289,7 @@ public final class SpoonRunner {
       SpoonInstrumentationInfo testInfo) {
     return new SpoonDeviceRunner(testApk, otherApks, output, serial, shardIndex, numShards, debug,
         noAnimations, adbTimeout, testInfo, instrumentationArgs, className, methodName, testSize,
-        testRunListeners, codeCoverage, grantAll);
+        testRunListeners, codeCoverage, grantAll, singleInstrumentationCall);
   }
 
   /** Build a test suite for the specified devices and configuration. */
@@ -313,6 +316,7 @@ public final class SpoonRunner {
     private boolean terminateAdb = true;
     private boolean codeCoverage;
     private boolean shard = false;
+    private boolean singleInstrumentationCall = false;
 
     /** Identifying title for this execution. */
     public Builder setTitle(String title) {
@@ -449,6 +453,11 @@ public final class SpoonRunner {
       return this;
     }
 
+    public Builder setSingleInstrumentationCall(boolean singleInstrumentationCall) {
+      this.singleInstrumentationCall = singleInstrumentationCall;
+      return this;
+    }
+
     public SpoonRunner build() {
       checkNotNull(androidSdk, "SDK is required.");
       checkArgument(androidSdk.exists(), "SDK path does not exist.");
@@ -462,7 +471,7 @@ public final class SpoonRunner {
       return new SpoonRunner(title, androidSdk, testApk, otherApks, output, debug, noAnimations,
           adbTimeout, serials, skipDevices, shard, instrumentationArgs, className, methodName,
           testSize, allowNoDevices, testRunListeners, sequential, initScript, grantAll,
-          terminateAdb, codeCoverage);
+          terminateAdb, codeCoverage, singleInstrumentationCall);
     }
   }
 

@@ -70,6 +70,9 @@ internal class CliArgs(parser: ArgParser) {
 
   val coverage by parser.flagging("Enable code coverage")
 
+  val singleInstrumentationCall by parser.flagging("--single-instrumentation-call",
+      help = "Run all tests in a single instrumentation call")
+
   init {
     parser.force()
   }
