@@ -88,14 +88,17 @@ Maven:
 <dependency>
   <groupId>com.squareup.spoon</groupId>
   <artifactId>spoon-client</artifactId>
-  <version>1.3.1</version>
+  <version>1.7.1</version>
 </dependency>
 ```
 
 Gradle:
-We recommend using the [gradle plugin][3] (currently maintained as a separate project).
 
-Snapshots of the development version are available in [Sonatype's `snapshots` repository][snap].
+`>= 3.0.0`
+We recommend using the [gradle plugin][4] (currently maintained as a separate project). Snapshots of the development version are available in [Jfrog's Artifactory `snapshots` repository][artifactory].
+
+`< 2.3.3`
+We recommend using the [gradle plugin][3] (currently maintained as a separate project). Snapshots of the development version are available in [Sonatype's `snapshots` repository][snap].
 
 
 Execution
@@ -108,7 +111,7 @@ You can run Spoon as a standalone tool with your application and instrumentation
 APKs.
 
 ```
-java -jar spoon-runner-1.3.1-jar-with-dependencies.jar \
+java -jar spoon-runner-1.7.1-jar-with-dependencies.jar \
     --apk ExampleApp-debug.apk \
     --test-apk ExampleApp-debug-androidTest-unaligned.apk
 ```
@@ -149,7 +152,7 @@ Declare the plugin in the `pom.xml` for the instrumentation test module.
 <plugin>
   <groupId>com.squareup.spoon</groupId>
   <artifactId>spoon-maven-plugin</artifactId>
-  <version>1.3.1</version>
+  <version>1.7.1</version>
 </plugin>
 ```
 
@@ -190,7 +193,7 @@ The Android Instrumentation runner supports test sharding using the `numShards` 
 If you are specifying serials for multiple devices, you may use spoon's built in auto-sharding by specifying --shard:
 
 ```
-java -jar spoon-runner-1.3.1-jar-with-dependencies.jar \
+java -jar spoon-runner-1.7.1-jar-with-dependencies.jar \
     --apk ExampleApp-debug.apk \
     --test-apk ExampleApp-debug-androidTest-unaligned.apk \
     -serial emulator-1 \
@@ -203,7 +206,7 @@ This will automatically shard across all specified serials, and merge the result
 If you'd like to use a different sharding strategy, you can use the `--e` option with Spoon to pass those arguments through to the instrumentation runner, e.g.
 
 ```
-java -jar spoon-runner-1.3.1-jar-with-dependencies.jar \
+java -jar spoon-runner-1.7.1-jar-with-dependencies.jar \
     --apk ExampleApp-debug.apk \
     --test-apk ExampleApp-debug-androidTest-unaligned.apk \
     --e numShards=4 \
@@ -257,5 +260,7 @@ License
  [1]: https://search.maven.org/remote_content?g=com.squareup.spoon&a=spoon-runner&v=LATEST&c=jar-with-dependencies
  [2]: https://search.maven.org/remote_content?g=com.squareup.spoon&a=spoon-client&v=LATEST
  [3]: https://github.com/stanfy/spoon-gradle-plugin
+ [4]: https://github.com/jaredsburrows/gradle-spoon-plugin
  [snap]: https://oss.sonatype.org/content/repositories/snapshots/
+ [artifactory]: https://oss.jfrog.org/artifactory/oss-snapshot-local/
 
