@@ -26,10 +26,11 @@ fun main(vararg args: String) {
     setNoAnimations(cli.disableGif)
     cli.adbTimeout?.let(this::setAdbTimeout)
     cli.serials.forEach { addDevice(it) }
-    cli.skipSerials.forEach { addDevice(it) }
+    cli.skipSerials.forEach { skipDevice(it) }
     setShard(cli.shard)
     setDebug(cli.debug)
     setCodeCoverage(cli.coverage)
+    setSingleInstrumentationCall(cli.singleInstrumentationCall)
   }.build()
 
   if (!runner.run() && !cli.alwaysZero) {
