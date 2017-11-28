@@ -40,12 +40,14 @@ buildscript {
               'espressoContrib': 'com.android.support.test.espresso:espresso-contrib:2.2.2',
               'runner': 'com.android.support.test:runner:0.5',
               'rules': 'com.android.support.test:rules:0.5',
+              'uiautomator': 'com.android.support.test.uiautomator:uiautomator-v18:2.1.1',
+
           ],
       ],
   ]
 
   dependencies {
-    classpath 'com.android.tools.build:gradle:3.0.0-beta7'
+    classpath 'com.android.tools.build:gradle:3.0.1'
     classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
     classpath 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.10'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"

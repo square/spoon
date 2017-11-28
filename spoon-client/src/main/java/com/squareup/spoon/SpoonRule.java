@@ -1,9 +1,25 @@
 package com.squareup.spoon;
 
+import static android.content.Context.MODE_WORLD_READABLE;
+import static android.graphics.Bitmap.CompressFormat.PNG;
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
+import static android.os.Environment.getExternalStorageDirectory;
+
+import static com.squareup.spoon.Chmod.chmodPlusR;
+import static com.squareup.spoon.Chmod.chmodPlusRWX;
+import static com.squareup.spoon.internal.Constants.NAME_SEPARATOR;
+import static com.squareup.spoon.internal.Constants.SPOON_FILES;
+import static com.squareup.spoon.internal.Constants.SPOON_SCREENSHOTS;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
+
+import org.junit.rules.TestRule;
+import org.junit.runner.Description;
+import org.junit.runners.model.Statement;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -14,20 +30,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.regex.Pattern;
-import org.junit.rules.TestRule;
-import org.junit.runner.Description;
-import org.junit.runners.model.Statement;
-
-import static android.content.Context.MODE_WORLD_READABLE;
-import static android.graphics.Bitmap.CompressFormat.PNG;
-import static android.os.Build.VERSION.SDK_INT;
-import static android.os.Build.VERSION_CODES.LOLLIPOP;
-import static android.os.Environment.getExternalStorageDirectory;
-import static com.squareup.spoon.Chmod.chmodPlusR;
-import static com.squareup.spoon.Chmod.chmodPlusRWX;
-import static com.squareup.spoon.internal.Constants.NAME_SEPARATOR;
-import static com.squareup.spoon.internal.Constants.SPOON_FILES;
-import static com.squareup.spoon.internal.Constants.SPOON_SCREENSHOTS;
 
 /**
  * A test rule which captures screenshots and associates them with the test class and test method
@@ -70,6 +72,33 @@ public final class SpoonRule implements TestRule {
     writeBitmapToFile(bitmap, screenshotFile);
     Log.d(TAG, "Captured screenshot '" + tag + "'.");
     return screenshotFile;
+  }
+
+  public File screenshot(Context context,String tag,File file) {
+    if (!TAG_VALIDATION.matcher(tag).matches()) {
+      throw new IllegalArgumentException("Tag must match " + TAG_VALIDATION.pattern() + ".");
+    }
+
+    if (file == null || !file.exists() || !file.isFile()) {
+      throw new IllegalArgumentException("Can't find any file at: " + file);
+    }
+
+    if(!file.getName().endsWith(EXTENSION)) {
+      throw new IllegalArgumentException("Not a png file: " + file);
+    }
+
+    File screenshotDirectory = null;
+
+    try {
+      screenshotDirectory = obtainDirectory(context, className, methodName, SPOON_SCREENSHOTS);
+      String screenshotName = System.currentTimeMillis() + NAME_SEPARATOR + tag + EXTENSION;
+      File screenshotFile = new File(screenshotDirectory, screenshotName);
+      copyFile(file, screenshotFile);
+      Log.d(TAG, "copied screenshot file " + file);
+      return screenshotFile;
+    } catch (IOException e) {
+      throw new RuntimeException("Couldn't copy file " + file + " to " + screenshotDirectory, e);
+    }
   }
 
   private static void writeBitmapToFile(Bitmap bitmap, File file) {
