@@ -2,7 +2,9 @@ package com.squareup.spoon
 
 import com.android.ddmlib.testrunner.IRemoteAndroidTestRunner.TestSize
 import com.xenomachina.argparser.ArgParser
+import com.xenomachina.argparser.SystemExitException
 import com.xenomachina.argparser.default
+import com.xenomachina.common.orElse
 import java.io.File
 import java.time.Duration
 
@@ -15,9 +17,11 @@ internal class CliArgs(parser: ArgParser) {
 
   val title by parser.storing("Execution title").default(null)
 
-  val instrumentationArgs by parser.option<List<String>>("-e", "--es",
-      help = "Instrumentation runner arguments.", argNames = listOf("KEY", "VALUE")) { arguments }
-      .default(emptyList())
+  val instrumentationArgs by parser.option<MutableMap<String, String>>("-e", "--es",
+      help = "Instrumentation runner arguments.", argNames = listOf("KEY", "VALUE")) {
+    value.orElse { mutableMapOf<String, String>() }
+        .apply { put(arguments.first(), arguments.last()) }
+  }.addValidator { validateInstrumentationArgs() }.default(null)
 
   val className by parser.storing("--class-name", help = "Fully-qualified test class to run")
       .default(null)
@@ -72,6 +76,15 @@ internal class CliArgs(parser: ArgParser) {
 
   val singleInstrumentationCall by parser.flagging("--single-instrumentation-call",
       help = "Run all tests in a single instrumentation call")
+
+  private fun validateInstrumentationArgs() {
+    val isTestRunPackageLimited = instrumentationArgs?.contains("package") ?: false
+    val isTestRunClassLimited = instrumentationArgs?.contains("class") ?: false || className != null
+        || methodName != null
+    if (isTestRunPackageLimited && isTestRunClassLimited) {
+      throw SystemExitException("Ambiguous arguments: cannot provide both test package and test class(es)", 2)
+    }
+  }
 
   init {
     parser.force()
