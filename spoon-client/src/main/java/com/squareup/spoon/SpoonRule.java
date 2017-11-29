@@ -5,6 +5,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.jraska.falcon.Falcon;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -66,7 +68,7 @@ public final class SpoonRule implements TestRule {
         obtainDirectory(activity.getApplicationContext(), className, methodName, SPOON_SCREENSHOTS);
     String screenshotName = System.currentTimeMillis() + NAME_SEPARATOR + tag + EXTENSION;
     File screenshotFile = new File(screenshotDirectory, screenshotName);
-    Bitmap bitmap = Screenshot.capture(tag, activity);
+    Bitmap bitmap = Falcon.takeScreenshotBitmap(activity);
     writeBitmapToFile(bitmap, screenshotFile);
     Log.d(TAG, "Captured screenshot '" + tag + "'.");
     return screenshotFile;

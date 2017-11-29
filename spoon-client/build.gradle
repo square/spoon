@@ -23,6 +23,7 @@ android {
 dependencies {
   compile project(':spoon-common')
   compile deps.junit
+  compile 'com.jraska:falcon:1.0.4'
 
   testCompile deps.truth
 }

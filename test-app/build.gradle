@@ -15,8 +15,8 @@ android {
   }
 
   defaultConfig {
-    minSdkVersion versions.minSdk
-    targetSdkVersion versions.compileSdk
+    minSdkVersion 11
+    targetSdkVersion 11
 
     applicationId 'com.example.boxup.bucks'
     versionCode 1

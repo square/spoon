@@ -9,4 +9,6 @@
   <string name="send_success">Sent %1$s to\n%2$s</string>
   <string name="to">To</string>
   <string name="note">Note</string>
+  <string name="cancel">Cancel</string>
+  <string name="confirm_title">Are you sure?</string>
 </resources>
