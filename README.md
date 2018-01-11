@@ -93,7 +93,7 @@ Maven:
 ```
 
 Gradle:
-We recommend using the [gradle plugin][3] (currently maintained as a separate project).
+We recommend using [this plugin][3] for Android Gradle Plugin <3.0 and [this plugin][4] for Android Gradle Plugin 3.0+(currently maintained as separate projects).
 
 Snapshots of the development version are available in [Sonatype's `snapshots` repository][snap].
 
@@ -257,5 +257,6 @@ License
  [1]: https://search.maven.org/remote_content?g=com.squareup.spoon&a=spoon-runner&v=LATEST&c=jar-with-dependencies
  [2]: https://search.maven.org/remote_content?g=com.squareup.spoon&a=spoon-client&v=LATEST
  [3]: https://github.com/stanfy/spoon-gradle-plugin
+ [4]: https://github.com/jaredsburrows/gradle-spoon-plugin
  [snap]: https://oss.sonatype.org/content/repositories/snapshots/
 
