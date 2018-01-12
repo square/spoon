@@ -93,7 +93,8 @@ Maven:
 ```
 
 **Gradle**:
-We recommend using [this plugin][3] for Android Gradle Plugin <3.0 and [this plugin][4] for Android Gradle Plugin 3.0+ (currently maintained as separate projects).
+
+We recommend using [Stanfy's plugin][3] for Android Gradle Plugin <3.0 or [Jared's plugin][4] for Android Gradle Plugin 3.0+ (currently maintained as separate projects).
 
 Snapshots of the development version are available in [Sonatype's `snapshots` repository][snap].
 
