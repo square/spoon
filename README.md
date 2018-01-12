@@ -92,10 +92,14 @@ Maven:
 </dependency>
 ```
 
-Gradle:
-We recommend using the [gradle plugin][3] (currently maintained as a separate project).
-
 Snapshots of the development version are available in [Sonatype's `snapshots` repository][snap].
+
+**Gradle**:
+
+There are two Gradle plugins maintained by the community which provide integration with the Android Gradle plugin (AGP):
+
+ * https://github.com/stanfy/spoon-gradle-plugin (for AGP 2.x)
+ * https://github.com/jaredsburrows/gradle-spoon-plugin (for AGP 3.x)
 
 
 Execution
@@ -256,6 +260,5 @@ License
 
  [1]: https://search.maven.org/remote_content?g=com.squareup.spoon&a=spoon-runner&v=LATEST&c=jar-with-dependencies
  [2]: https://search.maven.org/remote_content?g=com.squareup.spoon&a=spoon-client&v=LATEST
- [3]: https://github.com/stanfy/spoon-gradle-plugin
  [snap]: https://oss.sonatype.org/content/repositories/snapshots/
 
