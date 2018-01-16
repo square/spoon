@@ -234,16 +234,20 @@ public final class SpoonDeviceRunner {
     result.startTests();
     multiRunListener.multiRunStarted(recorder.runName(), recorder.testCount());
     if (singleInstrumentationCall) {
-      logDebug(debug, "Running all tests in a single instrumentation call [%s]", serial);
+      logDebug(debug, "Running tests in a single instrumentation call [%s]", serial);
       try {
-        runAllTestOnDevice(testPackage, testRunner, device, listeners);
+        if (numShards != 0) {
+          runTestShardOnDevice(testPackage, testRunner, device, listeners);
+        } else {
+          runAllTestsOnDevice(testPackage, testRunner, device, listeners);
+        }
       } catch (Exception e) {
         result.addException(e);
       }
     } else {
       for (TestIdentifier test : activeTests) {
         try {
-          runTestOnDevice(testPackage, testRunner, device, listeners, test);
+          runSingleTestOnDevice(testPackage, testRunner, device, listeners, test);
         } catch (Exception e) {
           result.addException(e);
         }
@@ -316,29 +320,34 @@ public final class SpoonDeviceRunner {
     return recorder;
   }
 
-  private void runAllTestOnDevice(final String testPackage, final String testRunner,
+  private void runAllTestsOnDevice(final String testPackage, final String testRunner,
       final IDevice device, final List<ITestRunListener> listeners) throws Exception {
 
-    runTestOnDevice(testPackage, testRunner, device, listeners, null);
+    logDebug(debug, "Running tests [%s]", serial);
+
+    RemoteAndroidTestRunner runner = createConfiguredRunner(testPackage, testRunner, device);
+    runner.run(listeners);
   }
 
-  private void runTestOnDevice(final String testPackage, final String testRunner,
+  private void runTestShardOnDevice(final String testPackage, final String testRunner,
+      final IDevice device, final List<ITestRunListener> listeners) throws Exception {
+
+    logDebug(debug, "Running tests for shardIndex [%d] out of numShards [%s] on [%s]",
+                                                  shardIndex, numShards, serial);
+    RemoteAndroidTestRunner runner = createConfiguredRunner(testPackage, testRunner, device);
+    addShardingInstrumentationArgs(runner);
+    runner.run(listeners);
+  }
+
+  private void runSingleTestOnDevice(final String testPackage, final String testRunner,
       final IDevice device, final List<ITestRunListener> listeners,
       @Nullable final TestIdentifier test) throws Exception {
 
-    if (test != null) {
-      logDebug(debug, "Running %s [%s]", test, serial);
-    } else {
-      logDebug(debug, "Running tests [%s]", serial);
-    }
+    logDebug(debug, "Running %s on [%s]", test, serial);
+
     RemoteAndroidTestRunner runner = createConfiguredRunner(testPackage, testRunner, device);
     runner.removeInstrumentationArg("package");
-    if (codeCoverage) {
-      addCodeCoverageInstrumentationArgs(runner, device);
-    }
-    if (test != null) {
-      runner.setMethodName(test.getClassName(), test.getTestName());
-    }
+    runner.setMethodName(test.getClassName(), test.getTestName());
     runner.run(listeners);
   }
 
@@ -355,6 +364,9 @@ public final class SpoonDeviceRunner {
         continue;
       }
       runner.addInstrumentationArg(entry.getKey(), entry.getValue());
+    }
+    if (codeCoverage) {
+      addCodeCoverageInstrumentationArgs(runner, device);
     }
     return runner;
   }
