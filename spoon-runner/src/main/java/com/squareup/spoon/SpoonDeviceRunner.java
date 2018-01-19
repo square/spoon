@@ -235,7 +235,12 @@ public final class SpoonDeviceRunner {
     listeners.add(new SpoonTestRunListener(result, debug));
     listeners.add(new XmlTestRunListener(junitReport));
     ExecutorService executorService = Executors.newSingleThreadExecutor();
-    listeners.add(new ScreenRecorderTestRunListener(device, DEVICE_VIDEO_DIR, executorService, debug));
+    try {
+      listeners.add(new ScreenRecorderTestRunListener(
+              device, getExternalStoragePath(device, DEVICE_VIDEO_DIR), executorService, debug));
+    } catch (Exception e) {
+      logError("Failed to setup a screen recorder: [%s]", e);
+    }
     if (testRunListeners != null) {
       listeners.addAll(testRunListeners);
     }
@@ -501,14 +506,15 @@ public final class SpoonDeviceRunner {
         }
       }
 
-      logDebug(debug, "Generating combined video for [%s] [%s]", serial, testVideos);
+      logDebug(debug, "Generating combined video for [%s]", serial);
       // Don't generate animations if the switch is present
       if (true) {
         // Make combined videos for all the tests which have videos.
         for (DeviceTest deviceTest : testVideos.keySet()) {
           List<File> videos = new ArrayList<>(testVideos.get(deviceTest));
           if (videos.size() == 1) {
-            continue; // Do not make a combined video if there is only one video.
+            result.getMethodResultBuilder(deviceTest).setCombinedVideo(videos.get(0));
+            continue;
           }
           File video = FileUtils.getFile(videoDir, deviceTest.getClassName(),
                   deviceTest.getMethodName() + ".mp4");
