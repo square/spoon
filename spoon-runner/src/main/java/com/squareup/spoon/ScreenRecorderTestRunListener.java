@@ -1,8 +1,11 @@
 package com.squareup.spoon;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static com.squareup.spoon.SpoonLogger.logError;
 import static org.apache.commons.io.IOUtils.closeQuietly;
@@ -12,7 +15,7 @@ import com.android.ddmlib.IDevice;
 import com.android.ddmlib.testrunner.ITestRunListener;
 import com.android.ddmlib.testrunner.TestIdentifier;
 
-final class ScreenRecorderTestRunListener implements ITestRunListener {
+final class ScreenRecorderTestRunListener implements ITestRunListener, Closeable {
 
   private final IDevice device;
   private final String deviceDirectoryPath;
@@ -20,6 +23,13 @@ final class ScreenRecorderTestRunListener implements ITestRunListener {
   private final boolean debug;
 
   private final Map<TestIdentifier, ScreenRecorder> screenRecorders = new ConcurrentHashMap<>();
+
+  ScreenRecorderTestRunListener(
+      IDevice device,
+      String deviceDirectoryPath,
+      boolean debug) {
+    this(device, deviceDirectoryPath,  Executors.newSingleThreadExecutor(), debug);
+  }
 
   ScreenRecorderTestRunListener(
       IDevice device,
@@ -72,6 +82,11 @@ final class ScreenRecorderTestRunListener implements ITestRunListener {
 
   @Override
   public void testRunEnded(long elapsedTime, Map<String, String> runMetrics) {
+  }
+
+  @Override
+  public void close() throws IOException {
+    executorService.shutdown();
   }
 
   private String createDeviceDirectoryFor(TestIdentifier testIdentifier) {

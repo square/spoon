@@ -29,8 +29,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
@@ -47,6 +45,7 @@ import static com.squareup.spoon.internal.Constants.SPOON_FILES;
 import static com.squareup.spoon.internal.Constants.SPOON_SCREENSHOTS;
 import static com.squareup.spoon.internal.Constants.SPOON_VIDEOS;
 import static java.util.Collections.emptyMap;
+import static org.apache.commons.io.IOUtils.closeQuietly;
 
 /** Represents a single device and the test configuration to be executed. */
 public final class SpoonDeviceRunner {
@@ -239,18 +238,16 @@ public final class SpoonDeviceRunner {
     List<ITestRunListener> listeners = new ArrayList<>();
     listeners.add(new SpoonTestRunListener(result, debug));
     listeners.add(new XmlTestRunListener(junitReport));
-
-    ExecutorService screenRecorderExecutor = null;
+    ScreenRecorderTestRunListener screenRecorderTestRunListener = null;
     if (recordVideo) {
       try {
-        screenRecorderExecutor = Executors.newSingleThreadExecutor();
-        listeners.add(new ScreenRecorderTestRunListener(
-            device, getExternalStoragePath(device, DEVICE_VIDEO_DIR), screenRecorderExecutor, debug));
+        screenRecorderTestRunListener = new ScreenRecorderTestRunListener(
+            device, getExternalStoragePath(device, DEVICE_VIDEO_DIR), debug);
+        listeners.add(screenRecorderTestRunListener);
       } catch (Exception e) {
         logError("Failed to setup a screen recorder: [%s]", e);
       }
     }
-
     if (testRunListeners != null) {
       listeners.addAll(testRunListeners);
     }
@@ -280,10 +277,7 @@ public final class SpoonDeviceRunner {
     }
     multiRunListener.multiRunEnded();
     result.endTests();
-
-    if (screenRecorderExecutor != null) {
-      screenRecorderExecutor.shutdown();
-    }
+    closeQuietly(screenRecorderTestRunListener);
 
     mapLogsToTests(deviceLogger, result);
 
