@@ -40,7 +40,8 @@ final class ScreenRecorderTestRunListener implements ITestRunListener {
   public void testStarted(TestIdentifier test) {
     String deviceDirectory = createDeviceDirectoryFor(test);
     if (deviceDirectory != null) {
-      screenRecorders.put(test, ScreenRecorder.open(device, deviceDirectory, executorService, debug));
+      screenRecorders.put(
+          test, ScreenRecorder.open(device, deviceDirectory, executorService, debug));
     }
   }
 
@@ -75,8 +76,8 @@ final class ScreenRecorderTestRunListener implements ITestRunListener {
 
   private String createDeviceDirectoryFor(TestIdentifier testIdentifier) {
     try {
-      String deviceTestDirectory = deviceDirectoryPath + '/' +
-          testIdentifier.getClassName() + '/' + testIdentifier.getTestName();
+      String deviceTestDirectory = deviceDirectoryPath + '/'
+          + testIdentifier.getClassName() + '/' + testIdentifier.getTestName();
       CollectingOutputReceiver outputReceiver = new CollectingOutputReceiver();
       device.executeShellCommand("mkdir -p " + deviceTestDirectory, outputReceiver);
       return deviceTestDirectory;

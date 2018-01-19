@@ -53,7 +53,8 @@ public final class SpoonDeviceRunner {
   private static final String DEVICE_SCREENSHOT_DIR = "app_" + SPOON_SCREENSHOTS;
   private static final String DEVICE_VIDEO_DIR = "app_" + SPOON_VIDEOS;
   private static final String DEVICE_FILE_DIR = "app_" + SPOON_FILES;
-  private static final String[] DEVICE_DIRS = {DEVICE_SCREENSHOT_DIR, DEVICE_VIDEO_DIR, DEVICE_FILE_DIR};
+  private static final String[] DEVICE_DIRS =
+      {DEVICE_SCREENSHOT_DIR, DEVICE_VIDEO_DIR, DEVICE_FILE_DIR};
   static final String TEMP_DIR = "work";
   static final String JUNIT_DIR = "junit-reports";
   static final String IMAGE_DIR = "image";

@@ -20,13 +20,13 @@ import com.android.ddmlib.IShellOutputReceiver;
 
 /**
  * For more information on Android's {@code screenrecord} executable see:
- * https://developer.android.com/studio/command-line/adb.html#screenrecord,
- * https://android.googlesource.com/platform/frameworks/av/+/android-cts-4.4_r1/cmds/screenrecord/screenrecord.cpp
+ * https://developer.android.com/studio/command-line/adb.html#screenrecord, https://goo.gl/6deC5j.
  */
 final class ScreenRecorder implements Closeable {
 
   static ScreenRecorder open(
-      IDevice device, String deviceOutputDirectoryPath, ExecutorService executorService, boolean debug) {
+      IDevice device, String deviceOutputDirectoryPath,
+      ExecutorService executorService, boolean debug) {
     return new ScreenRecorder(
         device,
         deviceOutputDirectoryPath,
@@ -63,7 +63,8 @@ final class ScreenRecorder implements Closeable {
               ARGUMENT_TIME_LIMIT, recordBufferDurationSeconds,
               ARGUMENT_BITRATE, recordBitRateMbps,
               ARGUMENT_VERBOSE,
-              deviceOutputDirectoryPath + '/' + COMMAND_SCREEN_RECORD + '_' + recordingIndex + ".mp4"
+              deviceOutputDirectoryPath + '/'
+                  + COMMAND_SCREEN_RECORD + '_' + recordingIndex + ".mp4"
           });
           logDebug(debug, "Executing command: [%s]", command);
           StringBuilder outputBuffer = new StringBuilder();
