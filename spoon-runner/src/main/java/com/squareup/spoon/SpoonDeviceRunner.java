@@ -490,7 +490,7 @@ public final class SpoonDeviceRunner {
 
   private void handleVideos(DeviceResult.Builder result, File videosDir) throws IOException {
     logDebug(debug, "Moving videos to the video folder on [%s]", serial);
-    // Move all children of the screenshot directory into the image folder.
+    // Move all children of the videos directory into the video folder.
     File[] classNameDirs = videosDir.listFiles();
     if (classNameDirs != null) {
       Multimap<DeviceTest, File> testVideos = ArrayListMultimap.create();
