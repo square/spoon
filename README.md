@@ -139,6 +139,9 @@ Options:
     --fail-if-no-device-connected Fail if no device is connected
     --sequential        Execute the tests device by device
     --init-script       Path to a script that you want to run before each device
+    --disable-gif       Disable GIF generation
+    --record-video      Record device screen video
+    --disable-combined-video Disable combining multiple videos into one
     --grant-all         Grant all runtime permissions during installation on Marshmallow and above devices
     --e                 Arguments to pass to the Instrumentation Runner. This can be used
                         multiple times for multiple entries. Usage: --e <NAME>=<VALUE>.

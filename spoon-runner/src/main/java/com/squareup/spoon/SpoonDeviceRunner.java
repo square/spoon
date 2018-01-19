@@ -70,6 +70,8 @@ public final class SpoonDeviceRunner {
   private final int numShards;
   private final boolean debug;
   private final boolean noAnimations;
+  private final boolean recordVideo;
+  private final boolean noCombinedVideo;
   private final Duration adbTimeout;
   private final ImmutableMap<String, String> instrumentationArgs;
   private final String className;
@@ -103,11 +105,11 @@ public final class SpoonDeviceRunner {
    * @param testRunListeners Additional TestRunListener or empty list.
    */
   SpoonDeviceRunner(File testApk, List<File> otherApks, File output, String serial, int shardIndex,
-      int numShards, boolean debug, boolean noAnimations, Duration adbTimeout,
-      SpoonInstrumentationInfo instrumentationInfo, Map<String, String> instrumentationArgs,
-      String className, String methodName, IRemoteAndroidTestRunner.TestSize testSize,
-      List<ITestRunListener> testRunListeners, boolean codeCoverage, boolean grantAll,
-      boolean singleInstrumentationCall) {
+      int numShards, boolean debug, boolean noAnimations, boolean recordVideo,
+      boolean noCombinedVideo, Duration adbTimeout, SpoonInstrumentationInfo instrumentationInfo,
+      Map<String, String> instrumentationArgs, String className, String methodName,
+      IRemoteAndroidTestRunner.TestSize testSize, List<ITestRunListener> testRunListeners,
+      boolean codeCoverage, boolean grantAll, boolean singleInstrumentationCall) {
     this.testApk = testApk;
     this.otherApks = otherApks;
     this.serial = serial;
@@ -115,6 +117,8 @@ public final class SpoonDeviceRunner {
     this.numShards = numShards;
     this.debug = debug;
     this.noAnimations = noAnimations;
+    this.recordVideo = recordVideo;
+    this.noCombinedVideo = noCombinedVideo;
     this.adbTimeout = adbTimeout;
     this.instrumentationArgs = ImmutableMap.copyOf(instrumentationArgs != null
         ? instrumentationArgs : Collections.emptyMap());
@@ -235,13 +239,18 @@ public final class SpoonDeviceRunner {
     List<ITestRunListener> listeners = new ArrayList<>();
     listeners.add(new SpoonTestRunListener(result, debug));
     listeners.add(new XmlTestRunListener(junitReport));
-    ExecutorService executorService = Executors.newSingleThreadExecutor();
-    try {
-      listeners.add(new ScreenRecorderTestRunListener(
-              device, getExternalStoragePath(device, DEVICE_VIDEO_DIR), executorService, debug));
-    } catch (Exception e) {
-      logError("Failed to setup a screen recorder: [%s]", e);
+
+    ExecutorService screenRecorderExecutor = null;
+    if (recordVideo) {
+      try {
+        screenRecorderExecutor = Executors.newSingleThreadExecutor();
+        listeners.add(new ScreenRecorderTestRunListener(
+            device, getExternalStoragePath(device, DEVICE_VIDEO_DIR), screenRecorderExecutor, debug));
+      } catch (Exception e) {
+        logError("Failed to setup a screen recorder: [%s]", e);
+      }
     }
+
     if (testRunListeners != null) {
       listeners.addAll(testRunListeners);
     }
@@ -271,7 +280,10 @@ public final class SpoonDeviceRunner {
     }
     multiRunListener.multiRunEnded();
     result.endTests();
-    executorService.shutdown();
+
+    if (screenRecorderExecutor != null) {
+      screenRecorderExecutor.shutdown();
+    }
 
     mapLogsToTests(deviceLogger, result);
 
@@ -509,7 +521,7 @@ public final class SpoonDeviceRunner {
 
       logDebug(debug, "Generating combined video for [%s]", serial);
       // Don't generate animations if the switch is present
-      if (true) {
+      if (!noCombinedVideo) {
         // Make combined videos for all the tests which have videos.
         for (DeviceTest deviceTest : testVideos.keySet()) {
           List<File> videos = new ArrayList<>(testVideos.get(deviceTest));

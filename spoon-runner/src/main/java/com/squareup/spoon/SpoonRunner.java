@@ -49,6 +49,8 @@ public final class SpoonRunner {
   private final File output;
   private final boolean debug;
   private final boolean noAnimations;
+  private final boolean recordVideo;
+  private final boolean noCombinedVideo;
   private final Duration adbTimeout;
   private final ImmutableMap<String, String> instrumentationArgs;
   private final String className;
@@ -66,7 +68,8 @@ public final class SpoonRunner {
   private final boolean singleInstrumentationCall;
 
   private SpoonRunner(String title, File androidSdk, File testApk, List<File> otherApks,
-      File output, boolean debug, boolean noAnimations, Duration adbTimeout, Set<String> serials,
+      File output, boolean debug, boolean noAnimations, boolean recordVideo,
+      boolean noCombinedVideo, Duration adbTimeout, Set<String> serials,
       Set<String> skipDevices, boolean shard, Map<String, String> instrumentationArgs,
       String className, String methodName, IRemoteAndroidTestRunner.TestSize testSize,
       boolean allowNoDevices, List<ITestRunListener> testRunListeners, boolean sequential,
@@ -79,6 +82,8 @@ public final class SpoonRunner {
     this.output = output;
     this.debug = debug;
     this.noAnimations = noAnimations;
+    this.recordVideo = recordVideo;
+    this.noCombinedVideo = noCombinedVideo;
     this.adbTimeout = adbTimeout;
     this.instrumentationArgs = ImmutableMap.copyOf(instrumentationArgs != null
         ? instrumentationArgs : emptyMap());
@@ -294,8 +299,9 @@ public final class SpoonRunner {
   private SpoonDeviceRunner getTestRunner(String serial, int shardIndex, int numShards,
       SpoonInstrumentationInfo testInfo) {
     return new SpoonDeviceRunner(testApk, otherApks, output, serial, shardIndex, numShards, debug,
-        noAnimations, adbTimeout, testInfo, instrumentationArgs, className, methodName, testSize,
-        testRunListeners, codeCoverage, grantAll, singleInstrumentationCall);
+        noAnimations, recordVideo, noCombinedVideo, adbTimeout, testInfo, instrumentationArgs,
+        className, methodName, testSize, testRunListeners, codeCoverage, grantAll,
+        singleInstrumentationCall);
   }
 
   /** Build a test suite for the specified devices and configuration. */
@@ -312,6 +318,8 @@ public final class SpoonRunner {
     private String className;
     private String methodName;
     private boolean noAnimations;
+    private boolean recordVideo;
+    private boolean noCombinedVideo;
     private IRemoteAndroidTestRunner.TestSize testSize;
     private Duration adbTimeout = DEFAULT_ADB_TIMEOUT;
     private boolean allowNoDevices;
@@ -371,6 +379,18 @@ public final class SpoonRunner {
     /** Whether or not animations are enabled. */
     public Builder setNoAnimations(boolean noAnimations) {
       this.noAnimations = noAnimations;
+      return this;
+    }
+
+    /** Whether or not device screen video should be taken. **/
+    public Builder setRecordVideo(boolean recordVideo) {
+      this.recordVideo = recordVideo;
+      return this;
+    }
+
+    /** Whether or not multiple device screen videos should be combined into one. **/
+    public Builder setNoCombinedVideo(boolean noCombinedVideo) {
+      this.noCombinedVideo = noCombinedVideo;
       return this;
     }
 
@@ -475,9 +495,9 @@ public final class SpoonRunner {
       }
 
       return new SpoonRunner(title, androidSdk, testApk, otherApks, output, debug, noAnimations,
-          adbTimeout, serials, skipDevices, shard, instrumentationArgs, className, methodName,
-          testSize, allowNoDevices, testRunListeners, sequential, initScript, grantAll,
-          terminateAdb, codeCoverage, singleInstrumentationCall);
+          recordVideo, noCombinedVideo, adbTimeout, serials, skipDevices, shard,
+          instrumentationArgs, className, methodName, testSize, allowNoDevices, testRunListeners,
+          sequential, initScript, grantAll, terminateAdb, codeCoverage, singleInstrumentationCall);
     }
   }
 

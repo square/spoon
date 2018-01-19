@@ -59,6 +59,11 @@ internal class CliArgs(parser: ArgParser) {
 
   val disableGif by parser.flagging("--disable-gif", help = "Disable GIF generation")
 
+  val recordVideo by parser.flagging("--record-video", help = "Record device screen video")
+
+  val disabledCombinedVideo by parser.flagging("--disable-combined-video",
+          help = "Disable combining multiple videos into one")
+
   val adbTimeout by parser.storing("--adb-timeout",
       help = "Maximum execution time per test. Parsed by java.time.Duration.",
       transform = Duration::parse).default(null)

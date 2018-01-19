@@ -75,6 +75,7 @@ android.testVariants.all { testVariant ->
         variantOutputs[0].outputFile,
         '--output', outputDir,
         '--debug',
+        '--record-video'
       ]
       logger.info("Spoon args: $args")
     }
