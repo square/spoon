@@ -28,6 +28,7 @@ dependencies {
   compile deps.commonsIo
   compile deps.ddmlib
   compile deps.animatedGifLib
+  compile deps.isoParser
   compile deps.guava
   compile deps.mustache
   compile deps.lesscss

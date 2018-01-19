@@ -75,11 +75,13 @@ public final class DeviceTestResult {
   public static class Builder {
     private final List<File> screenshots = new ArrayList<>();
     private final List<File> files = new ArrayList<>();
+    private final List<File> videos = new ArrayList<>();
     private Status status = Status.PASS;
     private StackTrace exception;
     private long start;
     private long duration = -1;
     private File animatedGif;
+    private File combinedVideo;
     private List<LogCatMessage> log;
 
     public Builder markTestAsFailed(String message) {
@@ -138,6 +140,12 @@ public final class DeviceTestResult {
       return this;
     }
 
+    public Builder addVideo(File video) {
+      checkNotNull(video);
+      videos.add(video);
+      return this;
+    }
+
     public Builder addFile(File file) {
       checkNotNull(file);
       files.add(file);
@@ -148,6 +156,13 @@ public final class DeviceTestResult {
       checkNotNull(animatedGif);
       checkArgument(this.animatedGif == null, "Animated GIF already set.");
       this.animatedGif = animatedGif;
+      return this;
+    }
+
+    public Builder setCombinedVideo(File combinedVideo) {
+      checkNotNull(combinedVideo);
+      checkArgument(this.combinedVideo == null, "Combined video already set.");
+      this.combinedVideo = combinedVideo;
       return this;
     }
 

@@ -29,6 +29,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
@@ -38,20 +40,24 @@ import static com.squareup.spoon.SpoonLogger.logDebug;
 import static com.squareup.spoon.SpoonLogger.logError;
 import static com.squareup.spoon.SpoonLogger.logInfo;
 import static com.squareup.spoon.SpoonUtils.createAnimatedGif;
+import static com.squareup.spoon.SpoonUtils.createCombinedVideo;
 import static com.squareup.spoon.SpoonUtils.obtainDirectoryFileEntry;
 import static com.squareup.spoon.SpoonUtils.obtainRealDevice;
 import static com.squareup.spoon.internal.Constants.SPOON_FILES;
 import static com.squareup.spoon.internal.Constants.SPOON_SCREENSHOTS;
+import static com.squareup.spoon.internal.Constants.SPOON_VIDEOS;
 import static java.util.Collections.emptyMap;
 
 /** Represents a single device and the test configuration to be executed. */
 public final class SpoonDeviceRunner {
   private static final String DEVICE_SCREENSHOT_DIR = "app_" + SPOON_SCREENSHOTS;
+  private static final String DEVICE_VIDEO_DIR = "app_" + SPOON_VIDEOS;
   private static final String DEVICE_FILE_DIR = "app_" + SPOON_FILES;
-  private static final String[] DEVICE_DIRS = {DEVICE_SCREENSHOT_DIR, DEVICE_FILE_DIR};
+  private static final String[] DEVICE_DIRS = {DEVICE_SCREENSHOT_DIR, DEVICE_VIDEO_DIR, DEVICE_FILE_DIR};
   static final String TEMP_DIR = "work";
   static final String JUNIT_DIR = "junit-reports";
   static final String IMAGE_DIR = "image";
+  static final String VIDEO_DIR = "video";
   static final String FILE_DIR = "file";
   static final String COVERAGE_FILE = "coverage.ec";
   static final String COVERAGE_DIR = "coverage";
@@ -71,6 +77,7 @@ public final class SpoonDeviceRunner {
   private final File work;
   private final File junitReport;
   private final File imageDir;
+  private final File videoDir;
   private final File coverageDir;
   private final File fileDir;
   private final SpoonInstrumentationInfo instrumentationInfo;
@@ -120,6 +127,7 @@ public final class SpoonDeviceRunner {
     this.work = FileUtils.getFile(output, TEMP_DIR, serial);
     this.junitReport = FileUtils.getFile(output, JUNIT_DIR, serial + ".xml");
     this.imageDir = FileUtils.getFile(output, IMAGE_DIR, serial);
+    this.videoDir = FileUtils.getFile(output, VIDEO_DIR, serial);
     this.fileDir = FileUtils.getFile(output, FILE_DIR, serial);
     this.coverageDir = FileUtils.getFile(output, COVERAGE_DIR, serial);
     this.testRunListeners = testRunListeners;
@@ -226,11 +234,12 @@ public final class SpoonDeviceRunner {
     List<ITestRunListener> listeners = new ArrayList<>();
     listeners.add(new SpoonTestRunListener(result, debug));
     listeners.add(new XmlTestRunListener(junitReport));
+    ExecutorService executorService = Executors.newSingleThreadExecutor();
+    listeners.add(new ScreenRecorderTestRunListener(device, DEVICE_VIDEO_DIR, executorService, debug));
     if (testRunListeners != null) {
       listeners.addAll(testRunListeners);
     }
     MultiRunITestListener multiRunListener = new MultiRunITestListener(listeners);
-
     result.startTests();
     multiRunListener.multiRunStarted(recorder.runName(), recorder.testCount());
     if (singleInstrumentationCall) {
@@ -256,6 +265,7 @@ public final class SpoonDeviceRunner {
     }
     multiRunListener.multiRunEnded();
     result.endTests();
+    executorService.shutdown();
 
     mapLogsToTests(deviceLogger, result);
 
@@ -267,6 +277,7 @@ public final class SpoonDeviceRunner {
       }
 
       cleanScreenshotsDirectory(result);
+      cleanVideosDirectory(result);
       cleanFilesDirectory(result);
 
     } catch (Exception e) {
@@ -380,6 +391,15 @@ public final class SpoonDeviceRunner {
     }
   }
 
+  private void cleanVideosDirectory(DeviceResult.Builder result) throws IOException {
+    File videosDir = new File(work, DEVICE_VIDEO_DIR);
+    if (videosDir.exists()) {
+      videoDir.mkdirs();
+      handleVideos(result, videosDir);
+      FileUtils.deleteDirectory(videosDir);
+    }
+  }
+
   private void cleanFilesDirectory(DeviceResult.Builder result) throws IOException {
     File testFilesDir = new File(work, DEVICE_FILE_DIR);
     if (testFilesDir.exists()) {
@@ -445,6 +465,55 @@ public final class SpoonDeviceRunner {
               deviceTest.getMethodName() + ".gif");
           createAnimatedGif(screenshots, animatedGif);
           result.getMethodResultBuilder(deviceTest).setAnimatedGif(animatedGif);
+        }
+      }
+    }
+  }
+
+  private void handleVideos(DeviceResult.Builder result, File videosDir) throws IOException {
+    logDebug(debug, "Moving videos to the video folder on [%s]", serial);
+    // Move all children of the screenshot directory into the image folder.
+    File[] classNameDirs = videosDir.listFiles();
+    if (classNameDirs != null) {
+      Multimap<DeviceTest, File> testVideos = ArrayListMultimap.create();
+      for (File classNameDir : classNameDirs) {
+        String className = classNameDir.getName();
+        File destDir = new File(videoDir, className);
+        FileUtils.copyDirectory(classNameDir, destDir);
+
+        // Get a sorted list of all videos from the device run.
+        List<File> videos = new ArrayList<>(
+                FileUtils.listFiles(destDir, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE));
+        Collections.sort(videos);
+
+        // Iterate over each screenshot and associate it with its corresponding method result.
+        for (File video : videos) {
+          String methodName = video.getParentFile().getName();
+
+          DeviceTest testIdentifier = new DeviceTest(className, methodName);
+          DeviceTestResult.Builder builder = result.getMethodResultBuilder(testIdentifier);
+          if (builder != null) {
+            builder.addVideo(video);
+            testVideos.put(testIdentifier, video);
+          } else {
+            logError("Unable to find test for %s", testIdentifier);
+          }
+        }
+      }
+
+      logDebug(debug, "Generating combined video for [%s] [%s]", serial, testVideos);
+      // Don't generate animations if the switch is present
+      if (true) {
+        // Make combined videos for all the tests which have videos.
+        for (DeviceTest deviceTest : testVideos.keySet()) {
+          List<File> videos = new ArrayList<>(testVideos.get(deviceTest));
+          if (videos.size() == 1) {
+            continue; // Do not make a combined video if there is only one video.
+          }
+          File video = FileUtils.getFile(videoDir, deviceTest.getClassName(),
+                  deviceTest.getMethodName() + ".mp4");
+          createCombinedVideo(videos, video);
+          result.getMethodResultBuilder(deviceTest).setCombinedVideo(video);
         }
       }
     }
