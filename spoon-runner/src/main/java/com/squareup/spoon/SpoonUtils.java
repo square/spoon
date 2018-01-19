@@ -36,6 +36,7 @@ import org.apache.commons.io.IOUtils;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
 import static com.android.ddmlib.FileListingService.TYPE_DIRECTORY;
+import static org.apache.commons.io.IOUtils.closeQuietly;
 
 /** Utilities for executing instrumentation tests on devices. */
 public final class SpoonUtils {
@@ -179,7 +180,7 @@ public final class SpoonUtils {
       Container out = new DefaultMp4Builder().build(movie);
       out.writeContainer(fileOutputStream.getChannel());
     } finally {
-      IOUtils.closeQuietly(fileOutputStream);
+      closeQuietly(fileOutputStream);
     }
   }
 
