@@ -23,18 +23,23 @@ public final class DeviceTestResult {
   private final StackTrace exception;
   private final long duration;
   private final List<File> screenshots;
+  private final List<File> videos;
   private final List<File> files;
   private final File animatedGif;
+  private final File combinedVideo;
   private final List<LogCatMessage> log;
 
   private DeviceTestResult(Status status, StackTrace exception, long duration,
-      List<File> screenshots, File animatedGif, List<LogCatMessage> log, List<File> files) {
+      List<File> screenshots, List<File> videos, File animatedGif,
+      File combinedVideo, List<LogCatMessage> log, List<File> files) {
     this.status = status;
     this.exception = exception;
     this.duration = duration;
     this.screenshots = unmodifiableList(new ArrayList<>(screenshots));
+    this.videos = unmodifiableList(new ArrayList<>(videos));
     this.files = unmodifiableList(new ArrayList<>(files));
     this.animatedGif = animatedGif;
+    this.combinedVideo = combinedVideo;
     this.log = unmodifiableList(new ArrayList<>(log));
   }
 
@@ -58,9 +63,19 @@ public final class DeviceTestResult {
     return screenshots;
   }
 
+  /** Videos taken during test. */
+  public List<File> getVideos() {
+    return videos;
+  }
+
   /** Animated GIF of screenshots. */
   public File getAnimatedGif() {
     return animatedGif;
+  }
+
+  /** Combined video of all videos. **/
+  public File getCombinedVideo() {
+    return combinedVideo;
   }
 
   /** Arbitrary files saved from the test */
@@ -171,7 +186,7 @@ public final class DeviceTestResult {
         log = Collections.emptyList();
       }
       return new DeviceTestResult(status, exception, duration,
-              screenshots, animatedGif, log, files);
+              screenshots, videos, animatedGif, combinedVideo, log, files);
     }
   }
 }

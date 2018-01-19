@@ -83,9 +83,15 @@ final class HtmlTest {
           .map(screenshot -> HtmlUtils.getScreenshot(screenshot, output))
           .collect(toList());
       String animatedGif = HtmlUtils.createRelativeUri(result.getAnimatedGif(), output);
+      List<HtmlUtils.Video> videos = result.getScreenshots()
+          .stream()
+          .map(screenshot -> HtmlUtils.getVideo(screenshot, output))
+          .collect(toList());
+      String combinedVideo = HtmlUtils.createRelativeUri(result.getCombinedVideo(), output);
       HtmlUtils.ExceptionInfo exception = HtmlUtils.processStackTrace(result.getException());
 
-      return new TestResult(name, serial, status, screenshots, animatedGif, exception);
+      return new TestResult(
+          name, serial, status, screenshots, animatedGif, videos, combinedVideo, exception);
     }
 
     public final String name;
@@ -94,16 +100,23 @@ final class HtmlTest {
     public final boolean hasScreenshots;
     public final List<HtmlUtils.Screenshot> screenshots;
     public final String animatedGif;
+    public final boolean hasVideos;
+    public final List<HtmlUtils.Video> videos;
+    public final String combinedVideo;
     public final HtmlUtils.ExceptionInfo exception;
 
     TestResult(String name, String serial, String status, List<HtmlUtils.Screenshot> screenshots,
-        String animatedGif, HtmlUtils.ExceptionInfo exception) {
+        String animatedGif, List<HtmlUtils.Video> videos, String combinedVideo,
+        HtmlUtils.ExceptionInfo exception) {
       this.name = name;
       this.serial = serial;
       this.status = status;
       this.hasScreenshots = !screenshots.isEmpty();
       this.screenshots = screenshots;
       this.animatedGif = animatedGif;
+      this.hasVideos = !videos.isEmpty();
+      this.videos = videos;
+      this.combinedVideo = combinedVideo;
       this.exception = exception;
     }
 
