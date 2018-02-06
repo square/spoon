@@ -17,6 +17,11 @@ class XmlTestRunListener extends com.android.ddmlib.testrunner.XmlTestRunListene
     this.file = file;
   }
 
+  @Override
+  public void testRunStarted(String runName, int numTests) {
+    getRunResult().testRunStarted(runName, numTests);
+  }
+
   @Override protected File getResultFile(File reportDir) throws IOException {
     file.getParentFile().mkdirs();
     return file;
