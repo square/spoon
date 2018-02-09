@@ -15,7 +15,7 @@ android {
   }
 
   defaultConfig {
-    minSdkVersion versions.minSdk
+    minSdkVersion 18
     targetSdkVersion versions.compileSdk
 
     applicationId 'com.example.boxup.bucks'
@@ -46,6 +46,7 @@ dependencies {
   androidTestImplementation deps.support.test.rules
   androidTestImplementation deps.support.test.espresso
   androidTestImplementation deps.support.test.espressoContrib
+  androidTestImplementation deps.support.test.uiautomator
   androidTestImplementation project(':spoon-client')
 }
 
