@@ -3,6 +3,7 @@ package com.squareup.spoon
 import com.google.common.truth.Truth.assertThat
 import com.xenomachina.argparser.ArgParser
 import com.xenomachina.argparser.SystemExitException
+import java.io.File;
 import org.junit.Test
 
 
@@ -27,7 +28,7 @@ class CliArgsTest {
     assertThat(cliArgs.otherApks[0].name).isEqualTo("app.apk")
     assertThat(cliArgs.instrumentationArgs?.get("package"))
         .isEqualTo("com.sample.testsuites")
-    assertThat(cliArgs.output?.path).isEqualTo("outputs/spoon")
+    assertThat(cliArgs.output?.path).isEqualTo("outputs" + File.separator + "spoon")
   }
 
   @Test
@@ -43,7 +44,7 @@ class CliArgsTest {
 
     assertThat(cliArgs.testApk.name).isEqualTo("app-androidTest.apk")
     assertThat(cliArgs.otherApks[0].name).isEqualTo("app.apk")
-    assertThat(cliArgs.output?.path).isEqualTo("outputs/spoon")
+    assertThat(cliArgs.output?.path).isEqualTo("outputs" + File.separator + "spoon")
     assertThat(cliArgs.instrumentationArgs).isNull()
   }
 
