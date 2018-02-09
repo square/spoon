@@ -23,6 +23,9 @@ public final class BucksSendingTest {
 
     onView(withText("Send")).perform(click());
     spoon.screenshot(amountActivityRule.getActivity(), "send_clicked");
+
+    onView(withText("OK")).perform(click());
+    spoon.screenshot(amountActivityRule.getActivity(), "ok_clicked");
   }
 
   @Test

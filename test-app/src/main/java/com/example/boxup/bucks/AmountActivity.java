@@ -1,9 +1,13 @@
 package com.example.boxup.bucks;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.transition.TransitionManager;
 import android.view.View;
@@ -71,8 +75,13 @@ public final class AmountActivity extends AppCompatActivity {
   }
 
   @OnClick(R.id.action_send) void actionSend() {
+    DialogFragment newFragment = new ConfirmDialog();
+    newFragment.show(getSupportFragmentManager(), "dialog");
+  }
+
+  private void sendAfterConfirm() {
     int amountCents = (int) (parsedAmount() * 100);
-    startActivity(RecipientActivity.createIntent(this, amountCents));
+    startActivity(RecipientActivity.createIntent(AmountActivity.this, amountCents));
 
     amount = "";
     renderAmount();
@@ -94,5 +103,32 @@ public final class AmountActivity extends AppCompatActivity {
 
   private double parsedAmount() {
     return amount.isEmpty() ? 0d : Double.parseDouble(amount);
+  }
+
+  public static class ConfirmDialog extends DialogFragment {
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+      return new AlertDialog.Builder(getActivity())
+        .setTitle(R.string.confirm_title)
+        .setPositiveButton(R.string.ok,
+          new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int whichButton) {
+              ((AmountActivity) getActivity()).sendAfterConfirm();
+              dismiss();
+            }
+          }
+        )
+        .setNegativeButton(R.string.cancel,
+          new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+              dismiss();
+            }
+          }
+        )
+        .create();
+    }
   }
 }
