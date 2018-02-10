@@ -58,7 +58,16 @@ public final class SpoonRule implements TestRule {
     return base; // Pass-through. We're just here to capture the description information.
   }
 
-  public File screenshot(Activity activity, String tag) {
+  public File screenshot(final Activity activity, final String tag) {
+    return screenshot(activity, tag, new ScreenshotProvider() {
+      @Override
+      public Bitmap capture() {
+        return Screenshot.capture(tag, activity);
+      }
+    });
+  }
+
+  public File screenshot(final Activity activity, final String tag, final ScreenshotProvider screenshotProvider) {
     if (!TAG_VALIDATION.matcher(tag).matches()) {
       throw new IllegalArgumentException("Tag must match " + TAG_VALIDATION.pattern() + ".");
     }
@@ -66,7 +75,7 @@ public final class SpoonRule implements TestRule {
         obtainDirectory(activity.getApplicationContext(), className, methodName, SPOON_SCREENSHOTS);
     String screenshotName = System.currentTimeMillis() + NAME_SEPARATOR + tag + EXTENSION;
     File screenshotFile = new File(screenshotDirectory, screenshotName);
-    Bitmap bitmap = Screenshot.capture(tag, activity);
+    Bitmap bitmap = screenshotProvider.capture();
     writeBitmapToFile(bitmap, screenshotFile);
     Log.d(TAG, "Captured screenshot '" + tag + "'.");
     return screenshotFile;
