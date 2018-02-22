@@ -4,7 +4,7 @@ buildscript {
       'compileSdk': 27,
       'buildTools': '27.0.3',
 
-      'supportLibrary': '27.0.2',
+      'supportLibrary': '25.3.1',
       'kotlin': '1.1.2',
       'errorProne': '2.0.19',
   ]
@@ -45,7 +45,7 @@ buildscript {
   ]
 
   dependencies {
-    classpath 'com.android.tools.build:gradle:3.1.0-beta3'
+    classpath 'com.android.tools.build:gradle:3.0.1'
     classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
     classpath 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.10'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
