@@ -1,11 +1,11 @@
 buildscript {
   ext.versions = [
-      'minSdk': 9,
+      'minSdk': 14,
       'compileSdk': 27,
       'buildTools': '27.0.3',
 
-      'supportLibrary': '25.3.1',
-      'kotlin': '1.1.2',
+      'supportLibrary': '27.0.2',
+      'kotlin': '1.2.10',
       'errorProne': '2.0.19',
   ]
 
