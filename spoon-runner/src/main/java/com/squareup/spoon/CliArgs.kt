@@ -75,7 +75,8 @@ internal class CliArgs(parser: ArgParser) {
   val coverage by parser.flagging("Enable code coverage")
 
   val singleInstrumentationCall by parser.flagging("--single-instrumentation-call",
-      help = "Run all tests in a single instrumentation call")
+      help = "Run tests in a single instrumentation call. If sharding is enabled each shard " +
+              "will be in a single instrumentation call otherwise all tests will be run.")
 
   private fun validateInstrumentationArgs() {
     val isTestRunPackageLimited = instrumentationArgs?.contains("package") ?: false
