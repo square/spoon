@@ -310,9 +310,8 @@ public final class SpoonDeviceRunner {
   }
 
   /**
-   * Cratea a configured Test Runner
-   * This method adds sharding, class name, method name, test size and coverage, if available
-   * @throws Exception
+   * Create a configured Test Runner.
+   * This method adds sharding, class name, method name, test size and coverage, if available.
    */
   private RemoteAndroidTestRunner createConfiguredRunner(String testPackage, String testRunner,
       IDevice device) throws Exception {
