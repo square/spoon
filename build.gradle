@@ -16,6 +16,7 @@ buildscript {
       'commonsIo': 'commons-io:commons-io:2.5',
       'ddmlib': 'com.android.tools.ddms:ddmlib:26.0.1',
       'animatedGifLib': 'com.madgag:animated-gif-lib:1.2',
+      'isoParser': 'com.googlecode.mp4parser:isoparser:1.1.22',
       'guava': 'com.google.guava:guava:21.0',
       'lesscss': 'org.lesscss:lesscss:1.3.3',
       'mustache': 'com.github.spullara.mustache.java:compiler:0.8.14',

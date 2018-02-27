@@ -24,6 +24,8 @@ fun main(vararg args: String) {
     cli.initScript?.let(this::setInitScript)
     setGrantAll(cli.grantAll)
     setNoAnimations(cli.disableGif)
+    setRecordVideo(cli.recordVideo)
+    setNoCombinedVideo(cli.disabledCombinedVideo)
     cli.adbTimeout?.let(this::setAdbTimeout)
     cli.serials.forEach { addDevice(it) }
     cli.skipSerials.forEach { skipDevice(it) }

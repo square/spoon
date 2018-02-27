@@ -127,6 +127,13 @@ final class HtmlUtils {
     return new Screenshot(relativePath, caption);
   }
 
+  /** Get a HTML representation of a video with respect to {@code output} directory. */
+  static Video getVideo(File video, File output) {
+    String relativePath = createRelativeUri(video, output);
+    String name = video.getName();
+    return new Video(relativePath, name);
+  }
+
   public static HtmlUtils.SavedFile getFile(File file, File output) {
     return new SavedFile(createRelativeUri(file, output), file.getName());
   }
@@ -190,6 +197,20 @@ final class HtmlUtils {
       this.id = ID.getAndIncrement();
       this.path = path;
       this.caption = caption;
+    }
+  }
+
+  static final class Video {
+    private static final AtomicLong ID = new AtomicLong(0);
+
+    private final long id;
+    public final String path;
+    public final String name;
+
+    Video(String path, String name) {
+      this.id = ID.incrementAndGet();
+      this.path = path;
+      this.name = name;
     }
   }
 

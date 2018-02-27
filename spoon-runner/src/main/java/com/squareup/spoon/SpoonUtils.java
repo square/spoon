@@ -3,20 +3,29 @@ package com.squareup.spoon;
 import com.android.ddmlib.AndroidDebugBridge;
 import com.android.ddmlib.DdmPreferences;
 import com.android.ddmlib.IDevice;
+import com.coremedia.iso.boxes.Container;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.googlecode.mp4parser.authoring.Movie;
+import com.googlecode.mp4parser.authoring.Track;
+import com.googlecode.mp4parser.authoring.builder.DefaultMp4Builder;
+import com.googlecode.mp4parser.authoring.container.mp4.MovieCreator;
+import com.googlecode.mp4parser.authoring.tracks.AppendTrack;
 import com.madgag.gif.fmsware.AnimatedGifEncoder;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -26,6 +35,7 @@ import org.apache.commons.io.FileUtils;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
 import static com.android.ddmlib.FileListingService.TYPE_DIRECTORY;
+import static org.apache.commons.io.IOUtils.closeQuietly;
 
 /** Utilities for executing instrumentation tests on devices. */
 public final class SpoonUtils {
@@ -146,6 +156,31 @@ public final class SpoonUtils {
     }
 
     encoder.finish();
+  }
+
+  static void createCombinedVideo(List<File> testVideos, File video) throws IOException {
+    FileOutputStream fileOutputStream = new FileOutputStream(video);
+    try {
+      List<Movie> movies = new ArrayList<>();
+      for (File recording : testVideos) {
+          movies.add(MovieCreator.build(recording.getAbsolutePath()));
+      }
+      List<Track> videoTracks = new LinkedList<>();
+      for (Movie movie : movies) {
+          for (Track track : movie.getTracks()) {
+              if (!track.getHandler().startsWith("vide") || track.getSyncSamples() == null) {
+                  continue;
+              }
+              videoTracks.add(track);
+          }
+      }
+      Movie movie = new Movie();
+      movie.addTrack(new AppendTrack(videoTracks.toArray(new Track[videoTracks.size()])));
+      Container out = new DefaultMp4Builder().build(movie);
+      out.writeContainer(fileOutputStream.getChannel());
+    } finally {
+      closeQuietly(fileOutputStream);
+    }
   }
 
   private static void waitForAdb(AndroidDebugBridge adb, Duration timeOut) {

@@ -84,14 +84,19 @@ final class HtmlDevice {
           .stream()
           .map(screenshot -> HtmlUtils.getScreenshot(screenshot, output))
           .collect(toList());
+      String animatedGif = HtmlUtils.createRelativeUri(result.getAnimatedGif(), output);
+      List<HtmlUtils.Video> videos = result.getVideos()
+          .stream()
+          .map(video -> HtmlUtils.getVideo(video, output))
+          .collect(toList());
+      String combinedVideo = HtmlUtils.createRelativeUri(result.getCombinedVideo(), output);
       List<HtmlUtils.SavedFile> files = result.getFiles()
           .stream()
           .map(file -> HtmlUtils.getFile(file, output))
           .collect(toList());
-      String animatedGif = HtmlUtils.createRelativeUri(result.getAnimatedGif(), output);
       HtmlUtils.ExceptionInfo exception = HtmlUtils.processStackTrace(result.getException());
       return new TestResult(serial, className, methodName, classSimpleName, methodName,
-          testId, status, screenshots, animatedGif, exception, files);
+          testId, status, screenshots, animatedGif, videos, combinedVideo, exception, files);
     }
 
     public final String serial;
@@ -106,11 +111,15 @@ final class HtmlDevice {
     public final List<HtmlUtils.SavedFile> files;
     public final boolean hasFiles;
     public final String animatedGif;
+    public final List<HtmlUtils.Video> videos;
+    public final boolean hasVideos;
+    public final String combinedVideo;
     public final HtmlUtils.ExceptionInfo exception;
 
     TestResult(String serial, String className, String methodName, String classSimpleName,
         String prettyMethodName, String testId, String status,
         List<HtmlUtils.Screenshot> screenshots, String animatedGif,
+        List<HtmlUtils.Video> videos, String combinedVideo,
         HtmlUtils.ExceptionInfo exception, List<HtmlUtils.SavedFile> files) {
       this.serial = serial;
       this.className = className;
@@ -122,6 +131,9 @@ final class HtmlDevice {
       this.hasScreenshots = !screenshots.isEmpty();
       this.screenshots = screenshots;
       this.animatedGif = animatedGif;
+      this.hasVideos = !videos.isEmpty();
+      this.videos = videos;
+      this.combinedVideo = combinedVideo;
       this.exception = exception;
       this.files = files;
       this.hasFiles = !files.isEmpty();

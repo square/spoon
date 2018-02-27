@@ -23,18 +23,23 @@ public final class DeviceTestResult {
   private final StackTrace exception;
   private final long duration;
   private final List<File> screenshots;
+  private final List<File> videos;
   private final List<File> files;
   private final File animatedGif;
+  private final File combinedVideo;
   private final List<LogCatMessage> log;
 
   private DeviceTestResult(Status status, StackTrace exception, long duration,
-      List<File> screenshots, File animatedGif, List<LogCatMessage> log, List<File> files) {
+      List<File> screenshots, List<File> videos, File animatedGif,
+      File combinedVideo, List<LogCatMessage> log, List<File> files) {
     this.status = status;
     this.exception = exception;
     this.duration = duration;
     this.screenshots = unmodifiableList(new ArrayList<>(screenshots));
+    this.videos = unmodifiableList(new ArrayList<>(videos));
     this.files = unmodifiableList(new ArrayList<>(files));
     this.animatedGif = animatedGif;
+    this.combinedVideo = combinedVideo;
     this.log = unmodifiableList(new ArrayList<>(log));
   }
 
@@ -58,9 +63,19 @@ public final class DeviceTestResult {
     return screenshots;
   }
 
+  /** Videos taken during test. */
+  public List<File> getVideos() {
+    return videos;
+  }
+
   /** Animated GIF of screenshots. */
   public File getAnimatedGif() {
     return animatedGif;
+  }
+
+  /** Combined video of all videos. **/
+  public File getCombinedVideo() {
+    return combinedVideo;
   }
 
   /** Arbitrary files saved from the test */
@@ -75,11 +90,13 @@ public final class DeviceTestResult {
   public static class Builder {
     private final List<File> screenshots = new ArrayList<>();
     private final List<File> files = new ArrayList<>();
+    private final List<File> videos = new ArrayList<>();
     private Status status = Status.PASS;
     private StackTrace exception;
     private long start;
     private long duration = -1;
     private File animatedGif;
+    private File combinedVideo;
     private List<LogCatMessage> log;
 
     public Builder markTestAsFailed(String message) {
@@ -138,6 +155,12 @@ public final class DeviceTestResult {
       return this;
     }
 
+    public Builder addVideo(File video) {
+      checkNotNull(video);
+      videos.add(video);
+      return this;
+    }
+
     public Builder addFile(File file) {
       checkNotNull(file);
       files.add(file);
@@ -151,12 +174,19 @@ public final class DeviceTestResult {
       return this;
     }
 
+    public Builder setCombinedVideo(File combinedVideo) {
+      checkNotNull(combinedVideo);
+      checkArgument(this.combinedVideo == null, "Combined video already set.");
+      this.combinedVideo = combinedVideo;
+      return this;
+    }
+
     public DeviceTestResult build() {
       if (log == null) {
         log = Collections.emptyList();
       }
       return new DeviceTestResult(status, exception, duration,
-              screenshots, animatedGif, log, files);
+              screenshots, videos, animatedGif, combinedVideo, log, files);
     }
   }
 }
