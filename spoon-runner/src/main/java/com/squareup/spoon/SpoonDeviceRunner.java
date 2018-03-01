@@ -1,6 +1,5 @@
 package com.squareup.spoon;
 
-import com.android.annotations.Nullable;
 import com.android.ddmlib.AndroidDebugBridge;
 import com.android.ddmlib.CollectingOutputReceiver;
 import com.android.ddmlib.DdmPreferences;
@@ -229,21 +228,28 @@ public final class SpoonDeviceRunner {
     if (testRunListeners != null) {
       listeners.addAll(testRunListeners);
     }
-    MultiRunITestListener multiRunListener = new MultiRunITestListener(listeners);
 
     result.startTests();
-    multiRunListener.multiRunStarted(recorder.runName(), recorder.testCount());
     if (singleInstrumentationCall) {
-      logDebug(debug, "Running all tests in a single instrumentation call [%s]", serial);
       try {
-        runAllTestOnDevice(testPackage, testRunner, device, listeners);
+        logDebug(debug, "Running all tests in a single instrumentation call on [%s]", serial);
+        RemoteAndroidTestRunner runner = createConfiguredRunner(testPackage, testRunner, device);
+        runner.run(listeners);
       } catch (Exception e) {
         result.addException(e);
       }
     } else {
+      MultiRunITestListener multiRunListener = new MultiRunITestListener(listeners);
+      multiRunListener.multiRunStarted(recorder.runName(), recorder.testCount());
+
       for (TestIdentifier test : activeTests) {
         try {
-          runTestOnDevice(testPackage, testRunner, device, listeners, test);
+          logDebug(debug, "Running %s on [%s]", test, serial);
+          RemoteAndroidTestRunner runner = createConfiguredRunner(testPackage, testRunner, device);
+          runner.removeInstrumentationArg("package");
+          runner.removeInstrumentationArg("class");
+          runner.setMethodName(test.getClassName(), test.getTestName());
+          runner.run(listeners);
         } catch (Exception e) {
           result.addException(e);
         }
@@ -253,8 +259,9 @@ public final class SpoonDeviceRunner {
         multiRunListener.testIgnored(ignoredTest);
         multiRunListener.testEnded(ignoredTest, emptyMap());
       }
+
+      multiRunListener.multiRunEnded();
     }
-    multiRunListener.multiRunEnded();
     result.endTests();
 
     mapLogsToTests(deviceLogger, result);
@@ -298,52 +305,17 @@ public final class SpoonDeviceRunner {
     logDebug(debug, "Querying a list of tests on [%s]", serial);
     RemoteAndroidTestRunner runner = createConfiguredRunner(testPackage, testRunner, device);
     runner.addBooleanArg("log", true);
-    // Add the sharding instrumentation arguments if necessary
-    if (numShards != 0) {
-      addShardingInstrumentationArgs(runner);
-    }
-    if (!isNullOrEmpty(className)) {
-      if (isNullOrEmpty(methodName)) {
-        runner.setClassName(className);
-      } else {
-        runner.setMethodName(className, methodName);
-      }
-    }
-    if (testSize != null) {
-      runner.setTestSize(testSize);
-    }
     runner.run(recorder);
     return recorder;
   }
 
-  private void runAllTestOnDevice(final String testPackage, final String testRunner,
-      final IDevice device, final List<ITestRunListener> listeners) throws Exception {
-
-    runTestOnDevice(testPackage, testRunner, device, listeners, null);
-  }
-
-  private void runTestOnDevice(final String testPackage, final String testRunner,
-      final IDevice device, final List<ITestRunListener> listeners,
-      @Nullable final TestIdentifier test) throws Exception {
-
-    if (test != null) {
-      logDebug(debug, "Running %s [%s]", test, serial);
-    } else {
-      logDebug(debug, "Running tests [%s]", serial);
-    }
-    RemoteAndroidTestRunner runner = createConfiguredRunner(testPackage, testRunner, device);
-    runner.removeInstrumentationArg("package");
-    if (codeCoverage) {
-      addCodeCoverageInstrumentationArgs(runner, device);
-    }
-    if (test != null) {
-      runner.setMethodName(test.getClassName(), test.getTestName());
-    }
-    runner.run(listeners);
-  }
-
+  /**
+   * Create a configured Test Runner.
+   * This method adds sharding, class name, method name, test size and coverage, if available.
+   */
   private RemoteAndroidTestRunner createConfiguredRunner(String testPackage, String testRunner,
       IDevice device) throws Exception {
+
     RemoteAndroidTestRunner runner = new RemoteAndroidTestRunner(testPackage, testRunner, device);
     runner.setMaxTimeToOutputResponse(adbTimeout.toMillis(), TimeUnit.MILLISECONDS);
 
@@ -356,6 +328,27 @@ public final class SpoonDeviceRunner {
       }
       runner.addInstrumentationArg(entry.getKey(), entry.getValue());
     }
+
+    if (numShards != 0) {
+      addShardingInstrumentationArgs(runner);
+    }
+
+    if (!isNullOrEmpty(className)) {
+      if (isNullOrEmpty(methodName)) {
+        runner.setClassName(className);
+      } else {
+        runner.setMethodName(className, methodName);
+      }
+    }
+
+    if (testSize != null) {
+      runner.setTestSize(testSize);
+    }
+
+    if (codeCoverage) {
+      addCodeCoverageInstrumentationArgs(runner, device);
+    }
+
     return runner;
   }
 
