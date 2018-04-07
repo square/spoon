@@ -45,8 +45,6 @@ final class HtmlTv {
       List<TestResult> testResults = result.getTestResults()
           .entrySet()
           .stream()
-          // Only add tests where we have screenshots.
-          .filter(entry -> !entry.getValue().getScreenshots().isEmpty())
           .map(entry -> {
             String classSimpleName = HtmlUtils.getClassSimpleName(entry.getKey().getClassName());
             String prettyMethodName = entry.getKey().getMethodName();
