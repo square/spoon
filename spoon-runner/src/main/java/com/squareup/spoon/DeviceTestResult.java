@@ -2,6 +2,7 @@ package com.squareup.spoon;
 
 import com.android.ddmlib.logcat.LogCatMessage;
 import com.squareup.spoon.misc.StackTrace;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;

@@ -5,6 +5,8 @@ import com.squareup.spoon.DeviceDetails;
 import com.squareup.spoon.DeviceResult;
 import com.squareup.spoon.DeviceTestResult;
 import com.squareup.spoon.SpoonSummary;
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;

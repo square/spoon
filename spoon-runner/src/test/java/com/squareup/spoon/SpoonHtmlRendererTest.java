@@ -1,6 +1,11 @@
 package com.squareup.spoon;
 
 import com.squareup.spoon.html.HtmlRenderer;
+import org.apache.commons.io.FileUtils;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,10 +17,6 @@ import java.nio.charset.CharsetDecoder;
 import java.nio.charset.MalformedInputException;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
-import org.apache.commons.io.FileUtils;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
 
 public final class SpoonHtmlRendererTest {
 

@@ -1,9 +1,10 @@
 package com.squareup.spoon.html;
 
+import org.junit.Test;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.squareup.spoon.html.HtmlIndex.Device;

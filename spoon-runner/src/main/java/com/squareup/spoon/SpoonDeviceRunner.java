@@ -1,10 +1,6 @@
 package com.squareup.spoon;
 
-import com.android.ddmlib.AndroidDebugBridge;
-import com.android.ddmlib.CollectingOutputReceiver;
-import com.android.ddmlib.DdmPreferences;
-import com.android.ddmlib.IDevice;
-import com.android.ddmlib.InstallException;
+import com.android.ddmlib.*;
 import com.android.ddmlib.logcat.LogCatMessage;
 import com.android.ddmlib.testrunner.IRemoteAndroidTestRunner;
 import com.android.ddmlib.testrunner.ITestRunListener;
@@ -13,32 +9,19 @@ import com.android.ddmlib.testrunner.TestIdentifier;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Multimap;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
 import static com.android.ddmlib.SyncService.getNullProgressMonitor;
 import static com.google.common.base.Strings.isNullOrEmpty;
-import static com.squareup.spoon.SpoonLogger.logDebug;
-import static com.squareup.spoon.SpoonLogger.logError;
-import static com.squareup.spoon.SpoonLogger.logInfo;
-import static com.squareup.spoon.SpoonUtils.createAnimatedGif;
-import static com.squareup.spoon.SpoonUtils.obtainDirectoryFileEntry;
-import static com.squareup.spoon.SpoonUtils.obtainRealDevice;
+import static com.squareup.spoon.SpoonLogger.*;
+import static com.squareup.spoon.SpoonUtils.*;
 import static com.squareup.spoon.internal.Constants.SPOON_FILES;
 import static com.squareup.spoon.internal.Constants.SPOON_SCREENSHOTS;
 import static java.util.Collections.emptyMap;

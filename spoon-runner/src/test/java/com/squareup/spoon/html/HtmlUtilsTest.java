@@ -1,15 +1,14 @@
 package com.squareup.spoon.html;
 
+import com.squareup.spoon.html.HtmlUtils.*;
+import com.squareup.spoon.misc.StackTrace;
+import org.junit.Test;
+
 import java.io.File;
 import java.util.List;
-import org.junit.Test;
-import com.squareup.spoon.html.HtmlUtils.ExceptionInfo;
-import com.squareup.spoon.misc.StackTrace;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.squareup.spoon.html.HtmlUtils.createRelativeUri;
-import static com.squareup.spoon.html.HtmlUtils.processStackTrace;
-import static com.squareup.spoon.html.HtmlUtils.humanReadableDuration;
+import static com.squareup.spoon.html.HtmlUtils.*;
 
 public final class HtmlUtilsTest {
   @Test public void relativeUriCreation() {

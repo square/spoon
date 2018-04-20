@@ -3,6 +3,7 @@ package com.squareup.spoon.html;
 import com.android.ddmlib.logcat.LogCatMessage;
 import com.squareup.spoon.DeviceTest;
 import com.squareup.spoon.DeviceTestResult;
+
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;

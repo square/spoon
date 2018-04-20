@@ -3,6 +3,8 @@ package com.squareup.spoon.html;
 import com.squareup.spoon.DeviceDetails;
 import com.squareup.spoon.DeviceTestResult;
 import com.squareup.spoon.misc.StackTrace;
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.Format;
@@ -11,7 +13,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicLong;
-import org.apache.commons.lang3.StringEscapeUtils;
 
 import static java.util.stream.Collectors.toList;
 

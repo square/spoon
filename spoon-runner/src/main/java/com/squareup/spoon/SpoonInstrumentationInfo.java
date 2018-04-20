@@ -1,12 +1,13 @@
 package com.squareup.spoon;
 
 import com.squareup.spoon.internal.thirdparty.axmlparser.AXMLParser;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
