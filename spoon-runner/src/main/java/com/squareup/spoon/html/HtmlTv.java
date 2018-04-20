@@ -73,7 +73,7 @@ final class HtmlTv {
       this.testResults = testResults;
     }
 
-    @Override public int compareTo(Device other) {
+    @Override public int compareTo(@NotNull Device other) {
       if (name == null && other.name == null) {
         return serial.compareTo(other.serial);
       }

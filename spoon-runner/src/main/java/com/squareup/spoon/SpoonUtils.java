@@ -74,10 +74,7 @@ public final class SpoonUtils {
         lastEntry = c.newInstance(lastEntry, part, TYPE_DIRECTORY, lastEntry == null);
       }
       return lastEntry;
-    } catch (NoSuchMethodException ignored) {
-    } catch (InvocationTargetException ignored) {
-    } catch (InstantiationException ignored) {
-    } catch (IllegalAccessException ignored) {
+    } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException ignored) {
     }
     return null;
   }

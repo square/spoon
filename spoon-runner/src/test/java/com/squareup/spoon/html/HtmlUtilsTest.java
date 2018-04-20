@@ -37,7 +37,7 @@ public final class HtmlUtilsTest {
   }
 
   /**
-   * This test is similar to {@link StackTraceTest#nestedCustomExceptionUnexpectedFormat}.
+   * This test is similar to {@code StackTraceTest#nestedCustomExceptionUnexpectedFormat}.
    *
    * The intent of this test is to check that unexpected format exceptions still print something
    * useful to the user in the test results.
