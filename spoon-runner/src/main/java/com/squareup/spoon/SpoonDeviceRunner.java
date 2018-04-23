@@ -186,22 +186,6 @@ public final class SpoonDeviceRunner {
     // Create the output directory, if it does not already exist.
     work.mkdirs();
 
-    // Determine the test set that is applicable for this device.
-    LogRecordingTestRunListener recorder;
-    List<TestIdentifier> activeTests;
-    List<TestIdentifier> ignoredTests;
-    try {
-      recorder = queryTestSet(testPackage, testRunner, device);
-      activeTests = recorder.activeTests();
-      ignoredTests = recorder.ignoredTests();
-      logDebug(debug, "Active tests: %s", activeTests);
-      logDebug(debug, "Ignored tests: %s", ignoredTests);
-    } catch (Exception e) {
-      return result
-          .addException(e)
-          .build();
-    }
-
     // Initiate device logging.
     SpoonDeviceLogger deviceLogger = new SpoonDeviceLogger(device);
 
@@ -222,6 +206,23 @@ public final class SpoonDeviceRunner {
         result.addException(e);
       }
     } else {
+
+      // Determine the test set that is applicable for this device.
+      LogRecordingTestRunListener recorder;
+      List<TestIdentifier> activeTests;
+      List<TestIdentifier> ignoredTests;
+      try {
+        recorder = queryTestSet(testPackage, testRunner, device);
+        activeTests = recorder.activeTests();
+        ignoredTests = recorder.ignoredTests();
+        logDebug(debug, "Active tests: %s", activeTests);
+        logDebug(debug, "Ignored tests: %s", ignoredTests);
+      } catch (Exception e) {
+        return result
+            .addException(e)
+            .build();
+      }
+
       MultiRunITestListener multiRunListener = new MultiRunITestListener(listeners);
       multiRunListener.multiRunStarted(recorder.runName(), recorder.testCount());
 
