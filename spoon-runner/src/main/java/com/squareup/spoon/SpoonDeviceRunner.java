@@ -58,6 +58,7 @@ public final class SpoonDeviceRunner {
   private final SpoonInstrumentationInfo instrumentationInfo;
   private final boolean codeCoverage;
   private final boolean singleInstrumentationCall;
+  private final boolean classLevelInstrumentation;
   private final List<ITestRunListener> testRunListeners;
   private final boolean grantAll;
 
@@ -69,11 +70,10 @@ public final class SpoonDeviceRunner {
    * @param output Path to output directory.
    * @param serial Device to run the test on.
    * @param debug Whether or not debug logging is enabled.
-   * @param adbTimeout time in ms for longest test execution
+   * @param adbTimeout Time in ms for longest test execution.
    * @param instrumentationInfo Test apk manifest information.
    * @param className Test class name to run or {@code null} to run all tests.
-   * @param methodName Test method name to run or {@code null} to run all tests.  Must also pass
-   * {@code className}.
+   * @param methodName Test method name to run or {@code null} to run all tests. Must also pass {@code className}.
    * @param testRunListeners Additional TestRunListener or empty list.
    */
   SpoonDeviceRunner(File testApk, List<File> otherApks, File output, String serial, int shardIndex,
@@ -81,7 +81,8 @@ public final class SpoonDeviceRunner {
       SpoonInstrumentationInfo instrumentationInfo, Map<String, String> instrumentationArgs,
       String className, String methodName, IRemoteAndroidTestRunner.TestSize testSize,
       List<ITestRunListener> testRunListeners, boolean codeCoverage, boolean grantAll,
-      boolean singleInstrumentationCall) {
+      boolean singleInstrumentationCall, boolean classLevelInstrumentation) {
+
     this.testApk = testApk;
     this.otherApks = otherApks;
     this.serial = serial;
@@ -90,14 +91,15 @@ public final class SpoonDeviceRunner {
     this.debug = debug;
     this.noAnimations = noAnimations;
     this.adbTimeout = adbTimeout;
-    this.instrumentationArgs = ImmutableMap.copyOf(instrumentationArgs != null
-        ? instrumentationArgs : Collections.emptyMap());
+    this.instrumentationArgs = ImmutableMap.copyOf(instrumentationArgs != null ? instrumentationArgs : Collections.emptyMap());
     this.className = className;
     this.methodName = methodName;
     this.testSize = testSize;
     this.instrumentationInfo = instrumentationInfo;
     this.codeCoverage = codeCoverage;
     this.singleInstrumentationCall = singleInstrumentationCall;
+    this.classLevelInstrumentation = classLevelInstrumentation;
+
     serial = SpoonUtils.sanitizeSerial(serial);
     this.work = FileUtils.getFile(output, TEMP_DIR, serial);
     this.junitReport = FileUtils.getFile(output, JUNIT_DIR, serial + ".xml");

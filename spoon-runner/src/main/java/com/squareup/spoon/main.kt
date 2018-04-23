@@ -31,6 +31,7 @@ fun main(vararg args: String) {
     setDebug(cli.debug)
     setCodeCoverage(cli.coverage)
     setSingleInstrumentationCall(cli.singleInstrumentationCall)
+    setClassLevelInstrumentation(cli.classLevelInstrumentation)
   }.build()
 
   if (!runner.run() && !cli.alwaysZero) {
