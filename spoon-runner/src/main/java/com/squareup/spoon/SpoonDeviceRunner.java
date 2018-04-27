@@ -16,6 +16,7 @@ import java.io.*;
 import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
 import static com.android.ddmlib.SyncService.getNullProgressMonitor;
@@ -208,7 +209,6 @@ public final class SpoonDeviceRunner {
         result.addException(e);
       }
     } else {
-
       // Determine the test set that is applicable for this device.
       LogRecordingTestRunListener recorder;
       List<TestIdentifier> activeTests;
@@ -221,25 +221,51 @@ public final class SpoonDeviceRunner {
         logDebug(debug, "Ignored tests: %s", ignoredTests);
       } catch (Exception e) {
         return result
-            .addException(e)
-            .build();
+          .addException(e)
+          .build();
       }
 
       MultiRunITestListener multiRunListener = new MultiRunITestListener(listeners);
       multiRunListener.multiRunStarted(recorder.runName(), recorder.testCount());
 
-      for (TestIdentifier test : activeTests) {
-        try {
-          logDebug(debug, "Running %s on [%s]", test, serial);
-          RemoteAndroidTestRunner runner = createConfiguredRunner(testPackage, testRunner, device);
-          runner.removeInstrumentationArg("package");
-          runner.removeInstrumentationArg("class");
-          runner.setMethodName(test.getClassName(), test.getTestName());
-          runner.run(listeners);
-        } catch (Exception e) {
-          result.addException(e);
+      if (classLevelInstrumentation) {
+        // Run tests from each test class in a separate instrumentation instance.
+        Collection<String> groupedTests = activeTests
+          .stream()
+          .collect(Collectors.groupingBy(
+            TestIdentifier::getClassName,
+            LinkedHashMap::new,
+            Collectors.mapping(
+              testIdentifier -> testIdentifier.getClassName() + "#" + testIdentifier.getTestName(),
+              Collectors.joining(","))))
+          .values();
+
+        for (String testGroup : groupedTests) {
+          try {
+            logDebug(debug, "Running %s on [%s]", testGroup, serial);
+            RemoteAndroidTestRunner runner = createConfiguredRunner(testPackage, testRunner, device);
+            runner.removeInstrumentationArg("package");
+            runner.setClassName(testGroup);
+            runner.run(listeners);
+          } catch (Exception e) {
+            result.addException(e);
+          }
+        }
+      } else {
+        // Run every test in a separate instrumentation instance.
+        for (TestIdentifier test : activeTests) {
+          try {
+            logDebug(debug, "Running %s on [%s]", test, serial);
+            RemoteAndroidTestRunner runner = createConfiguredRunner(testPackage, testRunner, device);
+            runner.removeInstrumentationArg("package");
+            runner.setMethodName(test.getClassName(), test.getTestName());
+            runner.run(listeners);
+          } catch (Exception e) {
+            result.addException(e);
+          }
         }
       }
+
       for (TestIdentifier ignoredTest : ignoredTests) {
         multiRunListener.testStarted(ignoredTest);
         multiRunListener.testIgnored(ignoredTest);
