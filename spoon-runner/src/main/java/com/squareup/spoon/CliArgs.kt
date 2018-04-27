@@ -78,7 +78,7 @@ internal class CliArgs(parser: ArgParser) {
       help = "Run all tests in a single instrumentation call")
 
   val classLevelInstrumentation by parser.flagging("--class-level-instrumentation",
-          help = "Run each test class in a different instrumentation instance")
+      help = "Run each test class in a different instrumentation instance")
 
   private fun validateInstrumentationArgs() {
     val isTestRunPackageLimited = instrumentationArgs?.contains("package") ?: false

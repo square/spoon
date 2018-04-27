@@ -14,7 +14,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.Duration;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -105,7 +110,9 @@ public final class SpoonRunner {
    * @return {@code true} if there were no test failures or exceptions thrown.
    */
   public boolean run() {
-    otherApks.forEach(otherApk -> checkArgument(otherApk.exists(), "Could not find other APK: " + otherApk));
+    otherApks.forEach(otherApk -> checkArgument(
+            otherApk.exists(),
+            "Could not find other APK: " + otherApk));
     checkArgument(testApk.exists(), "Could not find test APK: " + testApk);
 
     AndroidDebugBridge adb = SpoonUtils.initAdb(androidSdk, adbTimeout);
@@ -159,7 +166,8 @@ public final class SpoonRunner {
       throw new RuntimeException("Unable to clean output directory: " + output, e);
     }
 
-    logDebug(debug, "Instrumentation: %s from %s", testInfo.getInstrumentationPackage(), testApk.getAbsolutePath());
+    logDebug(debug, "Instrumentation: %s from %s",
+            testInfo.getInstrumentationPackage(), testApk.getAbsolutePath());
     otherApks.forEach(otherApk -> logDebug(debug, "Other: %s", otherApk.getAbsolutePath()));
 
     final SpoonSummary.Builder summary = new SpoonSummary.Builder().setTitle(title).start();
@@ -284,7 +292,8 @@ public final class SpoonRunner {
       SpoonInstrumentationInfo testInfo) {
     return new SpoonDeviceRunner(testApk, otherApks, output, serial, shardIndex, numShards, debug,
         noAnimations, adbTimeout, testInfo, instrumentationArgs, className, methodName, testSize,
-        testRunListeners, codeCoverage, grantAll, singleInstrumentationCall, classLevelInstrumentation);
+        testRunListeners, codeCoverage, grantAll, singleInstrumentationCall,
+        classLevelInstrumentation);
   }
 
   /** Build a test suite for the specified devices and configuration. */

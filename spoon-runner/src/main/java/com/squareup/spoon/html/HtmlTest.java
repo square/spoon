@@ -1,6 +1,10 @@
 package com.squareup.spoon.html;
 
-import com.squareup.spoon.*;
+import com.squareup.spoon.DeviceDetails;
+import com.squareup.spoon.DeviceResult;
+import com.squareup.spoon.DeviceTest;
+import com.squareup.spoon.DeviceTestResult;
+import com.squareup.spoon.SpoonSummary;
 
 import java.io.File;
 import java.util.ArrayList;

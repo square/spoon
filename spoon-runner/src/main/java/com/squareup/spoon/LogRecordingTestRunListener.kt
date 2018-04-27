@@ -3,7 +3,7 @@ package com.squareup.spoon
 import com.android.ddmlib.testrunner.ITestRunListener
 import com.android.ddmlib.testrunner.TestIdentifier
 import com.google.common.collect.ImmutableList
-import java.util.*
+import java.util.LinkedHashSet
 
 /**
  * Listens to an instrumentation invocation where `log=true` is set and records information about
