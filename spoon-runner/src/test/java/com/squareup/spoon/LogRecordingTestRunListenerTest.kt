@@ -1,9 +1,8 @@
 package com.squareup.spoon
 
 import com.android.ddmlib.testrunner.TestIdentifier
+import com.google.common.truth.Truth.assertThat
 import com.squareup.spoon.LogRecordingTestRunListener.Companion.stripParametersInClassName
-import org.hamcrest.CoreMatchers.*
-import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
 
@@ -38,7 +37,7 @@ class LogRecordingTestRunListenerTest {
 
         val strippedTestIdentifier = stripParametersInClassName(testIdentifier)
 
-        assertThat(strippedTestIdentifier.className, `is`(className))
+        assertThat(strippedTestIdentifier.className).isEqualTo(className)
     }
 
     @Test
@@ -47,7 +46,7 @@ class LogRecordingTestRunListenerTest {
 
         val strippedTestIdentifier = stripParametersInClassName(testIdentifier)
 
-        assertThat(strippedTestIdentifier.className, `is`(className))
+        assertThat(strippedTestIdentifier.className).isEqualTo(className)
     }
 
     @Test
@@ -56,7 +55,7 @@ class LogRecordingTestRunListenerTest {
 
         val strippedTestIdentifier = stripParametersInClassName(testIdentifier)
 
-        assertThat(strippedTestIdentifier.className, `is`(classNameWithSquareBrackets))
+        assertThat(strippedTestIdentifier.className).isEqualTo(classNameWithSquareBrackets)
     }
 
     @Test
@@ -66,8 +65,7 @@ class LogRecordingTestRunListenerTest {
 
         val result = logRecordingTestRunListener.activeTests()
 
-        assertThat(result.size, `is`(1))
-        assertThat(result, hasItem(testIdentifierWithoutParameter))
+        assertThat(result).containsExactly(testIdentifierWithoutParameter)
     }
 
     @Test
@@ -77,7 +75,7 @@ class LogRecordingTestRunListenerTest {
 
         val result = logRecordingTestRunListener.activeTests()
 
-        assertThat(result.size, `is`(0))
+        assertThat(result).isEmpty()
     }
 
     @Test
@@ -86,8 +84,7 @@ class LogRecordingTestRunListenerTest {
 
         val result = logRecordingTestRunListener.ignoredTests()
 
-        assertThat(result.size, `is`(1))
-        assertThat(result, hasItem(testIdentifierWithoutParameter))
+        assertThat(result).containsExactly(testIdentifierWithoutParameter)
     }
 
     @Test
@@ -96,8 +93,7 @@ class LogRecordingTestRunListenerTest {
 
         val result = logRecordingTestRunListener.activeTests()
 
-        assertThat(result.size, `is`(1))
-        assertThat(result, hasItem(testIdentifierWithoutParameter))
+        assertThat(result).containsExactly(testIdentifierWithoutParameter)
     }
 
     @Test
@@ -107,8 +103,7 @@ class LogRecordingTestRunListenerTest {
 
         val result = logRecordingTestRunListener.activeTests()
 
-        assertThat(result.size, `is`(2))
-        assertThat(result, hasItems(testIdentifierWithoutParameter, testIdentifierWithoutParameter2))
+        assertThat(result).containsExactly(testIdentifierWithoutParameter, testIdentifierWithoutParameter2)
     }
 
     @Test
@@ -117,7 +112,7 @@ class LogRecordingTestRunListenerTest {
 
         val result = logRecordingTestRunListener.activeTests()
 
-        assertThat(result.size, `is`(0))
+        assertThat(result).isEmpty()
     }
 
     @Test
@@ -126,20 +121,20 @@ class LogRecordingTestRunListenerTest {
 
         val result = logRecordingTestRunListener.ignoredTests()
 
-        assertThat(result.size, `is`(0))
+        assertThat(result).isEmpty()
     }
 
     @Test
     fun checkRunName() {
         logRecordingTestRunListener.testRunStarted("NAME", 99)
 
-        assertThat(logRecordingTestRunListener.runName(), `is`("NAME"))
+        assertThat(logRecordingTestRunListener.runName()).isEqualTo("NAME")
     }
 
     @Test
     fun checkTestCount() {
         logRecordingTestRunListener.testRunStarted("NAME", 99)
 
-        assertThat(logRecordingTestRunListener.testCount(), `is`(99))
+        assertThat(logRecordingTestRunListener.testCount()).isEqualTo(99)
     }
 }
