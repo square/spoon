@@ -1,7 +1,6 @@
 package com.squareup.spoon;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
  * An {@link com.android.ddmlib.testrunner.XmlTestRunListener XmlTestRunListener} that points
@@ -22,7 +21,7 @@ class XmlTestRunListener extends com.android.ddmlib.testrunner.XmlTestRunListene
     getRunResult().testRunStarted(runName, numTests);
   }
 
-  @Override protected File getResultFile(File reportDir) throws IOException {
+  @Override protected File getResultFile(File reportDir) {
     file.getParentFile().mkdirs();
     return file;
   }

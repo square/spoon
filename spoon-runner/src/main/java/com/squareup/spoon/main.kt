@@ -14,7 +14,7 @@ fun main(vararg args: String) {
     cli.otherApks.forEach { addOtherApk(it) }
     cli.sdk?.let(this::setAndroidSdk)
     cli.title?.let(this::setTitle)
-    setInstrumentationArgs(cli.instrumentationArgs);
+    setInstrumentationArgs(cli.instrumentationArgs)
     cli.className?.let(this::setClassName)
     cli.methodName?.let(this::setMethodName)
     cli.size?.let(this::setTestSize)
@@ -31,6 +31,7 @@ fun main(vararg args: String) {
     setDebug(cli.debug)
     setCodeCoverage(cli.coverage)
     setSingleInstrumentationCall(cli.singleInstrumentationCall)
+    setClassLevelInstrumentation(cli.classLevelInstrumentation)
   }.build()
 
   if (!runner.run() && !cli.alwaysZero) {

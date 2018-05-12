@@ -77,12 +77,17 @@ internal class CliArgs(parser: ArgParser) {
   val singleInstrumentationCall by parser.flagging("--single-instrumentation-call",
       help = "Run all tests in a single instrumentation call")
 
+  val classLevelInstrumentation by parser.flagging("--class-level-instrumentation",
+      help = "Run each test class in a different instrumentation instance")
+
   private fun validateInstrumentationArgs() {
     val isTestRunPackageLimited = instrumentationArgs?.contains("package") ?: false
-    val isTestRunClassLimited = instrumentationArgs?.contains("class") ?: false || className != null
-        || methodName != null
+    val isTestRunClassLimited = instrumentationArgs?.contains("class") ?: false || (className != null || methodName != null)
     if (isTestRunPackageLimited && isTestRunClassLimited) {
       throw SystemExitException("Ambiguous arguments: cannot provide both test package and test class(es)", 2)
+    }
+    if (singleInstrumentationCall && classLevelInstrumentation) {
+      throw SystemExitException("Conflicting arguments: cannot set both single-instrumentation-call and class-level-instrumentation", 2)
     }
   }
 

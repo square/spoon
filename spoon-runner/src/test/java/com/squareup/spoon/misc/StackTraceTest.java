@@ -1,8 +1,9 @@
 package com.squareup.spoon.misc;
 
+import org.junit.Test;
+
 import java.util.ArrayDeque;
 import java.util.Deque;
-import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
 

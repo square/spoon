@@ -3,8 +3,8 @@ package com.squareup.spoon
 import com.google.common.truth.Truth.assertThat
 import com.xenomachina.argparser.ArgParser
 import com.xenomachina.argparser.SystemExitException
-import java.io.File;
 import org.junit.Test
+import java.io.File
 
 
 class CliArgsTest {

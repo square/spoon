@@ -1,12 +1,13 @@
 package com.squareup.spoon.misc;
 
 import com.google.common.collect.ImmutableList;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.apache.commons.lang3.StringUtils;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

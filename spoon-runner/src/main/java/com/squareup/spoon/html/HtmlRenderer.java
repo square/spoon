@@ -11,6 +11,10 @@ import com.squareup.spoon.DeviceResult;
 import com.squareup.spoon.DeviceTest;
 import com.squareup.spoon.DeviceTestResult;
 import com.squareup.spoon.SpoonSummary;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.lesscss.LessCompiler;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -22,9 +26,6 @@ import java.io.Writer;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.lesscss.LessCompiler;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 

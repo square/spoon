@@ -5,6 +5,8 @@ import com.squareup.spoon.DeviceDetails;
 import com.squareup.spoon.DeviceResult;
 import com.squareup.spoon.DeviceTestResult;
 import com.squareup.spoon.SpoonSummary;
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -73,7 +75,7 @@ final class HtmlTv {
       this.testResults = testResults;
     }
 
-    @Override public int compareTo(Device other) {
+    @Override public int compareTo(@NotNull Device other) {
       if (name == null && other.name == null) {
         return serial.compareTo(other.serial);
       }

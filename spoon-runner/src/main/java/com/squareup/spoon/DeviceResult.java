@@ -1,6 +1,7 @@
 package com.squareup.spoon;
 
 import com.squareup.spoon.misc.StackTrace;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;

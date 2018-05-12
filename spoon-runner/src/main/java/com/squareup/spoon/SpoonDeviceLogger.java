@@ -4,6 +4,7 @@ import com.android.ddmlib.IDevice;
 import com.android.ddmlib.logcat.LogCatListener;
 import com.android.ddmlib.logcat.LogCatMessage;
 import com.android.ddmlib.logcat.LogCatReceiverTask;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

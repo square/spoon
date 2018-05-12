@@ -9,6 +9,9 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.madgag.gif.fmsware.AnimatedGifEncoder;
+import org.apache.commons.io.FileUtils;
+
+import javax.imageio.ImageIO;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -21,8 +24,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
-import javax.imageio.ImageIO;
-import org.apache.commons.io.FileUtils;
 
 import static com.android.ddmlib.FileListingService.FileEntry;
 import static com.android.ddmlib.FileListingService.TYPE_DIRECTORY;
@@ -74,10 +75,8 @@ public final class SpoonUtils {
         lastEntry = c.newInstance(lastEntry, part, TYPE_DIRECTORY, lastEntry == null);
       }
       return lastEntry;
-    } catch (NoSuchMethodException ignored) {
-    } catch (InvocationTargetException ignored) {
-    } catch (InstantiationException ignored) {
-    } catch (IllegalAccessException ignored) {
+    } catch (NoSuchMethodException | InvocationTargetException
+            | InstantiationException | IllegalAccessException ignored) {
     }
     return null;
   }

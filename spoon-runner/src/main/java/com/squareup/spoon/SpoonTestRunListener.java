@@ -2,6 +2,7 @@ package com.squareup.spoon;
 
 import com.android.ddmlib.testrunner.ITestRunListener;
 import com.android.ddmlib.testrunner.TestIdentifier;
+
 import java.util.HashMap;
 import java.util.Map;
 

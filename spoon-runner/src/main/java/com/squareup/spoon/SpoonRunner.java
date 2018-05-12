@@ -7,7 +7,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.squareup.spoon.html.HtmlRenderer;
-
 import org.apache.commons.io.FileUtils;
 
 import java.io.BufferedReader;
@@ -64,6 +63,7 @@ public final class SpoonRunner {
   private File initScript;
   private final boolean grantAll;
   private final boolean singleInstrumentationCall;
+  private final boolean classLevelInstrumentation;
 
   private SpoonRunner(String title, File androidSdk, File testApk, List<File> otherApks,
       File output, boolean debug, boolean noAnimations, Duration adbTimeout, Set<String> serials,
@@ -71,7 +71,7 @@ public final class SpoonRunner {
       String className, String methodName, IRemoteAndroidTestRunner.TestSize testSize,
       boolean allowNoDevices, List<ITestRunListener> testRunListeners, boolean sequential,
       File initScript, boolean grantAll, boolean terminateAdb, boolean codeCoverage,
-      boolean singleInstrumentationCall) {
+      boolean singleInstrumentationCall, boolean classLevelInstrumentation) {
     this.title = title;
     this.androidSdk = androidSdk;
     this.otherApks = otherApks;
@@ -94,6 +94,7 @@ public final class SpoonRunner {
     this.initScript = initScript;
     this.grantAll = grantAll;
     this.singleInstrumentationCall = singleInstrumentationCall;
+    this.classLevelInstrumentation = classLevelInstrumentation;
 
     if (sequential) {
       this.threadExecutor = Executors.newSingleThreadExecutor();
@@ -109,9 +110,9 @@ public final class SpoonRunner {
    * @return {@code true} if there were no test failures or exceptions thrown.
    */
   public boolean run() {
-    otherApks.forEach(otherApk -> {
-      checkArgument(otherApk.exists(), "Could not find other APK: " + otherApk);
-    });
+    otherApks.forEach(otherApk -> checkArgument(
+            otherApk.exists(),
+            "Could not find other APK: " + otherApk));
     checkArgument(testApk.exists(), "Could not find test APK: " + testApk);
 
     AndroidDebugBridge adb = SpoonUtils.initAdb(androidSdk, adbTimeout);
@@ -165,11 +166,9 @@ public final class SpoonRunner {
       throw new RuntimeException("Unable to clean output directory: " + output, e);
     }
 
-    logDebug(debug, "Instrumentation: %s from %s", testInfo.getInstrumentationPackage(),
-        testApk.getAbsolutePath());
-    otherApks.forEach(otherApk -> {
-      logDebug(debug, "Other: %s", otherApk.getAbsolutePath());
-    });
+    logDebug(debug, "Instrumentation: %s from %s",
+            testInfo.getInstrumentationPackage(), testApk.getAbsolutePath());
+    otherApks.forEach(otherApk -> logDebug(debug, "Other: %s", otherApk.getAbsolutePath()));
 
     final SpoonSummary.Builder summary = new SpoonSummary.Builder().setTitle(title).start();
 
@@ -204,20 +203,18 @@ public final class SpoonRunner {
         final String safeSerial = SpoonUtils.sanitizeSerial(serial);
         logDebug(debug, "[%s] Starting execution.", serial);
         final int safeShardIndex = shardIndex;
-        Runnable runnable = new Runnable() {
-          @Override public void run() {
-            try {
-              summary.addResult(safeSerial,
-                  getTestRunner(serial, safeShardIndex, numShards, testInfo).run(adb));
-            } catch (Exception e) {
-              e.printStackTrace(System.out);
-              summary.addResult(safeSerial, new DeviceResult.Builder().addException(e).build());
-            } finally {
-              done.countDown();
-              remaining.remove(serial);
-              logDebug(debug, "[%s] Execution done. (%s remaining %s)", serial, done.getCount(),
-                  remaining);
-            }
+        Runnable runnable = () -> {
+          try {
+            summary.addResult(safeSerial,
+                getTestRunner(serial, safeShardIndex, numShards, testInfo).run(adb));
+          } catch (Exception e) {
+            e.printStackTrace(System.out);
+            summary.addResult(safeSerial, new DeviceResult.Builder().addException(e).build());
+          } finally {
+            done.countDown();
+            remaining.remove(serial);
+            logDebug(debug, "[%s] Execution done. (%s remaining %s)", serial, done.getCount(),
+                remaining);
           }
         };
         if (shard) {
@@ -295,7 +292,8 @@ public final class SpoonRunner {
       SpoonInstrumentationInfo testInfo) {
     return new SpoonDeviceRunner(testApk, otherApks, output, serial, shardIndex, numShards, debug,
         noAnimations, adbTimeout, testInfo, instrumentationArgs, className, methodName, testSize,
-        testRunListeners, codeCoverage, grantAll, singleInstrumentationCall);
+        testRunListeners, codeCoverage, grantAll, singleInstrumentationCall,
+        classLevelInstrumentation);
   }
 
   /** Build a test suite for the specified devices and configuration. */
@@ -323,6 +321,7 @@ public final class SpoonRunner {
     private boolean codeCoverage;
     private boolean shard = false;
     private boolean singleInstrumentationCall = false;
+    private boolean classLevelInstrumentation = false;
 
     /** Identifying title for this execution. */
     public Builder setTitle(String title) {
@@ -464,6 +463,11 @@ public final class SpoonRunner {
       return this;
     }
 
+    public Builder setClassLevelInstrumentation(Boolean classLevelInstrumentation) {
+      this.classLevelInstrumentation = classLevelInstrumentation;
+      return this;
+    }
+
     public SpoonRunner build() {
       checkNotNull(androidSdk, "SDK is required.");
       checkArgument(androidSdk.exists(), "SDK path does not exist.");
@@ -477,7 +481,7 @@ public final class SpoonRunner {
       return new SpoonRunner(title, androidSdk, testApk, otherApks, output, debug, noAnimations,
           adbTimeout, serials, skipDevices, shard, instrumentationArgs, className, methodName,
           testSize, allowNoDevices, testRunListeners, sequential, initScript, grantAll,
-          terminateAdb, codeCoverage, singleInstrumentationCall);
+          terminateAdb, codeCoverage, singleInstrumentationCall, classLevelInstrumentation);
     }
   }
 
