@@ -17,8 +17,7 @@ class XmlTestRunListener extends com.android.ddmlib.testrunner.XmlTestRunListene
     this.file = file;
   }
 
-  @Override
-  public void testRunStarted(String runName, int numTests) {
+  @Override public void testRunStarted(String runName, int numTests) {
     getRunResult().testRunStarted(runName, numTests);
   }
 
