@@ -3,12 +3,10 @@ package com.squareup.spoon
 import com.google.common.truth.Truth.assertThat
 import com.xenomachina.argparser.ArgParser
 import com.xenomachina.argparser.SystemExitException
-import java.io.File;
 import org.junit.Test
-
+import java.io.File
 
 class CliArgsTest {
-
   @Test
   fun parserInstrumentationArgsTest() {
 
@@ -87,9 +85,11 @@ class CliArgsTest {
         .forEach {
           try {
             val cliArgs = CliArgs(it)
-            assertThat(cliArgs).isEqualTo("this assertion shouldn't be executed, exception is expected")
+            assertThat(cliArgs).isEqualTo(
+                "this assertion shouldn't be executed, exception is expected")
           } catch (e: SystemExitException) {
-            assertThat(e).hasMessage("Ambiguous arguments: cannot provide both test package and test class(es)")
+            assertThat(e).hasMessage(
+                "Ambiguous arguments: cannot provide both test package and test class(es)")
           }
         }
   }

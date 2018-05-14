@@ -7,7 +7,6 @@ import org.junit.Before
 import org.junit.Test
 
 class LogRecordingTestRunListenerTest {
-
   private val className = "com.some.BusinessTest"
   private val classNameWithParameterOnline = "$className[ONLINE]"
   private val classNameWithParameterOffline = "$className[OFFLINE]"
@@ -16,13 +15,13 @@ class LogRecordingTestRunListenerTest {
   private val testMethod = "someTest"
 
   private val testIdentifierWithoutParameter =
-          TestIdentifier(className, testMethod)
+      TestIdentifier(className, testMethod)
   private val testIdentifierWithoutParameter2 =
-          TestIdentifier("${className}2", testMethod)
+      TestIdentifier("${className}2", testMethod)
   private val testIdentifierWithParameterOnline =
-          TestIdentifier(classNameWithParameterOnline, testMethod)
+      TestIdentifier(classNameWithParameterOnline, testMethod)
   private val testIdentifierWithParameterOffline =
-          TestIdentifier(classNameWithParameterOffline, testMethod)
+      TestIdentifier(classNameWithParameterOffline, testMethod)
 
   private lateinit var logRecordingTestRunListener: LogRecordingTestRunListener
 
@@ -103,7 +102,8 @@ class LogRecordingTestRunListenerTest {
 
     val result = logRecordingTestRunListener.activeTests()
 
-    assertThat(result).containsExactly(testIdentifierWithoutParameter, testIdentifierWithoutParameter2)
+    assertThat(result)
+        .containsExactly(testIdentifierWithoutParameter, testIdentifierWithoutParameter2)
   }
 
   @Test

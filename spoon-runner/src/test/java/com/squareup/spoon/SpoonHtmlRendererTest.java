@@ -18,16 +18,12 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 public final class SpoonHtmlRendererTest {
-
   private static final String SPOON_IN_RUSSIAN = "\u041B\u043E\u0436\u043A\u0430";
-  private static final String[] FILE_EXTENSIONS_TO_CHECK = {"html", "css", "json", "js"};
+  private static final String[] FILE_EXTENSIONS_TO_CHECK = { "html", "css", "json", "js" };
 
-  @Rule
-  public TemporaryFolder testFolder = new TemporaryFolder();
+  @Rule public TemporaryFolder testFolder = new TemporaryFolder();
 
-  @Test
-  public void correctRenderingOfNonLatinCharacters() throws IOException {
-
+  @Test public void correctRenderingOfNonLatinCharacters() throws IOException {
     SpoonSummary summary = prepareNonLatinSummary();
     File folder = testFolder.getRoot();
     CharsetDecoder utf8Decoder = StandardCharsets.UTF_8.newDecoder();
@@ -85,5 +81,4 @@ public final class SpoonHtmlRendererTest {
       charsetDecoder.decode(buffer);
     }
   }
-
 }

@@ -11,7 +11,8 @@ import java.lang.String.format
 class SpoonCoverageMergerTest {
   @JvmField @Rule val testFolder = TemporaryFolder()
 
-  @Test fun shouldMergeCoverageFiles() {
+  @Test
+  fun shouldMergeCoverageFiles() {
     val outputDirectory = testFolder.newFolder("output")
     val serialId1 = "10.0.0.1:1234"
     val serialId2 = "10.0.0.2:1234"
