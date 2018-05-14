@@ -25,9 +25,13 @@ public class SpoonClearingAndroidTestRunner extends RemoteAndroidTestRunner {
     private long mMaxTimeToOutputResponseMs = 10000L;
     private String mAppPackageName;
     private String mClearCommandStr;
-    private boolean mClearAppDataBeforeEachTest = false;
+    private boolean mClearAppDataBeforeEachTest;
 
-    public SpoonClearingAndroidTestRunner(String appPackageName, String packageName, String runnerName, IShellEnabledDevice remoteDevice, boolean clearAppDataBeforeEachTest) {
+    public SpoonClearingAndroidTestRunner(String appPackageName,
+                                          String packageName,
+                                          String runnerName,
+                                          IShellEnabledDevice remoteDevice,
+                                          boolean clearAppDataBeforeEachTest) {
         super(packageName, runnerName, remoteDevice);
         mAppPackageName = appPackageName;
         mRemoteDevice = remoteDevice;
@@ -38,7 +42,8 @@ public class SpoonClearingAndroidTestRunner extends RemoteAndroidTestRunner {
 
     @Override
     public void run(Collection<ITestRunListener> listeners)
-            throws TimeoutException, AdbCommandRejectedException, ShellCommandUnresponsiveException, IOException {
+            throws TimeoutException, AdbCommandRejectedException,
+            ShellCommandUnresponsiveException, IOException {
 
         try {
             if (mClearAppDataBeforeEachTest) {
@@ -65,7 +70,8 @@ public class SpoonClearingAndroidTestRunner extends RemoteAndroidTestRunner {
 
     private void logErrorString(Exception e) {
         String exceptionName = e.getClass().getSimpleName();
-        Log.w(LOG_TAG, String.format("%1$s %2$s when running adb 'pm clear' command %3$s on %4$s",
+        Log.w(LOG_TAG, String.format(
+                "%1$s %2$s when running adb 'pm clear' command %3$s on %4$s",
                 exceptionName, e.toString(), getPackageName(), mRemoteDevice.getName()));
     }
 }

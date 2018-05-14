@@ -297,7 +297,8 @@ public final class SpoonRunner {
       SpoonInstrumentationInfo testInfo) {
     return new SpoonDeviceRunner(testApk, otherApks, output, serial, shardIndex, numShards, debug,
         noAnimations, adbTimeout, testInfo, instrumentationArgs, className, methodName, testSize,
-        testRunListeners, codeCoverage, grantAll, singleInstrumentationCall, clearAppDataBeforeEachTest);
+        testRunListeners, codeCoverage, grantAll, singleInstrumentationCall,
+        clearAppDataBeforeEachTest);
   }
 
   /** Build a test suite for the specified devices and configuration. */
