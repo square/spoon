@@ -70,11 +70,11 @@ public final class HtmlUtilsTest {
     assertThat(lines).isNotNull();
     assertThat(lines.size()).isEqualTo(4);
     assertThat(lines.get(0)).isEqualTo(
-        "" + "&nbsp;&nbsp;&nbsp;&nbsp;at junit.framework.Assert.fail(Assert.java:50)");
+        "&nbsp;&nbsp;&nbsp;&nbsp;at junit.framework.Assert.fail(Assert.java:50)");
     assertThat(lines.get(1)).isEqualTo(
-        "" + "&nbsp;&nbsp;&nbsp;&nbsp;at junit.framework.Assert.assertTrue(Assert.java:20)");
+        "&nbsp;&nbsp;&nbsp;&nbsp;at junit.framework.Assert.assertTrue(Assert.java:20)");
     assertThat(lines.get(2)).isEqualTo(
-        "" + "&nbsp;&nbsp;&nbsp;&nbsp;at com.example.Example.assertTrue(Example.java:34)");
+        "&nbsp;&nbsp;&nbsp;&nbsp;at com.example.Example.assertTrue(Example.java:34)");
     // The final line here is "Caused by: ".  This is because the remaining parts of the stack trace
     // are interpreted as a "Caused by: " exception.  This behavior isn't all that desirable, so we
     // don't assert it here. :-)
@@ -89,16 +89,16 @@ public final class HtmlUtilsTest {
         + " at android.fake.FakeClass.fakeMethod(FakeClass.java:3)\n");
     ExceptionInfo exceptionInfo = processStackTrace(exception);
     assertThat(exceptionInfo.title).isEqualTo(
-        "" + "java.fake.Exception: Expected &lt;SUCCESS&gt; but was &lt;FAILED&gt;!");
+        "java.fake.Exception: Expected &lt;SUCCESS&gt; but was &lt;FAILED&gt;!");
     List<String> lines = exceptionInfo.body;
     assertThat(lines).isNotNull();
     assertThat(lines.size()).isEqualTo(3);
     assertThat(lines.get(0)).isEqualTo(
-        "" + "&nbsp;&nbsp;&nbsp;&nbsp;at android.fake.FakeClass.fakeMethod(FakeClass.java:1)");
+        "&nbsp;&nbsp;&nbsp;&nbsp;at android.fake.FakeClass.fakeMethod(FakeClass.java:1)");
     assertThat(lines.get(1)).isEqualTo(
-        "" + "&nbsp;&nbsp;&nbsp;&nbsp;at android.fake.FakeClass.fakeMethod(FakeClass.java:2)");
+        "&nbsp;&nbsp;&nbsp;&nbsp;at android.fake.FakeClass.fakeMethod(FakeClass.java:2)");
     assertThat(lines.get(2)).isEqualTo(
-        "" + "Caused by: java.lang.IllegalArgumentException: Inner exception &lt;FAILED&gt;");
+        "Caused by: java.lang.IllegalArgumentException: Inner exception &lt;FAILED&gt;");
     // The stack trace for the "Caused by" exception does not get printed
   }
 }
