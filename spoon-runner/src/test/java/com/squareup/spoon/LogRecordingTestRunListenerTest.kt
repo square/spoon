@@ -15,13 +15,13 @@ class LogRecordingTestRunListenerTest {
   private val testMethod = "someTest"
 
   private val testIdentifierWithoutParameter =
-      TestIdentifier(className, testMethod)
+    TestIdentifier(className, testMethod)
   private val testIdentifierWithoutParameter2 =
-      TestIdentifier("${className}2", testMethod)
+    TestIdentifier("${className}2", testMethod)
   private val testIdentifierWithParameterOnline =
-      TestIdentifier(classNameWithParameterOnline, testMethod)
+    TestIdentifier(classNameWithParameterOnline, testMethod)
   private val testIdentifierWithParameterOffline =
-      TestIdentifier(classNameWithParameterOffline, testMethod)
+    TestIdentifier(classNameWithParameterOffline, testMethod)
 
   private lateinit var logRecordingTestRunListener: LogRecordingTestRunListener
 

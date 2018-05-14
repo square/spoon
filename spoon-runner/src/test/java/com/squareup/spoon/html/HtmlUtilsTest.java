@@ -2,6 +2,7 @@ package com.squareup.spoon.html;
 
 import com.squareup.spoon.html.HtmlUtils.ExceptionInfo;
 import com.squareup.spoon.misc.StackTrace;
+import com.squareup.spoon.misc.StackTraceTest;
 import java.io.File;
 import java.util.List;
 import org.junit.Test;
@@ -37,7 +38,7 @@ public final class HtmlUtilsTest {
   }
 
   /**
-   * This test is similar to {@link StackTraceTest#nestedCustomExceptionUnexpectedFormat}.
+   * This test is similar to {@link StackTraceTest#unexpectedFormatException()}.
    *
    * The intent of this test is to check that unexpected format exceptions still print something
    * useful to the user in the test results.

@@ -79,9 +79,8 @@ class CliArgsTest {
         "--method-name",
         "com.sample.testsuites.SomeClass#someMethod"
     )
-    var args = listOf(args1, args2, args3)
-    args
-        .map { ArgParser(it) }
+    val args = listOf(args1, args2, args3)
+    args.map { ArgParser(it) }
         .forEach {
           try {
             val cliArgs = CliArgs(it)
