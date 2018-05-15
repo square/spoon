@@ -14,14 +14,12 @@ import java.util.concurrent.TimeUnit;
 
 import static com.squareup.spoon.SpoonLogger.logDebug;
 import static com.squareup.spoon.SpoonLogger.logError;
-import static com.squareup.spoon.SpoonLogger.logInfo;
 
 /**
  * Allows the option of running the "pm clear" command before every "run" invocation.
  */
 public class SpoonAndroidTestRunner extends RemoteAndroidTestRunner {
 
-  private static final String LOG_TAG = "SpoonAndroidTestRunner";
   private static final long maxTimeoutMs = 10000L;
   private static final long maxTimeToOutputResponseMs = 10000L;
 
