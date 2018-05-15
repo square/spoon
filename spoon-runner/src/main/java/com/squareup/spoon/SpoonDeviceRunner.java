@@ -318,9 +318,9 @@ public final class SpoonDeviceRunner {
   private RemoteAndroidTestRunner createConfiguredRunner(String testPackage, String testRunner,
       IDevice device) throws Exception {
 
-    RemoteAndroidTestRunner runner = new SpoonClearingAndroidTestRunner(
+    RemoteAndroidTestRunner runner = new SpoonAndroidTestRunner(
             instrumentationInfo.getApplicationPackage(), testPackage, testRunner, device,
-            clearAppDataBeforeEachTest);
+            clearAppDataBeforeEachTest, debug);
     runner.setMaxTimeToOutputResponse(adbTimeout.toMillis(), TimeUnit.MILLISECONDS);
 
     for (Map.Entry<String, String> entry : instrumentationArgs.entrySet()) {
