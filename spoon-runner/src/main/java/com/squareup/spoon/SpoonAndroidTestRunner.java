@@ -60,10 +60,10 @@ public class SpoonAndroidTestRunner extends RemoteAndroidTestRunner {
           logError("adb clear command failed with the following output: " + output);
         }
       }
-    } catch (IOException |
-        ShellCommandUnresponsiveException |
-        TimeoutException |
-        AdbCommandRejectedException e) {
+    } catch (IOException
+            | ShellCommandUnresponsiveException
+            | TimeoutException
+            | AdbCommandRejectedException e) {
       String exceptionName = e.getClass().getSimpleName();
       logError(String.format(
           "%1$s %2$s when running adb 'pm clear' command %3$s on %4$s",
