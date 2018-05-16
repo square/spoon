@@ -77,6 +77,7 @@ public final class SpoonDeviceRunner {
   private final boolean singleInstrumentationCall;
   private final List<ITestRunListener> testRunListeners;
   private final boolean grantAll;
+  private final boolean clearAppDataBeforeEachTest;
 
   /**
    * Create a test runner for a single device.
@@ -98,7 +99,7 @@ public final class SpoonDeviceRunner {
       SpoonInstrumentationInfo instrumentationInfo, Map<String, String> instrumentationArgs,
       String className, String methodName, IRemoteAndroidTestRunner.TestSize testSize,
       List<ITestRunListener> testRunListeners, boolean codeCoverage, boolean grantAll,
-      boolean singleInstrumentationCall) {
+      boolean singleInstrumentationCall, boolean clearAppDataBeforeEachTest) {
     this.testApk = testApk;
     this.otherApks = otherApks;
     this.serial = serial;
@@ -123,6 +124,7 @@ public final class SpoonDeviceRunner {
     this.coverageDir = FileUtils.getFile(output, COVERAGE_DIR, serial);
     this.testRunListeners = testRunListeners;
     this.grantAll = grantAll;
+    this.clearAppDataBeforeEachTest = clearAppDataBeforeEachTest;
   }
 
   private void printStream(InputStream stream, String tag) throws IOException {
@@ -316,7 +318,9 @@ public final class SpoonDeviceRunner {
   private RemoteAndroidTestRunner createConfiguredRunner(String testPackage, String testRunner,
       IDevice device) throws Exception {
 
-    RemoteAndroidTestRunner runner = new RemoteAndroidTestRunner(testPackage, testRunner, device);
+    RemoteAndroidTestRunner runner = new SpoonAndroidTestRunner(
+            instrumentationInfo.getApplicationPackage(), testPackage, testRunner, device,
+            clearAppDataBeforeEachTest, debug);
     runner.setMaxTimeToOutputResponse(adbTimeout.toMillis(), TimeUnit.MILLISECONDS);
 
     for (Map.Entry<String, String> entry : instrumentationArgs.entrySet()) {
