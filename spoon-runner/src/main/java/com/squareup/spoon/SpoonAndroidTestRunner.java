@@ -20,12 +20,11 @@ import static com.squareup.spoon.SpoonLogger.logError;
  */
 public class SpoonAndroidTestRunner extends RemoteAndroidTestRunner {
 
-  private static final long maxTimeoutMs = 10000L;
-  private static final long maxTimeToOutputResponseMs = 10000L;
+  private static final long MAX_TIMEOUT_MS = 10000L;
+  private static final long MAX_TIME_TO_OUTPUT_RESPONSE_MILLIS = 10000L;
 
   private IShellEnabledDevice remoteDevice;
   private CollectingOutputReceiver outputReceiver;
-  private String appPackageName;
   private String clearCommandStr;
   private boolean clearAppDataBeforeEachTest;
   private boolean debug;
@@ -37,10 +36,9 @@ public class SpoonAndroidTestRunner extends RemoteAndroidTestRunner {
                                 boolean clearAppDataBeforeEachTest,
                                 boolean debug) {
     super(packageName, runnerName, remoteDevice);
-    this.appPackageName = appPackageName;
     this.remoteDevice = remoteDevice;
     this.outputReceiver = new CollectingOutputReceiver();
-    this.clearCommandStr = "pm clear " + this.appPackageName;
+    this.clearCommandStr = "pm clear " + appPackageName;
     this.clearAppDataBeforeEachTest = clearAppDataBeforeEachTest;
     this.debug = debug;
   }
@@ -52,8 +50,8 @@ public class SpoonAndroidTestRunner extends RemoteAndroidTestRunner {
     try {
       if (clearAppDataBeforeEachTest) {
         logDebug(debug, String.format("Running adb command: %s", clearCommandStr));
-        remoteDevice.executeShellCommand(clearCommandStr, outputReceiver, maxTimeoutMs,
-            maxTimeToOutputResponseMs, TimeUnit.MILLISECONDS);
+        remoteDevice.executeShellCommand(clearCommandStr, outputReceiver, MAX_TIMEOUT_MS,
+                MAX_TIME_TO_OUTPUT_RESPONSE_MILLIS, TimeUnit.MILLISECONDS);
 
         String output = outputReceiver.getOutput();
         if (output == null || !output.contains("Success")) {
