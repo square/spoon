@@ -2,7 +2,6 @@ apply plugin: 'com.android.library'
 
 android {
   compileSdkVersion versions.compileSdk
-  buildToolsVersion versions.buildTools
 
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_7
@@ -21,10 +20,10 @@ android {
 }
 
 dependencies {
-  compile project(':spoon-common')
-  compile deps.junit
+  implementation project(':spoon-common')
+  implementation deps.junit
 
-  testCompile deps.truth
+  testImplementation deps.truth
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

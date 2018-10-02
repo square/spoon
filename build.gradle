@@ -2,10 +2,9 @@ buildscript {
   ext.versions = [
       'minSdk': 14,
       'compileSdk': 27,
-      'buildTools': '27.0.3',
 
       'supportLibrary': '27.0.2',
-      'kotlin': '1.2.10',
+      'kotlin': '1.2.71',
       'errorProne': '2.0.19',
   ]
 
@@ -24,7 +23,7 @@ buildscript {
           'runtime': 'com.jakewharton:butterknife:8.5.1',
           'compiler': 'com.jakewharton:butterknife-compiler:8.5.1'
       ],
-      'kotlinStdLibJre8': "org.jetbrains.kotlin:kotlin-stdlib-jre8:${versions.kotlin}",
+      'kotlinStdLibJdk8': "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin}",
 
       'junit': 'junit:junit:4.12',
       'truth': 'com.google.truth:truth:0.31',
@@ -45,7 +44,7 @@ buildscript {
   ]
 
   dependencies {
-    classpath 'com.android.tools.build:gradle:3.0.1'
+    classpath 'com.android.tools.build:gradle:3.3.0-alpha12'
     classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
     classpath 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.10'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
