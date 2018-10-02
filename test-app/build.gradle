@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
   compileSdkVersion versions.compileSdk
-  buildToolsVersion versions.buildTools
 
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_7
@@ -31,11 +30,11 @@ configurations {
 }
 
 dependencies {
-  compile deps.support.annotations
-  compile deps.support.appCompat
-  compile deps.support.design
-  compile deps.support.constraintLayout
-  compile deps.butterknife.runtime
+  implementation deps.support.annotations
+  implementation deps.support.appCompat
+  implementation deps.support.design
+  implementation deps.support.constraintLayout
+  implementation deps.butterknife.runtime
   annotationProcessor deps.butterknife.compiler
 
   spoon project(':spoon-runner')

@@ -20,24 +20,24 @@ compileKotlin {
 }
 
 dependencies {
-  compile project(':spoon-common')
-  compile project(':third-party:axmlparser')
-  compile deps.argparser
-  compile deps.gson
-  compile deps.commonsLang3
-  compile deps.commonsIo
-  compile deps.ddmlib
-  compile deps.animatedGifLib
-  compile deps.guava
-  compile deps.mustache
-  compile deps.lesscss
-  compile deps.kotlinStdLibJre8
-  compile(deps.jacocoMavenPlugin) {
+  implementation project(':spoon-common')
+  implementation project(':third-party:axmlparser')
+  implementation deps.argparser
+  implementation deps.gson
+  implementation deps.commonsLang3
+  implementation deps.commonsIo
+  implementation deps.ddmlib
+  implementation deps.animatedGifLib
+  implementation deps.guava
+  implementation deps.mustache
+  implementation deps.lesscss
+  implementation deps.kotlinStdLibJdk8
+  implementation(deps.jacocoMavenPlugin) {
     exclude group: 'org.apache.maven', module: 'maven-project'
   }
 
-  testCompile deps.junit
-  testCompile deps.truth
+  testImplementation deps.junit
+  testImplementation deps.truth
 }
 
 tasks.getByName('assemble').dependsOn('shadowJar')
