@@ -201,8 +201,9 @@ public final class Spoon {
     final BufferedInputStream is = new BufferedInputStream(new FileInputStream(source));
     final BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(target));
     byte [] buffer = new byte[4096];
-    while (is.read(buffer) > 0) {
-      os.write(buffer);
+    int read;
+    while ((read = is.read(buffer)) > 0) {
+      os.write(buffer, 0, read);
     }
     is.close();
     os.close();
