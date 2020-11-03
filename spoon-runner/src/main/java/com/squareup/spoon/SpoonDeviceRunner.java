@@ -250,6 +250,11 @@ public final class SpoonDeviceRunner {
           runner.removeInstrumentationArg("class");
           runner.setMethodName(test.getClassName(), test.getTestName());
           runner.run(listeners);
+
+          if (codeCoverage) { // pull coverage file for each test execution
+            pullCoverageFile(device, test.toString());
+          }
+
         } catch (Exception e) {
           result.addException(e);
         }
@@ -270,7 +275,11 @@ public final class SpoonDeviceRunner {
       logDebug(debug, "About to grab screenshots and prepare output for [%s]", serial);
       pullDeviceFiles(device);
       if (codeCoverage) {
-        pullCoverageFile(device);
+        if (singleInstrumentationCall) {
+          pullCoverageFile(device);
+        } else { // merge all coverage files generated from non single instrumentation calls
+          SpoonCoverageMerger.mergeAllCoverageFiles(coverageDir);
+        }
       }
 
       cleanScreenshotsDirectory(result);
@@ -387,6 +396,26 @@ public final class SpoonDeviceRunner {
   private void pullCoverageFile(IDevice device) {
     coverageDir.mkdirs();
     File coverageFile = new File(coverageDir, COVERAGE_FILE);
+    String remotePath;
+    try {
+      remotePath = getExternalStoragePath(device, COVERAGE_FILE);
+    } catch (Exception exception) {
+      throw new RuntimeException("error while calculating coverage file path.", exception);
+    }
+    adbPullFile(device, remotePath, coverageFile.getAbsolutePath());
+  }
+
+  /**
+   * Pulls coverage file from external storage of device and saves it in local with test description
+   *
+   * @param device
+   * @param testIdentifier
+   */
+  private void pullCoverageFile(IDevice device, String testIdentifier) {
+    coverageDir.mkdirs();
+    File coverageFile = new File(coverageDir, testIdentifier + "_" + COVERAGE_FILE);
+    logInfo("Pulling Code Coverage file for %s to %s", testIdentifier,
+            coverageFile.getAbsolutePath());
     String remotePath;
     try {
       remotePath = getExternalStoragePath(device, COVERAGE_FILE);
