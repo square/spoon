@@ -394,28 +394,17 @@ public final class SpoonDeviceRunner {
   }
 
   private void pullCoverageFile(IDevice device) {
-    coverageDir.mkdirs();
-    File coverageFile = new File(coverageDir, COVERAGE_FILE);
-    String remotePath;
-    try {
-      remotePath = getExternalStoragePath(device, COVERAGE_FILE);
-    } catch (Exception exception) {
-      throw new RuntimeException("error while calculating coverage file path.", exception);
-    }
-    adbPullFile(device, remotePath, coverageFile.getAbsolutePath());
+    doPullCoverageFile(device, COVERAGE_FILE);
   }
 
-  /**
-   * Pulls coverage file from external storage of device and saves it in local with test description
-   *
-   * @param device
-   * @param testIdentifier
-   */
   private void pullCoverageFile(IDevice device, String testIdentifier) {
+    doPullCoverageFile(device, testIdentifier + "_" + COVERAGE_FILE);
+  }
+
+  private void doPullCoverageFile(IDevice device, String localFileName) {
     coverageDir.mkdirs();
-    File coverageFile = new File(coverageDir, testIdentifier + "_" + COVERAGE_FILE);
-    logInfo("Pulling Code Coverage file for %s to %s", testIdentifier,
-            coverageFile.getAbsolutePath());
+    File coverageFile = new File(coverageDir, localFileName);
+    logInfo("Pulling Code Coverage file %s", coverageFile.getAbsolutePath());
     String remotePath;
     try {
       remotePath = getExternalStoragePath(device, COVERAGE_FILE);
