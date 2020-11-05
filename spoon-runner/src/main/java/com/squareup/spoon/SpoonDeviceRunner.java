@@ -401,6 +401,9 @@ public final class SpoonDeviceRunner {
     doPullCoverageFile(device, testIdentifier + "_" + COVERAGE_FILE);
   }
 
+  /**
+   * Pulls coverage file from device storage and saves it locally
+   */
   private void doPullCoverageFile(IDevice device, String localFileName) {
     coverageDir.mkdirs();
     File coverageFile = new File(coverageDir, localFileName);

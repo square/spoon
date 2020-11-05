@@ -16,7 +16,9 @@ internal fun mergeCoverageFiles(serials: Set<String>, outputDirectory: File) {
   execFileLoader.save(File(outputDirectory, "$COVERAGE_DIR/merged-coverage.ec"), false)
 }
 
-
+/**
+ * Merges all coverage files inside a folder into a single coverage file
+ */
 @Throws(IOException::class)
 internal fun mergeAllCoverageFiles(covReportsFolder: File) {
   val covFiles = covReportsFolder.listFiles()
