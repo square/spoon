@@ -250,6 +250,11 @@ public final class SpoonDeviceRunner {
           runner.removeInstrumentationArg("class");
           runner.setMethodName(test.getClassName(), test.getTestName());
           runner.run(listeners);
+
+          if (codeCoverage) { // pull coverage file for each test execution
+            pullCoverageFile(device, test.toString());
+          }
+
         } catch (Exception e) {
           result.addException(e);
         }
@@ -270,7 +275,11 @@ public final class SpoonDeviceRunner {
       logDebug(debug, "About to grab screenshots and prepare output for [%s]", serial);
       pullDeviceFiles(device);
       if (codeCoverage) {
-        pullCoverageFile(device);
+        if (singleInstrumentationCall) {
+          pullCoverageFile(device);
+        } else { // merge all coverage files generated from non single instrumentation calls
+          SpoonCoverageMerger.mergeAllCoverageFiles(coverageDir);
+        }
       }
 
       cleanScreenshotsDirectory(result);
@@ -385,8 +394,20 @@ public final class SpoonDeviceRunner {
   }
 
   private void pullCoverageFile(IDevice device) {
+    doPullCoverageFile(device, COVERAGE_FILE);
+  }
+
+  private void pullCoverageFile(IDevice device, String testIdentifier) {
+    doPullCoverageFile(device, testIdentifier + "_" + COVERAGE_FILE);
+  }
+
+  /**
+   * Pulls coverage file from device storage and saves it locally
+   */
+  private void doPullCoverageFile(IDevice device, String localFileName) {
     coverageDir.mkdirs();
-    File coverageFile = new File(coverageDir, COVERAGE_FILE);
+    File coverageFile = new File(coverageDir, localFileName);
+    logInfo("Pulling Code Coverage file %s", coverageFile.getAbsolutePath());
     String remotePath;
     try {
       remotePath = getExternalStoragePath(device, COVERAGE_FILE);
