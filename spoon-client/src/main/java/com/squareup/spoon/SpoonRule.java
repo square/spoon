@@ -22,7 +22,6 @@ import static android.content.Context.MODE_WORLD_READABLE;
 import static android.graphics.Bitmap.CompressFormat.PNG;
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
-import static android.os.Environment.getExternalStorageDirectory;
 import static com.squareup.spoon.Chmod.chmodPlusR;
 import static com.squareup.spoon.Chmod.chmodPlusRWX;
 import static com.squareup.spoon.internal.Constants.NAME_SEPARATOR;
@@ -97,7 +96,7 @@ public final class SpoonRule implements TestRule {
     File directory;
     if (SDK_INT >= LOLLIPOP) {
       // Use external storage.
-      directory = new File(getExternalStorageDirectory(), "app_" + directoryName);
+      directory = new File(context.getExternalCacheDir(), "app_" + directoryName);
     } else {
       // Use internal storage.
       directory = context.getDir(directoryName, MODE_WORLD_READABLE);
